@@ -1,0 +1,324 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AB148AB3770077282A /* UIKit.framework */; };
+		E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AD148AB3770077282A /* Foundation.framework */; };
+		E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AF148AB3770077282A /* CoreGraphics.framework */; };
+		E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E240A9B4148AB3770077282A /* InfoPlist.strings */; };
+		E240A9B8148AB3770077282A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9B7148AB3770077282A /* main.m */; };
+		E240A9BC148AB3770077282A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BB148AB3770077282A /* AppDelegate.m */; };
+		E240A9BF148AB3770077282A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BE148AB3770077282A /* ViewController.m */; };
+		E240A9C2148AB3770077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9C0148AB3770077282A /* ViewController.xib */; };
+		E240A9CC148AB4B60077282A /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9CB148AB4B60077282A /* IIViewDeckController.m */; };
+		E240A9D2148ADC020077282A /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D0148ADC020077282A /* LeftViewController.m */; };
+		E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D1148ADC020077282A /* LeftViewController.xib */; };
+		E240A9D7148ADC230077282A /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D5148ADC230077282A /* RightViewController.m */; };
+		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E240A9A7148AB3770077282A /* ViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E240A9AB148AB3770077282A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E240A9AD148AB3770077282A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E240A9AF148AB3770077282A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E240A9B3148AB3770077282A /* ViewDeckExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ViewDeckExample-Info.plist"; sourceTree = "<group>"; };
+		E240A9B5148AB3770077282A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E240A9B7148AB3770077282A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E240A9B9148AB3770077282A /* ViewDeckExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ViewDeckExample-Prefix.pch"; sourceTree = "<group>"; };
+		E240A9BA148AB3770077282A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E240A9BB148AB3770077282A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E240A9BD148AB3770077282A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		E240A9BE148AB3770077282A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E240A9C1148AB3770077282A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		E240A9CA148AB4B60077282A /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = vendor/ViewDeck/IIViewDeckController.h; sourceTree = "<group>"; };
+		E240A9CB148AB4B60077282A /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = vendor/ViewDeck/IIViewDeckController.m; sourceTree = "<group>"; };
+		E240A9CF148ADC020077282A /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		E240A9D0148ADC020077282A /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		E240A9D1148ADC020077282A /* LeftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewController.xib; sourceTree = "<group>"; };
+		E240A9D4148ADC230077282A /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
+		E240A9D5148ADC230077282A /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
+		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E240A9A4148AB3770077282A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */,
+				E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */,
+				E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E240A99C148AB3770077282A = {
+			isa = PBXGroup;
+			children = (
+				E240A9B1148AB3770077282A /* ViewDeckExample */,
+				E240A9AA148AB3770077282A /* Frameworks */,
+				E240A9A8148AB3770077282A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E240A9A8148AB3770077282A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9A7148AB3770077282A /* ViewDeckExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E240A9AA148AB3770077282A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9AB148AB3770077282A /* UIKit.framework */,
+				E240A9AD148AB3770077282A /* Foundation.framework */,
+				E240A9AF148AB3770077282A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E240A9B1148AB3770077282A /* ViewDeckExample */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9B2148AB3770077282A /* Supporting Files */,
+				E240A9C8148AB3F70077282A /* vendor */,
+				E240A9BA148AB3770077282A /* AppDelegate.h */,
+				E240A9BB148AB3770077282A /* AppDelegate.m */,
+				E240A9BD148AB3770077282A /* ViewController.h */,
+				E240A9BE148AB3770077282A /* ViewController.m */,
+				E240A9C0148AB3770077282A /* ViewController.xib */,
+				E240A9CF148ADC020077282A /* LeftViewController.h */,
+				E240A9D0148ADC020077282A /* LeftViewController.m */,
+				E240A9D1148ADC020077282A /* LeftViewController.xib */,
+				E240A9D4148ADC230077282A /* RightViewController.h */,
+				E240A9D5148ADC230077282A /* RightViewController.m */,
+				E240A9D6148ADC230077282A /* RightViewController.xib */,
+			);
+			path = ViewDeckExample;
+			sourceTree = "<group>";
+		};
+		E240A9B2148AB3770077282A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9B3148AB3770077282A /* ViewDeckExample-Info.plist */,
+				E240A9B4148AB3770077282A /* InfoPlist.strings */,
+				E240A9B7148AB3770077282A /* main.m */,
+				E240A9B9148AB3770077282A /* ViewDeckExample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E240A9C8148AB3F70077282A /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9C9148AB4000077282A /* ViewDeck */,
+			);
+			name = vendor;
+			sourceTree = "<group>";
+		};
+		E240A9C9148AB4000077282A /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9CA148AB4B60077282A /* IIViewDeckController.h */,
+				E240A9CB148AB4B60077282A /* IIViewDeckController.m */,
+			);
+			name = ViewDeck;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E240A9A6148AB3770077282A /* ViewDeckExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E240A9C5148AB3770077282A /* Build configuration list for PBXNativeTarget "ViewDeckExample" */;
+			buildPhases = (
+				E240A9A3148AB3770077282A /* Sources */,
+				E240A9A4148AB3770077282A /* Frameworks */,
+				E240A9A5148AB3770077282A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViewDeckExample;
+			productName = ViewDeckExample;
+			productReference = E240A9A7148AB3770077282A /* ViewDeckExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E240A99E148AB3770077282A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Adriaenssen BVBA";
+			};
+			buildConfigurationList = E240A9A1148AB3770077282A /* Build configuration list for PBXProject "ViewDeckExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E240A99C148AB3770077282A;
+			productRefGroup = E240A9A8148AB3770077282A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E240A9A6148AB3770077282A /* ViewDeckExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E240A9A5148AB3770077282A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */,
+				E240A9C2148AB3770077282A /* ViewController.xib in Resources */,
+				E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */,
+				E240A9D8148ADC230077282A /* RightViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E240A9A3148AB3770077282A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E240A9B8148AB3770077282A /* main.m in Sources */,
+				E240A9BC148AB3770077282A /* AppDelegate.m in Sources */,
+				E240A9BF148AB3770077282A /* ViewController.m in Sources */,
+				E240A9CC148AB4B60077282A /* IIViewDeckController.m in Sources */,
+				E240A9D2148ADC020077282A /* LeftViewController.m in Sources */,
+				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E240A9B4148AB3770077282A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E240A9B5148AB3770077282A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E240A9C0148AB3770077282A /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E240A9C1148AB3770077282A /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E240A9C3148AB3770077282A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E240A9C4148AB3770077282A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E240A9C6148AB3770077282A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeckExample/ViewDeckExample-Prefix.pch";
+				INFOPLIST_FILE = "ViewDeckExample/ViewDeckExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E240A9C7148AB3770077282A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeckExample/ViewDeckExample-Prefix.pch";
+				INFOPLIST_FILE = "ViewDeckExample/ViewDeckExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E240A9A1148AB3770077282A /* Build configuration list for PBXProject "ViewDeckExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E240A9C3148AB3770077282A /* Debug */,
+				E240A9C4148AB3770077282A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E240A9C5148AB3770077282A /* Build configuration list for PBXNativeTarget "ViewDeckExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E240A9C6148AB3770077282A /* Debug */,
+				E240A9C7148AB3770077282A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E240A99E148AB3770077282A /* Project object */;
+}

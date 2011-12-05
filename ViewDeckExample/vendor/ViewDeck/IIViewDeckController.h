@@ -16,6 +16,7 @@
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
+- (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController;
 
 - (void)toggleLeftView;

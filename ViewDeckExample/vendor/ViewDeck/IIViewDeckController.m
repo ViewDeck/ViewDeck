@@ -51,6 +51,14 @@
     return self;
 }
 
+- (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController {
+    if ((self = [self initWithCenterViewController:centerController])) {
+        self.rightController = rightController;
+        [self.rightController setViewDeckController:self];
+    }
+    return self;
+}
+
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController {
     if ((self = [self initWithCenterViewController:centerController])) {
         self.leftController = leftController;

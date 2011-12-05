@@ -149,8 +149,10 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-        UIViewController* cc = ((UINavigationController*)controller.centerController).topViewController;
+        UITableViewController* cc = (UITableViewController*)((UINavigationController*)controller.centerController).topViewController;
         cc.navigationItem.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+        [cc.tableView deselectRowAtIndexPath:[cc.tableView indexPathForSelectedRow] animated:NO];
+        [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
     }];
 }
 

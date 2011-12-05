@@ -254,6 +254,11 @@
     
     // restarts
     CGFloat x = pan.x + _panOrigin;
+    if (ABS(x) < 10) return;
+    
+    if (self.leftController) x = MAX(0, x);
+    if (self.rightController) x = MIN(0, x);
+
     self.centerController.view.frame = (CGRect) { x, 0, self.view.bounds.size };
 
     self.rightController.view.hidden = x > 0;
@@ -273,7 +278,6 @@
                 [self closeLeftViewAnimated:YES];
         }
     }
-    NSLog(@"x = %f v = %f %d L%d R%d", x, [panner velocityInView:self.view].x, panner.state, self.leftController.view.hidden, self.rightController.view.hidden);
 }
 
 

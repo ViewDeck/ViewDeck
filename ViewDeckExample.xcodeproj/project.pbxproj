@@ -14,12 +14,13 @@
 		E240A9B8148AB3770077282A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9B7148AB3770077282A /* main.m */; };
 		E240A9BC148AB3770077282A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BB148AB3770077282A /* AppDelegate.m */; };
 		E240A9BF148AB3770077282A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BE148AB3770077282A /* ViewController.m */; };
-		E240A9C2148AB3770077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9C0148AB3770077282A /* ViewController.xib */; };
 		E240A9CC148AB4B60077282A /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9CB148AB4B60077282A /* IIViewDeckController.m */; };
 		E240A9D2148ADC020077282A /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D0148ADC020077282A /* LeftViewController.m */; };
 		E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D1148ADC020077282A /* LeftViewController.xib */; };
 		E240A9D7148ADC230077282A /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D5148ADC230077282A /* RightViewController.m */; };
 		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
+		E240A9E8148C51AC0077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9E7148C51AC0077282A /* ViewController.xib */; };
+		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +36,6 @@
 		E240A9BB148AB3770077282A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E240A9BD148AB3770077282A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E240A9BE148AB3770077282A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E240A9C1148AB3770077282A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		E240A9CA148AB4B60077282A /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = vendor/ViewDeck/IIViewDeckController.h; sourceTree = "<group>"; };
 		E240A9CB148AB4B60077282A /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = vendor/ViewDeck/IIViewDeckController.m; sourceTree = "<group>"; };
 		E240A9CF148ADC020077282A /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
@@ -44,6 +44,8 @@
 		E240A9D4148ADC230077282A /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
 		E240A9D5148ADC230077282A /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
 		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
+		E240A9E7148C51AC0077282A /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		E240A9EB148C51E00077282A /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,13 +92,14 @@
 		E240A9B1148AB3770077282A /* ViewDeckExample */ = {
 			isa = PBXGroup;
 			children = (
+				E240A9EA148C51E00077282A /* assets */,
 				E240A9B2148AB3770077282A /* Supporting Files */,
 				E240A9C8148AB3F70077282A /* vendor */,
 				E240A9BA148AB3770077282A /* AppDelegate.h */,
 				E240A9BB148AB3770077282A /* AppDelegate.m */,
 				E240A9BD148AB3770077282A /* ViewController.h */,
 				E240A9BE148AB3770077282A /* ViewController.m */,
-				E240A9C0148AB3770077282A /* ViewController.xib */,
+				E240A9E7148C51AC0077282A /* ViewController.xib */,
 				E240A9CF148ADC020077282A /* LeftViewController.h */,
 				E240A9D0148ADC020077282A /* LeftViewController.m */,
 				E240A9D1148ADC020077282A /* LeftViewController.xib */,
@@ -133,6 +136,14 @@
 				E240A9CB148AB4B60077282A /* IIViewDeckController.m */,
 			);
 			name = ViewDeck;
+			sourceTree = "<group>";
+		};
+		E240A9EA148C51E00077282A /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9EB148C51E00077282A /* bg.jpg */,
+			);
+			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,9 +198,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */,
-				E240A9C2148AB3770077282A /* ViewController.xib in Resources */,
 				E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */,
 				E240A9D8148ADC230077282A /* RightViewController.xib in Resources */,
+				E240A9E8148C51AC0077282A /* ViewController.xib in Resources */,
+				E240A9EC148C51E00077282A /* bg.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,14 +230,6 @@
 				E240A9B5148AB3770077282A /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		E240A9C0148AB3770077282A /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E240A9C1148AB3770077282A /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -317,6 +321,7 @@
 				E240A9C7148AB3770077282A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

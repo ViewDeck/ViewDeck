@@ -7,6 +7,7 @@
 //
 
 #import "LeftViewController.h"
+#import "IIViewDeckController.h"
 
 @implementation LeftViewController
 
@@ -98,6 +99,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [NSString stringWithFormat:@"%d:%d", indexPath.section, indexPath.row];
     return cell;
 }
@@ -145,13 +147,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
+        UIViewController* cc = ((UINavigationController*)controller.centerController).topViewController;
+        cc.navigationItem.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+    }];
 }
 
 @end

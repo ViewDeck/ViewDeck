@@ -166,6 +166,22 @@
     }];
 }
 
+- (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
+    [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.centerController.view.frame = (CGRect) { self.view.bounds.size.width, 0, self.view.bounds.size };
+    } completion:^(BOOL finished) {
+        if (bounced) {
+            bounced(self);
+        }
+        [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            self.centerController.view.frame = self.view.bounds;
+        } completion:^(BOOL finished) {
+            self.leftController.view.hidden = YES;
+        }];
+    }];
+}
+
+
 - (void)toggleRightView {
     [self toggleRightViewAnimated:YES];
 }
@@ -202,6 +218,20 @@
     }];
 }
 
+- (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
+    [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.centerController.view.frame = (CGRect) { -self.view.bounds.size.width, 0, self.view.bounds.size };
+    } completion:^(BOOL finished) {
+        if (bounced) {
+            bounced(self);
+        }
+        [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            self.centerController.view.frame = self.view.bounds;
+        } completion:^(BOOL finished) {
+            self.rightController.view.hidden = YES;
+        }];
+    }];
+}
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

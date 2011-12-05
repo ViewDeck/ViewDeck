@@ -10,6 +10,10 @@
 
 @interface IIViewDeckController : UIViewController
 
+@property (nonatomic, retain) UIViewController* centerController;
+@property (nonatomic, retain) UIViewController* leftController;
+@property (nonatomic, retain) UIViewController* rightController;
+
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController;
@@ -20,6 +24,7 @@
 - (void)toggleLeftViewAnimated:(BOOL)animated;
 - (void)openLeftViewAnimated:(BOOL)animated;
 - (void)closeLeftViewAnimated:(BOOL)animated;
+- (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
 
 - (void)toggleRightView;
 - (void)openRightView;
@@ -27,6 +32,7 @@
 - (void)toggleRightViewAnimated:(BOOL)animated;
 - (void)openRightViewAnimated:(BOOL)animated;
 - (void)closeRightViewAnimated:(BOOL)animated;
+- (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
 
 @end
 

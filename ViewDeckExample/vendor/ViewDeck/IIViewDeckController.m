@@ -10,12 +10,10 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface IIViewDeckController () {
+@interface IIViewDeckController () <UIGestureRecognizerDelegate> {
+    CGFloat _panOrigin;
 }
 
-@property (nonatomic, retain) UIViewController* centerController;
-@property (nonatomic, retain) UIViewController* leftController;
-@property (nonatomic, retain) UIViewController* rightController;
 //@property (nonatomic, retain) UIViewController* topController;
 //@property (nonatomic, retain) UIViewController* bottomController;
 
@@ -117,6 +115,10 @@
     self.centerController.view.layer.shadowColor = [[UIColor blackColor] CGColor];
     self.centerController.view.layer.shadowOffset = CGSizeZero;
     self.centerController.view.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.view.bounds] CGPath];
+    
+    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+    panner.delegate = self;
+    [self.centerController.view addGestureRecognizer:panner];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -125,7 +127,7 @@
     // todo check slidden out controller
 }
 
-#define SLIDE_DURATION(animated) ((animated) ? 0.3 : 0)
+#define SLIDE_DURATION(animated) ((animated) ? 0.2 : 0)
 
 - (void)toggleLeftView {
     [self toggleLeftViewAnimated:YES];
@@ -199,6 +201,43 @@
         self.rightController.view.hidden = YES;
     }];
 }
+
+#pragma mark - Panning
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    _panOrigin = self.centerController.view.frame.origin.x;
+    
+    NSLog(@"panorigin = %f (%f)", _panOrigin, self.centerController.view.frame.origin.x);
+    return YES;
+}
+
+- (void)panned:(UIPanGestureRecognizer*)panner {
+    CGPoint pan = [panner translationInView:self.view];
+    
+    // restarts
+    CGFloat x = pan.x + _panOrigin;
+    self.centerController.view.frame = (CGRect) { x, 0, self.view.bounds.size };
+
+    self.rightController.view.hidden = x > 0;
+    self.leftController.view.hidden = x < 0;
+    
+    if (panner.state == UIGestureRecognizerStateEnded) {
+        if ([panner velocityInView:self.view].x > 0) {
+            if (x > self.view.bounds.size.width/3.0) 
+                [self openLeftViewAnimated:YES];
+            else
+                [self closeRightViewAnimated:YES];
+        }
+        else if ([panner velocityInView:self.view].x < 0) {
+            if (x < -self.view.bounds.size.width/3.0) 
+                [self openRightViewAnimated:YES];
+            else
+                [self closeLeftViewAnimated:YES];
+        }
+    }
+    NSLog(@"x = %f v = %f %d L%d R%d", x, [panner velocityInView:self.view].x, panner.state, self.leftController.view.hidden, self.rightController.view.hidden);
+}
+
 
 @end
 

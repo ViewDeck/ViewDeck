@@ -10,12 +10,24 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 
+#define DURATION_FAST 0.2
+#define DURATION_SLOW 0.4
+#define SLIDE_DURATION(animated,duration) ((animated) ? (duration) : 0)
+#define OPEN_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_FAST)
+#define CLOSE_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_SLOW)
+
 @interface IIViewDeckController () <UIGestureRecognizerDelegate> {
     CGFloat _panOrigin;
+    BOOL _viewAppeared;
 }
 
 //@property (nonatomic, retain) UIViewController* topController;
 //@property (nonatomic, retain) UIViewController* bottomController;
+
+- (void)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
+- (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
+- (void)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
+- (void)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
 
 @end 
 
@@ -43,6 +55,7 @@
         self.rightController = nil;
         self.leftLedge = 44;
         self.rightLedge = 44;
+        _viewAppeared = NO;
     }
     return self;
 }
@@ -91,11 +104,48 @@
     [self.rightController didReceiveMemoryWarning];
 }
 
+#pragma mark - ledges
+
+- (void)setLeftLedge:(CGFloat)leftLedge {
+    leftLedge = MAX(leftLedge, MIN(self.view.bounds.size.width, leftLedge));
+    if (_viewAppeared && self.centerController.view.frame.origin.x == self.view.bounds.size.width - _leftLedge) {
+        if (leftLedge < _leftLedge) {
+            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
+                self.centerController.view.frame = (CGRect) { self.view.bounds.size.width - leftLedge, 0, self.view.bounds.size };
+            }];
+        }
+        else if (leftLedge > _leftLedge) {
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
+                self.centerController.view.frame = (CGRect) { self.view.bounds.size.width - leftLedge, 0, self.view.bounds.size };
+            }];
+        }
+    }
+    _leftLedge = leftLedge;
+}
+
+- (void)setRightLedge:(CGFloat)rightLedge {
+    rightLedge = MAX(rightLedge, MIN(self.view.bounds.size.width, rightLedge));
+    if (_viewAppeared && self.centerController.view.frame.origin.x == _rightLedge - self.view.bounds.size.width) {
+        if (rightLedge < _rightLedge) {
+            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
+                self.centerController.view.frame = (CGRect) { rightLedge - self.view.bounds.size.width, 0, self.view.bounds.size };
+            }];
+        }
+        else if (rightLedge > _rightLedge) {
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
+                self.centerController.view.frame = (CGRect) { rightLedge - self.view.bounds.size.width, 0, self.view.bounds.size };
+            }];
+        }
+    }
+    _rightLedge = rightLedge;
+}
+
 #pragma mark - View lifecycle
 
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
+    _viewAppeared = NO;
     self.view = [[UIView alloc] init];
     
     [self.view addSubview:self.leftController.view];
@@ -133,14 +183,21 @@
     [self.centerController.view addGestureRecognizer:panner];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    _viewAppeared = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    _viewAppeared = NO;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
     // todo check slidden out controller
 }
-
-#define OPEN_SLIDE_DURATION(animated) ((animated) ? 0.2 : 0)
-#define CLOSE_SLIDE_DURATION(animated) ((animated) ? 0.4 : 0)
 
 - (void)toggleLeftView {
     [self toggleLeftViewAnimated:YES];
@@ -163,7 +220,11 @@
 }
 
 - (void)openLeftViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self openLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
+}
+
+- (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options animations:^{
         self.leftController.view.hidden = NO;
         self.centerController.view.frame = (CGRect) { self.view.bounds.size.width - self.leftLedge, 0, self.view.bounds.size };
     } completion:^(BOOL finished) {
@@ -171,7 +232,11 @@
 }
 
 - (void)closeLeftViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self closeLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
+}
+
+- (void)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
+    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options animations:^{
         self.centerController.view.frame = self.view.bounds;
     } completion:^(BOOL finished) {
         self.leftController.view.hidden = YES;
@@ -214,7 +279,11 @@
 }
 
 - (void)openRightViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self openRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
+}
+
+- (void)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options animations:^{
         self.rightController.view.hidden = NO;
         self.centerController.view.frame = (CGRect) { self.rightLedge - self.view.bounds.size.width, 0, self.view.bounds.size };
     } completion:^(BOOL finished) {
@@ -222,7 +291,11 @@
 }
 
 - (void)closeRightViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [self closeRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
+}
+
+- (void)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
+    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options animations:^{
         self.centerController.view.frame = self.view.bounds;
     } completion:^(BOOL finished) {
         self.rightController.view.hidden = YES;
@@ -262,6 +335,8 @@
     if (!self.leftController) x = MIN(0, x);
     if (!self.rightController) x = MAX(0, x);
 
+    x = MAX(x, -self.view.bounds.size.width+self.rightLedge);
+    x = MIN(x, self.view.bounds.size.width-self.leftLedge);
     self.centerController.view.frame = (CGRect) { x, 0, self.view.bounds.size };
 
     self.rightController.view.hidden = x > 0;
@@ -270,15 +345,15 @@
     if (panner.state == UIGestureRecognizerStateEnded) {
         if ([panner velocityInView:self.view].x > 0) {
             if (x > self.view.bounds.size.width/3.0) 
-                [self openLeftViewAnimated:YES];
+                [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
             else
-                [self closeRightViewAnimated:YES];
+                [self closeRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
         }
         else if ([panner velocityInView:self.view].x < 0) {
             if (x < -self.view.bounds.size.width/3.0) 
-                [self openRightViewAnimated:YES];
+                [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
             else
-                [self closeLeftViewAnimated:YES];
+                [self closeLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
         }
     }
 }

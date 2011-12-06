@@ -14,6 +14,9 @@
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
 
+@property (nonatomic) CGFloat leftLedge;
+@property (nonatomic) CGFloat rightLedge;
+
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
 - (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController;
@@ -37,7 +40,7 @@
 
 @end
 
-@interface UIViewController (Stuff) 
+@interface UIViewController (UIViewDeckItem) 
 
 @property(nonatomic,readonly,retain) IIViewDeckController *viewDeckController; // If this view controller has been pushed onto a navigation controller, return it.
 

@@ -19,7 +19,7 @@
 
 @end 
 
-@interface UIViewController (Stuff_Internal) 
+@interface UIViewController (UIViewDeckItem_Internal) 
 
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController;
 
@@ -30,6 +30,8 @@
 @synthesize centerController = _centerController;
 @synthesize leftController = _leftController;
 @synthesize rightController = _rightController;
+@synthesize leftLedge = _leftLedge;
+@synthesize rightLedge = _rightLedge;
 
 #pragma mark - Initalisation and deallocation
 
@@ -39,6 +41,8 @@
         [self.centerController setViewDeckController:self];
         self.leftController = nil;
         self.rightController = nil;
+        self.leftLedge = 44;
+        self.rightLedge = 44;
     }
     return self;
 }
@@ -135,7 +139,8 @@
     // todo check slidden out controller
 }
 
-#define SLIDE_DURATION(animated) ((animated) ? 0.2 : 0)
+#define OPEN_SLIDE_DURATION(animated) ((animated) ? 0.2 : 0)
+#define CLOSE_SLIDE_DURATION(animated) ((animated) ? 0.4 : 0)
 
 - (void)toggleLeftView {
     [self toggleLeftViewAnimated:YES];
@@ -158,16 +163,15 @@
 }
 
 - (void)openLeftViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        int leftMargin = 44;
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.leftController.view.hidden = NO;
-        self.centerController.view.frame = (CGRect) { self.view.bounds.size.width - leftMargin, 0, self.view.bounds.size };
+        self.centerController.view.frame = (CGRect) { self.view.bounds.size.width - self.leftLedge, 0, self.view.bounds.size };
     } completion:^(BOOL finished) {
     }];
 }
 
 - (void)closeLeftViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.centerController.view.frame = self.view.bounds;
     } completion:^(BOOL finished) {
         self.leftController.view.hidden = YES;
@@ -175,13 +179,13 @@
 }
 
 - (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
-    [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.centerController.view.frame = (CGRect) { self.view.bounds.size.width, 0, self.view.bounds.size };
     } completion:^(BOOL finished) {
         if (bounced) {
             bounced(self);
         }
-        [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.centerController.view.frame = self.view.bounds;
         } completion:^(BOOL finished) {
             self.leftController.view.hidden = YES;
@@ -210,16 +214,15 @@
 }
 
 - (void)openRightViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        int rightMargin = 44;
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.rightController.view.hidden = NO;
-        self.centerController.view.frame = (CGRect) { rightMargin - self.view.bounds.size.width, 0, self.view.bounds.size };
+        self.centerController.view.frame = (CGRect) { self.rightLedge - self.view.bounds.size.width, 0, self.view.bounds.size };
     } completion:^(BOOL finished) {
     }];
 }
 
 - (void)closeRightViewAnimated:(BOOL)animated {
-    [UIView animateWithDuration:SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.centerController.view.frame = self.view.bounds;
     } completion:^(BOOL finished) {
         self.rightController.view.hidden = YES;
@@ -227,13 +230,13 @@
 }
 
 - (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
-    [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.centerController.view.frame = (CGRect) { -self.view.bounds.size.width, 0, self.view.bounds.size };
     } completion:^(BOOL finished) {
         if (bounced) {
             bounced(self);
         }
-        [UIView animateWithDuration:SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
             self.centerController.view.frame = self.view.bounds;
         } completion:^(BOOL finished) {
             self.rightController.view.hidden = YES;
@@ -256,8 +259,8 @@
     CGFloat x = pan.x + _panOrigin;
     if (ABS(x) < 10) return;
     
-    if (self.leftController) x = MAX(0, x);
-    if (self.rightController) x = MIN(0, x);
+    if (!self.leftController) x = MIN(0, x);
+    if (!self.rightController) x = MAX(0, x);
 
     self.centerController.view.frame = (CGRect) { x, 0, self.view.bounds.size };
 
@@ -284,7 +287,7 @@
 @end
 
 
-@implementation UIViewController (Stuff) 
+@implementation UIViewController (UIViewDeckItem) 
 
 @dynamic viewDeckController;
 

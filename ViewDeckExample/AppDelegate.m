@@ -29,9 +29,11 @@
     ViewController* viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:viewController];
 
-    self.viewController = [[IIViewDeckController alloc] initWithCenterViewController:navController 
-                                                                  leftViewController:leftController
-                                                                 rightViewController:rightController];
+    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:navController 
+                                                                                    leftViewController:leftController
+                                                                                   rightViewController:rightController];
+    deckController.rightLedge = 100;
+    self.viewController = deckController;
     
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];

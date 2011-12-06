@@ -75,16 +75,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3 + arc4random() % 10;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3 + arc4random() % 50;
+    return 6;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [NSString stringWithFormat:@"%d", section];
+    return !section ? @"Left" : @"Right";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -96,8 +96,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
-    cell.textLabel.text = [NSString stringWithFormat:@"%d:%d", indexPath.section, indexPath.row];
+    cell.textLabel.textAlignment = indexPath.section ? UITextAlignmentRight : UITextAlignmentLeft;
+    cell.textLabel.text = [NSString stringWithFormat:@"ledge: %d", indexPath.row*44];
     
     return cell;
 }
@@ -107,13 +107,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if (!indexPath.section) {
+        self.viewDeckController.leftLedge = MAX(indexPath.row*44,10);
+    }
+    else {
+        self.viewDeckController.rightLedge = MAX(indexPath.row*44,10);
+    }
 }
 
 @end

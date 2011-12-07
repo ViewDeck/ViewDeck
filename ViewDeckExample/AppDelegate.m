@@ -28,7 +28,6 @@
     
     ViewController* viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:viewController];
-
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:navController 
                                                                                     leftViewController:leftController
                                                                                    rightViewController:rightController];

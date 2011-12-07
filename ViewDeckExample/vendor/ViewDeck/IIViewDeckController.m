@@ -142,15 +142,10 @@
 
 #pragma mark - View lifecycle
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
     _viewAppeared = NO;
     self.view = [[UIView alloc] init];
-    
-    [self.view addSubview:self.leftController.view];
-    [self.view addSubview:self.rightController.view];
-    [self.view addSubview:self.centerController.view];
 }
 
 - (void)viewDidUnload
@@ -165,6 +160,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self.leftController.view removeFromSuperview];
+    [self.view addSubview:self.leftController.view];
+    [self.rightController.view removeFromSuperview];
+    [self.view addSubview:self.rightController.view];
+    [self.centerController.view removeFromSuperview];
+    [self.view addSubview:self.centerController.view];
+
     self.centerController.view.frame = self.view.bounds;
     self.centerController.view.hidden = NO;
     self.leftController.view.frame = self.view.bounds;

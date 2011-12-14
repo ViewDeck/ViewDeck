@@ -21,6 +21,7 @@
 		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
 		E240A9E8148C51AC0077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9E7148C51AC0077282A /* ViewController.xib */; };
 		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
+		E2C6FF40149899A600821DE3 /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C6FF3F149899A600821DE3 /* WrappedController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,8 @@
 		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
 		E240A9E7148C51AC0077282A /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		E240A9EB148C51E00077282A /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
+		E2C6FF3E149899A600821DE3 /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrappedController.h; path = vendor/ViewDeck/WrappedController.h; sourceTree = "<group>"; };
+		E2C6FF3F149899A600821DE3 /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrappedController.m; path = vendor/ViewDeck/WrappedController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +135,8 @@
 		E240A9C9148AB4000077282A /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
+				E2C6FF3E149899A600821DE3 /* WrappedController.h */,
+				E2C6FF3F149899A600821DE3 /* WrappedController.m */,
 				E240A9CA148AB4B60077282A /* IIViewDeckController.h */,
 				E240A9CB148AB4B60077282A /* IIViewDeckController.m */,
 			);
@@ -172,7 +177,7 @@
 		E240A99E148AB3770077282A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Adriaenssen BVBA";
 			};
 			buildConfigurationList = E240A9A1148AB3770077282A /* Build configuration list for PBXProject "ViewDeckExample" */;
@@ -218,6 +223,7 @@
 				E240A9CC148AB4B60077282A /* IIViewDeckController.m in Sources */,
 				E240A9D2148ADC020077282A /* LeftViewController.m in Sources */,
 				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
+				E2C6FF40149899A600821DE3 /* WrappedController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

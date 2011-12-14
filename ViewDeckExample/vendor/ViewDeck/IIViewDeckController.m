@@ -45,6 +45,7 @@
 
 @implementation IIViewDeckController
 
+@synthesize panningMode = _panningMode;
 @synthesize panner = _panner;
 @synthesize referenceView = _referenceView;
 @synthesize slidingController = _slidingController;
@@ -70,6 +71,7 @@
         self.rightLedge = 44;
         self.leftMargin = 0;
         self.rightMargin = 0;
+        _panningMode = IIViewDeckFullViewPanning;
         _viewAppeared = NO;
         _resizesCenterView = NO;
     }
@@ -125,6 +127,37 @@
     [self.rightController didReceiveMemoryWarning];
 }
 
+
+#pragma mark - Properties
+
+- (void)setPanningMode:(IIViewDeckPanningMode)panningMode {
+    if (_viewAppeared) {
+        if (self.panner) {
+            [self.slidingController.view removeGestureRecognizer:self.panner];
+            [self.navigationController.navigationBar removeGestureRecognizer:self.panner];
+            self.panner = nil;
+        }
+        
+        switch (panningMode) {
+            case IIViewDeckNoPanning: 
+                break;
+            case IIViewDeckFullViewPanning:
+                self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+                self.panner.delegate = self;
+                [self.slidingController.view addGestureRecognizer:self.panner];
+                break;
+            case IIViewDeckNavigationBarPanning:
+                if (self.navigationController) {
+                    self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+                    self.panner.delegate = self;
+                    [self.navigationController.navigationBar addGestureRecognizer:self.panner];
+                }
+                break;
+        }
+    }
+    
+    _panningMode = panningMode;
+}
 
 #pragma mark - Bookkeeping
 
@@ -231,15 +264,12 @@
     self.slidingController.view.layer.shadowColor = [[UIColor blackColor] CGColor];
     self.slidingController.view.layer.shadowOffset = CGSizeZero;
     self.slidingController.view.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
-    
-    self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-    self.panner.delegate = self;
-    [self.slidingController.view addGestureRecognizer:self.panner];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     _viewAppeared = YES;
+    self.panningMode = self.panningMode;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -416,7 +446,6 @@
     
     // restarts
     CGFloat x = pan.x + _panOrigin;
-    if (ABS(x) < 10) return;
     
     if (!self.leftController) x = MIN(0, x);
     if (!self.rightController) x = MAX(0, x);

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    IIViewDeckNoPanning,
+    IIViewDeckFullViewPanning,
+    IIViewDeckNavigationBarPanning,
+} IIViewDeckPanningMode;
+
 @interface IIViewDeckController : UIViewController
 
 @property (nonatomic, retain) UIViewController* centerController;
@@ -20,6 +26,7 @@
 @property (nonatomic) CGFloat leftMargin;
 @property (nonatomic) CGFloat rightMargin;
 @property (nonatomic) BOOL resizesCenterView;
+@property (nonatomic) IIViewDeckPanningMode panningMode;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;

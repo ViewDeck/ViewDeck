@@ -7,6 +7,9 @@
 //
 
 #import "RightViewController.h"
+#import "LeftViewController.h"
+#import "ViewController.h"
+#import "IIViewDeckController.h"
 
 @implementation RightViewController
 
@@ -29,23 +32,25 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+- (IBAction)defaultCenterPressed:(id)sender {
+    if (self.viewDeckController.centerController != SharedAppDelegate.centerController) 
+        self.viewDeckController.centerController = SharedAppDelegate.centerController;
+    
+    if (self.viewDeckController.leftController != SharedAppDelegate.leftController) 
+        self.viewDeckController.leftController = SharedAppDelegate.leftController;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+- (IBAction)swapLeftAndCenterPressed:(id)sender {
+    if (self.viewDeckController.centerController != SharedAppDelegate.leftController) 
+        self.viewDeckController.centerController = SharedAppDelegate.leftController;
+    
+    if (self.viewDeckController.leftController != SharedAppDelegate.centerController) 
+        self.viewDeckController.leftController = SharedAppDelegate.centerController;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (IBAction)imageAsCenterPressed:(id)sender {
+    
 }
+
 
 @end

@@ -16,25 +16,26 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize viewController = _viewController;
+@synthesize centerController = _viewController;
+@synthesize leftController = _leftController;
+@synthesize imageController = _imageController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
-    LeftViewController* leftController = [[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil];
+    self.leftController = [[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil];
     RightViewController* rightController = [[RightViewController alloc] initWithNibName:@"RightViewController" bundle:nil];
     
-    ViewController* viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.centerController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:self.centerController];
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:navController 
-                                                                                    leftViewController:leftController
+                                                                                    leftViewController:self.leftController
                                                                                    rightViewController:rightController];
     deckController.rightLedge = 100;
-    self.viewController = deckController;
     
-    self.window.rootViewController = self.viewController;
+    self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];
     return YES;
 }

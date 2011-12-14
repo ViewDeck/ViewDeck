@@ -10,4 +10,8 @@
 
 @interface RightViewController : UIViewController
 
+- (IBAction)defaultCenterPressed:(id)sender;
+- (IBAction)swapLeftAndCenterPressed:(id)sender;
+- (IBAction)imageAsCenterPressed:(id)sender;
+
 @end

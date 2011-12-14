@@ -13,14 +13,21 @@
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
+@property (nonatomic, readonly, retain) UIViewController* slidingController;
 
 @property (nonatomic) CGFloat leftLedge;
 @property (nonatomic) CGFloat rightLedge;
+@property (nonatomic) CGFloat leftMargin;
+@property (nonatomic) CGFloat rightMargin;
+@property (nonatomic) BOOL resizesCenterView;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
 - (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController;
+
+- (void)showCenterView;
+- (void)showCenterView:(BOOL)animated;
 
 - (void)toggleLeftView;
 - (void)openLeftView;

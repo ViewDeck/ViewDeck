@@ -28,9 +28,9 @@
     self.leftController = [[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil];
     RightViewController* rightController = [[RightViewController alloc] initWithNibName:@"RightViewController" bundle:nil];
     
-    self.centerController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:self.centerController];
-    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:navController 
+    ViewController *centerController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    self.centerController = [[UINavigationController alloc] initWithRootViewController:centerController];
+    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController 
                                                                                     leftViewController:self.leftController
                                                                                    rightViewController:rightController];
     deckController.rightLedge = 100;

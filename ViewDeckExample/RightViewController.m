@@ -33,23 +33,16 @@
 #pragma mark - View lifecycle
 
 - (IBAction)defaultCenterPressed:(id)sender {
-    if (self.viewDeckController.centerController != SharedAppDelegate.centerController) 
-        self.viewDeckController.centerController = SharedAppDelegate.centerController;
-    
-    if (self.viewDeckController.leftController != SharedAppDelegate.leftController) 
-        self.viewDeckController.leftController = SharedAppDelegate.leftController;
+    self.viewDeckController.centerController = SharedAppDelegate.centerController;
+    self.viewDeckController.leftController = SharedAppDelegate.leftController;
 }
 
 - (IBAction)swapLeftAndCenterPressed:(id)sender {
-    if (self.viewDeckController.centerController != SharedAppDelegate.leftController) 
-        self.viewDeckController.centerController = SharedAppDelegate.leftController;
-    
-    if (self.viewDeckController.leftController != SharedAppDelegate.centerController) 
-        self.viewDeckController.leftController = SharedAppDelegate.centerController;
+    self.viewDeckController.centerController = SharedAppDelegate.leftController;
+    self.viewDeckController.leftController = SharedAppDelegate.centerController;
 }
 
 - (IBAction)imageAsCenterPressed:(id)sender {
-    
 }
 
 

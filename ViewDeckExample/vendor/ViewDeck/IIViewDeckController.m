@@ -67,8 +67,8 @@
 @synthesize leftLedge = _leftLedge;
 @synthesize rightLedge = _rightLedge;
 @synthesize resizesCenterView = _resizesCenterView;
-@synthesize leftMargin = _leftMargin;
-@synthesize rightMargin = _rightMargin;
+@synthesize leftGap = _leftMargin;
+@synthesize rightGap = _rightMargin;
 @synthesize originalShadowOpacity = _originalShadowOpacity;
 @synthesize originalShadowPath = _originalShadowPath;
 @synthesize originalShadowRadius = _originalShadowRadius;
@@ -86,8 +86,8 @@
         self.rightController = nil;
         self.leftLedge = 44;
         self.rightLedge = 44;
-        self.leftMargin = 0;
-        self.rightMargin = 0;
+        self.leftGap = 0;
+        self.rightGap = 0;
         _panningMode = IIViewDeckFullViewPanning;
         _viewAppeared = NO;
         _resizesCenterView = NO;
@@ -297,11 +297,11 @@
 }
 
 - (BOOL)leftControllerIsClosed {
-    return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= self.leftMargin;
+    return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= self.leftGap;
 }
 
 - (BOOL)rightControllerIsClosed {
-    return !self.rightController || CGRectGetMaxX(self.slidingController.view.frame) >= self.referenceBounds.size.width-self.rightMargin;
+    return !self.rightController || CGRectGetMaxX(self.slidingController.view.frame) >= self.referenceBounds.size.width-self.rightGap;
 }
 
 - (void)showCenterView {

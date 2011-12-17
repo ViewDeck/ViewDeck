@@ -329,7 +329,7 @@
 }
 
 - (void)toggleLeftViewAnimated:(BOOL)animated {
-    if (self.leftController.view.hidden) 
+    if ([self leftControllerIsClosed]) 
         [self openLeftViewAnimated:animated];
     else
         [self closeLeftViewAnimated:animated];
@@ -394,7 +394,7 @@
 }
 
 - (void)toggleRightViewAnimated:(BOOL)animated {
-    if (self.rightController.view.hidden) 
+    if ([self rightControllerIsClosed]) 
         [self openRightViewAnimated:animated];
     else
         [self closeRightViewAnimated:animated];

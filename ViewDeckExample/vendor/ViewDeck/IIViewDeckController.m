@@ -296,6 +296,14 @@
     return YES;
 }
 
+- (BOOL)leftControllerIsClosed {
+    return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= self.leftMargin;
+}
+
+- (BOOL)rightControllerIsClosed {
+    return !self.rightController || CGRectGetMaxX(self.slidingController.view.frame) >= self.referenceBounds.size.width-self.rightMargin;
+}
+
 - (void)showCenterView {
     [self showCenterView:YES];
 }
@@ -348,7 +356,7 @@
 }
 
 - (void)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
-    if (!self.leftController || CGRectGetMinX(self.slidingController.view.frame) == self.leftMargin) return;
+    if (self.leftControllerIsClosed) return;
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:0];
     } completion:^(BOOL finished) {
@@ -357,7 +365,7 @@
 }
 
 - (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
-    if (!self.leftController || CGRectGetMinX(self.slidingController.view.frame) == self.leftMargin) return;
+    if (self.leftControllerIsClosed) return;
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
@@ -413,7 +421,7 @@
 }
 
 - (void)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
-    if (!self.rightController || CGRectGetMaxX(self.slidingController.view.frame) == self.referenceBounds.size.width-self.rightMargin) return;
+    if (self.rightControllerIsClosed) return;
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:0];
     } completion:^(BOOL finished) {
@@ -422,7 +430,7 @@
 }
 
 - (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
-    if (!self.rightController || CGRectGetMaxX(self.slidingController.view.frame) == self.referenceBounds.size.width) return;
+    if (self.rightControllerIsClosed) return;
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:-self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
@@ -436,6 +444,8 @@
         }];
     }];
 }
+
+
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
@@ -463,14 +473,14 @@
         if ([panner velocityInView:self.referenceView].x > 0) {
             if (x > (self.referenceBounds.size.width-self.leftLedge)/3.0) 
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
-            else
-                [self closeRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
+            else 
+                [self showCenterView:YES];
         }
         else if ([panner velocityInView:self.referenceView].x < 0) {
             if (x < -(self.referenceBounds.size.width-self.rightLedge)/3.0) 
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
-            else
-                [self closeLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut];
+            else 
+                [self showCenterView:YES];
         }
     }
 }

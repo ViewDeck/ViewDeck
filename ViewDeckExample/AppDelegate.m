@@ -2,9 +2,7 @@
 //  AppDelegate.m
 //  ViewDeckExample
 //
-//  Created by Tom Adriaenssen on 03/12/11.
-//  Copyright (c) 2011 Adriaenssen BVBA. All rights reserved.
-//
+
 
 #import "AppDelegate.h"
 

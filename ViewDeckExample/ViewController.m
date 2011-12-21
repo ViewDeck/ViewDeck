@@ -2,9 +2,6 @@
 //  ViewController.m
 //  ViewDeckExample
 //
-//  Created by Tom Adriaenssen on 04/12/11.
-//  Copyright (c) 2011 Adriaenssen BVBA. All rights reserved.
-//
 
 #import "ViewController.h"
 #import "IIViewDeckController.h"

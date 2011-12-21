@@ -27,6 +27,7 @@
 #import "IIViewDeckController.h"
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
+#import <objc/message.h>
 
 #define DURATION_FAST 0.3
 #define DURATION_SLOW 0.3
@@ -48,9 +49,9 @@
 @property (nonatomic, assign) CGSize originalShadowOffset;
 @property (nonatomic, retain) UIBezierPath* originalShadowPath;
 
-- (void)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
+- (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
-- (void)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
+- (BOOL)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
 - (void)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options;
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset;
@@ -63,13 +64,19 @@
 - (void)addPanner;
 - (void)removePanner;
 
+- (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated;
+- (void)performDelegate:(SEL)selector animated:(BOOL)animated;
+
 @end 
+
 
 @interface UIViewController (UIViewDeckItem_Internal) 
 
+// internal setter for the viewDeckController property on UIViewController
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController;
 
 @end
+
 
 @implementation IIViewDeckController
 
@@ -90,6 +97,8 @@
 @synthesize originalShadowRadius = _originalShadowRadius;
 @synthesize originalShadowColor = _originalShadowColor;
 @synthesize originalShadowOffset = _originalShadowOffset;
+@synthesize delegate = _delegate;
+
 
 #pragma mark - Initalisation and deallocation
 
@@ -355,15 +364,20 @@
     [self openLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
 }
 
+
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
     if (!self.leftController || CGRectGetMinX(self.slidingController.view.frame) == self.leftLedge) return;
-
-    [self closeRightViewAnimated:animated options:options];
+    
+    // check the delegate to allow opening
+    if (![self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:animated]) return;
+    // also close the right view if it's open. Since the delegate can cancel the close, check the result.
+    if (![self closeRightViewAnimated:animated options:options]) return;
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.leftController.view.hidden = NO;
         self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width - self.leftLedge];
     } completion:^(BOOL finished) {
+        [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:animated];
     }];
 }
 
@@ -371,27 +385,42 @@
     [self closeLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
 }
 
-- (void)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
-    if (self.leftControllerIsClosed) return;
+- (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
+    if (self.leftControllerIsClosed) return YES;
+
+    // check the delegate to allow closing
+    if (![self checkDelegate:@selector(viewDeckControllerWillCloseLeftView:animated:) animated:animated]) return NO;
+
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:0];
     } completion:^(BOOL finished) {
         self.leftController.view.hidden = YES;
+        [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:animated];
+        [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:animated];
     }];
+    
+    return YES;
 }
 
 - (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
     if (self.leftControllerIsClosed) return;
+
+    // check the delegate to allow closing
+    if (![self checkDelegate:@selector(viewDeckControllerWillCloseLeftView:animated:) animated:YES]) return;
+
+    // first open the view completely, run the block (to allow changes) and close it again.
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
-        if (bounced) {
-            bounced(self);
-        }
+        // run block if it's defined
+        if (bounced) bounced(self);
+
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingController.view.frame = [self slidingRectForOffset:0];
         } completion:^(BOOL finished) {
             self.leftController.view.hidden = YES;
+            [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:YES];
+            [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
         }];
     }];
 }
@@ -423,12 +452,16 @@
 - (void)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
     if (!self.rightController || CGRectGetMaxX(self.slidingController.view.frame) == self.rightLedge) return;
 
-    [self closeLeftViewAnimated:animated options:options];
+    // check the delegate to allow opening
+    if (![self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:animated]) return;
+    // also close the left view if it's open. Since the delegate can cancel the close, check the result.
+    if (![self closeLeftViewAnimated:animated options:options]) return;
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.rightController.view.hidden = NO;
         self.slidingController.view.frame = [self slidingRectForOffset:self.rightLedge - self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
+        [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:animated];
     }];
 }
 
@@ -436,17 +469,29 @@
     [self closeRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut];
 }
 
-- (void)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
-    if (self.rightControllerIsClosed) return;
+- (BOOL)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options {
+    if (self.rightControllerIsClosed) return YES;
+    
+    // check the delegate to allow closing
+    if (![self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:animated]) return NO;
+    
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:0];
     } completion:^(BOOL finished) {
         self.rightController.view.hidden = YES;
+        [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:animated];
+        [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:animated];
     }];
+    
+    return YES;
 }
 
 - (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
     if (self.rightControllerIsClosed) return;
+
+    // check the delegate to allow closing
+    if (![self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:YES]) return;
+
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingController.view.frame = [self slidingRectForOffset:-self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
@@ -457,6 +502,8 @@
             self.slidingController.view.frame = [self slidingRectForOffset:0];
         } completion:^(BOOL finished) {
             self.rightController.view.hidden = YES;
+            [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:YES];
+            [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
         }];
     }];
 }
@@ -484,6 +531,9 @@
 
     self.rightController.view.hidden = x > 0;
     self.leftController.view.hidden = x < 0;
+
+    if ([self.delegate respondsToSelector:@selector(viewDeckController:didPanToOffset:)])
+        [self.delegate viewDeckController:self didPanToOffset:x];
     
     if (panner.state == UIGestureRecognizerStateEnded) {
         if ([panner velocityInView:self.referenceView].x > 0) {
@@ -533,6 +583,21 @@
     self.panner = nil;
 }
 
+#pragma mark - Delegate convenience methods
+
+- (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated {
+    if (!self.delegate || ![self.delegate respondsToSelector:selector]) 
+        return YES; // assume YES
+    
+    return (BOOL)objc_msgSend(self.delegate, selector, self, animated);
+}
+
+- (void)performDelegate:(SEL)selector animated:(BOOL)animated {
+    if (!self.delegate || ![self.delegate respondsToSelector:selector]) 
+        return;
+    
+    objc_msgSend(self.delegate, selector, self, animated);
+}
 
 
 #pragma mark - Properties

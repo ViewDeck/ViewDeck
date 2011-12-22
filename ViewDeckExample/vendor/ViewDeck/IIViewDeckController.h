@@ -28,9 +28,9 @@
 @protocol IIViewDeckControllerDelegate;
 
 typedef enum {
-    IIViewDeckNoPanning,
-    IIViewDeckFullViewPanning,
-    IIViewDeckNavigationBarPanning,
+    IIViewDeckNoPanning,              // no panning allowed
+    IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
+    IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
 } IIViewDeckPanningMode;
 
 @interface IIViewDeckController : UIViewController

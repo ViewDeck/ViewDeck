@@ -564,7 +564,7 @@
             break;
             
         case IIViewDeckNavigationBarPanning:
-            if (self.navigationController) {
+            if (self.navigationController && !self.navigationController.navigationBarHidden) {
                 self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
                 self.panner.delegate = self;
                 [self.navigationController.navigationBar addGestureRecognizer:self.panner];

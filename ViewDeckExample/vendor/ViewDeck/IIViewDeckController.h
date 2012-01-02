@@ -55,22 +55,31 @@ typedef enum {
 
 - (void)showCenterView;
 - (void)showCenterView:(BOOL)animated;
+- (void)showCenterView:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 
 - (void)toggleLeftView;
 - (void)openLeftView;
 - (void)closeLeftView;
 - (void)toggleLeftViewAnimated:(BOOL)animated;
+- (void)toggleLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)openLeftViewAnimated:(BOOL)animated;
+- (void)openLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)closeLeftViewAnimated:(BOOL)animated;
+- (void)closeLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
+- (void)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void(^)(IIViewDeckController* controller))completed;
 
 - (void)toggleRightView;
 - (void)openRightView;
 - (void)closeRightView;
 - (void)toggleRightViewAnimated:(BOOL)animated;
+- (void)toggleRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)openRightViewAnimated:(BOOL)animated;
+- (void)openRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)closeRightViewAnimated:(BOOL)animated;
+- (void)closeRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
+- (void)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void(^)(IIViewDeckController* controller))completed;
 
 @end
 

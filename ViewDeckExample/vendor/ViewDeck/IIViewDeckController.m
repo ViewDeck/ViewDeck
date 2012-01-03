@@ -106,7 +106,7 @@
     if ((self = [super init])) {
         self.centerController = centerController;
         [self.centerController setViewDeckController:self];
-        _slidingController = nil;
+        self.slidingController = nil;
         self.leftController = nil;
         self.rightController = nil;
         self.leftLedge = 44;
@@ -154,7 +154,7 @@
 }
 
 - (void)dealloc {
-    _slidingController = nil;
+    self.slidingController = nil;
     self.referenceView = nil;
     self.centerController.viewDeckController = nil;
     self.centerController = nil;
@@ -256,7 +256,7 @@
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
 
-    _slidingController = nil;
+    self.slidingController = nil;
     self.referenceView = nil;
     [self.centerController.view removeFromSuperview];
     [self.leftController.view removeFromSuperview];
@@ -653,7 +653,8 @@
 
 - (void)setLeftController:(UIViewController *)leftController {
     if (!_viewAppeared) {
-        _leftController = leftController;
+        [_leftController release], _leftController = nil;
+        _leftController = [leftController retain];
         return;
     }
 
@@ -676,7 +677,8 @@
         leftController.view.hidden = self.slidingController.view.frame.origin.x <= 0;
         leftController.view.frame = self.referenceBounds;
     }
-    _leftController = leftController;
+    [_leftController release], _leftController = nil;
+    _leftController = [leftController retain];
 }
 
 - (void)setCenterController:(UIViewController *)centerController {
@@ -716,7 +718,8 @@
 
 - (void)setRightController:(UIViewController *)rightController {
     if (!_viewAppeared) {
-        _rightController = rightController;
+        [_rightController release], _rightController = nil;
+        _rightController = [rightController retain];
         return;
     }
 
@@ -739,16 +742,18 @@
         rightController.view.hidden = self.slidingController.view.frame.origin.x >= 0;
         rightController.view.frame = self.referenceBounds;
     }
-    _rightController = rightController;
+    
+    [_rightController release], _rightController = nil;
+    _rightController = [rightController retain];
 }
 
 - (void)setSlidingAndReferenceViews {
     if (self.navigationController) {
-        _slidingController = self.navigationController;
+        self.slidingController = self.navigationController;
         self.referenceView = [self.navigationController.view superview];
     }
     else {
-        _slidingController = self.centerController;
+        self.slidingController = self.centerController;
         self.referenceView = self.view;
     }
 }

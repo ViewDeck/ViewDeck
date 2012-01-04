@@ -39,7 +39,7 @@ typedef enum {
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
-@property (nonatomic, retain) UIViewController* slidingController;
+@property (nonatomic, readonly, retain) UIViewController* slidingController;
 
 @property (nonatomic) CGFloat leftLedge;
 @property (nonatomic) CGFloat rightLedge;

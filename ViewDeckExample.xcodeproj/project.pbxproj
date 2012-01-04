@@ -14,14 +14,14 @@
 		E240A9B8148AB3770077282A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9B7148AB3770077282A /* main.m */; };
 		E240A9BC148AB3770077282A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BB148AB3770077282A /* AppDelegate.m */; };
 		E240A9BF148AB3770077282A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BE148AB3770077282A /* ViewController.m */; };
-		E240A9CC148AB4B60077282A /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9CB148AB4B60077282A /* IIViewDeckController.m */; };
 		E240A9D2148ADC020077282A /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D0148ADC020077282A /* LeftViewController.m */; };
 		E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D1148ADC020077282A /* LeftViewController.xib */; };
 		E240A9D7148ADC230077282A /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D5148ADC230077282A /* RightViewController.m */; };
 		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
 		E240A9E8148C51AC0077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9E7148C51AC0077282A /* ViewController.xib */; };
 		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
-		E2C6FF40149899A600821DE3 /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C6FF3F149899A600821DE3 /* WrappedController.m */; };
+		E25F8B3E14B45F2B00C4182C /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */; };
+		E25F8B3F14B45F2B00C4182C /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25F8B3D14B45F2B00C4182C /* WrappedController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +37,6 @@
 		E240A9BB148AB3770077282A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E240A9BD148AB3770077282A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E240A9BE148AB3770077282A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E240A9CA148AB4B60077282A /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = vendor/ViewDeck/IIViewDeckController.h; sourceTree = "<group>"; };
-		E240A9CB148AB4B60077282A /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = vendor/ViewDeck/IIViewDeckController.m; sourceTree = "<group>"; };
 		E240A9CF148ADC020077282A /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
 		E240A9D0148ADC020077282A /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
 		E240A9D1148ADC020077282A /* LeftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewController.xib; sourceTree = "<group>"; };
@@ -47,8 +45,10 @@
 		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
 		E240A9E7148C51AC0077282A /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		E240A9EB148C51E00077282A /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
-		E2C6FF3E149899A600821DE3 /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WrappedController.h; path = vendor/ViewDeck/WrappedController.h; sourceTree = "<group>"; };
-		E2C6FF3F149899A600821DE3 /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WrappedController.m; path = vendor/ViewDeck/WrappedController.m; sourceTree = "<group>"; };
+		E25F8B3A14B45F2B00C4182C /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
+		E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
+		E25F8B3C14B45F2B00C4182C /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
+		E25F8B3D14B45F2B00C4182C /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,20 +127,9 @@
 		E240A9C8148AB3F70077282A /* vendor */ = {
 			isa = PBXGroup;
 			children = (
-				E240A9C9148AB4000077282A /* ViewDeck */,
+				E25F8B3914B45F2B00C4182C /* ViewDeck */,
 			);
 			name = vendor;
-			sourceTree = "<group>";
-		};
-		E240A9C9148AB4000077282A /* ViewDeck */ = {
-			isa = PBXGroup;
-			children = (
-				E2C6FF3E149899A600821DE3 /* WrappedController.h */,
-				E2C6FF3F149899A600821DE3 /* WrappedController.m */,
-				E240A9CA148AB4B60077282A /* IIViewDeckController.h */,
-				E240A9CB148AB4B60077282A /* IIViewDeckController.m */,
-			);
-			name = ViewDeck;
 			sourceTree = "<group>";
 		};
 		E240A9EA148C51E00077282A /* assets */ = {
@@ -150,6 +139,17 @@
 			);
 			path = assets;
 			sourceTree = "<group>";
+		};
+		E25F8B3914B45F2B00C4182C /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				E25F8B3A14B45F2B00C4182C /* IIViewDeckController.h */,
+				E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */,
+				E25F8B3C14B45F2B00C4182C /* WrappedController.h */,
+				E25F8B3D14B45F2B00C4182C /* WrappedController.m */,
+			);
+			path = ViewDeck;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -220,10 +220,10 @@
 				E240A9B8148AB3770077282A /* main.m in Sources */,
 				E240A9BC148AB3770077282A /* AppDelegate.m in Sources */,
 				E240A9BF148AB3770077282A /* ViewController.m in Sources */,
-				E240A9CC148AB4B60077282A /* IIViewDeckController.m in Sources */,
 				E240A9D2148ADC020077282A /* LeftViewController.m in Sources */,
 				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
-				E2C6FF40149899A600821DE3 /* WrappedController.m in Sources */,
+				E25F8B3E14B45F2B00C4182C /* IIViewDeckController.m in Sources */,
+				E25F8B3F14B45F2B00C4182C /* WrappedController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

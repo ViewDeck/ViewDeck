@@ -38,6 +38,7 @@
 @interface IIViewDeckController () <UIGestureRecognizerDelegate> {
     CGFloat _panOrigin;
     BOOL _viewAppeared;
+    CGFloat _preRotationWidth;
 }
 
 @property (nonatomic, retain) UIView* referenceView;
@@ -311,15 +312,37 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    _preRotationWidth = self.referenceBounds.size.width;
+    
     if (self.centerController)
         return [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
     
     return YES;
 }
 
-//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-//    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-//}
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    CGFloat offset = self.slidingController.view.frame.origin.x;
+    if (offset > 0) {
+        offset = self.referenceBounds.size.width - _preRotationWidth + offset;
+    }
+    else if (offset < 0) {
+        offset = offset + _preRotationWidth - self.referenceBounds.size.width;
+    }
+    self.slidingController.view.frame = [self slidingRectForOffset:offset];
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self restoreShadowToSlidingView];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    
+    [self applyShadowToSlidingView];
+}
 
 - (BOOL)leftControllerIsClosed {
     return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= 0;

@@ -90,8 +90,6 @@
 @synthesize leftLedge = _leftLedge;
 @synthesize rightLedge = _rightLedge;
 @synthesize resizesCenterView = _resizesCenterView;
-@synthesize leftGap = _leftMargin;
-@synthesize rightGap = _rightMargin;
 @synthesize originalShadowOpacity = _originalShadowOpacity;
 @synthesize originalShadowPath = _originalShadowPath;
 @synthesize originalShadowRadius = _originalShadowRadius;
@@ -111,8 +109,6 @@
         self.rightController = nil;
         self.leftLedge = 44;
         self.rightLedge = 44;
-        self.leftGap = 0;
-        self.rightGap = 0;
         _panningMode = IIViewDeckFullViewPanning;
         _viewAppeared = NO;
         _resizesCenterView = NO;
@@ -321,12 +317,16 @@
     return YES;
 }
 
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+//}
+
 - (BOOL)leftControllerIsClosed {
-    return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= self.leftGap;
+    return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= 0;
 }
 
 - (BOOL)rightControllerIsClosed {
-    return !self.rightController || CGRectGetMaxX(self.slidingController.view.frame) >= self.referenceBounds.size.width-self.rightGap;
+    return !self.rightController || CGRectGetMaxX(self.slidingController.view.frame) >= self.referenceBounds.size.width;
 }
 
 - (void)showCenterView {

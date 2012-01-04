@@ -13,7 +13,7 @@ The library currently requires ARC. This means you can use it only for iOS5 proj
 
 # Demo
 
-<iframe src="http://player.vimeo.com/video/34538429?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933" width="500" height="525" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+See: http://vimeo.com/34538429
 
 # Installation
 

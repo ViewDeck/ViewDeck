@@ -11,6 +11,10 @@ The class is built so that it augments current navigation technologies found in 
 
 The library currently requires ARC. This means you can use it only for iOS5 projects. Reworking the code so that &lt;iOS5 is supported too. 
 
+# Demo
+
+<iframe src="http://player.vimeo.com/video/34538429?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933" width="500" height="525" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
 # Installation
 
 Easy as pie: you just add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.

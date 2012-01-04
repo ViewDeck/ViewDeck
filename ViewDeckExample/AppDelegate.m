@@ -21,7 +21,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
 
     self.leftController = [[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil];
     RightViewController* rightController = [[RightViewController alloc] initWithNibName:@"RightViewController" bundle:nil];
@@ -32,6 +31,14 @@
                                                                                     leftViewController:self.leftController
                                                                                    rightViewController:rightController];
     deckController.rightLedge = 100;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    }
+    else {
+        
+    }
+    
+    
     
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];

@@ -5,11 +5,13 @@ A quick prototype was built in one evening, but the finetuning took a few more e
 
 The ViewDeckController supports both a left and a right sideview (in any combination: you can leave one of them `nil` for example). You can pan the center view to the left or to the right. There's also a bunch of messages defined to open or close each side appropriately. 
 
-The class is built so that it augments current navigation technologies found in IOS. For example: if you want a 
+The class is built so that it augments current navigation technologies found in IOS.
+
+The controller supports rotation, too.
 
 # Requirements
 
-The library currently requires ARC. This means you can use it only for iOS5 projects. Reworking the code so that &lt;iOS5 is supported too. 
+The library currently requires ARC. This means you can use it only for iOS5 projects. TODO: Reworking the code so that &lt;iOS5 is supported too. 
 
 # Demo
 
@@ -74,8 +76,7 @@ The center controller view receives a shadow to give it an *on-top* appearance. 
 ## rotation
 
 The controller should support view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed. 
-
-The current implementation is a bit flakey, in respect to the right view controller and the ledge setting. 
+When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed).
 
 ## panning
 

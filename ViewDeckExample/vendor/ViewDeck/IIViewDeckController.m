@@ -798,12 +798,10 @@ static char* viewDeckControllerKey = "ViewDeckController";
     if (!result && self.navigationController) 
         return [self.navigationController viewDeckController];
 
-    NSLog(@"Getting view deck controller %@ from object %@ (key = %p)", result, self, viewDeckControllerKey);
     return result;
 }
 
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController {
-    NSLog(@"Setting view deck controller %@ on object %@ (key = %p)", viewDeckController, self, viewDeckControllerKey);
     objc_setAssociatedObject(self, viewDeckControllerKey, viewDeckController, OBJC_ASSOCIATION_RETAIN);
 }
 

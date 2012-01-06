@@ -11,7 +11,7 @@ The controller supports rotation, too.
 
 # Requirements
 
-The library currently requires ARC. This means you can use it only for iOS5 projects. TODO: Reworking the code so that &lt;iOS5 is supported too. 
+The library currently requires ARC.  
 
 # Demo
 

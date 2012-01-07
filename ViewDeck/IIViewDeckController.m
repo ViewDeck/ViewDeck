@@ -733,12 +733,27 @@
     if (centerController) {
         if (centerController == self.leftController) self.leftController = nil;
         if (centerController == self.rightController) self.rightController = nil;
+
+        UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
+            ? (UINavigationController*)centerController 
+            : nil;
+        BOOL barHidden = NO;
+        if (navController != nil && !navController.navigationBarHidden) {
+            barHidden = YES;
+            navController.navigationBarHidden = YES;
+        }
+
         centerController.viewDeckController = self;
         _centerController = centerController;
         [self setSlidingAndReferenceViews];
         [self.view addSubview:centerController.view];
         centerController.view.frame = currentFrame;
         centerController.view.hidden = NO;
+        
+        if (barHidden) {
+            navController.navigationBarHidden = NO;
+        }
+        
         [self addPanner];
         [self applyShadowToSlidingView];
     }

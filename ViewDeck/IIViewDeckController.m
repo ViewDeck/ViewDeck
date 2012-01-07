@@ -99,6 +99,7 @@
 @synthesize delegate = _delegate;
 @synthesize navigationControllerBehavior = _navigationControllerBehavior;
 @synthesize panningView = _panningView; 
+@synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
 
 #pragma mark - Initalisation and deallocation
 

@@ -36,6 +36,12 @@ typedef enum {
 } IIViewDeckPanningMode;
 
 typedef enum {
+    IIViewDeckCenterHiddenUserInteractive,         // the center view stays interactive
+    IIViewDeckCenterHiddenNotUserInteractive,      // the center view will become nonresponsive to useractions
+    IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
+} IIViewDeckCenterHiddenInteractivity;
+
+typedef enum {
     IIViewDeckNavigationControllerContained,      // 
     IIViewDeckNavigationControllerIntegrated
 } IIViewDeckNavigationControllerBehavior;
@@ -53,6 +59,7 @@ typedef enum {
 @property (nonatomic) CGFloat rightLedge;
 @property (nonatomic) BOOL resizesCenterView;
 @property (nonatomic) IIViewDeckPanningMode panningMode;
+@property (nonatomic) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
 @property (nonatomic) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;

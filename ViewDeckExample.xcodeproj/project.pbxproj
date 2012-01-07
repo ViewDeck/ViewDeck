@@ -22,6 +22,8 @@
 		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
 		E25F8B3E14B45F2B00C4182C /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */; };
 		E25F8B3F14B45F2B00C4182C /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25F8B3D14B45F2B00C4182C /* WrappedController.m */; };
+		E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F9614B7D678003DDB4E /* NestViewController.m */; };
+		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,9 @@
 		E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
 		E25F8B3C14B45F2B00C4182C /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
 		E25F8B3D14B45F2B00C4182C /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedController.m; sourceTree = "<group>"; };
+		E2955F9514B7D678003DDB4E /* NestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestViewController.h; sourceTree = "<group>"; };
+		E2955F9614B7D678003DDB4E /* NestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestViewController.m; sourceTree = "<group>"; };
+		E2955F9714B7D678003DDB4E /* NestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NestViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +114,9 @@
 				E240A9D4148ADC230077282A /* RightViewController.h */,
 				E240A9D5148ADC230077282A /* RightViewController.m */,
 				E240A9D6148ADC230077282A /* RightViewController.xib */,
+				E2955F9514B7D678003DDB4E /* NestViewController.h */,
+				E2955F9614B7D678003DDB4E /* NestViewController.m */,
+				E2955F9714B7D678003DDB4E /* NestViewController.xib */,
 			);
 			path = ViewDeckExample;
 			sourceTree = "<group>";
@@ -207,6 +215,7 @@
 				E240A9D8148ADC230077282A /* RightViewController.xib in Resources */,
 				E240A9E8148C51AC0077282A /* ViewController.xib in Resources */,
 				E240A9EC148C51E00077282A /* bg.jpg in Resources */,
+				E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +233,7 @@
 				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
 				E25F8B3E14B45F2B00C4182C /* IIViewDeckController.m in Sources */,
 				E25F8B3F14B45F2B00C4182C /* WrappedController.m in Sources */,
+				E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

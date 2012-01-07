@@ -11,5 +11,6 @@
 
 - (IBAction)defaultCenterPressed:(id)sender;
 - (IBAction)swapLeftAndCenterPressed:(id)sender;
+- (IBAction)centerNavController:(id)sender;
 
 @end

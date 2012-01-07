@@ -8,6 +8,7 @@
 #import "LeftViewController.h"
 #import "ViewController.h"
 #import "IIViewDeckController.h"
+#import "NestViewController.h"
 
 @interface RightViewController () <IIViewDeckControllerDelegate>
 
@@ -57,6 +58,15 @@
     self.viewDeckController.centerController = SharedAppDelegate.leftController;
     self.viewDeckController.leftController = SharedAppDelegate.centerController;
 }
+
+- (IBAction)centerNavController:(id)sender {
+    self.viewDeckController.leftController = SharedAppDelegate.leftController;
+    
+    NestViewController* nestController = [[NestViewController alloc] initWithNibName:@"NestViewController" bundle:nil];
+    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:nestController];
+    self.viewDeckController.centerController = navController;
+}
+
 
 #pragma mark - view deck delegate
 

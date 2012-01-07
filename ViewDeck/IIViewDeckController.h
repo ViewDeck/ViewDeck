@@ -31,6 +31,8 @@ typedef enum {
     IIViewDeckNoPanning,              // no panning allowed
     IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
     IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
+    IIViewDeckCustomPanning           // panning only occurs when you start touching in a UIView set in panningView property
+
 } IIViewDeckPanningMode;
 
 typedef enum {
@@ -45,6 +47,7 @@ typedef enum {
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
 @property (nonatomic, readonly, retain) UIViewController* slidingController;
+@property (nonatomic, retain) UIView* panningView; 
 
 @property (nonatomic) CGFloat leftLedge;
 @property (nonatomic) CGFloat rightLedge;

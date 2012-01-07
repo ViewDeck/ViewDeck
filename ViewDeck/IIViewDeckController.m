@@ -98,6 +98,7 @@
 @synthesize originalShadowOffset = _originalShadowOffset;
 @synthesize delegate = _delegate;
 @synthesize navigationControllerBehavior = _navigationControllerBehavior;
+@synthesize panningView = _panningView; 
 
 #pragma mark - Initalisation and deallocation
 
@@ -635,6 +636,13 @@
                 [self.navigationController.navigationBar addGestureRecognizer:self.panner];
             }
             break;
+        case IIViewDeckCustomPanning:
+            if (_panningView) {
+            self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+            self.panner.delegate = self;
+            [self.panningView addGestureRecognizer:self.panner];
+            }
+            break;
     }
 }
 
@@ -642,7 +650,8 @@
 - (void)removePanner {
     if (!self.panner) 
         return;
-    
+        
+    [self.panningView removeGestureRecognizer:self.panner];
     [self.slidingController.view removeGestureRecognizer:self.panner];
     [self.navigationController.navigationBar removeGestureRecognizer:self.panner];
     self.panner = nil;

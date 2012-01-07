@@ -97,7 +97,7 @@
 @synthesize originalShadowColor = _originalShadowColor;
 @synthesize originalShadowOffset = _originalShadowOffset;
 @synthesize delegate = _delegate;
-
+@synthesize navigationControllerBehavior = _navigationControllerBehavior;
 
 #pragma mark - Initalisation and deallocation
 
@@ -111,6 +111,7 @@
         self.leftLedge = 44;
         self.rightLedge = 44;
         _panningMode = IIViewDeckFullViewPanning;
+        _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _viewAppeared = NO;
         _resizesCenterView = NO;
 
@@ -674,6 +675,15 @@
     }
 }
 
+- (void)setNavigationControllerBehavior:(IIViewDeckNavigationControllerBehavior)navigationControllerBehavior {
+    if (!_viewAppeared) {
+        _navigationControllerBehavior = navigationControllerBehavior;
+    }
+    else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cannot set navigationcontroller behavior when the view deck is already showing." userInfo:nil];
+    }
+}
+
 - (void)setLeftController:(UIViewController *)leftController {
     if (!_viewAppeared) {
         _leftController = leftController;
@@ -766,7 +776,7 @@
 }
 
 - (void)setSlidingAndReferenceViews {
-    if (self.navigationController) {
+    if (self.navigationController && self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
         _slidingController = self.navigationController;
         self.referenceView = [self.navigationController.view superview];
     }

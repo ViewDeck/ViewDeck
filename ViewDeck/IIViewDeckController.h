@@ -33,6 +33,11 @@ typedef enum {
     IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
 } IIViewDeckPanningMode;
 
+typedef enum {
+    IIViewDeckNavigationControllerContained,      // 
+    IIViewDeckNavigationControllerIntegrated
+} IIViewDeckNavigationControllerBehavior;
+
 @interface IIViewDeckController : UIViewController
 
 @property (nonatomic, retain) id<IIViewDeckControllerDelegate> delegate;
@@ -45,6 +50,7 @@ typedef enum {
 @property (nonatomic) CGFloat rightLedge;
 @property (nonatomic) BOOL resizesCenterView;
 @property (nonatomic) IIViewDeckPanningMode panningMode;
+@property (nonatomic) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;

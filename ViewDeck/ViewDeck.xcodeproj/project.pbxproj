@@ -1,0 +1,247 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5CCD67C214BA08C400E2331F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CCD67C114BA08C400E2331F /* Foundation.framework */; };
+		5CCD67D214BA08F600E2331F /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CCD67CE14BA08F600E2331F /* IIViewDeckController.h */; };
+		5CCD67D314BA08F600E2331F /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CCD67CF14BA08F600E2331F /* IIViewDeckController.m */; };
+		5CCD67D414BA08F600E2331F /* WrappedController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CCD67D014BA08F600E2331F /* WrappedController.h */; };
+		5CCD67D514BA08F600E2331F /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CCD67D114BA08F600E2331F /* WrappedController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5CCD67BE14BA08C400E2331F /* libViewDeck.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libViewDeck.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CCD67C114BA08C400E2331F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		5CCD67C514BA08C400E2331F /* ViewDeck-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-Prefix.pch"; sourceTree = "<group>"; };
+		5CCD67CE14BA08F600E2331F /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
+		5CCD67CF14BA08F600E2331F /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
+		5CCD67D014BA08F600E2331F /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
+		5CCD67D114BA08F600E2331F /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5CCD67BB14BA08C400E2331F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CCD67C214BA08C400E2331F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5CCD67B314BA08C300E2331F = {
+			isa = PBXGroup;
+			children = (
+				5CCD67C314BA08C400E2331F /* ViewDeck */,
+				5CCD67C014BA08C400E2331F /* Frameworks */,
+				5CCD67BF14BA08C400E2331F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5CCD67BF14BA08C400E2331F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5CCD67BE14BA08C400E2331F /* libViewDeck.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5CCD67C014BA08C400E2331F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5CCD67C114BA08C400E2331F /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5CCD67C314BA08C400E2331F /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				5CCD67CE14BA08F600E2331F /* IIViewDeckController.h */,
+				5CCD67CF14BA08F600E2331F /* IIViewDeckController.m */,
+				5CCD67D014BA08F600E2331F /* WrappedController.h */,
+				5CCD67D114BA08F600E2331F /* WrappedController.m */,
+				5CCD67C414BA08C400E2331F /* Supporting Files */,
+			);
+			path = ViewDeck;
+			sourceTree = "<group>";
+		};
+		5CCD67C414BA08C400E2331F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5CCD67C514BA08C400E2331F /* ViewDeck-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		5CCD67BC14BA08C400E2331F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CCD67D214BA08F600E2331F /* IIViewDeckController.h in Headers */,
+				5CCD67D414BA08F600E2331F /* WrappedController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		5CCD67BD14BA08C400E2331F /* ViewDeck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5CCD67CB14BA08C400E2331F /* Build configuration list for PBXNativeTarget "ViewDeck" */;
+			buildPhases = (
+				5CCD67BA14BA08C400E2331F /* Sources */,
+				5CCD67BB14BA08C400E2331F /* Frameworks */,
+				5CCD67BC14BA08C400E2331F /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViewDeck;
+			productName = ViewDeck;
+			productReference = 5CCD67BE14BA08C400E2331F /* libViewDeck.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5CCD67B514BA08C300E2331F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = syst.ms;
+			};
+			buildConfigurationList = 5CCD67B814BA08C300E2331F /* Build configuration list for PBXProject "ViewDeck" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 5CCD67B314BA08C300E2331F;
+			productRefGroup = 5CCD67BF14BA08C400E2331F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5CCD67BD14BA08C400E2331F /* ViewDeck */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5CCD67BA14BA08C400E2331F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CCD67D314BA08F600E2331F /* IIViewDeckController.m in Sources */,
+				5CCD67D514BA08F600E2331F /* WrappedController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5CCD67C914BA08C400E2331F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5CCD67CA14BA08C400E2331F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5CCD67CC14BA08C400E2331F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/ViewDeck.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeck/ViewDeck-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5CCD67CD14BA08C400E2331F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/ViewDeck.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeck/ViewDeck-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5CCD67B814BA08C300E2331F /* Build configuration list for PBXProject "ViewDeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CCD67C914BA08C400E2331F /* Debug */,
+				5CCD67CA14BA08C400E2331F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5CCD67CB14BA08C400E2331F /* Build configuration list for PBXNativeTarget "ViewDeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CCD67CC14BA08C400E2331F /* Debug */,
+				5CCD67CD14BA08C400E2331F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5CCD67B514BA08C300E2331F /* Project object */;
+}

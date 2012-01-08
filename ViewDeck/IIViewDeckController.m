@@ -637,11 +637,11 @@
                 [self.navigationController.navigationBar addGestureRecognizer:self.panner];
             }
             break;
-        case IIViewDeckCustomPanning:
+        case IIViewDeckPanningViewPanning:
             if (_panningView) {
-            self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-            self.panner.delegate = self;
-            [self.panningView addGestureRecognizer:self.panner];
+                self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+                self.panner.delegate = self;
+                [self.panningView addGestureRecognizer:self.panner];
             }
             break;
     }

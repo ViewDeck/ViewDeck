@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5CCD67E614BA0A6F00E2331F /* libViewDeck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CCD67E214BA0A1000E2331F /* libViewDeck.a */; };
 		E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AB148AB3770077282A /* UIKit.framework */; };
 		E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AD148AB3770077282A /* Foundation.framework */; };
 		E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AF148AB3770077282A /* CoreGraphics.framework */; };
@@ -20,13 +21,29 @@
 		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
 		E240A9E8148C51AC0077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9E7148C51AC0077282A /* ViewController.xib */; };
 		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
-		E25F8B3E14B45F2B00C4182C /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */; };
-		E25F8B3F14B45F2B00C4182C /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E25F8B3D14B45F2B00C4182C /* WrappedController.m */; };
 		E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F9614B7D678003DDB4E /* NestViewController.m */; };
 		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5CCD67E114BA0A1000E2331F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CCD67DA14BA0A1000E2331F /* ViewDeck.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5CCD67BE14BA08C400E2331F;
+			remoteInfo = ViewDeck;
+		};
+		5CCD67E414BA0A6500E2331F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CCD67DA14BA0A1000E2331F /* ViewDeck.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5CCD67BD14BA08C400E2331F;
+			remoteInfo = ViewDeck;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		5CCD67DA14BA0A1000E2331F /* ViewDeck.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ViewDeck.xcodeproj; path = ViewDeck/ViewDeck.xcodeproj; sourceTree = "<group>"; };
 		E240A9A7148AB3770077282A /* ViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E240A9AB148AB3770077282A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E240A9AD148AB3770077282A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -47,10 +64,6 @@
 		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
 		E240A9E7148C51AC0077282A /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		E240A9EB148C51E00077282A /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
-		E25F8B3A14B45F2B00C4182C /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
-		E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		E25F8B3C14B45F2B00C4182C /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
-		E25F8B3D14B45F2B00C4182C /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedController.m; sourceTree = "<group>"; };
 		E2955F9514B7D678003DDB4E /* NestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestViewController.h; sourceTree = "<group>"; };
 		E2955F9614B7D678003DDB4E /* NestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestViewController.m; sourceTree = "<group>"; };
 		E2955F9714B7D678003DDB4E /* NestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NestViewController.xib; sourceTree = "<group>"; };
@@ -61,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CCD67E614BA0A6F00E2331F /* libViewDeck.a in Frameworks */,
 				E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */,
 				E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */,
 				E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */,
@@ -70,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5CCD67DB14BA0A1000E2331F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5CCD67E214BA0A1000E2331F /* libViewDeck.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E240A99C148AB3770077282A = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +112,7 @@
 		E240A9AA148AB3770077282A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5CCD67DA14BA0A1000E2331F /* ViewDeck.xcodeproj */,
 				E240A9AB148AB3770077282A /* UIKit.framework */,
 				E240A9AD148AB3770077282A /* Foundation.framework */,
 				E240A9AF148AB3770077282A /* CoreGraphics.framework */,
@@ -102,7 +125,6 @@
 			children = (
 				E240A9EA148C51E00077282A /* assets */,
 				E240A9B2148AB3770077282A /* Supporting Files */,
-				E240A9C8148AB3F70077282A /* vendor */,
 				E240A9BA148AB3770077282A /* AppDelegate.h */,
 				E240A9BB148AB3770077282A /* AppDelegate.m */,
 				E240A9BD148AB3770077282A /* ViewController.h */,
@@ -132,14 +154,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E240A9C8148AB3F70077282A /* vendor */ = {
-			isa = PBXGroup;
-			children = (
-				E25F8B3914B45F2B00C4182C /* ViewDeck */,
-			);
-			name = vendor;
-			sourceTree = "<group>";
-		};
 		E240A9EA148C51E00077282A /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,17 +161,6 @@
 			);
 			path = assets;
 			sourceTree = "<group>";
-		};
-		E25F8B3914B45F2B00C4182C /* ViewDeck */ = {
-			isa = PBXGroup;
-			children = (
-				E25F8B3A14B45F2B00C4182C /* IIViewDeckController.h */,
-				E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */,
-				E25F8B3C14B45F2B00C4182C /* WrappedController.h */,
-				E25F8B3D14B45F2B00C4182C /* WrappedController.m */,
-			);
-			path = ViewDeck;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -173,6 +176,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				5CCD67E514BA0A6500E2331F /* PBXTargetDependency */,
 			);
 			name = ViewDeckExample;
 			productName = ViewDeckExample;
@@ -198,12 +202,28 @@
 			mainGroup = E240A99C148AB3770077282A;
 			productRefGroup = E240A9A8148AB3770077282A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5CCD67DB14BA0A1000E2331F /* Products */;
+					ProjectRef = 5CCD67DA14BA0A1000E2331F /* ViewDeck.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E240A9A6148AB3770077282A /* ViewDeckExample */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5CCD67E214BA0A1000E2331F /* libViewDeck.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libViewDeck.a;
+			remoteRef = 5CCD67E114BA0A1000E2331F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E240A9A5148AB3770077282A /* Resources */ = {
@@ -231,13 +251,19 @@
 				E240A9BF148AB3770077282A /* ViewController.m in Sources */,
 				E240A9D2148ADC020077282A /* LeftViewController.m in Sources */,
 				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
-				E25F8B3E14B45F2B00C4182C /* IIViewDeckController.m in Sources */,
-				E25F8B3F14B45F2B00C4182C /* WrappedController.m in Sources */,
 				E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5CCD67E514BA0A6500E2331F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ViewDeck;
+			targetProxy = 5CCD67E414BA0A6500E2331F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E240A9B4148AB3770077282A /* InfoPlist.strings */ = {
@@ -305,6 +331,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "ViewDeck/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -318,6 +345,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "ViewDeck/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

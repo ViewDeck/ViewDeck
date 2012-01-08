@@ -678,11 +678,22 @@
 #pragma mark - Properties
 
 - (void)setPanningMode:(IIViewDeckPanningMode)panningMode {
-    _panningMode = panningMode;
     if (_viewAppeared) {
+        [self removePanner];
+        _panningMode = panningMode;
+        [self addPanner];
+    }
+    else
+        _panningMode = panningMode;
+}
+
+- (void)setPanningView:(UIView *)panningView {
+    if (_viewAppeared && _panningView != panningView && _panningMode == IIViewDeckPanningViewPanning) {
         [self removePanner];
         [self addPanner];
     }
+    
+    _panningView = panningView;     
 }
 
 - (void)setNavigationControllerBehavior:(IIViewDeckNavigationControllerBehavior)navigationControllerBehavior {

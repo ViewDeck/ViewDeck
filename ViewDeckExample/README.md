@@ -76,24 +76,46 @@ The current implementation is a bit flakey, in respect to the right view control
 
 It is possible to control the panning behavior a bit. Set the `panningMode` on the controller to achieve 3 different modes:
 
-	typedef enum {
-	    IIViewDeckNoPanning,              // no panning allowed
-	    IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
-	    IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when 
-		                                  // the center controller is a UINavigationController with a visible
-		                                  // navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
-	} IIViewDeckPanningMode;
+    typedef enum {
+        IIViewDeckNoPanning,              // no panning allowed
+        IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
+        IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
+        IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
+    } IIViewDeckPanningMode;
+
+When you specify `IIViewDeckPanningViewPanning`, you have to set the `panningView` property on the controller. This view will react to pan motions that will pan the view deck.
+
+## disabling the center view
+
+The center view can be disabled if it is slided out of the way. You do this by setting the `centerhiddenInteractivity` property on the controller.
+
+    typedef enum {
+        IIViewDeckCenterHiddenUserInteractive,         // the center view stays interactive
+        IIViewDeckCenterHiddenNotUserInteractive,      // the center view will become nonresponsive to useractions
+        IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
+        IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, // same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
+    } IIViewDeckCenterHiddenInteractivity;
+
+When you need to change the centercontroller (or something else) when the center view is bounced away, use the following message to react:
+    
+     - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
 
 # UINavigationController
 
-It is possible to "inject" the viewdeck controller into an existing navigation controller hierarchy. The example (see below) has the simple scenario: the center view is a navigation controller. Any action in that navigation controller stays in the centerview.
+The view deck controller has two integration modes to deal with `UINavigationController`. The first mode `IIViewDeckNavigationControllerContained` will have the navigation controller act as a normal "contained" view controller. All pushes and pops will remain in the centerview.
+
+The other mode `IIViewDeckNavigationControllerIntegrated` has different behavoir: it allows you to "inject" the viewdeck controller into an existing navigation controller hierarchy. The feature example (see below) has the simple scenario: the center view is a navigation controller. Any action in that navigation controller stays in the centerview.
 
 But if you push a `IIViewDeckController` onto a navigation controller, the sideviews will nestly themselves _below_ the navigation view. This means that the animations regarding the navigation controller will be applied only to the center view controller and not to the side view controllers. 
 There's currently no way to disable this behavior, but it will be added later.
 
 # ViewDeckExample
 
-todo
+This is a simple example mimicing the Path 2.0 UI to a certain extent.
+
+# FeatureExample
+
+This is a more extensive example. You can specify the different choices for the settable behavioral property and test them out live.
 
 # License
 

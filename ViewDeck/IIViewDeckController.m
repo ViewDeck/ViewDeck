@@ -467,6 +467,8 @@
     } completion:^(BOOL finished) {
         // run block if it's defined
         if (bounced) bounced(self);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 
+            [self.delegate viewDeckController:self didBounceWithClosingController:self.leftController];
         
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingControllerView.frame = [self slidingRectForOffset:0];
@@ -568,6 +570,9 @@
         self.slidingControllerView.frame = [self slidingRectForOffset:-self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
         if (bounced)  bounced(self);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 
+            [self.delegate viewDeckController:self didBounceWithClosingController:self.rightController];
+
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingControllerView.frame = [self slidingRectForOffset:0];
         } completion:^(BOOL finished) {

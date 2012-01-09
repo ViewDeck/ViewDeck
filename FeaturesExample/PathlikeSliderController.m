@@ -60,33 +60,6 @@
         [self openLeftViewAnimated:YES];
     });
 
-    /*
-    // add rounded corner mask
-    if (!self.slidingController.view.layer.mask) {
-        CAShapeLayer *mask = [CAShapeLayer layer];
-        mask.frame = self.slidingController.view.bounds;
-        mask.path = [UIBezierPath bezierPathWithRoundedRect:self.slidingController.view.bounds 
-                                          byRoundingCorners:UIRectCornerAllCorners
-                                                cornerRadii:CGSizeMake(50, 50)].CGPath;
-        
-        // Don't add masks to layers already in the hierarchy!
-        UIView* superview = self.slidingController.view.superview;
-        UIView* belowView = nil;
-        
-        for (UIView* view in [[superview subviews] reverseObjectEnumerator]) {
-            if (self.slidingController.view == view) break;
-            belowView = view;
-        }
-        
-        [self.slidingController.view removeFromSuperview];
-        self.slidingController.view.layer.mask = mask;
-        
-        if (belowView)
-            [superview insertSubview:self.slidingController.view belowSubview:belowView];    
-        else
-            [superview addSubview:self.slidingController.view];    
-    }
-     */
 }
 
 - (void)viewDidUnload
@@ -105,8 +78,5 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 }
 
-//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-//    self.leftLedge = (UIInterfaceOrientationIsLandscape(toInterfaceOrientation) ? 1024 : 768) - 320;
-//    NSLog(@"%d", toInterfaceOrientation);
-//}
+
 @end

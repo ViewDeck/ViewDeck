@@ -32,19 +32,26 @@ typedef enum {
     IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
     IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
     IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
-
 } IIViewDeckPanningMode;
+
 
 typedef enum {
     IIViewDeckCenterHiddenUserInteractive,         // the center view stays interactive
     IIViewDeckCenterHiddenNotUserInteractive,      // the center view will become nonresponsive to useractions
     IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
+    IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, // same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
 } IIViewDeckCenterHiddenInteractivity;
+
 
 typedef enum {
     IIViewDeckNavigationControllerContained,      // 
     IIViewDeckNavigationControllerIntegrated
 } IIViewDeckNavigationControllerBehavior;
+
+
+#define IIViewDeckCenterHiddenCanTapToClose(interactivity) ((interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose || (interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing)
+#define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
+
 
 @interface IIViewDeckController : UIViewController
 
@@ -104,6 +111,7 @@ typedef enum {
 
 // TODO
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController didPanToOffset:(CGFloat)offset;
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
 - (BOOL)viewDeckControllerWillOpenLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
 - (void)viewDeckControllerDidOpenLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
 - (BOOL)viewDeckControllerWillCloseLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;

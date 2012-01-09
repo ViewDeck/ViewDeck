@@ -43,12 +43,16 @@
 
 @property (nonatomic, retain) UIView* referenceView;
 @property (nonatomic, readonly) CGRect referenceBounds;
-@property (nonatomic, retain) UIPanGestureRecognizer* panner;
+@property (nonatomic, retain) NSMutableDictionary* panners;
 @property (nonatomic, assign) CGFloat originalShadowRadius;
 @property (nonatomic, assign) CGFloat originalShadowOpacity;
 @property (nonatomic, retain) UIColor* originalShadowColor;
 @property (nonatomic, assign) CGSize originalShadowOffset;
 @property (nonatomic, retain) UIBezierPath* originalShadowPath;
+@property (nonatomic, retain) UIButton* centerTapper;
+@property (nonatomic, retain) UIView* centerView;
+@property (nonatomic, readonly) UIView* slidingControllerView;
+
 
 - (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void(^)(IIViewDeckController* controller))completed;
@@ -62,8 +66,11 @@
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;
 
-- (void)addPanner;
-- (void)removePanner;
+- (void)centerViewVisible;
+- (void)centerViewHidden;
+
+- (void)addPanners;
+- (void)removePanners;
 
 - (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated;
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated;
@@ -82,7 +89,7 @@
 @implementation IIViewDeckController
 
 @synthesize panningMode = _panningMode;
-@synthesize panner = _panner;
+@synthesize panners = _panners;
 @synthesize referenceView = _referenceView;
 @synthesize slidingController = _slidingController;
 @synthesize centerController = _centerController;
@@ -100,6 +107,8 @@
 @synthesize navigationControllerBehavior = _navigationControllerBehavior;
 @synthesize panningView = _panningView; 
 @synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
+@synthesize centerTapper = _centerTapper;
+@synthesize centerView = _centerView;
 
 #pragma mark - Initalisation and deallocation
 
@@ -198,15 +207,15 @@
 
 - (void)setLeftLedge:(CGFloat)leftLedge {
     leftLedge = MAX(leftLedge, MIN(self.referenceBounds.size.width, leftLedge));
-    if (_viewAppeared && self.slidingController.view.frame.origin.x == self.referenceBounds.size.width - _leftLedge) {
+    if (_viewAppeared && self.slidingControllerView.frame.origin.x == self.referenceBounds.size.width - _leftLedge) {
         if (leftLedge < _leftLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
-                self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width - leftLedge];
+                self.slidingControllerView.frame = [self slidingRectForOffset:self.referenceBounds.size.width - leftLedge];
             }];
         }
         else if (leftLedge > _leftLedge) {
             [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
-                self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width - leftLedge];
+                self.slidingControllerView.frame = [self slidingRectForOffset:self.referenceBounds.size.width - leftLedge];
             }];
         }
     }
@@ -215,15 +224,15 @@
 
 - (void)setRightLedge:(CGFloat)rightLedge {
     rightLedge = MAX(rightLedge, MIN(self.referenceBounds.size.width, rightLedge));
-    if (_viewAppeared && self.slidingController.view.frame.origin.x == _rightLedge - self.referenceBounds.size.width) {
+    if (_viewAppeared && self.slidingControllerView.frame.origin.x == _rightLedge - self.referenceBounds.size.width) {
         if (rightLedge < _rightLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
-                self.slidingController.view.frame = [self slidingRectForOffset:rightLedge - self.referenceBounds.size.width];
+                self.slidingControllerView.frame = [self slidingRectForOffset:rightLedge - self.referenceBounds.size.width];
             }];
         }
         else if (rightLedge > _rightLedge) {
             [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
-                self.slidingController.view.frame = [self slidingRectForOffset:rightLedge - self.referenceBounds.size.width];
+                self.slidingControllerView.frame = [self slidingRectForOffset:rightLedge - self.referenceBounds.size.width];
             }];
         }
     }
@@ -236,6 +245,8 @@
 {
     _viewAppeared = NO;
     self.view = [[UIView alloc] init];
+    self.centerView = [[UIView alloc] init];
+    [self.view addSubview:self.centerView];
 
     self.originalShadowRadius = 0;
     self.originalShadowOpacity = 0;
@@ -247,6 +258,9 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+
+    // remove center tapper
+    [self centerViewVisible];
 
     [self restoreShadowToSlidingView];
     
@@ -269,33 +283,40 @@
     [self setSlidingAndReferenceViews];
 
     [self.centerController.view removeFromSuperview];
-    [self.view addSubview:self.centerController.view];
+    [self.centerView addSubview:self.centerController.view];
     [self.leftController.view removeFromSuperview];
-    [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingController.view];
+    [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
     [self.rightController.view removeFromSuperview];
-    [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingController.view];
+    [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
 
-    self.slidingController.view.frame = self.referenceBounds;
-    self.slidingController.view.hidden = NO;
+    self.centerView.frame = self.referenceBounds;
+    self.slidingControllerView.frame = self.referenceBounds;
+    self.slidingControllerView.hidden = NO;
     self.leftController.view.frame = self.referenceBounds;
     self.leftController.view.hidden = YES;
     self.rightController.view.frame = self.referenceBounds;
     self.rightController.view.hidden = YES;
 
     [self applyShadowToSlidingView];
+
+    _viewAppeared = YES;
+    
+    [self addPanners];
+
+    if (self.slidingControllerView.frame.origin.x == 0) 
+        [self centerViewVisible];
+    else
+        [self centerViewHidden];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    _viewAppeared = YES;
-    self.panningMode = self.panningMode;
-}
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//}
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.slidingController.view removeGestureRecognizer:self.panner];
-    self.panner = nil;
+    [self removePanners];
     
     [self closeLeftView];
     [self closeRightView];
@@ -326,14 +347,14 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    CGFloat offset = self.slidingController.view.frame.origin.x;
+    CGFloat offset = self.slidingControllerView.frame.origin.x;
     if (offset > 0) {
         offset = self.referenceBounds.size.width - _preRotationWidth + offset;
     }
     else if (offset < 0) {
         offset = offset + _preRotationWidth - self.referenceBounds.size.width;
     }
-    self.slidingController.view.frame = [self slidingRectForOffset:offset];
+    self.slidingControllerView.frame = [self slidingRectForOffset:offset];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -348,11 +369,11 @@
 }
 
 - (BOOL)leftControllerIsClosed {
-    return !self.leftController || CGRectGetMinX(self.slidingController.view.frame) <= 0;
+    return !self.leftController || CGRectGetMinX(self.slidingControllerView.frame) <= 0;
 }
 
 - (BOOL)rightControllerIsClosed {
-    return !self.rightController || CGRectGetMaxX(self.slidingController.view.frame) >= self.referenceBounds.size.width;
+    return !self.rightController || CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width;
 }
 
 - (void)showCenterView {
@@ -403,7 +424,7 @@
 
 
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void (^)(IIViewDeckController *))completed {
-    if (!self.leftController || CGRectGetMinX(self.slidingController.view.frame) == self.leftLedge) return;
+    if (!self.leftController || CGRectGetMinX(self.slidingControllerView.frame) == self.leftLedge) return;
     
     // check the delegate to allow opening
     if (![self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:animated]) return;
@@ -412,7 +433,8 @@
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.leftController.view.hidden = NO;
-        self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width - self.leftLedge];
+        self.slidingControllerView.frame = [self slidingRectForOffset:self.referenceBounds.size.width - self.leftLedge];
+        [self centerViewHidden];
     } completion:^(BOOL finished) {
         if (completed) completed(self);
         [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:animated];
@@ -434,7 +456,8 @@
     if (![self checkDelegate:@selector(viewDeckControllerWillCloseLeftView:animated:) animated:animated]) return NO;
 
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
-        self.slidingController.view.frame = [self slidingRectForOffset:0];
+        self.slidingControllerView.frame = [self slidingRectForOffset:0];
+        [self centerViewVisible];
     } completion:^(BOOL finished) {
         self.leftController.view.hidden = YES;
         if (completed) completed(self);
@@ -457,16 +480,19 @@
     
     // first open the view completely, run the block (to allow changes) and close it again.
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
-        self.slidingController.view.frame = [self slidingRectForOffset:self.referenceBounds.size.width];
+        self.slidingControllerView.frame = [self slidingRectForOffset:self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
         // run block if it's defined
         if (bounced) bounced(self);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 
+            [self.delegate viewDeckController:self didBounceWithClosingController:self.leftController];
         
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
-            self.slidingController.view.frame = [self slidingRectForOffset:0];
+            self.slidingControllerView.frame = [self slidingRectForOffset:0];
+            [self centerViewVisible];
         } completion:^(BOOL finished) {
-            if (completed) completed(self);
             self.leftController.view.hidden = YES;
+            if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:YES];
             [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
         }];
@@ -506,7 +532,7 @@
 }
 
 - (void)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void (^)(IIViewDeckController *))completed {
-    if (!self.rightController || CGRectGetMaxX(self.slidingController.view.frame) == self.rightLedge) return;
+    if (!self.rightController || CGRectGetMaxX(self.slidingControllerView.frame) == self.rightLedge) return;
 
     // check the delegate to allow opening
     if (![self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:animated]) return;
@@ -515,7 +541,8 @@
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.rightController.view.hidden = NO;
-        self.slidingController.view.frame = [self slidingRectForOffset:self.rightLedge - self.referenceBounds.size.width];
+        self.slidingControllerView.frame = [self slidingRectForOffset:self.rightLedge - self.referenceBounds.size.width];
+        [self centerViewHidden];
     } completion:^(BOOL finished) {
         if (completed) completed(self);
         [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:animated];
@@ -537,7 +564,7 @@
     if (![self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:animated]) return NO;
     
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
-        self.slidingController.view.frame = [self slidingRectForOffset:0];
+        self.slidingControllerView.frame = [self slidingRectForOffset:0];
     } completion:^(BOOL finished) {
         if (completed) completed(self);
         self.rightController.view.hidden = YES;
@@ -559,16 +586,18 @@
     if (![self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:YES]) return;
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
-        self.slidingController.view.frame = [self slidingRectForOffset:-self.referenceBounds.size.width];
+        self.slidingControllerView.frame = [self slidingRectForOffset:-self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
-        if (bounced) {
-            bounced(self);
-        }
+        if (bounced)  bounced(self);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 
+            [self.delegate viewDeckController:self didBounceWithClosingController:self.rightController];
+
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
-            self.slidingController.view.frame = [self slidingRectForOffset:0];
+            self.slidingControllerView.frame = [self slidingRectForOffset:0];
+            [self centerViewVisible];
         } completion:^(BOOL finished) {
-            if (completed) completed(self);
             self.rightController.view.hidden = YES;
+            if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:YES];
             [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
         }];
@@ -576,10 +605,58 @@
 }
 
 
+#pragma mark - center view hidden stuff
+
+- (void)centerViewVisible {
+    [self removePanners];
+    if (self.centerTapper) {
+        [self.centerTapper removeTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.centerTapper removeFromSuperview];
+    }
+    self.centerTapper = nil;
+    [self addPanners];
+}
+
+- (void)centerViewHidden {
+    if (IIViewDeckCenterHiddenIsInteractive(self.centerhiddenInteractivity)) 
+        return;
+
+    [self removePanners];
+    if (!self.centerTapper) {
+        self.centerTapper = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.centerTapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.centerTapper.frame = [self.centerView bounds];
+        [self.centerView addSubview:self.centerTapper];
+        [self.centerTapper addTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];
+        self.centerTapper.backgroundColor = [UIColor clearColor];
+        
+    }
+    self.centerTapper.frame = [self.centerView bounds];
+    [self addPanners];
+}
+
+- (void)centerTapped {
+    if (IIViewDeckCenterHiddenCanTapToClose(self.centerhiddenInteractivity)) {
+        if (self.leftController && CGRectGetMinX(self.slidingControllerView.frame) > 0) {
+            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose) 
+                [self closeLeftView];
+            else
+                [self closeLeftViewBouncing:nil];
+        }
+        if (self.rightController && CGRectGetMinX(self.slidingControllerView.frame) < 0) {
+            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose) 
+                [self closeRightView];
+            else
+                [self closeRightViewBouncing:nil];
+        }
+
+    }
+}
+
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    _panOrigin = self.slidingController.view.frame.origin.x;
+    _panOrigin = self.slidingControllerView.frame.origin.x;
     return YES;
 }
 
@@ -594,14 +671,30 @@
 
     x = MAX(x, -self.referenceBounds.size.width+self.rightLedge);
     x = MIN(x, self.referenceBounds.size.width-self.leftLedge);
-    self.slidingController.view.frame = [self slidingRectForOffset:x];
+    self.slidingControllerView.frame = [self slidingRectForOffset:x];
 
-    self.rightController.view.hidden = x > 0;
-    self.leftController.view.hidden = x < 0;
+    NSLog(@"X %f", x);
+    BOOL rightWasHidden = self.rightController.view.hidden;
+    BOOL leftWasHidden = self.leftController.view.hidden;
 
+    self.rightController.view.hidden = x >= 0;
+    self.leftController.view.hidden = x <= 0;
+    
     if ([self.delegate respondsToSelector:@selector(viewDeckController:didPanToOffset:)])
         [self.delegate viewDeckController:self didPanToOffset:x];
-    
+
+    NSLog(@"left %d => %d", leftWasHidden, self.leftController.view.hidden);
+    NSLog(@"right %d => %d", rightWasHidden, self.rightController.view.hidden);
+    if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
+        NSLog(@"visible");
+        [self centerViewVisible];
+    }
+    else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.leftController.view.hidden)) {
+        NSLog(@"hidden");
+        [self centerViewHidden];
+    }
+
+
     if (panner.state == UIGestureRecognizerStateEnded) {
         if ([panner velocityInView:self.referenceView].x > 0) {
             if (x > (self.referenceBounds.size.width-self.leftLedge)/3.0) 
@@ -619,43 +712,53 @@
 }
 
 
-- (void)addPanner {
+- (void)addPanner:(UIView*)view {
+    if (!view) return;
+    
+    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+    panner.cancelsTouchesInView = NO;
+    panner.delegate = self;
+    [view addGestureRecognizer:panner];
+    [self.panners setObject:panner forKey:view];
+}
+
+
+- (void)addPanners {
+    [self removePanners];
+
     switch (_panningMode) {
         case IIViewDeckNoPanning: 
             break;
             
         case IIViewDeckFullViewPanning:
-            self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-            self.panner.delegate = self;
-            [self.slidingController.view addGestureRecognizer:self.panner];
+            [self addPanner:self.slidingControllerView];
+            // also add to disabled center
+            if (self.centerTapper)
+                [self addPanner:self.centerTapper];
+            // also add to navigationbar if present
+            if (self.navigationController && !self.navigationController.navigationBarHidden && self.navigationControllerBehavior == IIViewDeckNavigationControllerContained) 
+                [self addPanner:self.navigationController.navigationBar];
             break;
             
         case IIViewDeckNavigationBarPanning:
             if (self.navigationController && !self.navigationController.navigationBarHidden) {
-                self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-                self.panner.delegate = self;
-                [self.navigationController.navigationBar addGestureRecognizer:self.panner];
+                [self addPanner:self.navigationController.navigationBar];
             }
             break;
         case IIViewDeckPanningViewPanning:
             if (_panningView) {
-                self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-                self.panner.delegate = self;
-                [self.panningView addGestureRecognizer:self.panner];
+                [self addPanner:self.panningView];
             }
             break;
     }
 }
 
 
-- (void)removePanner {
-    if (!self.panner) 
-        return;
-        
-    [self.panningView removeGestureRecognizer:self.panner];
-    [self.slidingController.view removeGestureRecognizer:self.panner];
-    [self.navigationController.navigationBar removeGestureRecognizer:self.panner];
-    self.panner = nil;
+- (void)removePanners {
+    for (UIView* view in self.panners) {
+        [view removeGestureRecognizer:[self.panners objectForKey:view]];
+    }
+    [self.panners removeAllObjects];
 }
 
 #pragma mark - Delegate convenience methods
@@ -679,9 +782,9 @@
 
 - (void)setPanningMode:(IIViewDeckPanningMode)panningMode {
     if (_viewAppeared) {
-        [self removePanner];
+        [self removePanners];
         _panningMode = panningMode;
-        [self addPanner];
+        [self addPanners];
     }
     else
         _panningMode = panningMode;
@@ -689,8 +792,8 @@
 
 - (void)setPanningView:(UIView *)panningView {
     if (_viewAppeared && _panningView != panningView && _panningMode == IIViewDeckPanningViewPanning) {
-        [self removePanner];
-        [self addPanner];
+        [self removePanners];
+        [self addPanners];
     }
     
     _panningView = panningView;     
@@ -724,10 +827,10 @@
         leftController.viewDeckController = self;
         
         if (self.slidingController)
-            [self.referenceView insertSubview:leftController.view belowSubview:self.slidingController.view];
+            [self.referenceView insertSubview:leftController.view belowSubview:self.slidingControllerView];
         else
             [self.referenceView addSubview:leftController.view];
-        leftController.view.hidden = self.slidingController.view.frame.origin.x <= 0;
+        leftController.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
         leftController.view.frame = self.referenceBounds;
     }
     _leftController = leftController;
@@ -741,7 +844,7 @@
 
     if (_centerController == centerController) return;
     
-    [self removePanner];
+    [self removePanners];
     CGRect currentFrame = self.referenceBounds;
     if (_centerController) {
         [self restoreShadowToSlidingView];
@@ -767,7 +870,7 @@
         centerController.viewDeckController = self;
         _centerController = centerController;
         [self setSlidingAndReferenceViews];
-        [self.view addSubview:centerController.view];
+        [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
         centerController.view.hidden = NO;
         
@@ -775,7 +878,7 @@
             navController.navigationBarHidden = NO;
         }
         
-        [self addPanner];
+        [self addPanners];
         [self applyShadowToSlidingView];
     }
     else {
@@ -802,10 +905,10 @@
         
         rightController.viewDeckController = self;
         if (self.slidingController) 
-            [self.referenceView insertSubview:rightController.view belowSubview:self.slidingController.view];
+            [self.referenceView insertSubview:rightController.view belowSubview:self.slidingControllerView];
         else
             [self.referenceView addSubview:rightController.view];
-        rightController.view.hidden = self.slidingController.view.frame.origin.x >= 0;
+        rightController.view.hidden = self.slidingControllerView.frame.origin.x >= 0;
         rightController.view.frame = self.referenceBounds;
     }
     _rightController = rightController;
@@ -822,33 +925,44 @@
     }
 }
 
+- (UIView*)slidingControllerView {
+    if (self.navigationController && self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
+        return self.slidingController.view;
+    }
+    else {
+        return self.centerView;
+    }
+}
+
 #pragma mark - Shadow
 
 - (void)restoreShadowToSlidingView {
-    if (!self.slidingController.view) return;
+    UIView* shadowedView = self.slidingControllerView;
+    if (!shadowedView) return;
 
-    self.slidingController.view.layer.shadowRadius = self.originalShadowRadius;
-    self.slidingController.view.layer.shadowOpacity = self.originalShadowOpacity;
-    self.slidingController.view.layer.shadowColor = [self.originalShadowColor CGColor]; 
-    self.slidingController.view.layer.shadowOffset = self.originalShadowOffset;
-    self.slidingController.view.layer.shadowPath = [self.originalShadowPath CGPath];
+    shadowedView.layer.shadowRadius = self.originalShadowRadius;
+    shadowedView.layer.shadowOpacity = self.originalShadowOpacity;
+    shadowedView.layer.shadowColor = [self.originalShadowColor CGColor]; 
+    shadowedView.layer.shadowOffset = self.originalShadowOffset;
+    shadowedView.layer.shadowPath = [self.originalShadowPath CGPath];
 }
 
 - (void)applyShadowToSlidingView {
-    if (!self.slidingController.view) return;
+    UIView* shadowedView = self.slidingControllerView;
+    if (!shadowedView) return;
     
-    self.originalShadowRadius = self.slidingController.view.layer.shadowRadius;
-    self.originalShadowOpacity = self.slidingController.view.layer.shadowOpacity;
-    self.originalShadowColor = self.slidingController.view.layer.shadowColor ? [UIColor colorWithCGColor:self.slidingController.view.layer.shadowColor] : nil;
-    self.originalShadowOffset = self.slidingController.view.layer.shadowOffset;
-    self.originalShadowPath = self.slidingController.view.layer.shadowPath ? [UIBezierPath bezierPathWithCGPath:self.slidingController.view.layer.shadowPath] : nil;
+    self.originalShadowRadius = shadowedView.layer.shadowRadius;
+    self.originalShadowOpacity = shadowedView.layer.shadowOpacity;
+    self.originalShadowColor = shadowedView.layer.shadowColor ? [UIColor colorWithCGColor:self.slidingControllerView.layer.shadowColor] : nil;
+    self.originalShadowOffset = shadowedView.layer.shadowOffset;
+    self.originalShadowPath = shadowedView.layer.shadowPath ? [UIBezierPath bezierPathWithCGPath:self.slidingControllerView.layer.shadowPath] : nil;
     
-    self.slidingController.view.layer.masksToBounds = NO;
-    self.slidingController.view.layer.shadowRadius = 10;
-    self.slidingController.view.layer.shadowOpacity = 0.5;
-    self.slidingController.view.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.slidingController.view.layer.shadowOffset = CGSizeZero;
-    self.slidingController.view.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
+    shadowedView.layer.masksToBounds = NO;
+    shadowedView.layer.shadowRadius = 10;
+    shadowedView.layer.shadowOpacity = 0.5;
+    shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
+    shadowedView.layer.shadowOffset = CGSizeZero;
+    shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
 }
 
 

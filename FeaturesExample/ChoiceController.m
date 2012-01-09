@@ -16,6 +16,8 @@
 
 @implementation ChoiceController
 
+@synthesize panningView;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -64,20 +66,21 @@
     controller.panningMode = _panning;
     controller.centerhiddenInteractivity = _centerHidden;
     controller.navigationControllerBehavior = _navBehavior;
+    controller.panningView = self.panningView;
     [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (IBAction)panningChanged:(id)sender {
     UISegmentedControl* control = (UISegmentedControl*)sender;
     
-    IIViewDeckPanningMode values[] = { IIViewDeckNoPanning, IIViewDeckFullViewPanning, IIViewDeckNavigationBarPanning };
+    IIViewDeckPanningMode values[] = { IIViewDeckNoPanning, IIViewDeckFullViewPanning, IIViewDeckNavigationBarPanning, IIViewDeckPanningViewPanning };
     _panning = values[control.selectedSegmentIndex];
 }
 
 - (IBAction)centerHiddenChanged:(id)sender {
     UISegmentedControl* control = (UISegmentedControl*)sender;
     
-    IIViewDeckCenterHiddenInteractivity values[] = { IIViewDeckCenterHiddenUserInteractive, IIViewDeckCenterHiddenNotUserInteractive, IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose };
+    IIViewDeckCenterHiddenInteractivity values[] = { IIViewDeckCenterHiddenUserInteractive, IIViewDeckCenterHiddenNotUserInteractive, IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing };
     _centerHidden = values[control.selectedSegmentIndex];
 }
 

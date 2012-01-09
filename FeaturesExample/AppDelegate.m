@@ -4,10 +4,7 @@
 //
 
 #import "AppDelegate.h"
-#import "IIViewDeckController.h"
-#import "ChoiceController.h"
-#import "WrappedController.h"
-#import "SelectionController.h"
+#import "RootViewController.h"
 
 @implementation AppDelegate
 
@@ -16,14 +13,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    // Override point for customization after application launch.
-    ChoiceController* choiceController = [[ChoiceController alloc] initWithNibName:@"ChoiceController" bundle:nil];
-
-    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:choiceController];
-    navController.navigationBar.tintColor = [UIColor darkGrayColor];
-    
-    self.window.rootViewController = [[WrappedController alloc] initWithViewController:navController];
+    self.window.rootViewController = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
     [self.window makeKeyAndVisible];
     return YES;
 }

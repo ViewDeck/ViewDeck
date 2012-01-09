@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E22E07F114BBA1AB00B002B7 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E07EF14BBA1AB00B002B7 /* RootViewController.m */; };
+		E22E07F214BBA1AC00B002B7 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22E07F014BBA1AB00B002B7 /* RootViewController.xib */; };
 		E2955F7014B728E4003DDB4E /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F6D14B728E4003DDB4E /* IIViewDeckController.m */; };
 		E2955F7114B728E4003DDB4E /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F6F14B728E4003DDB4E /* WrappedController.m */; };
 		E2955F7314B730AB003DDB4E /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = E2955F7214B730AB003DDB4E /* photo.png */; };
@@ -31,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E22E07EE14BBA1AB00B002B7 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		E22E07EF14BBA1AB00B002B7 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		E22E07F014BBA1AB00B002B7 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		E2955F6C14B728E4003DDB4E /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E2955F6D14B728E4003DDB4E /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
 		E2955F6E14B728E4003DDB4E /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
@@ -128,6 +133,9 @@
 				E2C8E5B01497F94500560D23 /* vendor */,
 				E2C8E5A21497F62B00560D23 /* AppDelegate.h */,
 				E2C8E5A31497F62B00560D23 /* AppDelegate.m */,
+				E22E07EE14BBA1AB00B002B7 /* RootViewController.h */,
+				E22E07EF14BBA1AB00B002B7 /* RootViewController.m */,
+				E22E07F014BBA1AB00B002B7 /* RootViewController.xib */,
 				E2C8E5B51497F9CA00560D23 /* ChoiceController.h */,
 				E2C8E5B61497F9CA00560D23 /* ChoiceController.m */,
 				E2C8E5B71497F9CA00560D23 /* ChoiceController.xib */,
@@ -242,6 +250,7 @@
 				E2955F7314B730AB003DDB4E /* photo.png in Resources */,
 				E2955F8B14B7D14F003DDB4E /* SimpleController.xib in Resources */,
 				E2955F9014B7D15E003DDB4E /* WebController.xib in Resources */,
+				E22E07F214BBA1AC00B002B7 /* RootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +271,7 @@
 				E2955F7114B728E4003DDB4E /* WrappedController.m in Sources */,
 				E2955F8A14B7D14F003DDB4E /* SimpleController.m in Sources */,
 				E2955F8F14B7D15E003DDB4E /* WebController.m in Sources */,
+				E22E07F114BBA1AB00B002B7 /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

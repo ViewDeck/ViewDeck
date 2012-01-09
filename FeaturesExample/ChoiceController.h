@@ -7,6 +7,8 @@
 
 @interface ChoiceController : UIViewController
 
+@property (nonatomic, retain) UIView* panningView;
+
 - (IBAction)pressedNavigate:(id)sender;
 - (IBAction)panningChanged:(id)sender;
 - (IBAction)centerHiddenChanged:(id)sender;

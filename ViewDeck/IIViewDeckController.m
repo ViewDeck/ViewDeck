@@ -870,7 +870,7 @@
         centerController.viewDeckController = self;
         _centerController = centerController;
         [self setSlidingAndReferenceViews];
-        [self.view addSubview:centerController.view];
+        [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
         centerController.view.hidden = NO;
         

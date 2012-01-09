@@ -43,7 +43,7 @@
 
 @property (nonatomic, retain) UIView* referenceView;
 @property (nonatomic, readonly) CGRect referenceBounds;
-@property (nonatomic, retain) UIPanGestureRecognizer* panner;
+@property (nonatomic, retain) NSMutableDictionary* panners;
 @property (nonatomic, assign) CGFloat originalShadowRadius;
 @property (nonatomic, assign) CGFloat originalShadowOpacity;
 @property (nonatomic, retain) UIColor* originalShadowColor;
@@ -64,8 +64,8 @@
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;
 
-- (void)addPanner;
-- (void)removePanner;
+- (void)addPanners;
+- (void)removePanners;
 
 - (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated;
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated;
@@ -84,7 +84,7 @@
 @implementation IIViewDeckController
 
 @synthesize panningMode = _panningMode;
-@synthesize panner = _panner;
+@synthesize panners = _panners;
 @synthesize referenceView = _referenceView;
 @synthesize slidingController = _slidingController;
 @synthesize centerController = _centerController;
@@ -289,19 +289,16 @@
     self.rightController.view.hidden = YES;
 
     [self applyShadowToSlidingView];
-}
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     _viewAppeared = YES;
-    self.panningMode = self.panningMode;
+    
+    [self addPanners];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    [self.slidingControllerView removeGestureRecognizer:self.panner];
-    self.panner = nil;
+    [self removePanners];
     
     [self closeLeftView];
     [self closeRightView];
@@ -628,49 +625,53 @@
 }
 
 
-- (void)addPanner {
+- (void)addPanner:(UIView*)view {
+    if (!view) return;
+    
+    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+    panner.cancelsTouchesInView = NO;
+    panner.delegate = self;
+    [view addGestureRecognizer:panner];
+    [self.panners setObject:panner forKey:view];
+}
+
+
+- (void)addPanners {
+    [self removePanners];
+
     switch (_panningMode) {
         case IIViewDeckNoPanning: 
             break;
             
         case IIViewDeckFullViewPanning:
-            self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-            self.panner.cancelsTouchesInView = NO;
-            self.panner.delegate = self;
-            [self.slidingControllerView addGestureRecognizer:self.panner];
-            // also add to navigationbar
+            [self addPanner:self.slidingControllerView];
+            // also add to disabled center
+            if (self.centerTapper)
+                [self addPanner:self.centerTapper];
+            // also add to navigationbar if present
             if (self.navigationController && !self.navigationController.navigationBarHidden && self.navigationControllerBehavior == IIViewDeckNavigationControllerContained) 
-                [self.navigationController.navigationBar addGestureRecognizer:self.panner];
+                [self addPanner:self.navigationController.navigationBar];
             break;
             
         case IIViewDeckNavigationBarPanning:
             if (self.navigationController && !self.navigationController.navigationBarHidden) {
-                self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-                self.panner.cancelsTouchesInView = NO;
-                self.panner.delegate = self;
-                [self.navigationController.navigationBar addGestureRecognizer:self.panner];
+                [self addPanner:self.navigationController.navigationBar];
             }
             break;
         case IIViewDeckPanningViewPanning:
             if (_panningView) {
-                self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-                self.panner.delegate = self;
-                self.panner.cancelsTouchesInView = NO;
-                [self.panningView addGestureRecognizer:self.panner];
+                [self addPanner:self.panningView];
             }
             break;
     }
 }
 
 
-- (void)removePanner {
-    if (!self.panner) 
-        return;
-        
-    [self.panningView removeGestureRecognizer:self.panner];
-    [self.slidingControllerView removeGestureRecognizer:self.panner];
-    [self.navigationController.navigationBar removeGestureRecognizer:self.panner];
-    self.panner = nil;
+- (void)removePanners {
+    for (UIView* view in self.panners) {
+        [view removeGestureRecognizer:[self.panners objectForKey:view]];
+    }
+    [self.panners removeAllObjects];
 }
 
 #pragma mark - Delegate convenience methods
@@ -694,9 +695,9 @@
 
 - (void)setPanningMode:(IIViewDeckPanningMode)panningMode {
     if (_viewAppeared) {
-        [self removePanner];
+        [self removePanners];
         _panningMode = panningMode;
-        [self addPanner];
+        [self addPanners];
     }
     else
         _panningMode = panningMode;
@@ -704,8 +705,8 @@
 
 - (void)setPanningView:(UIView *)panningView {
     if (_viewAppeared && _panningView != panningView && _panningMode == IIViewDeckPanningViewPanning) {
-        [self removePanner];
-        [self addPanner];
+        [self removePanners];
+        [self addPanners];
     }
     
     _panningView = panningView;     
@@ -756,7 +757,7 @@
 
     if (_centerController == centerController) return;
     
-    [self removePanner];
+    [self removePanners];
     CGRect currentFrame = self.referenceBounds;
     if (_centerController) {
         [self restoreShadowToSlidingView];
@@ -790,7 +791,7 @@
             navController.navigationBarHidden = NO;
         }
         
-        [self addPanner];
+        [self addPanners];
         [self applyShadowToSlidingView];
     }
     else {

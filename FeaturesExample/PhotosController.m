@@ -140,9 +140,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.viewDeckController) {
-        [self.viewDeckController showCenterView];
-    }
+//    if (self.viewDeckController) {
+//        [self.viewDeckController showCenterView];
+//    }
     
     // Navigation logic may go here. Create and push another view controller.
     /*

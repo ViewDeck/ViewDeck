@@ -638,11 +638,15 @@
             self.panner.cancelsTouchesInView = NO;
             self.panner.delegate = self;
             [self.slidingControllerView addGestureRecognizer:self.panner];
+            // also add to navigationbar
+            if (self.navigationController && !self.navigationController.navigationBarHidden && self.navigationControllerBehavior == IIViewDeckNavigationControllerContained) 
+                [self.navigationController.navigationBar addGestureRecognizer:self.panner];
             break;
             
         case IIViewDeckNavigationBarPanning:
             if (self.navigationController && !self.navigationController.navigationBarHidden) {
                 self.panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+                self.panner.cancelsTouchesInView = NO;
                 self.panner.delegate = self;
                 [self.navigationController.navigationBar addGestureRecognizer:self.panner];
             }

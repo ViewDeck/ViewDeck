@@ -44,8 +44,8 @@ typedef enum {
 
 
 typedef enum {
-    IIViewDeckNavigationControllerContained,      // 
-    IIViewDeckNavigationControllerIntegrated
+    IIViewDeckNavigationControllerContained,      // the center navigation controller will act as any other viewcontroller. Pushing and popping view controllers will be contained in the centerview.
+    IIViewDeckNavigationControllerIntegrated      // the center navigation controller will integrate with the viewdeck.
 } IIViewDeckNavigationControllerBehavior;
 
 
@@ -109,7 +109,6 @@ typedef enum {
 
 @protocol IIViewDeckControllerDelegate <NSObject>
 
-// TODO
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController didPanToOffset:(CGFloat)offset;
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
 - (BOOL)viewDeckControllerWillOpenLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;

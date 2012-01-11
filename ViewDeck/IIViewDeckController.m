@@ -171,6 +171,7 @@
     self.leftController = nil;
     self.rightController.viewDeckController = nil;
     self.rightController = nil;
+    self.centerView = nil;
 }
 
 #pragma mark - Memory management

@@ -290,6 +290,7 @@
     [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
 
     self.centerView.frame = self.referenceBounds;
+    self.centerController.view.frame = self.referenceBounds;
     self.slidingControllerView.frame = self.referenceBounds;
     self.slidingControllerView.hidden = NO;
     self.leftController.view.frame = self.referenceBounds;

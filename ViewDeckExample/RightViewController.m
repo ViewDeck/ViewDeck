@@ -45,6 +45,7 @@
     self.logs = [NSMutableArray array];
     
     self.viewDeckController.delegate = self;
+    self.tableView.scrollsToTop = NO;
 }
 
 #pragma mark - View lifecycle

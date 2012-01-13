@@ -131,6 +131,7 @@
 @synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
 @synthesize centerTapper = _centerTapper;
 @synthesize centerView = _centerView;
+@synthesize rotationBehavior = _rotationBehavior;
 
 #pragma mark - Initalisation and deallocation
 
@@ -146,6 +147,7 @@
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
+        _rotationBehavior = IIViewDeckRotationKeepsLedgeSizes;
         _viewAppeared = NO;
         _resizesCenterView = NO;
 
@@ -373,11 +375,17 @@
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     CGFloat offset = self.slidingControllerView.frame.origin.x;
-    if (offset > 0) {
-        offset = self.referenceBounds.size.width - _preRotationWidth + offset;
+    if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
+        if (offset > 0) {
+            offset = self.referenceBounds.size.width - _preRotationWidth + offset;
+        }
+        else if (offset < 0) {
+            offset = offset + _preRotationWidth - self.referenceBounds.size.width;
+        }
     }
-    else if (offset < 0) {
-        offset = offset + _preRotationWidth - self.referenceBounds.size.width;
+    else {
+        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
     

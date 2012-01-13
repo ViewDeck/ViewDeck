@@ -45,31 +45,14 @@
 {
     self.view = [[UIView alloc] initWithFrame:self.wrappedController.view.frame];
     self.view.autoresizingMask = self.wrappedController.view.autoresizingMask;
-    self.wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.wrappedController.view removeFromSuperview];
     self.wrappedController.view.frame = self.view.bounds;
+    self.wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.wrappedController.view];
     
     [self.view setNeedsLayout];
 }
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-*/
-//
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    [self.wrappedController viewWillAppear:animated];
-//}
-//
-//- (void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//    [self.wrappedController viewDidAppear:animated];
-//}
 
 - (void)viewDidUnload
 {

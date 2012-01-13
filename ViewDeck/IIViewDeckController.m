@@ -735,7 +735,7 @@
     if (!view) return;
     
     UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
-    panner.cancelsTouchesInView = NO;
+    panner.cancelsTouchesInView = YES;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
     [self.panners setObject:panner forKey:view];

@@ -185,7 +185,7 @@
 }
 
 - (void)dealloc {
-    _slidingController = nil;
+    II_RELEASE(_slidingController), _slidingController = nil;
     self.referenceView = nil;
     self.centerController.viewDeckController = nil;
     self.centerController = nil;
@@ -267,8 +267,8 @@
 - (void)loadView
 {
     _viewAppeared = NO;
-    self.view = [[UIView alloc] init];
-    self.centerView = [[UIView alloc] init];
+    self.view = II_AUTORELEASE([[UIView alloc] init]);
+    self.centerView = II_AUTORELEASE([[UIView alloc] init]);
     [self.view addSubview:self.centerView];
 
     self.originalShadowRadius = 0;
@@ -697,7 +697,6 @@
     x = MIN(x, self.referenceBounds.size.width-self.leftLedge);
     self.slidingControllerView.frame = [self slidingRectForOffset:x];
 
-    NSLog(@"X %f", x);
     BOOL rightWasHidden = self.rightController.view.hidden;
     BOOL leftWasHidden = self.leftController.view.hidden;
 
@@ -707,14 +706,10 @@
     if ([self.delegate respondsToSelector:@selector(viewDeckController:didPanToOffset:)])
         [self.delegate viewDeckController:self didPanToOffset:x];
 
-    NSLog(@"left %d => %d", leftWasHidden, self.leftController.view.hidden);
-    NSLog(@"right %d => %d", rightWasHidden, self.rightController.view.hidden);
     if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
-        NSLog(@"visible");
         [self centerViewVisible];
     }
     else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.leftController.view.hidden)) {
-        NSLog(@"hidden");
         [self centerViewHidden];
     }
 
@@ -739,7 +734,7 @@
 - (void)addPanner:(UIView*)view {
     if (!view) return;
     
-    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+    UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
     panner.cancelsTouchesInView = NO;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
@@ -820,7 +815,8 @@
         [self addPanners];
     }
     
-    _panningView = panningView;     
+    II_RELEASE(_panningView);
+    _panningView = II_RETAIN(panningView);     
 }
 
 - (void)setNavigationControllerBehavior:(IIViewDeckNavigationControllerBehavior)navigationControllerBehavior {
@@ -833,36 +829,36 @@
 }
 
 - (void)setLeftController:(UIViewController *)leftController {
-    if (!_viewAppeared) {
-        _leftController = leftController;
-        return;
+    if (_viewAppeared) {
+        if (_leftController == leftController) return;
+        
+        if (_leftController) {
+            [_leftController.view removeFromSuperview];
+            _leftController.viewDeckController = nil;
+        }
+        
+        if (leftController) {
+            if (leftController == self.centerController) self.centerController = nil;
+            if (leftController == self.rightController) self.rightController = nil;
+            leftController.viewDeckController = self;
+            
+            if (self.slidingController)
+                [self.referenceView insertSubview:leftController.view belowSubview:self.slidingControllerView];
+            else
+                [self.referenceView addSubview:leftController.view];
+            leftController.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
+            leftController.view.frame = self.referenceBounds;
+        }
     }
 
-    if (_leftController == leftController) return;
-    
-    if (_leftController) {
-        [_leftController.view removeFromSuperview];
-        _leftController.viewDeckController = nil;
-    }
-    
-    if (leftController) {
-        if (leftController == self.centerController) self.centerController = nil;
-        if (leftController == self.rightController) self.rightController = nil;
-        leftController.viewDeckController = self;
-        
-        if (self.slidingController)
-            [self.referenceView insertSubview:leftController.view belowSubview:self.slidingControllerView];
-        else
-            [self.referenceView addSubview:leftController.view];
-        leftController.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
-        leftController.view.frame = self.referenceBounds;
-    }
-    _leftController = leftController;
+    II_RELEASE(_leftController);
+    _leftController = II_RETAIN(leftController);
 }
 
 - (void)setCenterController:(UIViewController *)centerController {
     if (!_viewAppeared) {
-        _centerController = centerController;
+        II_RELEASE(_centerController);
+        _centerController = II_RETAIN(centerController);
         return;
     }
 
@@ -875,6 +871,7 @@
         currentFrame = _centerController.view.frame;
         [_centerController.view removeFromSuperview];
         _centerController.viewDeckController = nil;
+        II_RELEASE(_centerController);
         _centerController = nil;
     }
     
@@ -892,7 +889,8 @@
         }
 
         centerController.viewDeckController = self;
-        _centerController = centerController;
+        II_RELEASE(_centerController);
+        _centerController = II_RETAIN(centerController);
         [self setSlidingAndReferenceViews];
         [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
@@ -906,36 +904,35 @@
         [self applyShadowToSlidingView];
     }
     else {
-        _centerController = centerController;
+        _centerController = nil;
     }
 }
 
 - (void)setRightController:(UIViewController *)rightController {
-    if (!_viewAppeared) {
-        _rightController = rightController;
-        return;
+    if (_viewAppeared) {
+        if (_rightController == rightController) return;
+        
+        if (_rightController) {
+            [_rightController.view removeFromSuperview];
+            _rightController.viewDeckController = nil;
+        }
+        
+        if (rightController) {
+            if (rightController == self.centerController) self.centerController = nil;
+            if (rightController == self.leftController) self.leftController = nil;
+            
+            rightController.viewDeckController = self;
+            if (self.slidingController) 
+                [self.referenceView insertSubview:rightController.view belowSubview:self.slidingControllerView];
+            else
+                [self.referenceView addSubview:rightController.view];
+            rightController.view.hidden = self.slidingControllerView.frame.origin.x >= 0;
+            rightController.view.frame = self.referenceBounds;
+        }
     }
 
-    if (_rightController == rightController) return;
-    
-    if (_rightController) {
-        [_rightController.view removeFromSuperview];
-        _rightController.viewDeckController = nil;
-    }
-    
-    if (rightController) {
-        if (rightController == self.centerController) self.centerController = nil;
-        if (rightController == self.leftController) self.leftController = nil;
-        
-        rightController.viewDeckController = self;
-        if (self.slidingController) 
-            [self.referenceView insertSubview:rightController.view belowSubview:self.slidingControllerView];
-        else
-            [self.referenceView addSubview:rightController.view];
-        rightController.view.hidden = self.slidingControllerView.frame.origin.x >= 0;
-        rightController.view.frame = self.referenceBounds;
-    }
-    _rightController = rightController;
+    II_RELEASE(rightController);
+    _rightController = II_RETAIN(rightController);
 }
 
 - (void)setSlidingAndReferenceViews {

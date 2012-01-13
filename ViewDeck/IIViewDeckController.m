@@ -145,6 +145,7 @@
         self.rightLedge = 44;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
+        _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
         _viewAppeared = NO;
         _resizesCenterView = NO;
 

@@ -379,17 +379,28 @@
         offset = offset + _preRotationWidth - self.referenceBounds.size.width;
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+    
+    [self.centerController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.leftController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.rightController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
+
+    [self.centerController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.leftController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.rightController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    
     [self applyShadowToSlidingView];
+
+    [self.centerController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self.leftController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self.rightController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 - (BOOL)leftControllerIsClosed {

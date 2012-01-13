@@ -716,17 +716,25 @@
 
     if (panner.state == UIGestureRecognizerStateEnded) {
         if ([panner velocityInView:self.referenceView].x > 0) {
-            if (x > (self.referenceBounds.size.width-self.leftLedge)/3.0) 
+            if (x > (self.referenceBounds.size.width-self.rightLedge)/3.0) 
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             else 
                 [self showCenterView:YES];
         }
         else if ([panner velocityInView:self.referenceView].x < 0) {
-            if (x < -(self.referenceBounds.size.width-self.rightLedge)/3.0) 
+            if (x < -(self.referenceBounds.size.width-self.leftLedge)/3.0) 
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             else 
                 [self showCenterView:YES];
         }
+        else if (x > (self.referenceBounds.size.width-self.leftLedge)/2.0) {
+            [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+        }
+        else if (x < -(self.referenceBounds.size.width-self.rightLedge)/2.0) {
+            [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+        }
+        else 
+            [self showCenterView:YES];
     }
 }
 

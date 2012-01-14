@@ -11,7 +11,7 @@ The controller supports rotation, too.
 
 # Requirements
 
-The library currently requires ARC.  
+The library supports both ARC and non-ARC projects (the ARC mode is detected automagically, and the code is modified where necessary according to the ARC mode in use).  
 
 # Demo
 
@@ -20,7 +20,7 @@ See: http://vimeo.com/34538429
 # Installation
 
 Easy as pie: you just add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
-Just add DDMenuController.m/h into your project.
+Just add IIViewDeckController.m/h into your project.
 
 # How to use it?
 
@@ -75,8 +75,15 @@ The center controller view receives a shadow to give it an *on-top* appearance. 
 
 ## rotation
 
-The controller should support view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed. 
-When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed).
+The controller fully supports view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed. 
+When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `` property. You can use one of the following values:
+
+    typedef enum {
+        IIViewDeckRotationKeepsLedgeSizes, // when rotating, the ledge sizes are kept (side views are more/less visible)
+        IIViewDeckRotationKeepsViewSizes  // when rotating, the size view sizes are kept (ledges change)
+    } IIViewDeckRotationBehavior;
+
+The default is `IIViewDeckRotationKeepsLedgeSizes`, which keeps the sizes of the defined ledges the same when rotating.
 
 ## panning
 
@@ -123,6 +130,13 @@ This is a simple example mimicing the Path 2.0 UI to a certain extent.
 
 This is a more extensive example. You can specify the different choices for the settable behavioral property and test them out live.
 
+# SizingEample
+
+This is a test program to test out sizing behavior. It presents a view with a viewdeck controller in, and a zoom button. The zoom button enlarges/shrinks the view. The view deck controller should resize along.
+
+# Credits
+
+I'd appreciate it to mention the use of this code somewhere if you use it in an app. On a website, in an about page, in the app itself, whatever. Or let me know by email or through github. It's nice to know where one's code is used. 
 
 # License
 

@@ -8,6 +8,8 @@
 
 @implementation ViewController
 
+@synthesize popoverController = _popoverController2;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -32,7 +34,10 @@
     [super viewDidLoad];
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleRightView)];
+    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
+                                               [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleRightView)],
+                                               [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCam:)],
+                                               nil];
 }
 
 - (void)viewDidUnload
@@ -66,6 +71,20 @@
 {
     // Return YES for supported orientations
     return YES;
+}
+
+- (void)showCam:(id)sender {
+    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+        picker.sourceType =  UIImagePickerControllerSourceTypeCamera;
+
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        self.popoverController = [[UIPopoverController alloc] initWithContentViewController:picker];
+        [self.popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES]; 
+    }
+    else {
+        [self presentModalViewController:picker animated:YES];
+    }
 }
 
 #pragma mark - Table view data source

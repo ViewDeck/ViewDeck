@@ -32,14 +32,6 @@
                                                                                    rightViewController:rightController];
     deckController.rightLedge = 100;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    }
-    else {
-        
-    }
-    
-    
-    
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];
     return YES;

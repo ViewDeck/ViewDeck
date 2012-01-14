@@ -272,8 +272,15 @@
     _viewAppeared = NO;
     self.view = [[UIView alloc] init];
     II_AUTORELEASE(self.view);
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view.autoresizesSubviews = YES;
+    self.view.clipsToBounds = YES;
+
     self.centerView = [[UIView alloc] init];
     II_AUTORELEASE(self.centerView);
+    self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.centerView.autoresizesSubviews = YES;
+    self.centerView.clipsToBounds = YES;
     [self.view addSubview:self.centerView];
 
     self.originalShadowRadius = 0;
@@ -318,16 +325,19 @@
     [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
 
     self.centerView.frame = self.referenceBounds;
+    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerController.view.frame = self.referenceBounds;
     self.slidingControllerView.frame = self.referenceBounds;
     self.slidingControllerView.hidden = NO;
     self.leftController.view.frame = self.referenceBounds;
+    self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.leftController.view.hidden = YES;
     self.rightController.view.frame = self.referenceBounds;
+    self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.rightController.view.hidden = YES;
 
     [self applyShadowToSlidingView];
-
+    
     _viewAppeared = YES;
     
     [self addPanners];

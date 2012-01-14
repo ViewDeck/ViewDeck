@@ -8,4 +8,5 @@
 
 @interface ViewController : UITableViewController
 
+@property (nonatomic, retain) UIPopoverController* popoverController;
 @end

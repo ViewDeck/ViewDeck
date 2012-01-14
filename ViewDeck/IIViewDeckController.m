@@ -36,9 +36,9 @@
 #endif // __has_feature(objc_arc)
 
 #if II_ARC_ENABLED
-#define II_RETAIN(xx)  (id)(xx)
-#define II_RELEASE(xx)  (id)(xx)
-#define II_AUTORELEASE(xx)  (id)(xx)
+#define II_RETAIN(xx)  ((void)(0))
+#define II_RELEASE(xx)  ((void)(0))
+#define II_AUTORELEASE(xx)  ((void)(0))
 #else
 #define II_RETAIN(xx)           [xx retain]
 #define II_RELEASE(xx)          [xx release]
@@ -270,8 +270,17 @@
 - (void)loadView
 {
     _viewAppeared = NO;
-    self.view = II_AUTORELEASE([[UIView alloc] init]);
-    self.centerView = II_AUTORELEASE([[UIView alloc] init]);
+    self.view = [[UIView alloc] init];
+    II_AUTORELEASE(self.view);
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view.autoresizesSubviews = YES;
+    self.view.clipsToBounds = YES;
+
+    self.centerView = [[UIView alloc] init];
+    II_AUTORELEASE(self.centerView);
+    self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.centerView.autoresizesSubviews = YES;
+    self.centerView.clipsToBounds = YES;
     [self.view addSubview:self.centerView];
 
     self.originalShadowRadius = 0;
@@ -279,11 +288,15 @@
     self.originalShadowColor = nil;
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
+    
+    [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueChangeSetting context:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    
+    [self.view removeObserver:self forKeyPath:@"frame"];
 
     // remove center tapper
     [self centerViewVisible];
@@ -303,6 +316,7 @@
     [self.rightController.view removeFromSuperview];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -316,16 +330,19 @@
     [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
 
     self.centerView.frame = self.referenceBounds;
+    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerController.view.frame = self.referenceBounds;
     self.slidingControllerView.frame = self.referenceBounds;
     self.slidingControllerView.hidden = NO;
     self.leftController.view.frame = self.referenceBounds;
+    self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.leftController.view.hidden = YES;
     self.rightController.view.frame = self.referenceBounds;
+    self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.rightController.view.hidden = YES;
 
     [self applyShadowToSlidingView];
-
+    
     _viewAppeared = YES;
     
     [self addPanners];
@@ -335,10 +352,6 @@
     else
         [self centerViewHidden];
 }
-
-//- (void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//}
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -762,7 +775,8 @@
 - (void)addPanner:(UIView*)view {
     if (!view) return;
     
-    UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
+    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
+    II_AUTORELEASE(panner);
     panner.cancelsTouchesInView = YES;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
@@ -844,7 +858,8 @@
     }
     
     II_RELEASE(_panningView);
-    _panningView = II_RETAIN(panningView);     
+    _panningView = panningView;     
+    II_RETAIN(_panningView);     
 }
 
 - (void)setNavigationControllerBehavior:(IIViewDeckNavigationControllerBehavior)navigationControllerBehavior {
@@ -880,13 +895,17 @@
     }
 
     II_RELEASE(_leftController);
-    _leftController = II_RETAIN(leftController);
+    _leftController = leftController;
+    II_RETAIN(_leftController);
 }
+
+
 
 - (void)setCenterController:(UIViewController *)centerController {
     if (!_viewAppeared) {
         II_RELEASE(_centerController);
-        _centerController = II_RETAIN(centerController);
+        _centerController = centerController;
+        II_RETAIN(_centerController);
         return;
     }
 
@@ -918,7 +937,8 @@
 
         centerController.viewDeckController = self;
         II_RELEASE(_centerController);
-        _centerController = II_RETAIN(centerController);
+        _centerController = centerController;
+        II_RETAIN(_centerController);
         [self setSlidingAndReferenceViews];
         [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
@@ -960,7 +980,8 @@
     }
 
     II_RELEASE(rightController);
-    _rightController = II_RETAIN(rightController);
+    _rightController = rightController;
+    II_RETAIN(_rightController);
 }
 
 - (void)setSlidingAndReferenceViews {
@@ -1014,6 +1035,11 @@
     shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"frame"]) {
+        self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
+    }
+}
 
 @end
 

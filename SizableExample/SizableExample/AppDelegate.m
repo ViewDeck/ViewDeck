@@ -1,38 +1,26 @@
 //
 //  AppDelegate.m
-//  ViewDeckExample
+//  SizableExample
 //
-
+//  Created by Tom Adriaenssen on 14/01/12.
+//  Copyright (c) 2012 Adriaenssen BVBA. All rights reserved.
+//
 
 #import "AppDelegate.h"
 
 #import "ViewController.h"
-#import "IIViewDeckController.h"
-#import "LeftViewController.h"
-#import "RightViewController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize centerController = _viewController;
-@synthesize leftController = _leftController;
-@synthesize imageController = _imageController;
+@synthesize viewController = _viewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    self.leftController = [[LeftViewController alloc] initWithNibName:@"LeftViewController" bundle:nil];
-    RightViewController* rightController = [[RightViewController alloc] initWithNibName:@"RightViewController" bundle:nil];
-    
-    ViewController *centerController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    self.centerController = [[UINavigationController alloc] initWithRootViewController:centerController];
-    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController 
-                                                                                    leftViewController:self.leftController
-                                                                                   rightViewController:rightController];
-    deckController.rightLedge = 100;
-    
-    self.window.rootViewController = deckController;
+    // Override point for customization after application launch.
+    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
 }

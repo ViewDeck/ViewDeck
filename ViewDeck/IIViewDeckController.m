@@ -288,11 +288,15 @@
     self.originalShadowColor = nil;
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
+    
+    [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueChangeSetting context:nil];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    
+    [self.view removeObserver:self forKeyPath:@"frame"];
 
     // remove center tapper
     [self centerViewVisible];
@@ -311,6 +315,7 @@
     [self.leftController.view removeFromSuperview];
     [self.rightController.view removeFromSuperview];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -1034,6 +1039,11 @@
     shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"frame"]) {
+        self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
+    }
+}
 
 @end
 

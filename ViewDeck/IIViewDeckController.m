@@ -138,7 +138,6 @@
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super init])) {
         self.centerController = centerController;
-        [self.centerController setViewDeckController:self];
         _slidingController = nil;
         self.leftController = nil;
         self.rightController = nil;
@@ -163,7 +162,6 @@
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController {
     if ((self = [self initWithCenterViewController:centerController])) {
         self.leftController = leftController;
-        [self.leftController setViewDeckController:self];
     }
     return self;
 }
@@ -171,7 +169,6 @@
 - (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController {
     if ((self = [self initWithCenterViewController:centerController])) {
         self.rightController = rightController;
-        [self.rightController setViewDeckController:self];
     }
     return self;
 }
@@ -179,10 +176,7 @@
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController {
     if ((self = [self initWithCenterViewController:centerController])) {
         self.leftController = leftController;
-        [self.leftController setViewDeckController:self];
-
         self.rightController = rightController;
-        [self.rightController setViewDeckController:self];
     }
     return self;
 }
@@ -903,8 +897,10 @@
 
 - (void)setCenterController:(UIViewController *)centerController {
     if (!_viewAppeared) {
+        _centerController.viewDeckController = nil;
         II_RELEASE(_centerController);
         _centerController = centerController;
+        _centerController.viewDeckController = self;
         II_RETAIN(_centerController);
         return;
     }
@@ -935,10 +931,10 @@
             navController.navigationBarHidden = YES;
         }
 
-        centerController.viewDeckController = self;
         II_RELEASE(_centerController);
         _centerController = centerController;
         II_RETAIN(_centerController);
+        _centerController.viewDeckController = self;
         [self setSlidingAndReferenceViews];
         [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;

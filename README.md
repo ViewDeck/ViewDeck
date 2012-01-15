@@ -76,7 +76,7 @@ The center controller view receives a shadow to give it an *on-top* appearance. 
 ## rotation
 
 The controller fully supports view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed. 
-When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `` property. You can use one of the following values:
+When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `rotationBehavior` property. You can use one of the following values:
 
     typedef enum {
         IIViewDeckRotationKeepsLedgeSizes, // when rotating, the ledge sizes are kept (side views are more/less visible)

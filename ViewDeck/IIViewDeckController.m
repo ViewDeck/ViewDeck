@@ -97,6 +97,8 @@
 - (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated;
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated;
 
+- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
+
 @end 
 
 
@@ -315,7 +317,7 @@
     [super viewWillAppear:animated];
     
     [self setSlidingAndReferenceViews];
-
+    
     [self.centerController.view removeFromSuperview];
     [self.centerView addSubview:self.centerController.view];
     [self.leftController.view removeFromSuperview];
@@ -345,10 +347,25 @@
         [self centerViewVisible];
     else
         [self centerViewHidden];
+
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller viewWillAppear:animated];
+    }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller viewDidAppear:animated];
+    }];
+}
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller viewWillDisappear:animated];
+    }];
 
     [self removePanners];
     
@@ -366,6 +383,10 @@
     [self.rightController.view removeFromSuperview];
 
     _viewAppeared = NO;
+
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller viewWillDisappear:animated];
+    }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -655,6 +676,17 @@
     }];
 }
 
+#pragma mark - Pre iOS5 message relaying
+
+- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
+    BOOL mustRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+
+    if (!mustRelay) return;
+    
+    relay(self.centerController);
+    relay(self.leftController);
+    relay(self.rightController);
+}
 
 #pragma mark - center view hidden stuff
 

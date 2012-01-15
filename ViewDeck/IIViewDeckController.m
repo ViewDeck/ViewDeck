@@ -637,6 +637,7 @@
     
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.slidingControllerView.frame = [self slidingRectForOffset:0];
+        [self centerViewVisible];
     } completion:^(BOOL finished) {
         if (completed) completed(self);
         self.rightController.view.hidden = YES;

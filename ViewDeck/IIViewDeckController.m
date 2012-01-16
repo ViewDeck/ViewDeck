@@ -921,9 +921,11 @@
         }
     }
 
+    _leftController.viewDeckController = nil;
     II_RELEASE(_leftController);
     _leftController = leftController;
     II_RETAIN(_leftController);
+    _leftController.viewDeckController = self;
 }
 
 
@@ -1008,9 +1010,11 @@
         }
     }
 
+    _rightController.viewDeckController = nil;
     II_RELEASE(rightController);
     _rightController = rightController;
     II_RETAIN(_rightController);
+    _rightController.viewDeckController = self;
 }
 
 - (void)setSlidingAndReferenceViews {

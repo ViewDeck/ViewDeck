@@ -787,7 +787,16 @@
         [self centerViewHidden];
     }
 
-
+    if (panner.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"hidden = %d %d", self.leftController.view.hidden, self.rightController.view.hidden);
+        if (x > 0) {
+            BOOL ok = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
+        }
+        else if (x < 0) {
+            BOOL ok = [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
+        }
+    }
+    
     if (panner.state == UIGestureRecognizerStateEnded) {
         if ([panner velocityInView:self.referenceView].x > 0) {
             if (x > (self.referenceBounds.size.width-self.rightLedge)/3.0) 

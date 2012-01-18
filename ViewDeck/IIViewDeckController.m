@@ -863,17 +863,40 @@
 #pragma mark - Delegate convenience methods
 
 - (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated {
-    if (!self.delegate || ![self.delegate respondsToSelector:selector]) 
-        return YES; // assume YES
-    
-    return (BOOL)objc_msgSend(self.delegate, selector, self, animated);
+    BOOL ok = YES;
+    if (self.delegate && [self.delegate respondsToSelector:selector]) 
+        ok = ok & (BOOL)objc_msgSend(self.delegate, selector, self, animated);
+
+    for (UIViewController* controller in self.controllers) {
+        // check controller first
+        if ([controller respondsToSelector:selector]) 
+            ok = ok & (BOOL)objc_msgSend(controller, selector, self, animated);
+        // if that fails, check if it's a navigation controller and use the top controller
+        else if ([controller isKindOfClass:[UINavigationController class]]) {
+            UIViewController* topController = ((UINavigationController*)controller).topViewController;
+            if ([topController respondsToSelector:selector]) 
+                ok = ok & (BOOL)objc_msgSend(topController, selector, self, animated);
+        }
+    }
+
+    return ok;
 }
 
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated {
-    if (!self.delegate || ![self.delegate respondsToSelector:selector]) 
-        return;
-    
-    objc_msgSend(self.delegate, selector, self, animated);
+    if (self.delegate && [self.delegate respondsToSelector:selector]) 
+        objc_msgSend(self.delegate, selector, self, animated);
+
+    for (UIViewController* controller in self.controllers) {
+        // check controller first
+        if ([controller respondsToSelector:selector]) 
+            objc_msgSend(controller, selector, self, animated);
+        // if that fails, check if it's a navigation controller and use the top controller
+        else if ([controller isKindOfClass:[UINavigationController class]]) {
+            UIViewController* topController = ((UINavigationController*)controller).topViewController;
+            if ([topController respondsToSelector:selector]) 
+                objc_msgSend(topController, selector, self, animated);
+        }
+    }
 }
 
 

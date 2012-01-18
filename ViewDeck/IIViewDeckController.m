@@ -325,30 +325,32 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self setSlidingAndReferenceViews];
-    
-    [self.centerController.view removeFromSuperview];
-    [self.centerView addSubview:self.centerController.view];
-    [self.leftController.view removeFromSuperview];
-    [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
-    [self.rightController.view removeFromSuperview];
-    [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
-
-    self.centerView.frame = self.referenceBounds;
-    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.centerController.view.frame = self.referenceBounds;
-    self.slidingControllerView.frame = self.referenceBounds;
-    self.slidingControllerView.hidden = NO;
-    self.leftController.view.frame = self.referenceBounds;
-    self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.leftController.view.hidden = YES;
-    self.rightController.view.frame = self.referenceBounds;
-    self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.rightController.view.hidden = YES;
-
-    [self applyShadowToSlidingView];
-    
-    _viewAppeared = YES;
+    BOOL appeared = _viewAppeared;
+    if (!_viewAppeared) {
+        [self setSlidingAndReferenceViews];
+        
+        [self.centerController.view removeFromSuperview];
+        [self.centerView addSubview:self.centerController.view];
+        [self.leftController.view removeFromSuperview];
+        [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
+        [self.rightController.view removeFromSuperview];
+        [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
+        
+        self.centerView.frame = self.referenceBounds;
+        self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.centerController.view.frame = self.referenceBounds;
+        self.slidingControllerView.frame = self.referenceBounds;
+        self.slidingControllerView.hidden = NO;
+        self.leftController.view.frame = self.referenceBounds;
+        self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.leftController.view.hidden = YES;
+        self.rightController.view.frame = self.referenceBounds;
+        self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.rightController.view.hidden = YES;
+        
+        [self applyShadowToSlidingView];
+        _viewAppeared = YES;
+    }
     
     [self addPanners];
 
@@ -356,10 +358,12 @@
         [self centerViewVisible];
     else
         [self centerViewHidden];
-
-    [self relayAppearanceMethod:^(UIViewController *controller) {
-        [controller viewWillAppear:animated];
-    }];
+   
+    if (appeared) {
+        [self relayAppearanceMethod:^(UIViewController *controller) {
+            [controller viewWillAppear:animated];
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -369,6 +373,7 @@
         [controller viewDidAppear:animated];
     }];
 }
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -380,21 +385,19 @@
     
     [self closeLeftView];
     [self closeRightView];
-    
-    _viewAppeared = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 
-    [self.centerController.view removeFromSuperview];
-    [self.leftController.view removeFromSuperview];
-    [self.rightController.view removeFromSuperview];
-
-    _viewAppeared = NO;
+//    [self.centerController.view removeFromSuperview];
+//    [self.leftController.view removeFromSuperview];
+//    [self.rightController.view removeFromSuperview];
+//
+//    _viewAppeared = NO;
 
     [self relayAppearanceMethod:^(UIViewController *controller) {
-        [controller viewWillDisappear:animated];
+        [controller viewDidDisappear:animated];
     }];
 }
 
@@ -689,10 +692,10 @@
 #pragma mark - Pre iOS5 message relaying
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
-    BOOL mustRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
-
-    if (!mustRelay) return;
-    
+//    BOOL mustRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+//
+//    if (!mustRelay) return;
+//    
     relay(self.centerController);
     relay(self.leftController);
     relay(self.rightController);

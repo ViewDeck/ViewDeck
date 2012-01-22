@@ -301,7 +301,7 @@
 {
     [super viewDidUnload];
     
-    [self.view removeObserver:self forKeyPath:@"frame"];
+    [self.view removeObserver:self forKeyPath:@"bounds"];
 
     // remove center tapper
     [self centerViewVisible];
@@ -914,6 +914,15 @@
 
 #pragma mark - Properties
 
+- (void)setTitle:(NSString *)title {
+    [super setTitle:title];
+    self.centerController.title = title;
+}
+
+- (NSString*)title {
+    return self.centerController.title;
+}
+
 - (void)setPanningMode:(IIViewDeckPanningMode)panningMode {
     if (_viewAppeared) {
         [self removePanners];
@@ -980,7 +989,9 @@
     if (!_viewAppeared) {
         _centerController.viewDeckController = nil;
         II_RELEASE(_centerController);
+        [_centerController removeObserver:self forKeyPath:@"title"];
         _centerController = centerController;
+        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
         II_RETAIN(_centerController);
         return;
@@ -995,6 +1006,7 @@
         currentFrame = _centerController.view.frame;
         [_centerController.view removeFromSuperview];
         _centerController.viewDeckController = nil;
+        [_centerController removeObserver:self forKeyPath:@"title"];
         II_RELEASE(_centerController);
         _centerController = nil;
     }
@@ -1015,6 +1027,7 @@
         II_RELEASE(_centerController);
         _centerController = centerController;
         II_RETAIN(_centerController);
+        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
         [self setSlidingAndReferenceViews];
         [self.centerView addSubview:centerController.view];
@@ -1083,6 +1096,28 @@
     }
 }
 
+#pragma mark - observation
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([@"title" isEqualToString:keyPath]) {
+        if (![[super title] isEqualToString:self.centerController.title]) {
+            self.title = self.centerController.title;
+        }
+    }
+    else if ([keyPath isEqualToString:@"bounds"]) {
+        CGFloat offset = self.slidingControllerView.frame.origin.x;
+        self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+        self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
+        UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] 
+            ? (UINavigationController*)self.centerController 
+            : nil;
+        if (navController != nil && !navController.navigationBarHidden) {
+            navController.navigationBarHidden = YES;
+            navController.navigationBarHidden = NO;
+        }
+    }
+}
+
 #pragma mark - Shadow
 
 - (void)restoreShadowToSlidingView {
@@ -1112,12 +1147,6 @@
     shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
     shadowedView.layer.shadowOffset = CGSizeZero;
     shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"frame"]) {
-        self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
-    }
 }
 
 @end

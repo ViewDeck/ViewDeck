@@ -1024,7 +1024,6 @@
             navController.navigationBarHidden = YES;
         }
 
-        II_RELEASE(_centerController);
         _centerController = centerController;
         II_RETAIN(_centerController);
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];

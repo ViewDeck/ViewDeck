@@ -394,12 +394,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 
-//    [self.centerController.view removeFromSuperview];
-//    [self.leftController.view removeFromSuperview];
-//    [self.rightController.view removeFromSuperview];
-//
-//    _viewAppeared = NO;
-
     [self relayAppearanceMethod:^(UIViewController *controller) {
         [controller viewDidDisappear:animated];
     }];

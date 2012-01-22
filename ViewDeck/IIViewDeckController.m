@@ -280,27 +280,29 @@
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
     self.view.clipsToBounds = YES;
+}
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.centerView = [[UIView alloc] init];
     II_AUTORELEASE(self.centerView);
     self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerView.autoresizesSubviews = YES;
     self.centerView.clipsToBounds = YES;
     [self.view addSubview:self.centerView];
-
+    
     self.originalShadowRadius = 0;
     self.originalShadowOpacity = 0;
     self.originalShadowColor = nil;
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
     
-    [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueChangeSetting context:nil];
+    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    
     [self.view removeObserver:self forKeyPath:@"bounds"];
 
     // remove center tapper
@@ -319,6 +321,8 @@
     [self.centerController.view removeFromSuperview];
     [self.leftController.view removeFromSuperview];
     [self.rightController.view removeFromSuperview];
+
+    [super viewDidUnload];
 }
 
 

@@ -4,6 +4,7 @@
 //
 
 #import "NestViewController.h"
+#import "IIViewDeckController.h"
 
 @implementation NestViewController
 
@@ -28,10 +29,32 @@
     self.levelLabel.text = [NSString stringWithFormat:@"Level %d", self.level];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.level == 1) {
+        [UIApplication.sharedApplication setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
+        [self.viewDeckController.view setNeedsDisplay]; // .frame = self.viewDeckController.view.bounds;
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (self.level == 1) {
+        [UIApplication.sharedApplication setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+        self.viewDeckController.view.frame = [[UIScreen mainScreen] applicationFrame];
+        [self.viewDeckController.view setNeedsDisplay]; // .frame = self.viewDeckController.view.bounds;
+    }
+}
+
+- (void)hideOrShow {
+    [UIApplication.sharedApplication setStatusBarHidden:!UIApplication.sharedApplication.isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 - (IBAction)pressedGoDeeper:(id)sender {

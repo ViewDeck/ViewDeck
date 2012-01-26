@@ -148,10 +148,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-        UITableViewController* cc = (UITableViewController*)((UINavigationController*)controller.centerController).topViewController;
-        cc.navigationItem.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
-        [cc.tableView deselectRowAtIndexPath:[cc.tableView indexPathForSelectedRow] animated:NO];
-        [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
+        if ([controller.centerController isKindOfClass:[UINavigationController class]]) {
+            UITableViewController* cc = (UITableViewController*)((UINavigationController*)controller.centerController).topViewController;
+            cc.navigationItem.title = [tableView cellForRowAtIndexPath:indexPath].textLabel.text;
+            [cc.tableView deselectRowAtIndexPath:[cc.tableView indexPathForSelectedRow] animated:NO];
+        }
+        [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0]; // mimic delay... not really necessary
     }];
 }
 

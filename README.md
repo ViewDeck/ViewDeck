@@ -7,15 +7,18 @@ The ViewDeckController supports both a left and a right sideview (in any combina
 
 The class is built so that it augments current navigation technologies found in IOS.
 
-The controller supports rotation, too.
-
 # Requirements
 
 The library supports both ARC and non-ARC projects (the ARC mode is detected automagically, and the code is modified where necessary according to the ARC mode in use).  
 
-# Demo
+# Demo video & Screenshots
 
-See: http://vimeo.com/34538429
+You're probably curious how it looks. Here's some shots from the example app:
+
+![Left opened](http://cl.ly/063X412a1i2U2e3f3D02/Image%202012.01.26%2023:26:55.png) ![Right opened](http://cl.ly/381S0i1c2c1Z2l2U3303/Image%202012.01.26%2023:29:31.png)
+
+See the controller in action: http://vimeo.com/34538429 (general demo) and http://vimeo.com/35716738 (elasticity). 
+These are demos of the included `ViewDeckExample` app.
 
 # Installation
 

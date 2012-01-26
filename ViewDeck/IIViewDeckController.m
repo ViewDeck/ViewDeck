@@ -410,7 +410,7 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     CGFloat offset = self.slidingControllerView.frame.origin.x;
     if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {

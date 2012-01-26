@@ -1174,19 +1174,24 @@
 - (void)applyShadowToSlidingView {
     UIView* shadowedView = self.slidingControllerView;
     if (!shadowedView) return;
-    
+
     self.originalShadowRadius = shadowedView.layer.shadowRadius;
     self.originalShadowOpacity = shadowedView.layer.shadowOpacity;
     self.originalShadowColor = shadowedView.layer.shadowColor ? [UIColor colorWithCGColor:self.slidingControllerView.layer.shadowColor] : nil;
     self.originalShadowOffset = shadowedView.layer.shadowOffset;
     self.originalShadowPath = shadowedView.layer.shadowPath ? [UIBezierPath bezierPathWithCGPath:self.slidingControllerView.layer.shadowPath] : nil;
     
-    shadowedView.layer.masksToBounds = NO;
-    shadowedView.layer.shadowRadius = 10;
-    shadowedView.layer.shadowOpacity = 0.5;
-    shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
-    shadowedView.layer.shadowOffset = CGSizeZero;
-    shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
+    if ([self.delegate respondsToSelector:@selector(viewDeckController:applyShadow:withBounds:)]) {
+        [self.delegate viewDeckController:self applyShadow:shadowedView.layer withBounds:self.referenceBounds];
+    }
+    else {
+        shadowedView.layer.masksToBounds = NO;
+        shadowedView.layer.shadowRadius = 10;
+        shadowedView.layer.shadowOpacity = 0.5;
+        shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
+        shadowedView.layer.shadowOffset = CGSizeZero;
+        shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
+    }
 }
 
 @end

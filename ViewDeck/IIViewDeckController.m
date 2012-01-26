@@ -756,20 +756,30 @@
     if (!_enabled) return;
     
     CGPoint pan = [panner translationInView:self.referenceView];
-    
-    // restarts
     CGFloat x = pan.x + _panOrigin;
     
     if (!self.leftController) x = MIN(0, x);
     if (!self.rightController) x = MAX(0, x);
 
-    x = MAX(x, -self.referenceBounds.size.width+self.rightLedge);
-    x = MIN(x, self.referenceBounds.size.width-self.leftLedge);
+    BOOL elastic = YES;
+    CGFloat w = self.referenceBounds.size.width;
+    CGFloat lx = MAX(MIN(x, w-self.leftLedge), -w+self.rightLedge);
+
+    if (elastic) {
+        CGFloat dx = ABS(x) - ABS(lx);
+        if (dx > 0) {
+            dx = dx / logf(dx + 1) * 2;
+            NSLog(@"x = %f lx = %f, dx = %f (%f)", x, lx, dx, logf(dx + 1));
+            x = lx + (x < 0 ? -dx : dx);
+        }
+    }
+    else {
+        x = lx;
+    }
     self.slidingControllerView.frame = [self slidingRectForOffset:x];
 
     BOOL rightWasHidden = self.rightController.view.hidden;
     BOOL leftWasHidden = self.leftController.view.hidden;
-
     self.rightController.view.hidden = x >= 0;
     self.leftController.view.hidden = x <= 0;
     
@@ -784,7 +794,6 @@
     }
 
     if (panner.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"hidden = %d %d", self.leftController.view.hidden, self.rightController.view.hidden);
         if (x > 0) {
             [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
         }
@@ -794,16 +803,15 @@
     }
     
     if (panner.state == UIGestureRecognizerStateEnded) {    
-        CGFloat w = self.referenceBounds.size.width;
         CGFloat lw3 = (w-self.leftLedge) / 3.0;
         CGFloat rw3 = (w-self.rightLedge) / 3.0;
         CGFloat velocity = [panner velocityInView:self.referenceView].x;
         if (ABS(velocity) < 500) {
-            // small velocity
-            if (x > self.leftLedge + lw3) {
+            // small velocity, no movement
+            if (x >= w - self.leftLedge - lw3) {
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             }
-            else if (x < -self.rightLedge - rw3) {
+            else if (x <= self.rightLedge + rw3 - w) {
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             }
             else
@@ -817,6 +825,7 @@
                 [self showCenterView:YES];
         }
         else if (velocity > 0) {
+            // swipe to the right
             if (x > 0) 
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             else 

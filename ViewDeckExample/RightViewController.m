@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "IIViewDeckController.h"
 #import "NestViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface RightViewController () <IIViewDeckControllerDelegate>
 
@@ -79,6 +80,17 @@
     NSIndexPath* index = [NSIndexPath indexPathForRow:self.logs.count-1 inSection:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationBottom];
     [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
+
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController applyShadow:(CALayer *)shadowLayer withBounds:(CGRect)rect {
+    [self addLog:@"apply Shadow"];
+
+    shadowLayer.masksToBounds = NO;
+    shadowLayer.shadowRadius = 30;
+    shadowLayer.shadowOpacity = 1;
+    shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
+    shadowLayer.shadowOffset = CGSizeZero;
+    shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:rect] CGPath];
 }
 
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController didPanToOffset:(CGFloat)offset {

@@ -985,6 +985,7 @@
                 [self.referenceView addSubview:leftController.view];
             leftController.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
             leftController.view.frame = self.referenceBounds;
+            leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
     }
 
@@ -1043,6 +1044,7 @@
         [self setSlidingAndReferenceViews];
         [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
+        centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         centerController.view.hidden = NO;
         
         if (barHidden) {
@@ -1077,6 +1079,7 @@
                 [self.referenceView addSubview:rightController.view];
             rightController.view.hidden = self.slidingControllerView.frame.origin.x >= 0;
             rightController.view.frame = self.referenceBounds;
+            rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
     }
 

@@ -793,27 +793,35 @@
         }
     }
     
-    if (panner.state == UIGestureRecognizerStateEnded) {
-        if ([panner velocityInView:self.referenceView].x > 0) {
-            if (x > (self.referenceBounds.size.width-self.rightLedge)/3.0) 
+    if (panner.state == UIGestureRecognizerStateEnded) {    
+        CGFloat w = self.referenceBounds.size.width;
+        CGFloat lw3 = (w-self.leftLedge) / 3.0;
+        CGFloat rw3 = (w-self.rightLedge) / 3.0;
+        CGFloat velocity = [panner velocityInView:self.referenceView].x;
+        if (ABS(velocity) < 500) {
+            // small velocity
+            if (x > self.leftLedge + lw3) {
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
-            else 
+            }
+            else if (x < -self.rightLedge - rw3) {
+                [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+            }
+            else
                 [self showCenterView:YES];
         }
-        else if ([panner velocityInView:self.referenceView].x < 0) {
-            if (x < -(self.referenceBounds.size.width-self.leftLedge)/3.0) 
+        else if (velocity < 0) {
+            // swipe to the left
+            if (x < 0) 
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             else 
                 [self showCenterView:YES];
         }
-        else if (x > (self.referenceBounds.size.width-self.leftLedge)/2.0) {
-            [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+        else if (velocity > 0) {
+            if (x > 0) 
+                [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+            else 
+                [self showCenterView:YES];
         }
-        else if (x < -(self.referenceBounds.size.width-self.rightLedge)/2.0) {
-            [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
-        }
-        else 
-            [self showCenterView:YES];
     }
 }
 

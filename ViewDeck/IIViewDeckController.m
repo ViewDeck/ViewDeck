@@ -1057,7 +1057,7 @@
     }
 
     _rightController.viewDeckController = nil;
-    II_RELEASE(rightController);
+    II_RELEASE(_rightController);
     _rightController = rightController;
     II_RETAIN(_rightController);
     _rightController.viewDeckController = self;

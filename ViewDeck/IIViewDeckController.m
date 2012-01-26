@@ -38,7 +38,7 @@
 #if II_ARC_ENABLED
 #define II_RETAIN(xx)  ((void)(0))
 #define II_RELEASE(xx)  ((void)(0))
-#define II_AUTORELEASE(xx)  ((void)(0))
+#define II_AUTORELEASE(xx)  (xx)
 #else
 #define II_RETAIN(xx)           [xx retain]
 #define II_RELEASE(xx)          [xx release]
@@ -275,14 +275,12 @@
 - (void)loadView
 {
     _viewAppeared = NO;
-    self.view = [[UIView alloc] init];
-    II_AUTORELEASE(self.view);
+    self.view = II_AUTORELEASE([[UIView alloc] init]);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
     self.view.clipsToBounds = YES;
 
-    self.centerView = [[UIView alloc] init];
-    II_AUTORELEASE(self.centerView);
+    self.centerView = II_AUTORELEASE([[UIView alloc] init]);
     self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerView.autoresizesSubviews = YES;
     self.centerView.clipsToBounds = YES;
@@ -825,8 +823,7 @@
 - (void)addPanner:(UIView*)view {
     if (!view) return;
     
-    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
-    II_AUTORELEASE(panner);
+    UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
     panner.cancelsTouchesInView = YES;
     panner.delegate = self;
     [view addGestureRecognizer:panner];

@@ -60,7 +60,7 @@
 @interface IIViewDeckController () <UIGestureRecognizerDelegate> {
     CGFloat _panOrigin;
     BOOL _viewAppeared;
-    CGFloat _preRotationWidth;
+    CGFloat _preRotationWidth, _leftWidth, _rightWidth;
 }
 
 @property (nonatomic, retain) UIView* referenceView;
@@ -403,9 +403,17 @@
 {
     _preRotationWidth = self.referenceBounds.size.width;
     
-    if (self.centerController)
-        return [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    if (self.rotationBehavior == IIViewDeckRotationKeepsViewSizes) {
+        _leftWidth = self.leftController.view.frame.size.width;
+        _rightWidth = self.rightController.view.frame.size.width;
+    }
     
+    if (self.centerController) {
+        // let the center controller handle the rotation behavior
+        BOOL should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+        return should;
+    }
+
     return YES;
 }
 
@@ -424,6 +432,8 @@
     else {
         self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
         self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
+        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
     
@@ -435,7 +445,7 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
-
+    
     [self.centerController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.leftController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.rightController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];

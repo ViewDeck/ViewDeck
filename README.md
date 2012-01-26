@@ -71,7 +71,28 @@ The controller also allows you to close the side views with a bouncing animation
 
 ## shadow
 
-The center controller view receives a shadow to give it an *on-top* appearance. There's currently no wait to customize this directly without editing the code.
+The center controller view receives a shadow to give it an *on-top* appearance. The shadow is defined by the view deck controller.
+You can override the shadow (or leave it out alltogether) by assigning a delegate that implements the `viewDeckController:applyShadow:withBounds:` selector. You'll be passed the layer of the view on which the shadow should be set.  If you override said selector, setting the shadow is up to you, and the view deck controller will not apply any shadow itself.
+
+For example:
+
+    // applies a small, red shadow
+    - (void)viewDeckController:(IIViewDeckController *)viewDeckController applyShadow:(CALayer *)shadowLayer withBounds:(CGRect)rect {
+        shadowLayer.masksToBounds = NO;
+        shadowLayer.shadowRadius = 5;
+        shadowLayer.shadowOpacity = 0.9;
+        shadowLayer.shadowColor = [[UIColor redColor] CGColor];
+        shadowLayer.shadowOffset = CGSizeZero;
+        shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:rect] CGPath];
+    }
+
+The bounds passed in through `rect` can be used for setting the shadow path to the layer, for performance reasons. It will be set to the bounds of the center view.
+
+## elasticity
+
+The controller supports "elasticity": when you pan the center view "over" one of the ledges, you'll see that it gets pulled a bit further, but you can't pull it all the way to the edge. When you let go, it jumps back to the set ledge size. This gives the controller behavior are a more lifelike feel. 
+
+Of course, you can turn this behavior off. Just set `elasticity = NO` when loading the controller and you're set.
 
 ## rotation
 

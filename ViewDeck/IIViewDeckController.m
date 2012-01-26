@@ -135,6 +135,7 @@
 @synthesize centerView = _centerView;
 @synthesize rotationBehavior = _rotationBehavior;
 @synthesize enabled = _enabled;
+@synthesize elastic = _elastic;
 
 #pragma mark - Initalisation and deallocation
 
@@ -146,6 +147,7 @@
         self.rightController = nil;
         self.leftLedge = 44;
         self.rightLedge = 44;
+        _elastic = YES;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
@@ -765,7 +767,7 @@
     CGFloat w = self.referenceBounds.size.width;
     CGFloat lx = MAX(MIN(x, w-self.leftLedge), -w+self.rightLedge);
 
-    if (elastic) {
+    if (self.elastic) {
         CGFloat dx = ABS(x) - ABS(lx);
         if (dx > 0) {
             dx = dx / logf(dx + 1) * 2;

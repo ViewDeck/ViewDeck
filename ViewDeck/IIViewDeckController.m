@@ -60,7 +60,7 @@
 @interface IIViewDeckController () <UIGestureRecognizerDelegate> {
     CGFloat _panOrigin;
     BOOL _viewAppeared;
-    CGFloat _preRotationWidth;
+    CGFloat _preRotationWidth, _leftWidth, _rightWidth;
 }
 
 @property (nonatomic, retain) UIView* referenceView;
@@ -135,6 +135,7 @@
 @synthesize centerView = _centerView;
 @synthesize rotationBehavior = _rotationBehavior;
 @synthesize enabled = _enabled;
+@synthesize elastic = _elastic;
 
 #pragma mark - Initalisation and deallocation
 
@@ -146,6 +147,7 @@
         self.rightController = nil;
         self.leftLedge = 44;
         self.rightLedge = 44;
+        _elastic = YES;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
@@ -279,27 +281,29 @@
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
     self.view.clipsToBounds = YES;
+}
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.centerView = II_AUTORELEASE([[UIView alloc] init]);
     self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerView.autoresizesSubviews = YES;
     self.centerView.clipsToBounds = YES;
     [self.view addSubview:self.centerView];
-
+    
     self.originalShadowRadius = 0;
     self.originalShadowOpacity = 0;
     self.originalShadowColor = nil;
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
     
-    [self.view addObserver:self forKeyPath:@"frame" options:NSKeyValueChangeSetting context:nil];
+    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    
-    [self.view removeObserver:self forKeyPath:@"frame"];
+    [self.view removeObserver:self forKeyPath:@"bounds"];
 
     // remove center tapper
     [self centerViewVisible];
@@ -317,6 +321,8 @@
     [self.centerController.view removeFromSuperview];
     [self.leftController.view removeFromSuperview];
     [self.rightController.view removeFromSuperview];
+
+    [super viewDidUnload];
 }
 
 
@@ -388,12 +394,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 
-//    [self.centerController.view removeFromSuperview];
-//    [self.leftController.view removeFromSuperview];
-//    [self.rightController.view removeFromSuperview];
-//
-//    _viewAppeared = NO;
-
     [self relayAppearanceMethod:^(UIViewController *controller) {
         [controller viewDidDisappear:animated];
     }];
@@ -403,14 +403,22 @@
 {
     _preRotationWidth = self.referenceBounds.size.width;
     
-    if (self.centerController)
-        return [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    if (self.rotationBehavior == IIViewDeckRotationKeepsViewSizes) {
+        _leftWidth = self.leftController.view.frame.size.width;
+        _rightWidth = self.rightController.view.frame.size.width;
+    }
     
+    if (self.centerController) {
+        // let the center controller handle the rotation behavior
+        BOOL should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+        return should;
+    }
+
     return YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
     CGFloat offset = self.slidingControllerView.frame.origin.x;
     if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
@@ -424,6 +432,8 @@
     else {
         self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
         self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
+        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
     
@@ -432,10 +442,26 @@
     [self.rightController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
+- (void)willAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+
+    [self.centerController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.leftController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.rightController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+- (void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
+
+    [self.centerController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
+    [self.leftController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
+    [self.rightController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
-
+    
     [self.centerController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.leftController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.rightController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -758,20 +784,28 @@
     if (!_enabled) return;
     
     CGPoint pan = [panner translationInView:self.referenceView];
-    
-    // restarts
     CGFloat x = pan.x + _panOrigin;
     
     if (!self.leftController) x = MIN(0, x);
     if (!self.rightController) x = MAX(0, x);
 
-    x = MAX(x, -self.referenceBounds.size.width+self.rightLedge);
-    x = MIN(x, self.referenceBounds.size.width-self.leftLedge);
+    CGFloat w = self.referenceBounds.size.width;
+    CGFloat lx = MAX(MIN(x, w-self.leftLedge), -w+self.rightLedge);
+
+    if (self.elastic) {
+        CGFloat dx = ABS(x) - ABS(lx);
+        if (dx > 0) {
+            dx = dx / logf(dx + 1) * 2;
+            x = lx + (x < 0 ? -dx : dx);
+        }
+    }
+    else {
+        x = lx;
+    }
     self.slidingControllerView.frame = [self slidingRectForOffset:x];
 
     BOOL rightWasHidden = self.rightController.view.hidden;
     BOOL leftWasHidden = self.leftController.view.hidden;
-
     self.rightController.view.hidden = x >= 0;
     self.leftController.view.hidden = x <= 0;
     
@@ -786,7 +820,6 @@
     }
 
     if (panner.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"hidden = %d %d", self.leftController.view.hidden, self.rightController.view.hidden);
         if (x > 0) {
             [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
         }
@@ -795,27 +828,35 @@
         }
     }
     
-    if (panner.state == UIGestureRecognizerStateEnded) {
-        if ([panner velocityInView:self.referenceView].x > 0) {
-            if (x > (self.referenceBounds.size.width-self.rightLedge)/3.0) 
+    if (panner.state == UIGestureRecognizerStateEnded) {    
+        CGFloat lw3 = (w-self.leftLedge) / 3.0;
+        CGFloat rw3 = (w-self.rightLedge) / 3.0;
+        CGFloat velocity = [panner velocityInView:self.referenceView].x;
+        if (ABS(velocity) < 500) {
+            // small velocity, no movement
+            if (x >= w - self.leftLedge - lw3) {
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
-            else 
+            }
+            else if (x <= self.rightLedge + rw3 - w) {
+                [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+            }
+            else
                 [self showCenterView:YES];
         }
-        else if ([panner velocityInView:self.referenceView].x < 0) {
-            if (x < -(self.referenceBounds.size.width-self.leftLedge)/3.0) 
+        else if (velocity < 0) {
+            // swipe to the left
+            if (x < 0) 
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
             else 
                 [self showCenterView:YES];
         }
-        else if (x > (self.referenceBounds.size.width-self.leftLedge)/2.0) {
-            [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+        else if (velocity > 0) {
+            // swipe to the right
+            if (x > 0) 
+                [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+            else 
+                [self showCenterView:YES];
         }
-        else if (x < -(self.referenceBounds.size.width-self.rightLedge)/2.0) {
-            [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
-        }
-        else 
-            [self showCenterView:YES];
     }
 }
 
@@ -911,6 +952,15 @@
 
 #pragma mark - Properties
 
+- (void)setTitle:(NSString *)title {
+    [super setTitle:title];
+    self.centerController.title = title;
+}
+
+- (NSString*)title {
+    return self.centerController.title;
+}
+
 - (void)setPanningMode:(IIViewDeckPanningMode)panningMode {
     if (_viewAppeared) {
         [self removePanners];
@@ -961,6 +1011,7 @@
                 [self.referenceView addSubview:leftController.view];
             leftController.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
             leftController.view.frame = self.referenceBounds;
+            leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
     }
 
@@ -977,7 +1028,9 @@
     if (!_viewAppeared) {
         _centerController.viewDeckController = nil;
         II_RELEASE(_centerController);
+        [_centerController removeObserver:self forKeyPath:@"title"];
         _centerController = centerController;
+        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
         II_RETAIN(_centerController);
         return;
@@ -992,6 +1045,7 @@
         currentFrame = _centerController.view.frame;
         [_centerController.view removeFromSuperview];
         _centerController.viewDeckController = nil;
+        [_centerController removeObserver:self forKeyPath:@"title"];
         II_RELEASE(_centerController);
         _centerController = nil;
     }
@@ -1009,13 +1063,14 @@
             navController.navigationBarHidden = YES;
         }
 
-        II_RELEASE(_centerController);
         _centerController = centerController;
         II_RETAIN(_centerController);
+        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
         [self setSlidingAndReferenceViews];
         [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
+        centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         centerController.view.hidden = NO;
         
         if (barHidden) {
@@ -1050,6 +1105,7 @@
                 [self.referenceView addSubview:rightController.view];
             rightController.view.hidden = self.slidingControllerView.frame.origin.x >= 0;
             rightController.view.frame = self.referenceBounds;
+            rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         }
     }
 
@@ -1077,6 +1133,28 @@
     }
     else {
         return self.centerView;
+    }
+}
+
+#pragma mark - observation
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([@"title" isEqualToString:keyPath]) {
+        if (![[super title] isEqualToString:self.centerController.title]) {
+            self.title = self.centerController.title;
+        }
+    }
+    else if ([keyPath isEqualToString:@"bounds"]) {
+        CGFloat offset = self.slidingControllerView.frame.origin.x;
+        self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+        self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
+        UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] 
+            ? (UINavigationController*)self.centerController 
+            : nil;
+        if (navController != nil && !navController.navigationBarHidden) {
+            navController.navigationBarHidden = YES;
+            navController.navigationBarHidden = NO;
+        }
     }
 }
 
@@ -1109,12 +1187,6 @@
     shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
     shadowedView.layer.shadowOffset = CGSizeZero;
     shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.referenceBounds] CGPath];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"frame"]) {
-        self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
-    }
 }
 
 @end

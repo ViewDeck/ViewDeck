@@ -65,7 +65,7 @@
 
 @property (nonatomic, retain) UIView* referenceView;
 @property (nonatomic, readonly) CGRect referenceBounds;
-@property (nonatomic, retain) NSMutableDictionary* panners;
+@property (nonatomic, retain) NSMutableArray* panners;
 @property (nonatomic, assign) CGFloat originalShadowRadius;
 @property (nonatomic, assign) CGFloat originalShadowOpacity;
 @property (nonatomic, retain) UIColor* originalShadowColor;
@@ -154,6 +154,7 @@
         _rotationBehavior = IIViewDeckRotationKeepsLedgeSizes;
         _viewAppeared = NO;
         _resizesCenterView = NO;
+        self.panners = [NSMutableArray array];
         self.enabled = YES;
 
         self.originalShadowRadius = 0;
@@ -868,7 +869,7 @@
     panner.cancelsTouchesInView = YES;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
-    [self.panners setObject:panner forKey:view];
+    [self.panners addObject:panner];
 }
 
 
@@ -904,8 +905,8 @@
 
 
 - (void)removePanners {
-    for (UIView* view in self.panners) {
-        [view removeGestureRecognizer:[self.panners objectForKey:view]];
+    for (UIGestureRecognizer* panner in self.panners) {
+        [panner.view removeGestureRecognizer:panner];
     }
     [self.panners removeAllObjects];
 }

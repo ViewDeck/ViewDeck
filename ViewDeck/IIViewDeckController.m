@@ -894,6 +894,14 @@
             if (self.navigationController && !self.navigationController.navigationBarHidden) {
                 [self addPanner:self.navigationController.navigationBar];
             }
+            
+            if (self.centerController.navigationController && !self.centerController.navigationController.navigationBarHidden) {
+                [self addPanner:self.centerController.navigationController.navigationBar];
+            }
+            
+            if ([self.centerController isKindOfClass:[UINavigationController class]] && !((UINavigationController*)self.centerController).navigationBarHidden) {
+                [self addPanner:((UINavigationController*)self.centerController).navigationBar];
+            }
             break;
         case IIViewDeckPanningViewPanning:
             if (_panningView) {

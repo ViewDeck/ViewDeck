@@ -1007,15 +1007,18 @@
         if (_leftController == leftController) return;
         
         if (_leftController) {
+            if (self.mustRelayAppearance) [_rightController viewWillDisappear:NO];
             [_leftController.view removeFromSuperview];
+            if (self.mustRelayAppearance) [_rightController viewDidDisappear:NO];
             _leftController.viewDeckController = nil;
         }
         
         if (leftController) {
             if (leftController == self.centerController) self.centerController = nil;
             if (leftController == self.rightController) self.rightController = nil;
+
             leftController.viewDeckController = self;
-            
+            if (self.mustRelayAppearance) [_leftController viewWillAppear:NO];
             if (self.slidingController)
                 [self.referenceView insertSubview:leftController.view belowSubview:self.slidingControllerView];
             else
@@ -1031,6 +1034,7 @@
     _leftController = leftController;
     II_RETAIN(_leftController);
     _leftController.viewDeckController = self;
+    if (_viewAppeared && self.mustRelayAppearance) [_leftController viewDidAppear:NO];
 }
 
 
@@ -1054,9 +1058,11 @@
     if (_centerController) {
         [self restoreShadowToSlidingView];
         currentFrame = _centerController.view.frame;
+        if (self.mustRelayAppearance) [_centerController viewWillDisappear:NO];
         [_centerController.view removeFromSuperview];
         _centerController.viewDeckController = nil;
         [_centerController removeObserver:self forKeyPath:@"title"];
+        if (self.mustRelayAppearance) [_centerController viewDidDisappear:NO];
         II_RELEASE(_centerController);
         _centerController = nil;
     }
@@ -1079,10 +1085,11 @@
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
         [self setSlidingAndReferenceViews];
-        [self.centerView addSubview:centerController.view];
         centerController.view.frame = currentFrame;
         centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         centerController.view.hidden = NO;
+        if (self.mustRelayAppearance) [self.centerController viewWillAppear:NO];
+        [self.centerView addSubview:centerController.view];
         
         if (barHidden) {
             navController.navigationBarHidden = NO;
@@ -1090,6 +1097,7 @@
         
         [self addPanners];
         [self applyShadowToSlidingView];
+        if (self.mustRelayAppearance) [self.centerController viewDidAppear:NO];
     }
     else {
         _centerController = nil;
@@ -1101,7 +1109,9 @@
         if (_rightController == rightController) return;
         
         if (_rightController) {
+            if (self.mustRelayAppearance) [_rightController viewWillDisappear:NO];
             [_rightController.view removeFromSuperview];
+            if (self.mustRelayAppearance) [_rightController viewDidDisappear:NO];
             _rightController.viewDeckController = nil;
         }
         
@@ -1110,6 +1120,7 @@
             if (rightController == self.leftController) self.leftController = nil;
             
             rightController.viewDeckController = self;
+            if (self.mustRelayAppearance) [_rightController viewWillAppear:NO];
             if (self.slidingController) 
                 [self.referenceView insertSubview:rightController.view belowSubview:self.slidingControllerView];
             else
@@ -1125,6 +1136,7 @@
     _rightController = rightController;
     II_RETAIN(_rightController);
     _rightController.viewDeckController = self;
+    if (_viewAppeared && self.mustRelayAppearance) [_rightController viewDidAppear:NO];
 }
 
 - (void)setSlidingAndReferenceViews {

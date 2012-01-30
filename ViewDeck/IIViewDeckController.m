@@ -99,6 +99,8 @@
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
 
+- (BOOL)mustRelayAppearance;
+
 @end 
 
 
@@ -717,10 +719,6 @@
 #pragma mark - Pre iOS5 message relaying
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
-//    BOOL mustRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
-//
-//    if (!mustRelay) return;
-//    
     relay(self.centerController);
     relay(self.leftController);
     relay(self.rightController);
@@ -960,6 +958,10 @@
 
 
 #pragma mark - Properties
+
+- (BOOL)mustRelayAppearance {
+    return ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+}
 
 - (void)setTitle:(NSString *)title {
     [super setTitle:title];

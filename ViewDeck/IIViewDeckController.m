@@ -87,6 +87,7 @@
 - (void)setSlidingAndReferenceViews;
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;
+- (void)arrangeViewsAfterRotation;
 
 - (void)centerViewVisible;
 - (void)centerViewHidden;
@@ -357,6 +358,8 @@
         [self applyShadowToSlidingView];
         _viewAppeared = YES;
     }
+    else 
+        [self arrangeViewsAfterRotation];
     
     [self addPanners];
 
@@ -401,6 +404,8 @@
     }];
 }
 
+#pragma mark - rotation
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationWidth = self.referenceBounds.size.width;
@@ -429,24 +434,8 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    CGFloat offset = self.slidingControllerView.frame.origin.x;
-    if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
-        if (offset > 0) {
-            offset = self.referenceBounds.size.width - _preRotationWidth + offset;
-        }
-        else if (offset < 0) {
-            offset = offset + _preRotationWidth - self.referenceBounds.size.width;
-        }
-    }
-    else {
-        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
-        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
-    }
-    self.slidingControllerView.frame = [self slidingRectForOffset:offset];
-    self.centerController.view.frame = self.referenceBounds;
+
+    [self arrangeViewsAfterRotation];
     
     [self.centerController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.leftController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -471,6 +460,32 @@
     [self.leftController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self.rightController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
+
+- (void)arrangeViewsAfterRotation {
+    if (_preRotationWidth <= 0) return;
+    
+    CGFloat offset = self.slidingControllerView.frame.origin.x;
+    if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
+        if (offset > 0) {
+            offset = self.referenceBounds.size.width - _preRotationWidth + offset;
+        }
+        else if (offset < 0) {
+            offset = offset + _preRotationWidth - self.referenceBounds.size.width;
+        }
+    }
+    else {
+        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
+        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
+    }
+    self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+    self.centerController.view.frame = self.referenceBounds;
+    
+    _preRotationWidth = 0;
+}
+
+#pragma mark - controller state
 
 - (BOOL)leftControllerIsClosed {
     return !self.leftController || CGRectGetMinX(self.slidingControllerView.frame) <= 0;

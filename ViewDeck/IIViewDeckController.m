@@ -404,19 +404,27 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationWidth = self.referenceBounds.size.width;
-    
+        
     if (self.rotationBehavior == IIViewDeckRotationKeepsViewSizes) {
         _leftWidth = self.leftController.view.frame.size.width;
         _rightWidth = self.rightController.view.frame.size.width;
     }
     
-    if (self.centerController) {
-        // let the center controller handle the rotation behavior
-        BOOL should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-        return should;
-    }
+    // heads up to @schemers for accounting with the modal views.
+    // see: https://github.com/Inferis/ViewDeck/issues/28
+    
+    // let the viewdeckcontroller modalViewController handle the rotation behavior 
+    UIViewController* rotateController = self.modalViewController;
+    // or, let the center controller modalViewController handle the rotation behavior
+    if (!rotateController) rotateController = self.centerController.modalViewController;
+    // or, let the center controller handle the rotation behavior
+    if (!rotateController) rotateController = self.centerController;
 
-    return YES;
+    BOOL should = YES;
+    if (rotateController)
+        should = [rotateController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+
+    return should;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

@@ -983,14 +983,14 @@
 }
 
 - (void)setPanningView:(UIView *)panningView {
-    if (_viewAppeared && _panningView != panningView && _panningMode == IIViewDeckPanningViewPanning) {
-        [self removePanners];
-        [self addPanners];
+    if (_panningView != panningView) {
+        II_RELEASE(_panningView);
+        _panningView = panningView;
+        II_RETAIN(_panningView);
+      
+        if (_viewAppeared && _panningMode == IIViewDeckPanningViewPanning)
+          [self addPanners];
     }
-    
-    II_RELEASE(_panningView);
-    _panningView = panningView;     
-    II_RETAIN(_panningView);     
 }
 
 - (void)setNavigationControllerBehavior:(IIViewDeckNavigationControllerBehavior)navigationControllerBehavior {

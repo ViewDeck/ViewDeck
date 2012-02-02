@@ -446,27 +446,13 @@
         self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+    self.centerController.view.frame = self.referenceBounds;
     
     [self.centerController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.leftController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.rightController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
-- (void)willAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-
-    [self.centerController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.leftController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.rightController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-- (void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-
-    [self.centerController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-    [self.leftController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-    [self.rightController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-}
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];

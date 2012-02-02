@@ -322,9 +322,7 @@
 
     _slidingController = nil;
     self.referenceView = nil;
-    [self.centerController.view removeFromSuperview];
-    [self.leftController.view removeFromSuperview];
-    [self.rightController.view removeFromSuperview];
+    self.centerView = nil;
 
     [super viewDidUnload];
 }

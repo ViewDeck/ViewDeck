@@ -415,19 +415,9 @@
         _rightWidth = self.rightController.view.frame.size.width;
     }
     
-    // heads up to @schemers for accounting with the modal views.
-    // see: https://github.com/Inferis/ViewDeck/issues/28
-    
-    // let the viewdeckcontroller modalViewController handle the rotation behavior 
-    UIViewController* rotateController = self.modalViewController;
-    // or, let the center controller modalViewController handle the rotation behavior
-    if (!rotateController) rotateController = self.centerController.modalViewController;
-    // or, let the center controller handle the rotation behavior
-    if (!rotateController) rotateController = self.centerController;
-
     BOOL should = YES;
-    if (rotateController)
-        should = [rotateController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    if (self.centerController)
+        should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 
     return should;
 }
@@ -1246,6 +1236,33 @@ static char* viewDeckControllerKey = "ViewDeckController";
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController {
     objc_setAssociatedObject(self, viewDeckControllerKey, viewDeckController, OBJC_ASSOCIATION_RETAIN);
 }
+
+- (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_presentModalViewController:modalViewController animated:animated]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
+    NSLog(@"presentvc = %@", self);
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
+}
+
++ (void)vdc_swizzle {
+    SEL presentModal = @selector(presentModalViewController:animated:);
+    SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
+    method_exchangeImplementations(class_getInstanceMethod(self, presentModal), class_getInstanceMethod(self, vdcPresentModal));
+
+    SEL presentVC = @selector(presentViewController:animated:completion:);
+    SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
+    method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
+}
+
++ (void)load {
+    [super load];
+    [self vdc_swizzle];
+}
+
 
 @end
 

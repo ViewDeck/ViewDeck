@@ -143,12 +143,6 @@
 
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super init])) {
-        self.centerController = centerController;
-        _slidingController = nil;
-        self.leftController = nil;
-        self.rightController = nil;
-        self.leftLedge = 44;
-        self.rightLedge = 44;
         _elastic = YES;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
@@ -164,6 +158,13 @@
         self.originalShadowColor = nil;
         self.originalShadowOpacity = 0;
         self.originalShadowPath = nil;
+
+        _slidingController = nil;
+        self.centerController = centerController;
+        self.leftController = nil;
+        self.rightController = nil;
+        self.leftLedge = 44;
+        self.rightLedge = 44;
     }
     return self;
 }

@@ -75,6 +75,7 @@
 @property (nonatomic, retain) UIView* centerView;
 @property (nonatomic, readonly) UIView* slidingControllerView;
 
+- (void)cleanup;
 
 - (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void(^)(IIViewDeckController* controller))completed;
@@ -99,7 +100,6 @@
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated;
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
-
 - (BOOL)mustRelayAppearance;
 
 @end 
@@ -192,16 +192,33 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)cleanup {
+    self.originalShadowRadius = 0;
+    self.originalShadowOpacity = 0;
+    self.originalShadowColor = nil;
+    self.originalShadowOffset = CGSizeZero;
+    self.originalShadowPath = nil;
+    
     II_RELEASE(_slidingController), _slidingController = nil;
     self.referenceView = nil;
+    self.centerView = nil;
+    self.centerTapper = nil;
+}
+
+- (void)dealloc {
+    [self cleanup];
+
     self.centerController.viewDeckController = nil;
     self.centerController = nil;
     self.leftController.viewDeckController = nil;
     self.leftController = nil;
     self.rightController.viewDeckController = nil;
     self.rightController = nil;
-    self.centerView = nil;
+    self.panners = nil;
+
+#if !II_ARC_ENABLED
+    [super dealloc];
+#endif
 }
 
 #pragma mark - Memory management
@@ -310,21 +327,7 @@
 {
     [self.view removeObserver:self forKeyPath:@"bounds"];
 
-    // remove center tapper
-    [self centerViewVisible];
-
-    [self restoreShadowToSlidingView];
-    
-    self.originalShadowRadius = 0;
-    self.originalShadowOpacity = 0;
-    self.originalShadowColor = nil;
-    self.originalShadowOffset = CGSizeZero;
-    self.originalShadowPath = nil;
-
-    _slidingController = nil;
-    self.referenceView = nil;
-    self.centerView = nil;
-
+    [self cleanup];
     [super viewDidUnload];
 }
 

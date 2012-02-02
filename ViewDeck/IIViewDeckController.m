@@ -75,6 +75,7 @@
 @property (nonatomic, retain) UIView* centerView;
 @property (nonatomic, readonly) UIView* slidingControllerView;
 
+- (void)cleanup;
 
 - (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void(^)(IIViewDeckController* controller))completed;
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void(^)(IIViewDeckController* controller))completed;
@@ -87,6 +88,7 @@
 - (void)setSlidingAndReferenceViews;
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;
+- (void)arrangeViewsAfterRotation;
 
 - (void)centerViewVisible;
 - (void)centerViewHidden;
@@ -98,7 +100,6 @@
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated;
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
-
 - (BOOL)mustRelayAppearance;
 
 @end 
@@ -143,12 +144,6 @@
 
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super init])) {
-        self.centerController = centerController;
-        _slidingController = nil;
-        self.leftController = nil;
-        self.rightController = nil;
-        self.leftLedge = 44;
-        self.rightLedge = 44;
         _elastic = YES;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
@@ -164,6 +159,13 @@
         self.originalShadowColor = nil;
         self.originalShadowOpacity = 0;
         self.originalShadowPath = nil;
+
+        _slidingController = nil;
+        self.centerController = centerController;
+        self.leftController = nil;
+        self.rightController = nil;
+        self.leftLedge = 44;
+        self.rightLedge = 44;
     }
     return self;
 }
@@ -190,16 +192,33 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)cleanup {
+    self.originalShadowRadius = 0;
+    self.originalShadowOpacity = 0;
+    self.originalShadowColor = nil;
+    self.originalShadowOffset = CGSizeZero;
+    self.originalShadowPath = nil;
+    
     II_RELEASE(_slidingController), _slidingController = nil;
     self.referenceView = nil;
+    self.centerView = nil;
+    self.centerTapper = nil;
+}
+
+- (void)dealloc {
+    [self cleanup];
+
     self.centerController.viewDeckController = nil;
     self.centerController = nil;
     self.leftController.viewDeckController = nil;
     self.leftController = nil;
     self.rightController.viewDeckController = nil;
     self.rightController = nil;
-    self.centerView = nil;
+    self.panners = nil;
+
+#if !II_ARC_ENABLED
+    [super dealloc];
+#endif
 }
 
 #pragma mark - Memory management
@@ -300,38 +319,21 @@
     self.originalShadowColor = nil;
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
-    
-    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 }
 
 - (void)viewDidUnload
 {
-    [self.view removeObserver:self forKeyPath:@"bounds"];
-
-    // remove center tapper
-    [self centerViewVisible];
-
-    [self restoreShadowToSlidingView];
-    
-    self.originalShadowRadius = 0;
-    self.originalShadowOpacity = 0;
-    self.originalShadowColor = nil;
-    self.originalShadowOffset = CGSizeZero;
-    self.originalShadowPath = nil;
-
-    _slidingController = nil;
-    self.referenceView = nil;
-    [self.centerController.view removeFromSuperview];
-    [self.leftController.view removeFromSuperview];
-    [self.rightController.view removeFromSuperview];
-
+    [self cleanup];
     [super viewDidUnload];
 }
+
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
+
     BOOL appeared = _viewAppeared;
     if (!_viewAppeared) {
         [self setSlidingAndReferenceViews];
@@ -358,6 +360,8 @@
         [self applyShadowToSlidingView];
         _viewAppeared = YES;
     }
+    else 
+        [self arrangeViewsAfterRotation];
     
     [self addPanners];
 
@@ -397,69 +401,41 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 
+    [self.view removeObserver:self forKeyPath:@"bounds"];
+
     [self relayAppearanceMethod:^(UIViewController *controller) {
         [controller viewDidDisappear:animated];
     }];
 }
 
+#pragma mark - rotation
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationWidth = self.referenceBounds.size.width;
-    
+        
     if (self.rotationBehavior == IIViewDeckRotationKeepsViewSizes) {
         _leftWidth = self.leftController.view.frame.size.width;
         _rightWidth = self.rightController.view.frame.size.width;
     }
     
-    if (self.centerController) {
-        // let the center controller handle the rotation behavior
-        BOOL should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-        return should;
-    }
+    BOOL should = YES;
+    if (self.centerController)
+        should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 
-    return YES;
+    return should;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    CGFloat offset = self.slidingControllerView.frame.origin.x;
-    if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
-        if (offset > 0) {
-            offset = self.referenceBounds.size.width - _preRotationWidth + offset;
-        }
-        else if (offset < 0) {
-            offset = offset + _preRotationWidth - self.referenceBounds.size.width;
-        }
-    }
-    else {
-        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
-        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
-    }
-    self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+
+    [self arrangeViewsAfterRotation];
     
     [self.centerController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.leftController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.rightController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
-- (void)willAnimateFirstHalfOfRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-
-    [self.centerController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.leftController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.rightController willAnimateFirstHalfOfRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
-
-- (void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-
-    [self.centerController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-    [self.leftController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-    [self.rightController willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
-}
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -478,6 +454,32 @@
     [self.leftController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self.rightController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
+
+- (void)arrangeViewsAfterRotation {
+    if (_preRotationWidth <= 0) return;
+    
+    CGFloat offset = self.slidingControllerView.frame.origin.x;
+    if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
+        if (offset > 0) {
+            offset = self.referenceBounds.size.width - _preRotationWidth + offset;
+        }
+        else if (offset < 0) {
+            offset = offset + _preRotationWidth - self.referenceBounds.size.width;
+        }
+    }
+    else {
+        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
+        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
+    }
+    self.slidingControllerView.frame = [self slidingRectForOffset:offset];
+    self.centerController.view.frame = self.referenceBounds;
+    
+    _preRotationWidth = 0;
+}
+
+#pragma mark - controller state
 
 - (BOOL)leftControllerIsClosed {
     return !self.leftController || CGRectGetMinX(self.slidingControllerView.frame) <= 0;
@@ -1238,6 +1240,33 @@ static char* viewDeckControllerKey = "ViewDeckController";
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController {
     objc_setAssociatedObject(self, viewDeckControllerKey, viewDeckController, OBJC_ASSOCIATION_RETAIN);
 }
+
+- (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_presentModalViewController:modalViewController animated:animated]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
+    NSLog(@"presentvc = %@", self);
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
+}
+
++ (void)vdc_swizzle {
+    SEL presentModal = @selector(presentModalViewController:animated:);
+    SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
+    method_exchangeImplementations(class_getInstanceMethod(self, presentModal), class_getInstanceMethod(self, vdcPresentModal));
+
+    SEL presentVC = @selector(presentViewController:animated:completion:);
+    SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
+    method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
+}
+
++ (void)load {
+    [super load];
+    [self vdc_swizzle];
+}
+
 
 @end
 

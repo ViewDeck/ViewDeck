@@ -16,6 +16,9 @@
 #import "FifthViewController.h"
 #import "SelectorController.h"
 
+#define VIEWDECK_ENABLED YES
+#define TABBAR_ENABLED YES
+
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -28,7 +31,7 @@
     
     UIViewController *viewController1 = [[FirstViewController alloc] initWithNibName:@"FirstViewController" bundle:nil];
     UIViewController *viewController2 = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
-    if (YES) {
+    if (VIEWDECK_ENABLED) { 
         UIViewController *selectorController = [[SelectorController alloc] initWithNibName:@"SelectorController" bundle:nil];
         
         IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:viewController1 leftViewController:selectorController];
@@ -37,9 +40,15 @@
     }
     viewController1 = [[UINavigationController alloc] initWithRootViewController:viewController1];
     
-    self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
-    self.window.rootViewController = self.tabBarController;
+    if (TABBAR_ENABLED) {
+        self.tabBarController = [[UITabBarController alloc] init];
+        self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
+        self.window.rootViewController = self.tabBarController;
+    }
+    else {
+        self.window.rootViewController = viewController1;
+    }
+
     [self.window makeKeyAndVisible];
     return YES;
 }

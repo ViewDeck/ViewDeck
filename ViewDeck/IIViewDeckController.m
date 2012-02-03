@@ -335,33 +335,29 @@
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 
     BOOL appeared = _viewAppeared;
-    if (!_viewAppeared) {
-        [self setSlidingAndReferenceViews];
-        
-        [self.centerController.view removeFromSuperview];
-        [self.centerView addSubview:self.centerController.view];
-        [self.leftController.view removeFromSuperview];
-        [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
-        [self.rightController.view removeFromSuperview];
-        [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
-        
-        self.centerView.frame = self.referenceBounds;
-        self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.centerController.view.frame = self.referenceBounds;
-        self.slidingControllerView.frame = self.referenceBounds;
-        self.slidingControllerView.hidden = NO;
-        self.leftController.view.frame = self.referenceBounds;
-        self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.leftController.view.hidden = YES;
-        self.rightController.view.frame = self.referenceBounds;
-        self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.rightController.view.hidden = YES;
-        
-        [self applyShadowToSlidingView];
-        _viewAppeared = YES;
-    }
-    else 
-        [self arrangeViewsAfterRotation];
+    [self setSlidingAndReferenceViews];
+    
+    [self.centerController.view removeFromSuperview];
+    [self.centerView addSubview:self.centerController.view];
+    [self.leftController.view removeFromSuperview];
+    [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
+    [self.rightController.view removeFromSuperview];
+    [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
+    
+    self.centerView.frame = self.referenceBounds;
+    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.centerController.view.frame = self.referenceBounds;
+    self.slidingControllerView.frame = self.referenceBounds;
+    self.slidingControllerView.hidden = NO;
+    self.leftController.view.frame = self.referenceBounds;
+    self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.leftController.view.hidden = YES;
+    self.rightController.view.frame = self.referenceBounds;
+    self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.rightController.view.hidden = YES;
+    
+    [self applyShadowToSlidingView];
+    _viewAppeared = YES;
     
     [self addPanners];
 
@@ -1219,6 +1215,11 @@
     }
 }
 
+
+- (BOOL)hidesBottomBarWhenPushed {
+    return self.centerController.hidesBottomBarWhenPushed;
+}
+
 @end
 
 #pragma mark -
@@ -1229,8 +1230,12 @@
 
 static char* viewDeckControllerKey = "ViewDeckController";
 
+- (IIViewDeckController*)viewDeckController_core {
+    return objc_getAssociatedObject(self, viewDeckControllerKey);
+}
+
 - (IIViewDeckController*)viewDeckController {
-    id result = objc_getAssociatedObject(self, viewDeckControllerKey);
+    id result = [self viewDeckController_core];
     if (!result && self.navigationController) 
         return [self.navigationController viewDeckController];
 
@@ -1242,14 +1247,18 @@ static char* viewDeckControllerKey = "ViewDeckController";
 }
 
 - (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
     [controller vdc_presentModalViewController:modalViewController animated:animated]; // when we get here, the vdc_ method is actually the old, real method
 }
 
 - (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    NSLog(@"presentvc = %@", self);
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
     [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (UINavigationController*)vdc_navigationController {
+    UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
+    return [controller vdc_navigationController]; // when we get here, the vdc_ method is actually the old, real method
 }
 
 + (void)vdc_swizzle {
@@ -1260,6 +1269,10 @@ static char* viewDeckControllerKey = "ViewDeckController";
     SEL presentVC = @selector(presentViewController:animated:completion:);
     SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
+
+    SEL nc = @selector(navigationController);
+    SEL vdcnc = @selector(vdc_navigationController);
+    method_exchangeImplementations(class_getInstanceMethod(self, nc), class_getInstanceMethod(self, vdcnc));
 }
 
 + (void)load {

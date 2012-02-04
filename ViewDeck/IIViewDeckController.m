@@ -962,8 +962,8 @@
 }
 
 - (void)setTitle:(NSString *)title {
-    [super setTitle:title];
-    self.centerController.title = title;
+    if (![title isEqualToString:self.title]) [super setTitle:title];
+    if (![title isEqualToString:self.centerController.title]) self.centerController.title = title;
 }
 
 - (NSString*)title {

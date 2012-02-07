@@ -1247,9 +1247,18 @@ static char* viewDeckControllerKey = "ViewDeckController";
 }
 
 - (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    NSLog(@"presentvc = %@", self);
     UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
     [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (void)vdc_dismissModalViewControllerAnimated:(BOOL)animated {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_dismissModalViewControllerAnimated:animated]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (void)vdc_dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_dismissViewControllerAnimated:flag completion:completion]; // when we get here, the vdc_ method is actually the old, real method
 }
 
 + (void)vdc_swizzle {
@@ -1260,6 +1269,14 @@ static char* viewDeckControllerKey = "ViewDeckController";
     SEL presentVC = @selector(presentViewController:animated:completion:);
     SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
+
+    SEL dismisModal = @selector(dismissModalViewControllerAnimated:);
+    SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
+    method_exchangeImplementations(class_getInstanceMethod(self, dismisModal), class_getInstanceMethod(self, vdcDismissModal));
+
+    SEL dismissVC = @selector(dismissViewControllerAnimated:completion:);
+    SEL vdcDismissVC = @selector(vdc_dismissViewControllerAnimated:completion:);
+    method_exchangeImplementations(class_getInstanceMethod(self, dismissVC), class_getInstanceMethod(self, vdcDismissVC));
 }
 
 + (void)load {

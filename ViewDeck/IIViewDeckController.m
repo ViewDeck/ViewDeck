@@ -1228,7 +1228,7 @@
 
 @dynamic viewDeckController;
 
-static char* viewDeckControllerKey = "ViewDeckController";
+static const char* viewDeckControllerKey = "ViewDeckController";
 
 - (IIViewDeckController*)viewDeckController {
     id result = objc_getAssociatedObject(self, viewDeckControllerKey);

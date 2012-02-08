@@ -45,6 +45,7 @@
 #define II_AUTORELEASE(xx)      [xx autorelease]
 #endif
 
+#define II_FLOAT_EQUAL(x, y) (((x) - (y)) == 0.0f)
 
 #import "IIViewDeckController.h"
 #import <objc/runtime.h>
@@ -92,6 +93,7 @@
 
 - (void)centerViewVisible;
 - (void)centerViewHidden;
+- (void)centerTapped;
 
 - (void)addPanners;
 - (void)removePanners;
@@ -246,11 +248,11 @@
 }
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset {
-    return (CGRect) { self.resizesCenterView && offset < 0 ? 0 : offset, 0, [self slidingSizeForOffset:offset] };
+    return (CGRect) { {self.resizesCenterView && offset < 0 ? 0 : offset, 0}, [self slidingSizeForOffset:offset] };
 }
 
 - (CGSize)slidingSizeForOffset:(CGFloat)offset {
-    if (!self.resizesCenterView || offset == 0) return self.referenceBounds.size;
+    if (!self.resizesCenterView || offset == 0.0f) return self.referenceBounds.size;
     
     if (offset < 0) 
         return (CGSize) { self.referenceBounds.size.width + offset, self.referenceBounds.size.height };
@@ -262,7 +264,7 @@
 
 - (void)setLeftLedge:(CGFloat)leftLedge {
     leftLedge = MAX(leftLedge, MIN(self.referenceBounds.size.width, leftLedge));
-    if (_viewAppeared && self.slidingControllerView.frame.origin.x == self.referenceBounds.size.width - _leftLedge) {
+    if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, self.referenceBounds.size.width - _leftLedge)) {
         if (leftLedge < _leftLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
                 self.slidingControllerView.frame = [self slidingRectForOffset:self.referenceBounds.size.width - leftLedge];
@@ -279,7 +281,7 @@
 
 - (void)setRightLedge:(CGFloat)rightLedge {
     rightLedge = MAX(rightLedge, MIN(self.referenceBounds.size.width, rightLedge));
-    if (_viewAppeared && self.slidingControllerView.frame.origin.x == _rightLedge - self.referenceBounds.size.width) {
+    if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, _rightLedge - self.referenceBounds.size.width)) {
         if (rightLedge < _rightLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
                 self.slidingControllerView.frame = [self slidingRectForOffset:rightLedge - self.referenceBounds.size.width];
@@ -365,7 +367,7 @@
     
     [self addPanners];
 
-    if (self.slidingControllerView.frame.origin.x == 0) 
+    if (self.slidingControllerView.frame.origin.x == 0.0f) 
         [self centerViewVisible];
     else
         [self centerViewHidden];
@@ -470,8 +472,8 @@
     else {
         self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
         self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
-        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
+        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, {_leftWidth, self.leftController.view.frame.size.height} };
+        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, {_rightWidth, self.rightController.view.frame.size.height} };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
     self.centerController.view.frame = self.referenceBounds;
@@ -535,9 +537,8 @@
     [self openLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut completion:completed];
 }
 
-
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void (^)(IIViewDeckController *))completed {
-    if (!self.leftController || CGRectGetMinX(self.slidingControllerView.frame) == self.leftLedge) return;
+    if (!self.leftController || II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.leftLedge)) return;
     
     // check the delegate to allow opening
     if (![self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:animated]) return;
@@ -603,7 +604,7 @@
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingControllerView.frame = [self slidingRectForOffset:0];
             [self centerViewVisible];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL finished2) {
             self.leftController.view.hidden = YES;
             if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:YES];
@@ -645,7 +646,7 @@
 }
 
 - (void)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void (^)(IIViewDeckController *))completed {
-    if (!self.rightController || CGRectGetMaxX(self.slidingControllerView.frame) == self.rightLedge) return;
+    if (!self.rightController || II_FLOAT_EQUAL(CGRectGetMaxX(self.slidingControllerView.frame), self.rightLedge)) return;
 
     // check the delegate to allow opening
     if (![self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:animated]) return;
@@ -709,7 +710,7 @@
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingControllerView.frame = [self slidingRectForOffset:0];
             [self centerViewVisible];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL finished2) {
             self.rightController.view.hidden = YES;
             if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:YES];
@@ -1227,7 +1228,7 @@
 
 @dynamic viewDeckController;
 
-static char* viewDeckControllerKey = "ViewDeckController";
+static const char* viewDeckControllerKey = "ViewDeckController";
 
 - (IIViewDeckController*)viewDeckController {
     id result = objc_getAssociatedObject(self, viewDeckControllerKey);

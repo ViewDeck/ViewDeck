@@ -246,7 +246,7 @@
 }
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset {
-    return (CGRect) { self.resizesCenterView && offset < 0 ? 0 : offset, 0, [self slidingSizeForOffset:offset] };
+    return (CGRect) { {self.resizesCenterView && offset < 0 ? 0 : offset, 0}, [self slidingSizeForOffset:offset] };
 }
 
 - (CGSize)slidingSizeForOffset:(CGFloat)offset {
@@ -470,8 +470,8 @@
     else {
         self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
         self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, _leftWidth, self.leftController.view.frame.size.height };
-        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, _rightWidth, self.rightController.view.frame.size.height };
+        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, {_leftWidth, self.leftController.view.frame.size.height} };
+        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, {_rightWidth, self.rightController.view.frame.size.height} };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
     self.centerController.view.frame = self.referenceBounds;
@@ -603,7 +603,7 @@
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingControllerView.frame = [self slidingRectForOffset:0];
             [self centerViewVisible];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL finished2) {
             self.leftController.view.hidden = YES;
             if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:YES];
@@ -709,7 +709,7 @@
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             self.slidingControllerView.frame = [self slidingRectForOffset:0];
             [self centerViewVisible];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL finished2) {
             self.rightController.view.hidden = YES;
             if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:YES];

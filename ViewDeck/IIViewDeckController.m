@@ -251,7 +251,7 @@
 }
 
 - (CGSize)slidingSizeForOffset:(CGFloat)offset {
-    if (!self.resizesCenterView || offset == 0) return self.referenceBounds.size;
+    if (!self.resizesCenterView || offset == 0.0f) return self.referenceBounds.size;
     
     if (offset < 0) 
         return (CGSize) { self.referenceBounds.size.width + offset, self.referenceBounds.size.height };
@@ -366,7 +366,7 @@
     
     [self addPanners];
 
-    if (self.slidingControllerView.frame.origin.x == 0) 
+    if (self.slidingControllerView.frame.origin.x == 0.0f) 
         [self centerViewVisible];
     else
         [self centerViewHidden];
@@ -535,7 +535,6 @@
 - (void)openLeftViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
     [self openLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut completion:completed];
 }
-
 
 - (void)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options completion:(void (^)(IIViewDeckController *))completed {
     if (!self.leftController || CGRectGetMinX(self.slidingControllerView.frame) == self.leftLedge) return;

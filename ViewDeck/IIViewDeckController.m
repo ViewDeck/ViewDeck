@@ -92,6 +92,7 @@
 
 - (void)centerViewVisible;
 - (void)centerViewHidden;
+- (void)centerTapped;
 
 - (void)addPanners;
 - (void)removePanners;

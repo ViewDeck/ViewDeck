@@ -58,11 +58,7 @@
 #define OPEN_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_FAST)
 #define CLOSE_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_SLOW)
 
-@interface IIViewDeckController () <UIGestureRecognizerDelegate> {
-    CGFloat _panOrigin;
-    BOOL _viewAppeared;
-    CGFloat _preRotationWidth, _leftWidth, _rightWidth;
-}
+@interface IIViewDeckController () <UIGestureRecognizerDelegate> 
 
 @property (nonatomic, retain) UIView* referenceView;
 @property (nonatomic, readonly) CGRect referenceBounds;
@@ -925,17 +921,17 @@
 - (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated {
     BOOL ok = YES;
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
-        ok = ok & (BOOL)objc_msgSend(self.delegate, selector, self, animated);
+        ok = ok & (BOOL)(int)objc_msgSend(self.delegate, selector, self, animated);
 
     for (UIViewController* controller in self.controllers) {
         // check controller first
         if ([controller respondsToSelector:selector]) 
-            ok = ok & (BOOL)objc_msgSend(controller, selector, self, animated);
+            ok = ok & (BOOL)(int)objc_msgSend(controller, selector, self, animated);
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
             if ([topController respondsToSelector:selector]) 
-                ok = ok & (BOOL)objc_msgSend(topController, selector, self, animated);
+                ok = ok & (BOOL)(int)objc_msgSend(topController, selector, self, animated);
         }
     }
 

@@ -23,6 +23,9 @@
 //  SOFTWARE.
 //
 
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+#define II_ARC_ENABLED 1
+#endif // __has_feature(objc_arc)
 
 #import "WrappedController.h"
 
@@ -63,6 +66,9 @@
 
 - (void)dealloc {
     _wrappedController = nil;
+#if !II_ARC_ENABLED
+    [super dealloc];
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated

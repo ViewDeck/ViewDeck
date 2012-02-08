@@ -59,7 +59,12 @@ typedef enum {
 #define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
 
 
-@interface IIViewDeckController : UIViewController
+@interface IIViewDeckController : UIViewController {
+@private    
+    CGFloat _panOrigin;
+    BOOL _viewAppeared;
+    CGFloat _preRotationWidth, _leftWidth, _rightWidth;
+}
 
 @property (nonatomic, retain) id<IIViewDeckControllerDelegate> delegate;
 @property (nonatomic, retain) UIViewController* centerController;

@@ -9,10 +9,10 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (retain, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) UIViewController *centerController;
-@property (strong, nonatomic) UIViewController *leftController;
-@property (strong, nonatomic) UIViewController *imageController;
+@property (retain, nonatomic) UIViewController *centerController;
+@property (retain, nonatomic) UIViewController *leftController;
+@property (retain, nonatomic) UIViewController *imageController;
 
 @end

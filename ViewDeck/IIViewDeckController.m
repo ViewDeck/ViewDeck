@@ -259,7 +259,10 @@
 #pragma mark - ledges
 
 - (void)setLeftLedge:(CGFloat)leftLedge {
-    leftLedge = MAX(leftLedge, MIN(self.referenceBounds.size.width, leftLedge));
+    // Compute the final ledge in two steps. This prevents a strange bug where
+    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
+    CGFloat minLedge = MIN(self.referenceBounds.size.width, leftLedge);
+    leftLedge = MAX(leftLedge, minLedge);
     if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, self.referenceBounds.size.width - _leftLedge)) {
         if (leftLedge < _leftLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
@@ -276,7 +279,10 @@
 }
 
 - (void)setRightLedge:(CGFloat)rightLedge {
-    rightLedge = MAX(rightLedge, MIN(self.referenceBounds.size.width, rightLedge));
+    // Compute the final ledge in two steps. This prevents a strange bug where
+    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
+    CGFloat minLedge = MIN(self.referenceBounds.size.width, rightLedge);
+    rightLedge = MAX(rightLedge, minLedge);
     if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, _rightLedge - self.referenceBounds.size.width)) {
         if (rightLedge < _rightLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{

@@ -140,8 +140,13 @@
 
 #pragma mark - Initalisation and deallocation
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+  return [self initWithCenterViewController:nil];
+}
+
 - (id)initWithCenterViewController:(UIViewController*)centerController {
-    if ((self = [super init])) {
+    if ((self = [super initWithNibName:nil bundle:nil])) {
         _elastic = YES;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;

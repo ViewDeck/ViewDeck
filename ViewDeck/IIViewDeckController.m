@@ -1146,11 +1146,11 @@
 
 - (void)setSlidingAndReferenceViews {
     if (self.navigationController && self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
-        _slidingController = self.navigationController;
+        _slidingController = II_RETAIN(self.navigationController);
         self.referenceView = [self.navigationController.view superview];
     }
     else {
-        _slidingController = self.centerController;
+        _slidingController = II_RETAIN(self.centerController);
         self.referenceView = self.view;
     }
 }

@@ -483,7 +483,15 @@
         self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, {_rightWidth, self.rightController.view.frame.size.height} };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
-    self.centerController.view.frame = self.referenceBounds;
+
+    if (self.resizesCenterView) {
+        CGSize size = [self slidingSizeForOffset:offset];
+        CGRect frame = self.referenceBounds;
+        frame.size = size;
+        self.centerController.view.frame = frame;
+    } else {
+        self.centerController.view.frame = self.referenceBounds;
+    }
     
     _preRotationWidth = 0;
 }

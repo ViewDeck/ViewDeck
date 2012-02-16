@@ -197,7 +197,7 @@
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
     
-    II_RELEASE(_slidingController), _slidingController = nil;
+    _slidingController = nil;
     self.referenceView = nil;
     self.centerView = nil;
     self.centerTapper = nil;

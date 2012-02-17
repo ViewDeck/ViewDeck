@@ -816,13 +816,6 @@
     if ([self.delegate respondsToSelector:@selector(viewDeckController:didPanToOffset:)])
         [self.delegate viewDeckController:self didPanToOffset:x];
 
-    if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
-        [self centerViewVisible];
-    }
-    else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.leftController.view.hidden)) {
-        [self centerViewHidden];
-    }
-
     if (panner.state == UIGestureRecognizerStateBegan) {
         if (x > 0) {
             [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
@@ -833,6 +826,13 @@
     }
     
     if (panner.state == UIGestureRecognizerStateEnded) {    
+        if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
+            [self centerViewVisible];
+        }
+        else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.rightController.view.hidden)) {
+            [self centerViewHidden];
+        }
+
         CGFloat lw3 = (w-self.leftLedge) / 3.0;
         CGFloat rw3 = (w-self.rightLedge) / 3.0;
         CGFloat velocity = [panner velocityInView:self.referenceView].x;

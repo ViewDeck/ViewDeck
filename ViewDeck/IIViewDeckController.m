@@ -364,7 +364,7 @@
     else
         [self centerViewHidden];
    
-    if (appeared) {
+    if (!appeared) {
         [self relayAppearanceMethod:^(UIViewController *controller) {
             [controller viewWillAppear:animated];
         }];

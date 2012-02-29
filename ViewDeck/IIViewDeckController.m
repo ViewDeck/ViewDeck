@@ -386,10 +386,10 @@
         [controller viewWillDisappear:animated];
     }];
 
-    [self removePanners];
-    
-    [self closeLeftView];
-    [self closeRightView];
+//    [self removePanners];
+//    
+//    [self closeLeftView];
+//    [self closeRightView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -879,7 +879,7 @@
             if (self.centerTapper)
                 [self addPanner:self.centerTapper];
             // also add to navigationbar if present
-            if (self.navigationController && !self.navigationController.navigationBarHidden && self.navigationControllerBehavior == IIViewDeckNavigationControllerContained) 
+            if (self.navigationController && !self.navigationController.navigationBarHidden) 
                 [self addPanner:self.navigationController.navigationBar];
             break;
             

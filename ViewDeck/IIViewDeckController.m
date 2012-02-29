@@ -140,8 +140,13 @@
 
 #pragma mark - Initalisation and deallocation
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+  return [self initWithCenterViewController:nil];
+}
+
 - (id)initWithCenterViewController:(UIViewController*)centerController {
-    if ((self = [super init])) {
+    if ((self = [super initWithNibName:nil bundle:nil])) {
         _elastic = YES;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
@@ -197,7 +202,7 @@
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
     
-    II_RELEASE(_slidingController), _slidingController = nil;
+    _slidingController = nil;
     self.referenceView = nil;
     self.centerView = nil;
     self.centerTapper = nil;
@@ -259,7 +264,10 @@
 #pragma mark - ledges
 
 - (void)setLeftLedge:(CGFloat)leftLedge {
-    leftLedge = MAX(leftLedge, MIN(self.referenceBounds.size.width, leftLedge));
+    // Compute the final ledge in two steps. This prevents a strange bug where
+    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
+    CGFloat minLedge = MIN(self.referenceBounds.size.width, leftLedge);
+    leftLedge = MAX(leftLedge, minLedge);
     if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, self.referenceBounds.size.width - _leftLedge)) {
         if (leftLedge < _leftLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
@@ -276,7 +284,10 @@
 }
 
 - (void)setRightLedge:(CGFloat)rightLedge {
-    rightLedge = MAX(rightLedge, MIN(self.referenceBounds.size.width, rightLedge));
+    // Compute the final ledge in two steps. This prevents a strange bug where
+    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
+    CGFloat minLedge = MIN(self.referenceBounds.size.width, rightLedge);
+    rightLedge = MAX(rightLedge, minLedge);
     if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, _rightLedge - self.referenceBounds.size.width)) {
         if (rightLedge < _rightLedge) {
             [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
@@ -468,7 +479,15 @@
         self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, {_rightWidth, self.rightController.view.frame.size.height} };
     }
     self.slidingControllerView.frame = [self slidingRectForOffset:offset];
-    self.centerController.view.frame = self.referenceBounds;
+
+    if (self.resizesCenterView) {
+        CGSize size = [self slidingSizeForOffset:offset];
+        CGRect frame = self.referenceBounds;
+        frame.size = size;
+        self.centerController.view.frame = frame;
+    } else {
+        self.centerController.view.frame = self.referenceBounds;
+    }
     
     _preRotationWidth = 0;
 }
@@ -806,13 +825,6 @@
     if ([self.delegate respondsToSelector:@selector(viewDeckController:didPanToOffset:)])
         [self.delegate viewDeckController:self didPanToOffset:x];
 
-    if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
-        [self centerViewVisible];
-    }
-    else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.leftController.view.hidden)) {
-        [self centerViewHidden];
-    }
-
     if (panner.state == UIGestureRecognizerStateBegan) {
         if (x > 0) {
             [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
@@ -823,6 +835,13 @@
     }
     
     if (panner.state == UIGestureRecognizerStateEnded) {    
+        if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
+            [self centerViewVisible];
+        }
+        else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.rightController.view.hidden)) {
+            [self centerViewHidden];
+        }
+
         CGFloat lw3 = (w-self.leftLedge) / 3.0;
         CGFloat rw3 = (w-self.rightLedge) / 3.0;
         CGFloat velocity = [panner velocityInView:self.referenceView].x;

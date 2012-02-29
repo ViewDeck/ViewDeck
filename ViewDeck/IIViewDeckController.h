@@ -70,7 +70,7 @@ typedef enum {
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
-@property (nonatomic, readonly, retain) UIViewController* slidingController;
+@property (nonatomic, readonly, assign) UIViewController* slidingController;
 @property (nonatomic, retain) UIView* panningView; 
 @property (nonatomic, readonly, retain) NSArray* controllers;
 @property (nonatomic, getter=isEnabled) BOOL enabled;

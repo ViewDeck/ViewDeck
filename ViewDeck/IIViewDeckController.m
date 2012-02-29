@@ -1287,6 +1287,11 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     return [controller vdc_navigationController]; // when we get here, the vdc_ method is actually the old, real method
 }
 
+- (UINavigationItem*)vdc_navigationItem {
+    UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
+    return [controller vdc_navigationItem]; // when we get here, the vdc_ method is actually the old, real method
+}
+
 + (void)vdc_swizzle {
     SEL presentModal = @selector(presentModalViewController:animated:);
     SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
@@ -1307,6 +1312,10 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     SEL nc = @selector(navigationController);
     SEL vdcnc = @selector(vdc_navigationController);
     method_exchangeImplementations(class_getInstanceMethod(self, nc), class_getInstanceMethod(self, vdcnc));
+
+    SEL ni = @selector(navigationItem);
+    SEL vdcni = @selector(vdc_navigationItem);
+    method_exchangeImplementations(class_getInstanceMethod(self, ni), class_getInstanceMethod(self, vdcni));
 }
 
 + (void)load {

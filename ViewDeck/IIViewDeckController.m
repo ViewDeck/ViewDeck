@@ -502,6 +502,14 @@
     return !self.rightController || CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width;
 }
 
+- (BOOL)leftControllerIsOpen {
+    return self.leftController && CGRectGetMinX(self.slidingControllerView.frame) > 0 && CGRectGetMinX(self.slidingControllerView.frame) <= self.leftLedge;
+}
+
+- (BOOL)rightControllerIsOpen {
+    return self.rightController && CGRectGetMaxX(self.slidingControllerView.frame) < self.referenceBounds.size.width && CGRectGetMaxX(self.slidingControllerView.frame) >= self.leftLedge;
+}
+
 - (void)showCenterView {
     [self showCenterView:YES];
 }

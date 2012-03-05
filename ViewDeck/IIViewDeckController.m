@@ -258,18 +258,27 @@
     return self.referenceView.bounds;
 }
 
+- (CGFloat)statusBarHeight {
+    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]]) 
+        return 0;
+
+    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
+    ? [UIApplication sharedApplication].statusBarFrame.size.width 
+    : [UIApplication sharedApplication].statusBarFrame.size.height;
+}
+
 - (CGRect)centerViewBounds {
     if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
         return self.referenceBounds;
 
-    return II_CGRectShrink(self.referenceBounds, 0, [UIApplication sharedApplication].statusBarFrame.size.height + (self.navigationController.navigationBarHidden ? 0 : self.navigationController.navigationBar.frame.size.height));
+    return II_CGRectShrink(self.referenceBounds, 0, [self statusBarHeight] + (self.navigationController.navigationBarHidden ? 0 : self.navigationController.navigationBar.frame.size.height));
 }
 
 - (CGRect)sideViewBounds {
     if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
         return self.referenceBounds;
     
-    return II_CGRectOffsetTopAndShrink(self.referenceBounds, [UIApplication sharedApplication].statusBarFrame.size.height);
+    return II_CGRectOffsetTopAndShrink(self.referenceBounds, [self statusBarHeight]);
 }
 
 
@@ -395,6 +404,7 @@
     self.leftController.view.frame = self.sideViewBounds;
     self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.leftController.view.hidden = YES;
+    NSLog(@"self.leftController.view.frame = %@", NSStringFromCGRect(self.leftController.view.frame));
     self.rightController.view.frame = self.sideViewBounds;
     self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.rightController.view.hidden = YES;

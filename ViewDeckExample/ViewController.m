@@ -6,6 +6,10 @@
 #import "ViewController.h"
 #import "IIViewDeckController.h"
 
+@interface ViewController () <UIImagePickerControllerDelegate>
+
+@end
+
 @implementation ViewController
 
 @synthesize popoverController = _popoverController2;
@@ -81,6 +85,7 @@
 
 - (void)showCam:(id)sender {
     UIImagePickerController* picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
         picker.sourceType =  UIImagePickerControllerSourceTypeCamera;
 
@@ -91,6 +96,14 @@
     else {
         [self presentModalViewController:picker animated:YES];
     }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source

@@ -43,6 +43,7 @@
 }
 
 - (void)back {
+    [self closeLeftView];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

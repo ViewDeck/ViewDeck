@@ -1321,13 +1321,8 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 - (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
-    UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
     [controller vdc_presentModalViewController:modalViewController animated:animated]; // when we get here, the vdc_ method is actually the old, real method
-}
-
-- (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
-    [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
 }
 
 - (void)vdc_dismissModalViewControllerAnimated:(BOOL)animated {
@@ -1335,10 +1330,19 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     [controller vdc_dismissModalViewControllerAnimated:animated]; // when we get here, the vdc_ method is actually the old, real method
 }
 
+#ifdef __IPHONE_5_0
+
+- (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
+}
+
 - (void)vdc_dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
     UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
     [controller vdc_dismissViewControllerAnimated:flag completion:completion]; // when we get here, the vdc_ method is actually the old, real method
 }
+
+#endif
 
 - (UINavigationController*)vdc_navigationController {
     UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
@@ -1355,18 +1359,20 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentModal), class_getInstanceMethod(self, vdcPresentModal));
 
+    SEL dismissModal = @selector(dismissModalViewControllerAnimated:);
+    SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
+    method_exchangeImplementations(class_getInstanceMethod(self, dismissModal), class_getInstanceMethod(self, vdcDismissModal));
+
+#ifdef __IPHONE_5_0
     SEL presentVC = @selector(presentViewController:animated:completion:);
     SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
 
-    SEL dismisModal = @selector(dismissModalViewControllerAnimated:);
-    SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
-    method_exchangeImplementations(class_getInstanceMethod(self, dismisModal), class_getInstanceMethod(self, vdcDismissModal));
-
     SEL dismissVC = @selector(dismissViewControllerAnimated:completion:);
     SEL vdcDismissVC = @selector(vdc_dismissViewControllerAnimated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, dismissVC), class_getInstanceMethod(self, vdcDismissVC));
-
+#endif
+    
     SEL nc = @selector(navigationController);
     SEL vdcnc = @selector(vdc_navigationController);
     method_exchangeImplementations(class_getInstanceMethod(self, nc), class_getInstanceMethod(self, vdcnc));

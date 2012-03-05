@@ -60,8 +60,11 @@
 
 @interface IIViewDeckController () <UIGestureRecognizerDelegate> 
 
+
 @property (nonatomic, retain) UIView* referenceView;
 @property (nonatomic, readonly) CGRect referenceBounds;
+@property (nonatomic, readonly) CGRect centerViewBounds;
+@property (nonatomic, readonly) CGRect sideViewBounds;
 @property (nonatomic, retain) NSMutableArray* panners;
 @property (nonatomic, assign) CGFloat originalShadowRadius;
 @property (nonatomic, assign) CGFloat originalShadowOpacity;
@@ -248,6 +251,21 @@
     return self.referenceView.bounds;
 }
 
+- (CGRect)centerViewBounds {
+    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
+        return self.referenceBounds;
+
+    return CGRectShrink(self.referenceBounds, 0, [UIApplication sharedApplication].statusBarFrame.size.height + (self.navigationController.navigationBarHidden ? 0 : self.navigationController.navigationBar.frame.size.height));
+}
+
+- (CGRect)sideViewBounds {
+    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
+        return self.referenceBounds;
+    
+    return CGRectOffsetTopAndShrink(self.referenceBounds, [UIApplication sharedApplication].statusBarFrame.size.height);
+}
+
+
 - (CGRect)slidingRectForOffset:(CGFloat)offset {
     return (CGRect) { {self.resizesCenterView && offset < 0 ? 0 : offset, 0}, [self slidingSizeForOffset:offset] };
 }
@@ -353,15 +371,18 @@
     [self.rightController.view removeFromSuperview];
     [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
     
-    self.centerView.frame = self.referenceBounds;
-    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.centerController.view.frame = self.referenceBounds;
     self.slidingControllerView.frame = self.referenceBounds;
     self.slidingControllerView.hidden = NO;
-    self.leftController.view.frame = self.referenceBounds;
+
+    self.centerView.frame = self.centerViewBounds;
+    NSLog(@"self.centerview.frame = %@", NSStringFromCGRect(self.centerViewBounds));
+    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.centerController.view.frame = self.centerView.bounds;
+    NSLog(@"self.centerController.frame = %@", NSStringFromCGRect(self.centerController.view.frame));
+    self.leftController.view.frame = self.sideViewBounds;
     self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.leftController.view.hidden = YES;
-    self.rightController.view.frame = self.referenceBounds;
+    self.rightController.view.frame = self.sideViewBounds;
     self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.rightController.view.hidden = YES;
     

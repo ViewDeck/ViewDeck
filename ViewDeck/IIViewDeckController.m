@@ -864,8 +864,7 @@
     self.rightController.view.hidden = x >= 0;
     self.leftController.view.hidden = x <= 0;
     
-    if ([self.delegate respondsToSelector:@selector(viewDeckController:didPanToOffset:)])
-        [self.delegate viewDeckController:self didPanToOffset:x];
+    [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
 
     if (panner.state == UIGestureRecognizerStateBegan) {
         if (x > 0) {

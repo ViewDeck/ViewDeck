@@ -563,10 +563,11 @@
 }
 
 - (void)showCenterView:(BOOL)animated  completion:(void(^)(IIViewDeckController* controller))completed {
-    if (!self.leftController.view.hidden) 
+    if (!self.leftController.view.hidden)
         [self closeLeftViewAnimated:animated completion:completed];
-    if (!self.rightController.view.hidden) 
+    else if (!self.rightController.view.hidden) 
         [self closeRightViewAnimated:animated completion:completed];
+    else completed(self);
 }
 
 - (void)toggleLeftView {

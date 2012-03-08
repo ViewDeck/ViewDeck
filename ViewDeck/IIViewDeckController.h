@@ -63,7 +63,7 @@ typedef enum {
 @private    
     CGFloat _panOrigin;
     BOOL _viewAppeared;
-    CGFloat _preRotationWidth, _leftWidth, _rightWidth;
+    CGFloat _preRotationWidth, _leftWidth, _rightWidth, _preRotationCenterWidth;
 }
 
 @property (nonatomic, retain) id<IIViewDeckControllerDelegate> delegate;

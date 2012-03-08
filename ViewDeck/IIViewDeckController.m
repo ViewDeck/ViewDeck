@@ -108,7 +108,6 @@
 - (void)performOffsetDelegate:(SEL)selector offset:(CGFloat)offset;
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
-- (BOOL)mustRelayAppearance;
 
 @end 
 
@@ -259,7 +258,7 @@
 }
 
 - (CGFloat)statusBarHeight {
-    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]]) 
+    if (![self.referenceView isKindOfClass:[UIWindow class]]) 
         return 0;
 
     return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
@@ -287,12 +286,12 @@
 }
 
 - (CGSize)slidingSizeForOffset:(CGFloat)offset {
-    if (!self.resizesCenterView || offset == 0.0f) return self.referenceBounds.size;
+    if (!self.resizesCenterView) return self.referenceBounds.size;
     
     if (offset < 0) 
-        return (CGSize) { self.referenceBounds.size.width + offset, self.referenceBounds.size.height };
+        return (CGSize) { self.centerViewBounds.size.width + offset, self.centerViewBounds.size.height };
 
-    return (CGSize) { self.referenceBounds.size.width - offset, self.referenceBounds.size.height };
+    return (CGSize) { self.centerViewBounds.size.width - offset, self.centerViewBounds.size.height };
 }
 
 -(void)setSlidingFrame:(CGRect)frame {
@@ -383,7 +382,7 @@
     
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 
-    BOOL appeared = _viewAppeared;
+//    BOOL appeared = _viewAppeared;
     [self setSlidingAndReferenceViews];
     
     [self.centerController.view removeFromSuperview];
@@ -419,11 +418,9 @@
     else
         [self centerViewHidden];
    
-    if (!appeared) {
-        [self relayAppearanceMethod:^(UIViewController *controller) {
-            [controller viewWillAppear:animated];
-        }];
-    }
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller viewWillAppear:animated];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -462,6 +459,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationWidth = self.referenceBounds.size.width;
+    _preRotationCenterWidth = self.centerView.bounds.size.width;
         
     if (self.rotationBehavior == IIViewDeckRotationKeepsViewSizes) {
         _leftWidth = self.leftController.view.frame.size.width;
@@ -478,11 +476,12 @@
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }];
+
     [self arrangeViewsAfterRotation];
     
-    [self.centerController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.leftController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.rightController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 
@@ -490,24 +489,28 @@
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
     
-    [self.centerController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.leftController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self.rightController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self applyShadowToSlidingView];
 
-    [self.centerController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.leftController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self.rightController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [self relayAppearanceMethod:^(UIViewController *controller) {
+        [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    }];
 }
 
 - (void)arrangeViewsAfterRotation {
     if (_preRotationWidth <= 0) return;
     
     CGFloat offset = self.slidingControllerView.frame.origin.x;
+    if (self.resizesCenterView && offset == 0) {
+        offset = offset + (_preRotationCenterWidth - _preRotationWidth);
+    }
+
     if (self.rotationBehavior == IIViewDeckRotationKeepsLedgeSizes) {
         if (offset > 0) {
             offset = self.referenceBounds.size.width - _preRotationWidth + offset;
@@ -524,14 +527,12 @@
     }
     [self setSlidingFrame:[self slidingRectForOffset:offset]];
 
-    if (self.resizesCenterView) {
-        CGSize size = [self slidingSizeForOffset:offset];
-        CGRect frame = self.referenceBounds;
-        frame.size = size;
-        self.centerController.view.frame = frame;
-    } else {
-        self.centerController.view.frame = self.referenceBounds;
-    }
+//    if (self.resizesCenterView) {
+//        CGSize size = [self slidingSizeForOffset:offset];
+//        CGRect frame = II_CGRectOffsetRightAndShrink(self.centerViewBounds;
+//        frame.size = size;
+//        self.centerView.frame = frame;
+//    }
     
     _preRotationWidth = 0;
 }
@@ -563,10 +564,19 @@
 }
 
 - (void)showCenterView:(BOOL)animated  completion:(void(^)(IIViewDeckController* controller))completed {
-    if (!self.leftController.view.hidden) 
+    BOOL mustRunCompletion = completed != nil;
+    if (!self.leftController.view.hidden) {
         [self closeLeftViewAnimated:animated completion:completed];
-    if (!self.rightController.view.hidden) 
+        mustRunCompletion = NO;
+    }
+
+    if (!self.rightController.view.hidden) {
         [self closeRightViewAnimated:animated completion:completed];
+        mustRunCompletion = NO;
+    }
+    
+    if (mustRunCompletion)
+        completed(self);
 }
 
 - (void)toggleLeftView {
@@ -1041,8 +1051,8 @@
 
 #pragma mark - Properties
 
-- (BOOL)mustRelayAppearance {
-    return ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
+    return NO;
 }
 
 - (void)setTitle:(NSString *)title {
@@ -1089,9 +1099,9 @@
         if (_leftController == leftController) return;
         
         if (_leftController) {
-            if (self.mustRelayAppearance) [_rightController viewWillDisappear:NO];
+            [_rightController viewWillDisappear:NO];
             [_leftController.view removeFromSuperview];
-            if (self.mustRelayAppearance) [_rightController viewDidDisappear:NO];
+            [_rightController viewDidDisappear:NO];
             _leftController.viewDeckController = nil;
         }
         
@@ -1100,7 +1110,7 @@
             if (leftController == self.rightController) self.rightController = nil;
 
             leftController.viewDeckController = self;
-            if (self.mustRelayAppearance) [_leftController viewWillAppear:NO];
+            [_leftController viewWillAppear:NO];
             if (self.slidingController)
                 [self.referenceView insertSubview:leftController.view belowSubview:self.slidingControllerView];
             else
@@ -1111,12 +1121,22 @@
         }
     }
 
-    _leftController.viewDeckController = nil;
-    II_RELEASE(_leftController);
+    if (_leftController) {
+#if __IPHONE_5_0
+        [_leftController removeFromParentViewController];
+#endif
+        _leftController.viewDeckController = nil;
+        II_RELEASE(_leftController);
+    }
     _leftController = leftController;
-    II_RETAIN(_leftController);
-    _leftController.viewDeckController = self;
-    if (_viewAppeared && self.mustRelayAppearance) [_leftController viewDidAppear:NO];
+    if (_leftController) {
+        II_RETAIN(_leftController);
+        _leftController.viewDeckController = self;
+#if __IPHONE_5_0
+        [self addChildViewController:_leftController];
+#endif
+        if (_viewAppeared) [_leftController viewDidAppear:NO];
+    }
 }
 
 
@@ -1126,7 +1146,14 @@
         _centerController.viewDeckController = nil;
         II_RELEASE(_centerController);
         [_centerController removeObserver:self forKeyPath:@"title"];
+#if __IPHONE_5_0
+        [_centerController removeFromParentViewController];
+#endif
         _centerController = centerController;
+        
+#if __IPHONE_5_0
+        [self addChildViewController:_centerController];
+#endif
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
         II_RETAIN(_centerController);
@@ -1140,11 +1167,15 @@
     if (_centerController) {
         [self restoreShadowToSlidingView];
         currentFrame = _centerController.view.frame;
-        if (self.mustRelayAppearance) [_centerController viewWillDisappear:NO];
+        [_centerController viewWillDisappear:NO];
         [_centerController.view removeFromSuperview];
         _centerController.viewDeckController = nil;
         [_centerController removeObserver:self forKeyPath:@"title"];
-        if (self.mustRelayAppearance) [_centerController viewDidDisappear:NO];
+        [_centerController viewDidDisappear:NO];
+
+#if __IPHONE_5_0
+        [_centerController removeFromParentViewController];
+#endif
         II_RELEASE(_centerController);
         _centerController = nil;
     }
@@ -1163,6 +1194,9 @@
         }
 
         _centerController = centerController;
+#if __IPHONE_5_0
+        [self addChildViewController:_centerController];
+#endif
         II_RETAIN(_centerController);
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
@@ -1170,7 +1204,7 @@
         centerController.view.frame = currentFrame;
         centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         centerController.view.hidden = NO;
-        if (self.mustRelayAppearance) [self.centerController viewWillAppear:NO];
+        [self.centerController viewWillAppear:NO];
         [self.centerView addSubview:centerController.view];
         
         if (barHidden) {
@@ -1179,7 +1213,7 @@
         
         [self addPanners];
         [self applyShadowToSlidingView];
-        if (self.mustRelayAppearance) [self.centerController viewDidAppear:NO];
+        [self.centerController viewDidAppear:NO];
     }
     else {
         _centerController = nil;
@@ -1187,14 +1221,16 @@
 }
 
 - (void)setRightController:(UIViewController *)rightController {
+    if (_rightController == rightController) return;
+    
     if (_viewAppeared) {
-        if (_rightController == rightController) return;
-        
         if (_rightController) {
-            if (self.mustRelayAppearance) [_rightController viewWillDisappear:NO];
+            [_rightController viewWillDisappear:NO];
             [_rightController.view removeFromSuperview];
-            if (self.mustRelayAppearance) [_rightController viewDidDisappear:NO];
-            _rightController.viewDeckController = nil;
+            [_rightController viewDidDisappear:NO];
+#if __IPHONE_5_0
+            [_rightController removeFromParentViewController];
+#endif
         }
         
         if (rightController) {
@@ -1202,7 +1238,7 @@
             if (rightController == self.leftController) self.leftController = nil;
             
             rightController.viewDeckController = self;
-            if (self.mustRelayAppearance) [_rightController viewWillAppear:NO];
+            [_rightController viewWillAppear:NO];
             if (self.slidingController) 
                 [self.referenceView insertSubview:rightController.view belowSubview:self.slidingControllerView];
             else
@@ -1213,12 +1249,22 @@
         }
     }
 
-    _rightController.viewDeckController = nil;
-    II_RELEASE(_rightController);
+    if (_rightController) {
+#if __IPHONE_5_0
+        [_rightController removeFromParentViewController];
+#endif
+        _rightController.viewDeckController = nil;
+        II_RELEASE(_rightController);
+    }
     _rightController = rightController;
-    II_RETAIN(_rightController);
-    _rightController.viewDeckController = self;
-    if (_viewAppeared && self.mustRelayAppearance) [_rightController viewDidAppear:NO];
+    if (_rightController) {
+        II_RETAIN(_rightController);
+        _rightController.viewDeckController = self;
+#if __IPHONE_5_0
+        [self addChildViewController:_rightController];
+#endif
+        if (_viewAppeared) [_rightController viewDidAppear:NO];
+    }
 }
 
 - (void)setSlidingAndReferenceViews {

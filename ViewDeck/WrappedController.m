@@ -27,6 +27,11 @@
 #define II_ARC_ENABLED 1
 #endif // __has_feature(objc_arc)
 
+#define II_CGRectOffsetRightAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width-__o, __r.size.height }; })
+#define II_CGRectOffsetTopAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y + __o, __r.size.width, __r.size.height-__o }; })
+#define II_CGRectOffsetBottomAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width, __r.size.height-__o }; })
+#define II_CGRectShrink(rect, w, h) ({__typeof__(rect) __r = (rect); __typeof__(w) __w = (w); __typeof__(h) __h = (h); (CGRect) { __r.origin, __r.size.width - __w, __r.size.height - __h }; })
+
 #import "WrappedController.h"
 
 @implementation WrappedController
@@ -43,17 +48,25 @@
     return self;
 }
           
+- (CGFloat)statusBarHeight {
+//    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]]) 
+//        return 0;
+//    
+    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
+    ? [UIApplication sharedApplication].statusBarFrame.size.width 
+    : [UIApplication sharedApplication].statusBarFrame.size.height;
+}
+
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
-    self.view = [[UIView alloc] initWithFrame:self.wrappedController.view.frame];
+    [self addChildViewController:self.wrappedController];
+
+    self.view = [[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(self.wrappedController.view.frame, [self statusBarHeight])];
     self.view.autoresizingMask = self.wrappedController.view.autoresizingMask;
-    [self.wrappedController.view removeFromSuperview];
     self.wrappedController.view.frame = self.view.bounds;
     self.wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.wrappedController.view];
-    
-    [self.view setNeedsLayout];
 }
 
 
@@ -69,6 +82,10 @@
 #if !II_ARC_ENABLED
     [super dealloc];
 #endif
+}
+
+- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
+    return NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -17,7 +17,6 @@
 		E2B3B6DC14C2249500FB5956 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B3B6DA14C2249500FB5956 /* ViewController.xib */; };
 		E2B3B6E314C228D900FB5956 /* carbon.png in Resources */ = {isa = PBXBuildFile; fileRef = E2B3B6E214C228D900FB5956 /* carbon.png */; };
 		E2B3B6F314C22EAE00FB5956 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B3B6F014C22EAE00FB5956 /* IIViewDeckController.m */; };
-		E2B3B6F414C22EAE00FB5956 /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B3B6F214C22EAE00FB5956 /* WrappedController.m */; };
 		E2B3B6FD14C232BF00FB5956 /* CenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B3B6FB14C232BE00FB5956 /* CenterController.m */; };
 		E2B3B6FE14C232BF00FB5956 /* CenterController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B3B6FC14C232BF00FB5956 /* CenterController.xib */; };
 		E2B3B70214C232DA00FB5956 /* LeftController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B3B70014C232DA00FB5956 /* LeftController.m */; };
@@ -41,8 +40,6 @@
 		E2B3B6E214C228D900FB5956 /* carbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carbon.png; sourceTree = SOURCE_ROOT; };
 		E2B3B6EF14C22EAE00FB5956 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E2B3B6F014C22EAE00FB5956 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		E2B3B6F114C22EAE00FB5956 /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
-		E2B3B6F214C22EAE00FB5956 /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedController.m; sourceTree = "<group>"; };
 		E2B3B6FA14C232BE00FB5956 /* CenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterController.h; sourceTree = "<group>"; };
 		E2B3B6FB14C232BE00FB5956 /* CenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterController.m; sourceTree = "<group>"; };
 		E2B3B6FC14C232BF00FB5956 /* CenterController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CenterController.xib; sourceTree = "<group>"; };
@@ -137,8 +134,6 @@
 			children = (
 				E2B3B6EF14C22EAE00FB5956 /* IIViewDeckController.h */,
 				E2B3B6F014C22EAE00FB5956 /* IIViewDeckController.m */,
-				E2B3B6F114C22EAE00FB5956 /* WrappedController.h */,
-				E2B3B6F214C22EAE00FB5956 /* WrappedController.m */,
 			);
 			name = ViewDeck;
 			path = ../../ViewDeck;
@@ -214,7 +209,6 @@
 				E2B3B6D614C2249500FB5956 /* AppDelegate.m in Sources */,
 				E2B3B6D914C2249500FB5956 /* ViewController.m in Sources */,
 				E2B3B6F314C22EAE00FB5956 /* IIViewDeckController.m in Sources */,
-				E2B3B6F414C22EAE00FB5956 /* WrappedController.m in Sources */,
 				E2B3B6FD14C232BF00FB5956 /* CenterController.m in Sources */,
 				E2B3B70214C232DA00FB5956 /* LeftController.m in Sources */,
 			);

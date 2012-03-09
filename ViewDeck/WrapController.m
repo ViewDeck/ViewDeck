@@ -32,22 +32,37 @@
 #define II_CGRectOffsetBottomAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width, __r.size.height-__o }; })
 #define II_CGRectShrink(rect, w, h) ({__typeof__(rect) __r = (rect); __typeof__(w) __w = (w); __typeof__(h) __h = (h); (CGRect) { __r.origin, __r.size.width - __w, __r.size.height - __h }; })
 
-#import "WrappedController.h"
+#import "WrapController.h"
+#import <objc/runtime.h>
+#import <objc/message.h>
 
-@implementation WrappedController
+@interface UIViewController (WrappedItem_Internal) 
+
+// internal setter for the wrapController property on UIViewController
+- (void)setWrapController:(WrapController *)wrapController;
+
+@end
+
+@implementation WrapController
 
 @synthesize wrappedController = _wrappedController;
+@synthesize onViewDidLoad = _onViewDidLoad;
+@synthesize onViewWillAppear = _onViewWillAppear;
+@synthesize onViewDidAppear = _onViewDidAppear;
+@synthesize onViewWillDisappear = _onViewWillDisappear;
+@synthesize onViewDidDisappear = _onViewDidDisappear;
 
 #pragma mark - View lifecycle
 
 - (id)initWithViewController:(UIViewController *)controller {
     if ((self = [super init])) {
         _wrappedController = controller;
+        [controller setWrapController:self];
     }
           
     return self;
 }
-          
+
 - (CGFloat)statusBarHeight {
 //    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]]) 
 //        return 0;
@@ -60,8 +75,10 @@
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
+#if __IPHONE_5_0
     [self addChildViewController:self.wrappedController];
-
+#endif
+    
     self.view = [[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(self.wrappedController.view.frame, [self statusBarHeight])];
     self.view.autoresizingMask = self.wrappedController.view.autoresizingMask;
     self.wrappedController.view.frame = self.view.bounds;
@@ -69,6 +86,12 @@
     [self.view addSubview:self.wrappedController.view];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    if (self.onViewDidLoad) 
+        self.onViewDidLoad(self);
+}
 
 - (void)viewDidUnload
 {
@@ -78,6 +101,10 @@
 }
 
 - (void)dealloc {
+#if __IPHONE_5_0
+    [_wrappedController removeFromParentViewController];
+#endif
+    [_wrappedController setWrapController:nil];
     _wrappedController = nil;
 #if !II_ARC_ENABLED
     [super dealloc];
@@ -91,24 +118,36 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    if (self.onViewWillAppear) 
+        self.onViewWillAppear(self, animated);
+
     [self.wrappedController viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (self.onViewDidAppear) 
+        self.onViewDidAppear(self, animated);
+
     [self.wrappedController viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    if (self.onViewWillDisappear) 
+        self.onViewWillDisappear(self, animated);
+
     [self.wrappedController viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    if (self.onViewDidDisappear) 
+        self.onViewDidDisappear(self, animated);
+
     [self.wrappedController viewDidDisappear:animated];
 }
 
@@ -144,6 +183,55 @@
 
 - (void)didReceiveMemoryWarning {
     [self.wrappedController didReceiveMemoryWarning];
+}
+
+@end
+
+@implementation UIViewController (WrapControllerItem) 
+
+@dynamic wrapController;
+
+static const char* wrapControllerKey = "WrapController";
+
+- (WrapController*)wrapController_core {
+    return objc_getAssociatedObject(self, wrapControllerKey);
+}
+
+- (WrapController*)wrapController {
+    id result = [self wrapController_core];
+    if (!result && self.navigationController) 
+        return [self.navigationController wrapController];
+    
+    return result;
+}
+
+- (void)setWrapController:(WrapController *)wrapController {
+    objc_setAssociatedObject(self, wrapControllerKey, wrapController, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (UINavigationController*)wc_navigationController {
+    UIViewController* controller = self.wrapController_core ? self.wrapController_core : self;
+    return [controller wc_navigationController]; // when we get here, the wc_ method is actually the old, real method
+}
+
+- (UINavigationItem*)wc_navigationItem {
+    UIViewController* controller = self.wrapController_core ? self.wrapController_core : self;
+    return [controller wc_navigationItem]; // when we get here, the wc_ method is actually the old, real method
+}
+
++ (void)wc_swizzle {
+    SEL nc = @selector(navigationController);
+    SEL wcnc = @selector(wc_navigationController);
+    method_exchangeImplementations(class_getInstanceMethod(self, nc), class_getInstanceMethod(self, wcnc));
+    
+    SEL ni = @selector(navigationItem);
+    SEL wcni = @selector(wc_navigationItem);
+    method_exchangeImplementations(class_getInstanceMethod(self, ni), class_getInstanceMethod(self, wcni));
+}
+
++ (void)load {
+    [super load];
+    [self wc_swizzle];
 }
 
 @end

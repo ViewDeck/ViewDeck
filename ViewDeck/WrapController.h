@@ -25,10 +25,23 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WrappedController : UIViewController
+@interface WrapController : UIViewController
 
 @property (nonatomic, readonly, retain) UIViewController* wrappedController;
+@property (nonatomic, copy) void(^onViewDidLoad)(WrapController* controller);
+@property (nonatomic, copy) void(^onViewWillAppear)(WrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewDidAppear)(WrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewWillDisappear)(WrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewDidDisappear)(WrapController* controller, BOOL animated);
 
 - (id)initWithViewController:(UIViewController*)controller;
+
+@end
+
+// category on WrappedController to provide access to the viewDeckController in the 
+// contained viewcontrollers, a la UINavigationController.
+@interface UIViewController (WrapControllerItem) 
+
+@property(nonatomic,readonly,assign) WrapController *wrapController; 
 
 @end

@@ -22,7 +22,7 @@
 		E20D4B4C14DB53B1007A33CB /* FirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20D4B4A14DB53B1007A33CB /* FirstViewController.xib */; };
 		E20D4B4F14DB53B1007A33CB /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20D4B4D14DB53B1007A33CB /* SecondViewController.xib */; };
 		E20D4B5B14DB5486007A33CB /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20D4B5814DB5486007A33CB /* IIViewDeckController.m */; };
-		E20D4B5C14DB5486007A33CB /* WrappedController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20D4B5A14DB5486007A33CB /* WrappedController.m */; };
+		E20D4B5C14DB5486007A33CB /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20D4B5A14DB5486007A33CB /* WrapController.m */; };
 		E20D4B6014DB5538007A33CB /* SelectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20D4B5E14DB5538007A33CB /* SelectorController.m */; };
 		E20D4B6114DB5538007A33CB /* SelectorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20D4B5F14DB5538007A33CB /* SelectorController.xib */; };
 		E20D4B6514DB5F9F007A33CB /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20D4B6314DB5F9F007A33CB /* ThirdViewController.m */; };
@@ -57,8 +57,8 @@
 		E20D4B4E14DB53B1007A33CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondViewController.xib; sourceTree = "<group>"; };
 		E20D4B5714DB5486007A33CB /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E20D4B5814DB5486007A33CB /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		E20D4B5914DB5486007A33CB /* WrappedController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrappedController.h; sourceTree = "<group>"; };
-		E20D4B5A14DB5486007A33CB /* WrappedController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrappedController.m; sourceTree = "<group>"; };
+		E20D4B5914DB5486007A33CB /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = WrapController.h; sourceTree = "<group>"; };
+		E20D4B5A14DB5486007A33CB /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrapController.m; sourceTree = "<group>"; };
 		E20D4B5D14DB5538007A33CB /* SelectorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectorController.h; sourceTree = "<group>"; };
 		E20D4B5E14DB5538007A33CB /* SelectorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectorController.m; sourceTree = "<group>"; };
 		E20D4B5F14DB5538007A33CB /* SelectorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectorController.xib; sourceTree = "<group>"; };
@@ -174,8 +174,8 @@
 			children = (
 				E20D4B5714DB5486007A33CB /* IIViewDeckController.h */,
 				E20D4B5814DB5486007A33CB /* IIViewDeckController.m */,
-				E20D4B5914DB5486007A33CB /* WrappedController.h */,
-				E20D4B5A14DB5486007A33CB /* WrappedController.m */,
+				E20D4B5914DB5486007A33CB /* WrapController.h */,
+				E20D4B5A14DB5486007A33CB /* WrapController.m */,
 			);
 			name = ViewDeck;
 			path = ../../ViewDeck;
@@ -258,7 +258,7 @@
 				E20D4B3E14DB53B1007A33CB /* FirstViewController.m in Sources */,
 				E20D4B4514DB53B1007A33CB /* SecondViewController.m in Sources */,
 				E20D4B5B14DB5486007A33CB /* IIViewDeckController.m in Sources */,
-				E20D4B5C14DB5486007A33CB /* WrappedController.m in Sources */,
+				E20D4B5C14DB5486007A33CB /* WrapController.m in Sources */,
 				E20D4B6014DB5538007A33CB /* SelectorController.m in Sources */,
 				E20D4B6514DB5F9F007A33CB /* ThirdViewController.m in Sources */,
 				E20D4B6A14DB5FCC007A33CB /* FourthViewController.m in Sources */,
@@ -382,6 +382,7 @@
 				E20D4B5414DB53B1007A33CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -56,6 +56,7 @@
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
+#import "WrapController.h"
 
 #define DURATION_FAST 0.3
 #define DURATION_SLOW 0.3
@@ -396,14 +397,11 @@
     self.slidingControllerView.hidden = NO;
 
     self.centerView.frame = self.centerViewBounds;
-    NSLog(@"self.centerview.frame = %@", NSStringFromCGRect(self.centerViewBounds));
     self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerController.view.frame = self.centerView.bounds;
-    NSLog(@"self.centerController.frame = %@", NSStringFromCGRect(self.centerController.view.frame));
     self.leftController.view.frame = self.sideViewBounds;
     self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.leftController.view.hidden = YES;
-    NSLog(@"self.leftController.view.frame = %@", NSStringFromCGRect(self.leftController.view.frame));
     self.rightController.view.frame = self.sideViewBounds;
     self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.rightController.view.hidden = YES;
@@ -522,18 +520,9 @@
     else {
         self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
         self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.leftController.view.frame = (CGRect) { self.leftController.view.frame.origin, {_leftWidth, self.leftController.view.frame.size.height} };
-        self.rightController.view.frame = (CGRect) { self.rightController.view.frame.origin, {_rightWidth, self.rightController.view.frame.size.height} };
     }
     [self setSlidingFrame:[self slidingRectForOffset:offset]];
 
-//    if (self.resizesCenterView) {
-//        CGSize size = [self slidingSizeForOffset:offset];
-//        CGRect frame = II_CGRectOffsetRightAndShrink(self.centerViewBounds;
-//        frame.size = size;
-//        self.centerView.frame = frame;
-//    }
-    
     _preRotationWidth = 0;
 }
 
@@ -1367,7 +1356,9 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 - (IIViewDeckController*)viewDeckController {
     id result = [self viewDeckController_core];
     if (!result && self.navigationController) 
-        return [self.navigationController viewDeckController];
+        result = [self.navigationController viewDeckController];
+    if (!result && self.wrapController) 
+        result = [self.wrapController viewDeckController];
 
     return result;
 }

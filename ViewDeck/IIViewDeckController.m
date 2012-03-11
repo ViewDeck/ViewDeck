@@ -554,12 +554,12 @@
 
 - (void)showCenterView:(BOOL)animated  completion:(void(^)(IIViewDeckController* controller))completed {
     BOOL mustRunCompletion = completed != nil;
-    if (!self.leftController.view.hidden) {
+    if (self.leftController && !self.leftController.view.hidden) {
         [self closeLeftViewAnimated:animated completion:completed];
         mustRunCompletion = NO;
     }
-
-    if (!self.rightController.view.hidden) {
+    
+    if (self.rightController && !self.rightController.view.hidden) {
         [self closeRightViewAnimated:animated completion:completed];
         mustRunCompletion = NO;
     }

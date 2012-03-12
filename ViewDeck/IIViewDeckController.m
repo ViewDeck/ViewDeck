@@ -47,10 +47,39 @@
 
 #define II_FLOAT_EQUAL(x, y) (((x) - (y)) == 0.0f)
 
-#define II_CGRectOffsetRightAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width-__o, __r.size.height }; })
-#define II_CGRectOffsetTopAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y + __o, __r.size.width, __r.size.height-__o }; })
-#define II_CGRectOffsetBottomAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width, __r.size.height-__o }; })
-#define II_CGRectShrink(rect, w, h) ({__typeof__(rect) __r = (rect); __typeof__(w) __w = (w); __typeof__(h) __h = (h); (CGRect) { __r.origin, __r.size.width - __w, __r.size.height - __h }; })
+#define II_CGRectOffsetRightAndShrink(rect, offset)         \
+  ({                                                        \
+    __typeof__(rect) __r = (rect);                          \
+    __typeof__(offset) __o = (offset);                      \
+     (CGRect) {  { __r.origin.x, __r.origin.y },            \
+                 { __r.size.width - __o, __r.size.height }  \
+              };                                            \
+  })
+#define II_CGRectOffsetTopAndShrink(rect, offset)           \
+  ({                                                        \
+    __typeof__(rect) __r = (rect);                          \
+    __typeof__(offset) __o = (offset);                      \
+    (CGRect) { { __r.origin.x,   __r.origin.y    + __o },   \
+               { __r.size.width, __r.size.height - __o }    \
+             };                                             \
+  })
+#define II_CGRectOffsetBottomAndShrink(rect, offset)        \
+  ({                                                        \
+    __typeof__(rect) __r = (rect);                          \
+    __typeof__(offset) __o = (offset);                      \
+    (CGRect) { { __r.origin.x, __r.origin.y },              \
+               { __r.size.width, __r.size.height - __o}     \
+             };                                             \
+  })
+#define II_CGRectShrink(rect, w, h)                             \
+  ({                                                            \
+    __typeof__(rect) __r = (rect);                              \
+    __typeof__(w) __w = (w);                                    \
+    __typeof__(h) __h = (h);                                    \
+    (CGRect) {  __r.origin,                                     \
+               { __r.size.width - __w, __r.size.height - __h}   \
+             };                                                 \
+   })
 
 #import "IIViewDeckController.h"
 #import <objc/runtime.h>

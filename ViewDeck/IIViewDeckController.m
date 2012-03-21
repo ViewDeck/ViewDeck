@@ -176,6 +176,7 @@
 @synthesize rotationBehavior = _rotationBehavior;
 @synthesize enabled = _enabled;
 @synthesize elastic = _elastic;
+@synthesize bounceWidth = _bounceWidth;
 
 #pragma mark - Initalisation and deallocation
 
@@ -685,7 +686,12 @@
     
     // first open the view completely, run the block (to allow changes) and close it again.
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
-        [self setSlidingFrame:[self slidingRectForOffset:self.referenceBounds.size.width]];
+        if (self.bounceWidth) {
+          [self setSlidingFrame:[self slidingRectForOffset: self.bounceWidth]];
+        }
+        else {
+          [self setSlidingFrame:[self slidingRectForOffset: self.referenceBounds.size.width]];
+        }
     } completion:^(BOOL finished) {
         // run block if it's defined
         if (bounced) bounced(self);

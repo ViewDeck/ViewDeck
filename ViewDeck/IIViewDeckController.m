@@ -798,7 +798,12 @@
     if (![self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:YES]) return;
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
-        [self setSlidingFrame:[self slidingRectForOffset:-self.referenceBounds.size.width]];
+        if (self.bounceWidth) {
+          [self setSlidingFrame:[self slidingRectForOffset:-self.bounceWidth]];
+        }
+        else {
+          [self setSlidingFrame:[self slidingRectForOffset:-self.referenceBounds.size.width]];
+        }
     } completion:^(BOOL finished) {
         if (bounced)  bounced(self);
         if (self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 

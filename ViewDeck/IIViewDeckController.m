@@ -46,6 +46,7 @@
 #endif
 
 #define II_FLOAT_EQUAL(x, y) (((x) - (y)) == 0.0f)
+#define II_STRING_EQUAL(a, b) ((a == nil && b == nil) || (a != nil && [a isEqualToString:b]))
 
 #define II_CGRectOffsetRightAndShrink(rect, offset)         \
   ({                                                        \
@@ -1074,8 +1075,8 @@
 }
 
 - (void)setTitle:(NSString *)title {
-    if (![title isEqualToString:self.title]) [super setTitle:title];
-    if (![title isEqualToString:self.centerController.title]) self.centerController.title = title;
+    if (!II_STRING_EQUAL(title, self.title)) [super setTitle:title];
+    if (!II_STRING_EQUAL(title, self.centerController.title)) self.centerController.title = title;
 }
 
 - (NSString*)title {
@@ -1309,7 +1310,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if ([@"title" isEqualToString:keyPath]) {
-        if (![[super title] isEqualToString:self.centerController.title]) {
+        if (!II_STRING_EQUAL([super title], self.centerController.title)) {
             self.title = self.centerController.title;
         }
     }

@@ -46,7 +46,7 @@
 #endif
 
 #define II_FLOAT_EQUAL(x, y) (((x) - (y)) == 0.0f)
-#define II_STRING_EQUAL(a, b) (a == nil && b == nil) || (a != nil && [a isEqualToString:b])
+#define II_STRING_EQUAL(a, b) ((a == nil && b == nil) || (a != nil && [a isEqualToString:b]))
 
 #define II_CGRectOffsetRightAndShrink(rect, offset)         \
   ({                                                        \

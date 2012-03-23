@@ -1141,7 +1141,9 @@
 
     if (_leftController) {
 #if __IPHONE_5_0
-        [_leftController removeFromParentViewController];
+        if ([_leftController respondsToSelector:@selector(removeFromParentViewController)]) {
+            [_leftController removeFromParentViewController];
+        }
 #endif
         _leftController.viewDeckController = nil;
         II_RELEASE(_leftController);
@@ -1165,7 +1167,9 @@
         II_RELEASE(_centerController);
         [_centerController removeObserver:self forKeyPath:@"title"];
 #if __IPHONE_5_0
-        [_centerController removeFromParentViewController];
+        if ([_centerController respondsToSelector:@selector(removeFromParentViewController)]) {
+            [_centerController removeFromParentViewController];
+        }
 #endif
         _centerController = centerController;
         
@@ -1192,7 +1196,9 @@
         [_centerController viewDidDisappear:NO];
 
 #if __IPHONE_5_0
-        [_centerController removeFromParentViewController];
+        if ([_centerController respondsToSelector:@selector(removeFromParentViewController)]) {
+            [_centerController removeFromParentViewController];
+        }
 #endif
         II_RELEASE(_centerController);
         _centerController = nil;
@@ -1247,7 +1253,9 @@
             [_rightController.view removeFromSuperview];
             [_rightController viewDidDisappear:NO];
 #if __IPHONE_5_0
-            [_rightController removeFromParentViewController];
+            if ([_rightController respondsToSelector:@selector(removeFromParentViewController)]) {
+                [_rightController removeFromParentViewController];
+            }
 #endif
         }
         
@@ -1269,7 +1277,9 @@
 
     if (_rightController) {
 #if __IPHONE_5_0
-        [_rightController removeFromParentViewController];
+        if ([_rightController respondsToSelector:@selector(removeFromParentViewController)]) {
+            [_rightController removeFromParentViewController];
+        }
 #endif
         _rightController.viewDeckController = nil;
         II_RELEASE(_rightController);

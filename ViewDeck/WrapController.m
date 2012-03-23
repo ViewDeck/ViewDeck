@@ -102,7 +102,9 @@
 
 - (void)dealloc {
 #if __IPHONE_5_0
-    [_wrappedController removeFromParentViewController];
+    if ([_wrappedController respondsToSelector:@selector(removeFromParentViewController)]) {
+        [_wrappedController removeFromParentViewController];
+    }
 #endif
     [_wrappedController setWrapController:nil];
     _wrappedController = nil;

@@ -151,6 +151,19 @@
 
 @end
 
+#ifndef __IPHONE_5_0
+
+@interface UIViewController (UIViewDeckController_ViewContainmentEmulation) 
+
+- (void)addChildViewController:(UIViewController *)childController;
+- (void)removeFromParentViewController;
+- (void)willMoveToParentViewController:(UIViewController *)parent;
+- (void)didMoveToParentViewController:(UIViewController *)parent;
+
+@end
+
+#endif
+
 
 @implementation IIViewDeckController
 
@@ -306,14 +319,14 @@
     if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
         return self.referenceBounds;
 
-    return II_CGRectShrink(self.referenceBounds, 0, [self statusBarHeight] + (self.navigationController.navigationBarHidden ? 0 : self.navigationController.navigationBar.frame.size.height));
+    return II_CGRectShrink(self.referenceBounds, 0, [self relativeStatusBarHeight] + (self.navigationController.navigationBarHidden ? 0 : self.navigationController.navigationBar.frame.size.height));
 }
 
 - (CGRect)sideViewBounds {
     if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
         return self.referenceBounds;
     
-    return II_CGRectOffsetTopAndShrink(self.referenceBounds, [self statusBarHeight]);
+    return II_CGRectOffsetTopAndShrink(self.referenceBounds, [self relativeStatusBarHeight]);
 }
 
 
@@ -1335,6 +1348,7 @@
     return self.centerController.hidesBottomBarWhenPushed;
 }
 
+
 @end
 
 #pragma mark -
@@ -1433,3 +1447,26 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 @end
 
+#ifndef __IPHONE_5_0
+
+@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation) 
+
+- (void)addChildViewController:(UIViewController *)childController {
+    
+}
+
+- (void)removeFromParentViewController {
+
+}
+
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent {
+    
+}
+
+@end
+
+#endif

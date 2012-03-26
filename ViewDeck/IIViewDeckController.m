@@ -126,6 +126,7 @@
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;
 - (void)arrangeViewsAfterRotation;
+- (CGFloat)relativeStatusBarHeight;
 
 - (void)centerViewVisible;
 - (void)centerViewHidden;
@@ -288,13 +289,17 @@
     return self.referenceView.bounds;
 }
 
-- (CGFloat)statusBarHeight {
+- (CGFloat)relativeStatusBarHeight {
     if (![self.referenceView isKindOfClass:[UIWindow class]]) 
         return 0;
+    
+    return [self statusBarHeight];
+}
 
+- (CGFloat)statusBarHeight {
     return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
-    ? [UIApplication sharedApplication].statusBarFrame.size.width 
-    : [UIApplication sharedApplication].statusBarFrame.size.height;
+        ? [UIApplication sharedApplication].statusBarFrame.size.width 
+        : [UIApplication sharedApplication].statusBarFrame.size.height;
 }
 
 - (CGRect)centerViewBounds {

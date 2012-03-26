@@ -122,6 +122,8 @@ typedef enum {
 - (BOOL)rightControllerIsClosed;
 - (BOOL)rightControllerIsOpen;
 
+- (CGFloat)statusBarHeight;
+
 @end
 
 

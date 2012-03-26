@@ -418,9 +418,11 @@
     
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 
-//    BOOL appeared = _viewAppeared;
     [self setSlidingAndReferenceViews];
     
+    [self reapplySideController:&_leftController];
+    [self reapplySideController:&_rightController];
+
     [self.centerController.view removeFromSuperview];
     [self.centerView addSubview:self.centerController.view];
     [self.leftController.view removeFromSuperview];
@@ -819,6 +821,12 @@
 #pragma mark - Pre iOS5 message relaying
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
+    bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] && ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+    
+    // don't relay if the controller supports automatic relaying
+    if (shouldRelay) 
+        return;                                                                                                                                       
+
     relay(self.centerController);
     relay(self.leftController);
     relay(self.rightController);
@@ -1075,10 +1083,6 @@
 
 #pragma mark - Properties
 
-- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
-    return NO;
-}
-
 - (void)setTitle:(NSString *)title {
     if (!II_STRING_EQUAL(title, self.title)) [super setTitle:title];
     if (!II_STRING_EQUAL(title, self.centerController.title)) self.centerController.title = title;
@@ -1118,192 +1122,135 @@
     }
 }
 
-- (void)setLeftController:(UIViewController *)leftController {
+- (void)applySideController:(__strong UIViewController **)controllerStore to:(UIViewController *)newController otherSideController:(UIViewController *)otherController clearOtherController:(void(^)())clearOtherController {
+    void(^beforeBlock)(UIViewController* controller) = ^(UIViewController* controller){};
+    void(^afterBlock)(UIViewController* controller) = ^(UIViewController* controller){};
+    
     if (_viewAppeared) {
-        if (_leftController == leftController) return;
-        
-        if (_leftController) {
-            [_rightController viewWillDisappear:NO];
-            [_leftController.view removeFromSuperview];
-            [_rightController viewDidDisappear:NO];
-            _leftController.viewDeckController = nil;
-        }
-        
-        if (leftController) {
-            if (leftController == self.centerController) self.centerController = nil;
-            if (leftController == self.rightController) self.rightController = nil;
-
-            leftController.viewDeckController = self;
-            [_leftController viewWillAppear:NO];
+        beforeBlock = ^(UIViewController* controller) {
+            [controller.view removeFromSuperview];
+        };
+        afterBlock = ^(UIViewController* controller) {
+            controller.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
+            controller.view.frame = self.referenceBounds;
+            controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             if (self.slidingController)
-                [self.referenceView insertSubview:leftController.view belowSubview:self.slidingControllerView];
+                [self.referenceView insertSubview:controller.view belowSubview:self.slidingControllerView];
             else
-                [self.referenceView addSubview:leftController.view];
-            leftController.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
-            leftController.view.frame = self.referenceBounds;
-            leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        }
+                [self.referenceView addSubview:controller.view];
+        };
     }
 
-    if (_leftController) {
-#if __IPHONE_5_0
-        if ([_leftController respondsToSelector:@selector(removeFromParentViewController)]) {
-            [_leftController removeFromParentViewController];
-        }
-#endif
-        _leftController.viewDeckController = nil;
-        II_RELEASE(_leftController);
+    // start the transition
+    if (*controllerStore) {
+        [*controllerStore willMoveToParentViewController:nil];
+        if (newController == self.centerController) self.centerController = nil;
+        if (newController == otherController && clearOtherController) clearOtherController();
+        beforeBlock(*controllerStore);
+        [*controllerStore setViewDeckController:nil];
+        [*controllerStore removeFromParentViewController];
+        [*controllerStore didMoveToParentViewController:nil];
+        II_RELEASE(*controllerStore);
     }
-    _leftController = leftController;
-    if (_leftController) {
-        II_RETAIN(_leftController);
-        _leftController.viewDeckController = self;
-#if __IPHONE_5_0
-        if ([self respondsToSelector:@selector(addChildViewController:)])
-            [self addChildViewController:_leftController];
-#endif
-        if (_viewAppeared) [_leftController viewDidAppear:NO];
+    
+    // make the switch
+    *controllerStore = newController;
+    
+    if (*controllerStore) {
+        [newController willMoveToParentViewController:nil];
+        [newController removeFromParentViewController];
+        [newController didMoveToParentViewController:nil];
+
+        // and finish the transition
+        UIViewController* parentController = (self.referenceView == self.view) ? self : [[self parentViewController] parentViewController];
+        II_RETAIN(*controllerStore);
+        [parentController addChildViewController:*controllerStore];
+        [*controllerStore setViewDeckController:self];
+        afterBlock(*controllerStore);
+        [*controllerStore didMoveToParentViewController:parentController];
     }
 }
 
+- (void)reapplySideController:(__strong UIViewController **)controllerStore {
+    [self applySideController:controllerStore to:*controllerStore otherSideController:nil clearOtherController:nil];
+}
 
-
-- (void)setCenterController:(UIViewController *)centerController {
-    if (!_viewAppeared) {
-        _centerController.viewDeckController = nil;
-        II_RELEASE(_centerController);
-        [_centerController removeObserver:self forKeyPath:@"title"];
-#if __IPHONE_5_0
-        if ([_centerController respondsToSelector:@selector(removeFromParentViewController)]) {
-            [_centerController removeFromParentViewController];
-        }
-#endif
-        _centerController = centerController;
-        
-#if __IPHONE_5_0
-        if ([self respondsToSelector:@selector(addChildViewController:)])
-            [self addChildViewController:_centerController];
-#endif
-        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
-        _centerController.viewDeckController = self;
-        II_RETAIN(_centerController);
-        return;
-    }
-
-    if (_centerController == centerController) return;
-    
-    [self removePanners];
-    CGRect currentFrame = self.referenceBounds;
-    if (_centerController) {
-        [self restoreShadowToSlidingView];
-        currentFrame = _centerController.view.frame;
-        [_centerController viewWillDisappear:NO];
-        [_centerController.view removeFromSuperview];
-        _centerController.viewDeckController = nil;
-        [_centerController removeObserver:self forKeyPath:@"title"];
-        [_centerController viewDidDisappear:NO];
-
-#if __IPHONE_5_0
-        if ([_centerController respondsToSelector:@selector(removeFromParentViewController)]) {
-            [_centerController removeFromParentViewController];
-        }
-#endif
-        II_RELEASE(_centerController);
-        _centerController = nil;
-    }
-    
-    if (centerController) {
-        if (centerController == self.leftController) self.leftController = nil;
-        if (centerController == self.rightController) self.rightController = nil;
-
-        UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
-            ? (UINavigationController*)centerController 
-            : nil;
-        BOOL barHidden = NO;
-        if (navController != nil && !navController.navigationBarHidden) {
-            barHidden = YES;
-            navController.navigationBarHidden = YES;
-        }
-
-        _centerController = centerController;
-#if __IPHONE_5_0
-        if ([self respondsToSelector:@selector(addChildViewController:)])
-            [self addChildViewController:_centerController];
-#endif
-        II_RETAIN(_centerController);
-        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
-        _centerController.viewDeckController = self;
-        [self setSlidingAndReferenceViews];
-        centerController.view.frame = currentFrame;
-        centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        centerController.view.hidden = NO;
-        [self.centerController viewWillAppear:NO];
-        [self.centerView addSubview:centerController.view];
-        
-        if (barHidden) {
-            navController.navigationBarHidden = NO;
-        }
-        
-        [self addPanners];
-        [self applyShadowToSlidingView];
-        [self.centerController viewDidAppear:NO];
-    }
-    else {
-        _centerController = nil;
-    }
+- (void)setLeftController:(UIViewController *)leftController {
+    if (_leftController == leftController) return;
+    [self applySideController:&_leftController to:leftController otherSideController:_rightController clearOtherController:^() { self.rightController = nil; }];
 }
 
 - (void)setRightController:(UIViewController *)rightController {
     if (_rightController == rightController) return;
-    
-    if (_viewAppeared) {
-        if (_rightController) {
-            [_rightController viewWillDisappear:NO];
-            [_rightController.view removeFromSuperview];
-            [_rightController viewDidDisappear:NO];
-#if __IPHONE_5_0
-            if ([_rightController respondsToSelector:@selector(removeFromParentViewController)]) {
-                [_rightController removeFromParentViewController];
-            }
-#endif
-        }
-        
-        if (rightController) {
-            if (rightController == self.centerController) self.centerController = nil;
-            if (rightController == self.leftController) self.leftController = nil;
-            
-            rightController.viewDeckController = self;
-            [_rightController viewWillAppear:NO];
-            if (self.slidingController) 
-                [self.referenceView insertSubview:rightController.view belowSubview:self.slidingControllerView];
-            else
-                [self.referenceView addSubview:rightController.view];
-            rightController.view.hidden = self.slidingControllerView.frame.origin.x >= 0;
-            rightController.view.frame = self.referenceBounds;
-            rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        }
-    }
-
-    if (_rightController) {
-#if __IPHONE_5_0
-        if ([_rightController respondsToSelector:@selector(removeFromParentViewController)]) {
-            [_rightController removeFromParentViewController];
-        }
-#endif
-        _rightController.viewDeckController = nil;
-        II_RELEASE(_rightController);
-    }
-    _rightController = rightController;
-    if (_rightController) {
-        II_RETAIN(_rightController);
-        _rightController.viewDeckController = self;
-#if __IPHONE_5_0
-        if ([self respondsToSelector:@selector(addChildViewController:)])
-            [self addChildViewController:_rightController];
-#endif
-        if (_viewAppeared) [_rightController viewDidAppear:NO];
-    }
+    [self applySideController:&_rightController to:rightController otherSideController:_leftController clearOtherController:^() { self.leftController = nil; }];
 }
+
+
+- (void)setCenterController:(UIViewController *)centerController {
+    if (_centerController == centerController) return;
+    
+    void(^beforeBlock)(UIViewController* controller) = ^(UIViewController* controller){};
+    void(^afterBlock)(UIViewController* controller) = ^(UIViewController* controller){};
+    
+    __block CGRect currentFrame = self.referenceBounds;
+    if (_viewAppeared) {
+        beforeBlock = ^(UIViewController* controller) {
+            [self restoreShadowToSlidingView];
+            [self removePanners];
+            [controller.view removeFromSuperview];
+        };
+        afterBlock = ^(UIViewController* controller) {
+            UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
+            ? (UINavigationController*)centerController 
+            : nil;
+            BOOL barHidden = NO;
+            if (navController != nil && !navController.navigationBarHidden) {
+                barHidden = YES;
+                navController.navigationBarHidden = YES;
+            }
+
+            [self setSlidingAndReferenceViews];
+            controller.view.frame = currentFrame;
+            controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            controller.view.hidden = NO;
+            [self.centerView addSubview:controller.view];
+
+            if (barHidden) 
+                navController.navigationBarHidden = NO;
+            
+            [self addPanners];
+            [self applyShadowToSlidingView];
+        };
+    }
+    
+    // start the transition
+    if (_centerController) {
+        currentFrame = _centerController.view.frame;
+        [_centerController willMoveToParentViewController:nil];
+        if (centerController == self.leftController) self.leftController = nil;
+        if (centerController == self.rightController) self.rightController = nil;
+        beforeBlock(_centerController);
+        [_centerController removeObserver:self forKeyPath:@"title"];
+        [_centerController setViewDeckController:nil];
+        [_centerController removeFromParentViewController];
+        [_centerController didMoveToParentViewController:nil];
+        II_RELEASE(_centerController);
+    }
+    
+    // make the switch
+    _centerController = centerController;
+    
+    if (_centerController) {
+        // and finish the transition
+        II_RETAIN(_centerController);
+        [self addChildViewController:_centerController];
+        [_centerController setViewDeckController:self];
+        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
+        afterBlock(_centerController);
+        [_centerController didMoveToParentViewController:self];
+    }    
+}
+
 
 - (void)setSlidingAndReferenceViews {
     if (self.navigationController && self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {

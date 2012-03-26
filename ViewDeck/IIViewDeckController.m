@@ -1154,7 +1154,8 @@
         II_RETAIN(_leftController);
         _leftController.viewDeckController = self;
 #if __IPHONE_5_0
-        [self addChildViewController:_leftController];
+        if ([self respondsToSelector:@selector(addChildViewController:)])
+            [self addChildViewController:_leftController];
 #endif
         if (_viewAppeared) [_leftController viewDidAppear:NO];
     }
@@ -1175,7 +1176,8 @@
         _centerController = centerController;
         
 #if __IPHONE_5_0
-        [self addChildViewController:_centerController];
+        if ([self respondsToSelector:@selector(addChildViewController:)])
+            [self addChildViewController:_centerController];
 #endif
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
         _centerController.viewDeckController = self;
@@ -1220,7 +1222,8 @@
 
         _centerController = centerController;
 #if __IPHONE_5_0
-        [self addChildViewController:_centerController];
+        if ([self respondsToSelector:@selector(addChildViewController:)])
+            [self addChildViewController:_centerController];
 #endif
         II_RETAIN(_centerController);
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
@@ -1290,7 +1293,8 @@
         II_RETAIN(_rightController);
         _rightController.viewDeckController = self;
 #if __IPHONE_5_0
-        [self addChildViewController:_rightController];
+        if ([self respondsToSelector:@selector(addChildViewController:)])
+            [self addChildViewController:_rightController];
 #endif
         if (_viewAppeared) [_rightController viewDidAppear:NO];
     }

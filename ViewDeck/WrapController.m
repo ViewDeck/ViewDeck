@@ -87,7 +87,8 @@
 - (void)loadView
 {
 #if __IPHONE_5_0
-    [self addChildViewController:self.wrappedController];
+    if ([self respondsToSelector:@selector(addChildViewController:)])
+        [self addChildViewController:self.wrappedController];
 #endif
     
     self.view = II_AUTORELEASE([[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(self.wrappedController.view.frame, [self statusBarHeight])]);

@@ -1404,7 +1404,7 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController {
-    objc_setAssociatedObject(self, viewDeckControllerKey, viewDeckController, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, viewDeckControllerKey, viewDeckController, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {

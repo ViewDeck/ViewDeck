@@ -83,6 +83,8 @@ typedef enum {
 @property (nonatomic) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
 @property (nonatomic) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
 @property (nonatomic) IIViewDeckRotationBehavior rotationBehavior;
+@property (nonatomic, assign) CGFloat bounceWidth;
+
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;

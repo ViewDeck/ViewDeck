@@ -27,6 +27,16 @@
 #define II_ARC_ENABLED 1
 #endif // __has_feature(objc_arc)
 
+#if II_ARC_ENABLED
+#define II_RETAIN(xx)  ((void)(0))
+#define II_RELEASE(xx)  ((void)(0))
+#define II_AUTORELEASE(xx)  (xx)
+#else
+#define II_RETAIN(xx)           [xx retain]
+#define II_RELEASE(xx)          [xx release]
+#define II_AUTORELEASE(xx)      [xx autorelease]
+#endif
+
 #define II_CGRectOffsetRightAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width-__o, __r.size.height }; })
 #define II_CGRectOffsetTopAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y + __o, __r.size.width, __r.size.height-__o }; })
 #define II_CGRectOffsetBottomAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width, __r.size.height-__o }; })
@@ -56,6 +66,7 @@
 
 - (id)initWithViewController:(UIViewController *)controller {
     if ((self = [super init])) {
+        II_RETAIN(controller);
         _wrappedController = controller;
         [controller setWrapController:self];
     }
@@ -79,7 +90,7 @@
     [self addChildViewController:self.wrappedController];
 #endif
     
-    self.view = [[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(self.wrappedController.view.frame, [self statusBarHeight])];
+    self.view = II_AUTORELEASE([[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(self.wrappedController.view.frame, [self statusBarHeight])]);
     self.view.autoresizingMask = self.wrappedController.view.autoresizingMask;
     self.wrappedController.view.frame = self.view.bounds;
     self.wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -96,7 +107,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
     [self.wrappedController.view removeFromSuperview];
 }
 
@@ -107,6 +117,7 @@
     }
 #endif
     [_wrappedController setWrapController:nil];
+    II_RELEASE(_wrappedController);
     _wrappedController = nil;
 #if !II_ARC_ENABLED
     [super dealloc];

@@ -22,11 +22,11 @@
 
 - (IBAction)zoomPressed:(id)sender {
     [UIView animateWithDuration:0.3 animations:^{
-        if (self.containerView.frame.size.height == 320)
+        CGRect cBounds = self.containerView.superview.bounds;
+        if (self.containerView.frame.size.height != cBounds.size.height)
             self.containerView.frame = self.containerView.superview.bounds;
         else
-            self.containerView.frame = (CGRect) { 0, 48, 320, 320 };
-//        self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.containerView.frame].CGPath;
+            self.containerView.frame = (CGRect) { 0, 48, cBounds.size.width, cBounds.size.height - 48 - 48 };
     }];
 }
 
@@ -36,7 +36,6 @@
 {
     [super viewDidLoad];
     
-//    self.containerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.containerView.bon].CGPath;
     self.containerView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.containerView.layer.shadowOffset = CGSizeZero;
     self.containerView.layer.shadowRadius = 15;

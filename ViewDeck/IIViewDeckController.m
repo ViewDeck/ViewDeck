@@ -151,8 +151,6 @@
 
 @end
 
-#ifndef __IPHONE_5_0
-
 @interface UIViewController (UIViewDeckController_ViewContainmentEmulation) 
 
 - (void)addChildViewController:(UIViewController *)childController;
@@ -161,8 +159,6 @@
 - (void)didMoveToParentViewController:(UIViewController *)parent;
 
 @end
-
-#endif
 
 
 @implementation IIViewDeckController
@@ -834,10 +830,10 @@
 #pragma mark - Pre iOS5 message relaying
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
-    bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] && ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+    bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
     
     // don't relay if the controller supports automatic relaying
-    if (shouldRelay) 
+    if (!shouldRelay) 
         return;                                                                                                                                       
 
     relay(self.centerController);
@@ -1420,7 +1416,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
     method_exchangeImplementations(class_getInstanceMethod(self, dismissModal), class_getInstanceMethod(self, vdcDismissModal));
 
-#ifdef __IPHONE_5_0
     SEL presentVC = @selector(presentViewController:animated:completion:);
     SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
@@ -1428,7 +1423,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     SEL dismissVC = @selector(dismissViewControllerAnimated:completion:);
     SEL vdcDismissVC = @selector(vdc_dismissViewControllerAnimated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, dismissVC), class_getInstanceMethod(self, vdcDismissVC));
-#endif
     
     SEL nc = @selector(navigationController);
     SEL vdcnc = @selector(vdc_navigationController);
@@ -1437,6 +1431,35 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     SEL ni = @selector(navigationItem);
     SEL vdcni = @selector(vdc_navigationItem);
     method_exchangeImplementations(class_getInstanceMethod(self, ni), class_getInstanceMethod(self, vdcni));
+
+    // view containment drop ins for <ios5
+    SEL willMoveToPVC = @selector(willMoveToParentViewController:);
+    SEL vdcWillMoveToPVC = @selector(vdc_willMoveToParentViewController:);
+    if (!class_getInstanceMethod(self, willMoveToPVC)) {
+        Method implementation = class_getInstanceMethod(self, vdcWillMoveToPVC);
+        class_addMethod([UIViewController class], willMoveToPVC, method_getImplementation(implementation), "v@:@"); 
+    }
+
+    SEL didMoveToPVC = @selector(didMoveToParentViewController:);
+    SEL vdcDidMoveToPVC = @selector(vdc_didMoveToParentViewController:);
+    if (!class_getInstanceMethod(self, didMoveToPVC)) {
+        Method implementation = class_getInstanceMethod(self, vdcDidMoveToPVC);
+        class_addMethod([UIViewController class], didMoveToPVC, method_getImplementation(implementation), "v@:"); 
+    }
+
+    SEL removeFromPVC = @selector(removeFromParentViewController);
+    SEL vdcRemoveFromPVC = @selector(vdc_removeFromParentViewController);
+    if (!class_getInstanceMethod(self, removeFromPVC)) {
+        Method implementation = class_getInstanceMethod(self, vdcRemoveFromPVC);
+        class_addMethod([UIViewController class], removeFromPVC, method_getImplementation(implementation), "v@:"); 
+    }
+
+    SEL addCVC = @selector(addChildViewController:);
+    SEL vdcAddCVC = @selector(vdc_addChildViewController:);
+    if (!class_getInstanceMethod(self, addCVC)) {
+        Method implementation = class_getInstanceMethod(self, vdcAddCVC);
+        class_addMethod([UIViewController class], addCVC, method_getImplementation(implementation), "v@:@"); 
+    }
 }
 
 + (void)load {
@@ -1447,26 +1470,22 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 @end
 
-#ifndef __IPHONE_5_0
+@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes) 
 
-@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation) 
+- (void)vdc_addChildViewController:(UIViewController *)childController {
+        
+}
 
-- (void)addChildViewController:(UIViewController *)childController {
+- (void)vdc_removeFromParentViewController {
+
+}
+
+- (void)vdc_willMoveToParentViewController:(UIViewController *)parent {
     
 }
 
-- (void)removeFromParentViewController {
-
-}
-
-- (void)willMoveToParentViewController:(UIViewController *)parent {
-    
-}
-
-- (void)didMoveToParentViewController:(UIViewController *)parent {
+- (void)vdc_didMoveToParentViewController:(UIViewController *)parent {
     
 }
 
 @end
-
-#endif

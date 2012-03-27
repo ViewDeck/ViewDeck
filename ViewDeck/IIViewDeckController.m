@@ -336,11 +336,11 @@ __typeof__(h) __h = (h);                                    \
 - (CGFloat)limitOffset:(CGFloat)offset {
     if (_leftController && _rightController) return offset;
     
-    if (_leftController) {
+    if (_leftController && self.maxLedge > 0) {
         CGFloat left = self.referenceBounds.size.width - self.maxLedge;
         offset = MAX(offset, left);
     }
-    else if (_rightController) {
+    else if (_rightController && self.maxLedge > 0) {
         CGFloat right = self.maxLedge - self.referenceBounds.size.width;
         offset = MIN(offset, right);
     }
@@ -487,6 +487,7 @@ __typeof__(h) __h = (h);                                    \
     [self.rightController.view removeFromSuperview];
     [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
     
+    [self setSlidingFrameForOffset:_offset];
     self.slidingControllerView.hidden = NO;
     
     self.centerView.frame = self.centerViewBounds;

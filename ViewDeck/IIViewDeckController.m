@@ -158,6 +158,11 @@
 - (void)willMoveToParentViewController:(UIViewController *)parent;
 - (void)didMoveToParentViewController:(UIViewController *)parent;
 
+- (void)vdc_viewWillAppear:(bool)animated;
+- (void)vdc_viewDidAppear:(bool)animated;
+- (void)vdc_viewWillDisappear:(bool)animated;
+- (void)vdc_viewDidDisappear:(bool)animated;
+
 @end
 
 
@@ -1137,9 +1142,12 @@
     
     if (_viewAppeared) {
         beforeBlock = ^(UIViewController* controller) {
+            [controller vdc_viewWillDisappear:NO];
             [controller.view removeFromSuperview];
+            [controller vdc_viewDidDisappear:NO];
         };
         afterBlock = ^(UIViewController* controller) {
+            [controller vdc_viewWillAppear:NO];
             controller.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
             controller.view.frame = self.referenceBounds;
             controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -1147,6 +1155,7 @@
                 [self.referenceView insertSubview:controller.view belowSubview:self.slidingControllerView];
             else
                 [self.referenceView addSubview:controller.view];
+            [controller vdc_viewDidAppear:NO];
         };
     }
 
@@ -1204,11 +1213,14 @@
     __block CGRect currentFrame = self.referenceBounds;
     if (_viewAppeared) {
         beforeBlock = ^(UIViewController* controller) {
+            [controller vdc_viewWillDisappear:NO];
             [self restoreShadowToSlidingView];
             [self removePanners];
             [controller.view removeFromSuperview];
+            [controller vdc_viewDidDisappear:NO];
         };
         afterBlock = ^(UIViewController* controller) {
+            [controller vdc_viewWillAppear:NO];
             UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
             ? (UINavigationController*)centerController 
             : nil;
@@ -1229,6 +1241,7 @@
             
             [self addPanners];
             [self applyShadowToSlidingView];
+            [controller vdc_viewDidAppear:NO];
         };
     }
     
@@ -1472,20 +1485,56 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 @implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes) 
 
+- (BOOL)vdc_shouldRelay {
+    if (self.viewDeckController)
+        return [self.viewDeckController vdc_shouldRelay];
+    
+    return ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+}
+
 - (void)vdc_addChildViewController:(UIViewController *)childController {
-        
+    // intentionally empty
 }
 
 - (void)vdc_removeFromParentViewController {
-
+    // intentionally empty
 }
 
 - (void)vdc_willMoveToParentViewController:(UIViewController *)parent {
-    
+    // intentionally empty
 }
 
 - (void)vdc_didMoveToParentViewController:(UIViewController *)parent {
-    
+    // intentionally empty
 }
+
+- (void)vdc_viewWillAppear:(bool)animated {
+    if (![self vdc_shouldRelay])
+        return;
+    
+    [self viewWillAppear:animated];
+}
+
+- (void)vdc_viewDidAppear:(bool)animated{
+    if (![self vdc_shouldRelay])
+        return;
+    
+    [self viewDidAppear:animated];
+}
+
+- (void)vdc_viewWillDisappear:(bool)animated{
+    if (![self vdc_shouldRelay])
+        return;
+    
+    [self viewWillDisappear:animated];
+}
+
+- (void)vdc_viewDidDisappear:(bool)animated{
+    if (![self vdc_shouldRelay])
+        return;
+    
+    [self viewDidDisappear:animated];
+}
+
 
 @end

@@ -36,6 +36,7 @@
         
         IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:viewController1 leftViewController:selectorController];
         deckController.navigationControllerBehavior = IIViewDeckNavigationControllerIntegrated;
+        deckController.maxLedge = 220;
         viewController1 = deckController;
     }
     viewController1 = [[UINavigationController alloc] initWithRootViewController:viewController1];

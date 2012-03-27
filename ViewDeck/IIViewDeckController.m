@@ -617,6 +617,7 @@ __typeof__(h) __h = (h);                                    \
     else {
         self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
         self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.maxLedge = self.maxLedge + self.referenceBounds.size.width - _preRotationWidth; 
     }
     [self setSlidingFrameForOffset:offset];
     

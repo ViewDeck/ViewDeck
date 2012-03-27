@@ -369,8 +369,8 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (void)hideAppropriateSideViews {
-    self.leftController.view.hidden = CGRectGetMinX(self.slidingControllerView.frame) < 0;
-    self.rightController.view.hidden = CGRectGetMaxX(self.slidingControllerView.frame) < self.referenceBounds.size.width;
+    self.leftController.view.hidden = CGRectGetMinX(self.slidingControllerView.frame) <= 0;
+    self.rightController.view.hidden = CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width;
 }
 
 #pragma mark - ledges
@@ -973,7 +973,6 @@ __typeof__(h) __h = (h);                                    \
     
     BOOL rightWasHidden = self.rightController.view.hidden;
     BOOL leftWasHidden = self.leftController.view.hidden;
-    [self hideAppropriateSideViews];
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     
@@ -986,6 +985,7 @@ __typeof__(h) __h = (h);                                    \
         }
     }
     
+    BOOL animated = NO;
     if (panner.state == UIGestureRecognizerStateEnded) {    
         if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
             [self centerViewVisible];
@@ -1001,28 +1001,36 @@ __typeof__(h) __h = (h);                                    \
             // small velocity, no movement
             if (x >= w - self.leftLedge - lw3) {
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+                animated = YES;
             }
             else if (x <= self.rightLedge + rw3 - w) {
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+                animated = YES;
             }
             else
                 [self showCenterView:YES];
         }
         else if (velocity < 0) {
             // swipe to the left
-            if (x < 0) 
+            if (x < 0) {
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+                animated = YES;
+            }
             else 
                 [self showCenterView:YES];
         }
         else if (velocity > 0) {
             // swipe to the right
-            if (x > 0) 
+            if (x > 0) {
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut completion:nil];
+                animated = YES;
+            }
             else 
                 [self showCenterView:YES];
         }
     }
+    else
+        [self hideAppropriateSideViews];
 }
 
 

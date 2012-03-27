@@ -141,6 +141,7 @@ __typeof__(h) __h = (h);                                    \
 - (void)performOffsetDelegate:(SEL)selector offset:(CGFloat)offset;
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
+- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced;
 
 @end 
 
@@ -471,6 +472,7 @@ __typeof__(h) __h = (h);                                    \
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    BOOL wasntAppeared = !_viewAppeared;
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 
     [self setSlidingAndReferenceViews];
@@ -513,7 +515,7 @@ __typeof__(h) __h = (h);                                    \
     
     [self relayAppearanceMethod:^(UIViewController *controller) {
         [controller viewWillAppear:animated];
-    }];
+    } forced:wasntAppeared];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -879,16 +881,20 @@ __typeof__(h) __h = (h);                                    \
 
 #pragma mark - Pre iOS5 message relaying
 
-- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
+- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced {
     bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
     
     // don't relay if the controller supports automatic relaying
-    if (!shouldRelay) 
+    if (!shouldRelay && !forced) 
         return;                                                                                                                                       
     
     relay(self.centerController);
     relay(self.leftController);
     relay(self.rightController);
+}
+
+- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
+    [self relayAppearanceMethod:relay forced:NO];
 }
 
 #pragma mark - center view hidden stuff

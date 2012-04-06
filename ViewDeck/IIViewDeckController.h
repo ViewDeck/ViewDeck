@@ -66,7 +66,7 @@ typedef enum {
     CGFloat _preRotationWidth, _leftWidth, _rightWidth, _preRotationCenterWidth, _maxLedge, _offset;
 }
 
-@property (nonatomic, retain) id<IIViewDeckControllerDelegate> delegate;
+@property (nonatomic, assign) id<IIViewDeckControllerDelegate> delegate;
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;

@@ -123,6 +123,7 @@ __typeof__(h) __h = (h);                                    \
 - (void)setSlidingFrameForOffset:(CGFloat)frame;
 - (void)hideAppropriateSideViews;
 
+- (void)reapplySideController:(__strong UIViewController **)controllerStore;
 - (void)setSlidingAndReferenceViews;
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;

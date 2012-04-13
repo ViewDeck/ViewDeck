@@ -1229,11 +1229,14 @@ __typeof__(h) __h = (h);                                    \
         [*controllerStore setViewDeckController:nil];
         [*controllerStore removeFromParentViewController];
         [*controllerStore didMoveToParentViewController:nil];
-        II_RELEASE(*controllerStore);
     }
     
     // make the switch
-    *controllerStore = newController;
+    if (*controllerStore != newController) {
+        II_RELEASE(*controllerStore);
+        *controllerStore = newController;
+        II_RETAIN(*controllerStore);
+    }
     
     if (*controllerStore) {
         [newController willMoveToParentViewController:nil];
@@ -1242,7 +1245,6 @@ __typeof__(h) __h = (h);                                    \
         
         // and finish the transition
         UIViewController* parentController = (self.referenceView == self.view) ? self : [[self parentViewController] parentViewController];
-        II_RETAIN(*controllerStore);
         [parentController addChildViewController:*controllerStore];
         [*controllerStore setViewDeckController:self];
         afterBlock(*controllerStore);

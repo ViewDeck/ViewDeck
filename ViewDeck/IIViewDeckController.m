@@ -1281,8 +1281,10 @@ __typeof__(h) __h = (h);                                    \
             [self removePanners];
             [controller.view removeFromSuperview];
             [controller vdc_viewDidDisappear:NO];
+            [self.centerView removeFromSuperview];
         };
         afterBlock = ^(UIViewController* controller) {
+            [self.view addSubview:self.centerView];
             [controller vdc_viewWillAppear:NO];
             UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
             ? (UINavigationController*)centerController 

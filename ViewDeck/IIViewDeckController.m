@@ -296,7 +296,8 @@ __typeof__(h) __h = (h);                                    \
 #pragma mark - Bookkeeping
 
 - (NSArray*)controllers {
-    NSMutableArray* result = [NSMutableArray arrayWithObject:self.centerController];
+    NSMutableArray *result = [NSMutableArray array];
+    if (self.centerController) [result addObject:self.centerController];
     if (self.leftController) [result addObject:self.leftController];
     if (self.rightController) [result addObject:self.rightController];
     return [NSArray arrayWithArray:result];

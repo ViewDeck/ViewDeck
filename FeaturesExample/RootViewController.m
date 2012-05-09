@@ -43,6 +43,7 @@
     
     self.navController = [[UINavigationController alloc] initWithRootViewController:choiceController];
     self.navController.navigationBar.tintColor = [UIColor darkGrayColor];
+    [self addChildViewController:self.navController];
     
     self.navController.view.frame = self.choiceView.bounds;
     [self.choiceView addSubview:self.navController.view];
@@ -60,5 +61,6 @@
     // Return YES for supported orientations
 	return YES;
 }
+
 
 @end

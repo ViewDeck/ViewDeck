@@ -25,6 +25,14 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return YES; // UIInterfaceOrientationIsLandscape(interfaceOrientation);
+}
+
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad

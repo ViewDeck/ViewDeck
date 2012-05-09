@@ -13,5 +13,8 @@
 - (IBAction)panningChanged:(id)sender;
 - (IBAction)centerHiddenChanged:(id)sender;
 - (IBAction)navigationChanged:(id)sender;
+- (IBAction)rotationChanged:(id)sender;
+- (IBAction)elasticChanged:(id)sender;
+- (IBAction)maxLedgeChanged:(id)sender;
 
 @end

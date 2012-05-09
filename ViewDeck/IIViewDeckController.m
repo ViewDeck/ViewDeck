@@ -1211,22 +1211,21 @@ __typeof__(h) __h = (h);                                    \
 
 - (BOOL)checkDelegate:(SEL)selector animated:(BOOL)animated {
     BOOL ok = YES;
+    // used typed message send to properly pass values
+    BOOL (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, BOOL animated) = (void*)objc_msgSend;
+    
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
-        ok = ok & (BOOL)(int)objc_msgSend(self.delegate, selector, self, animated);
+        ok = ok & objc_msgSendTyped(self.delegate, selector, self, animated);
     
     for (UIViewController* controller in self.controllers) {
-        // don't fire even twice when one of the controllers is also the delegate
-        if ((id)controller == (id)self.delegate) 
-            continue;
-
         // check controller first
-        if ([controller respondsToSelector:selector]) 
-            ok = ok & (BOOL)(int)objc_msgSend(controller, selector, self, animated);
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
+            ok = ok & objc_msgSendTyped(controller, selector, self, animated);
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector]) 
-                ok = ok & (BOOL)(int)objc_msgSend(topController, selector, self, animated);
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
+                ok = ok & objc_msgSendTyped(topController, selector, self, animated);
         }
     }
     
@@ -1234,42 +1233,40 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated {
+    // used typed message send to properly pass values
+    void (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, BOOL animated) = (void*)objc_msgSend;
+
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
-        objc_msgSend(self.delegate, selector, self, animated);
+        objc_msgSendTyped(self.delegate, selector, self, animated);
     
     for (UIViewController* controller in self.controllers) {
-        // don't fire even twice when one of the controllers is also the delegate
-        if ((id)controller == (id)self.delegate) 
-            continue;
-        
         // check controller first
-        if ([controller respondsToSelector:selector]) 
-            objc_msgSend(controller, selector, self, animated);
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
+            objc_msgSendTyped(controller, selector, self, animated);
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector]) 
-                objc_msgSend(topController, selector, self, animated);
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
+                objc_msgSendTyped(topController, selector, self, animated);
         }
     }
 }
 
 - (void)performOffsetDelegate:(SEL)selector offset:(CGFloat)offset {
+    void (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, CGFloat offset) = (void*)objc_msgSend;
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
-        objc_msgSend(self.delegate, selector, self, offset);
+        objc_msgSendTyped(self.delegate, selector, self, offset);
     
     for (UIViewController* controller in self.controllers) {
-        if ((id)controller == (id)self.delegate) 
-            continue;
-
         // check controller first
-        if ([controller respondsToSelector:selector]) 
-            objc_msgSend(controller, selector, self, offset);
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
+            objc_msgSendTyped(controller, selector, self, offset);
+        
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector]) 
-                objc_msgSend(topController, selector, self, offset);
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
+                objc_msgSendTyped(topController, selector, self, offset);
         }
     }
 }

@@ -1152,6 +1152,10 @@ __typeof__(h) __h = (h);                                    \
         ok = ok & (BOOL)(int)objc_msgSend(self.delegate, selector, self, animated);
     
     for (UIViewController* controller in self.controllers) {
+        // don't fire even twice when one of the controllers is also the delegate
+        if ((id)controller == (id)self.delegate) 
+            continue;
+
         // check controller first
         if ([controller respondsToSelector:selector]) 
             ok = ok & (BOOL)(int)objc_msgSend(controller, selector, self, animated);
@@ -1171,6 +1175,10 @@ __typeof__(h) __h = (h);                                    \
         objc_msgSend(self.delegate, selector, self, animated);
     
     for (UIViewController* controller in self.controllers) {
+        // don't fire even twice when one of the controllers is also the delegate
+        if ((id)controller == (id)self.delegate) 
+            continue;
+        
         // check controller first
         if ([controller respondsToSelector:selector]) 
             objc_msgSend(controller, selector, self, animated);
@@ -1188,6 +1196,9 @@ __typeof__(h) __h = (h);                                    \
         objc_msgSend(self.delegate, selector, self, offset);
     
     for (UIViewController* controller in self.controllers) {
+        if ((id)controller == (id)self.delegate) 
+            continue;
+
         // check controller first
         if ([controller respondsToSelector:selector]) 
             objc_msgSend(controller, selector, self, offset);

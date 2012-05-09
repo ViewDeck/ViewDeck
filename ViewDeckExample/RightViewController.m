@@ -125,12 +125,12 @@
 }
 
 - (BOOL)viewDeckControllerWillCloseRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated {
-    [self addLog:@"will close left view"];
+    [self addLog:@"will close right view"];
     return YES;
 }
 
 - (void)viewDeckControllerDidCloseRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated {
-    [self addLog:@"did close left view"];
+    [self addLog:@"did close right view"];
 }
 
 - (void)viewDeckControllerDidShowCenterView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated {

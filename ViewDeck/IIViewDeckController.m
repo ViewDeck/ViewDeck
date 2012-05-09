@@ -161,6 +161,7 @@ __typeof__(h) __h = (h);                                    \
 - (void)willMoveToParentViewController:(UIViewController *)parent;
 - (void)didMoveToParentViewController:(UIViewController *)parent;
 
+- (BOOL)vdc_shouldRelay;
 - (void)vdc_viewWillAppear:(bool)animated;
 - (void)vdc_viewDidAppear:(bool)animated;
 - (void)vdc_viewWillDisappear:(bool)animated;

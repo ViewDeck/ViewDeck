@@ -121,6 +121,7 @@ typedef enum {
 - (BOOL)closeRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 - (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
 - (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void(^)(IIViewDeckController* controller))completed;
+- (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller;
 
 - (BOOL)leftControllerIsClosed;
 - (BOOL)leftControllerIsOpen;

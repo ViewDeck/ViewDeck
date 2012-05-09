@@ -967,6 +967,35 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
+- (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller {
+    NSAssert([self.centerController isKindOfClass:[UINavigationController class]], @"cannot rightViewPushViewControllerOverCenterView when center controller is not a navigation controller");
+
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, 0.0);
+
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.view.layer renderInContext:context];
+    UIImage *deckshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIImageView* shotView = [[UIImageView alloc] initWithImage:deckshot];
+    shotView.frame = self.view.frame; 
+    [self.view.superview addSubview:shotView];
+    CGRect targetFrame = self.view.frame; 
+    self.view.frame = CGRectOffset(self.view.frame, self.view.frame.size.width, 0);
+    
+    [self closeRightViewAnimated:NO];
+    UINavigationController* navController = (UINavigationController*)self.centerController;
+    [navController pushViewController:controller animated:NO];
+    
+    [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
+        shotView.frame = CGRectOffset(shotView.frame, -self.view.frame.size.width, 0);
+        self.view.frame = targetFrame;
+    } completion:^(BOOL finished) {
+        [shotView removeFromSuperview];
+    }];
+}
+
+
 
 #pragma mark - Pre iOS5 message relaying
 

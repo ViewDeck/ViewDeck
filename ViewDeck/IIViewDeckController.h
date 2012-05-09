@@ -95,7 +95,7 @@ typedef enum {
 - (void)showCenterView:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
 
 
-- (void)seLeftLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion;
+- (void)setLeftLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion;
 - (void)setRightLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion;
 
 - (void)toggleLeftView;

@@ -994,14 +994,30 @@ __typeof__(h) __h = (h);                                    \
 
 #pragma mark - Panning
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    CGFloat x = [self locationOfPanner:(UIPanGestureRecognizer*)gestureRecognizer];
+    BOOL ok =  YES;
+
+    if (x > 0) {
+        ok = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
+        if (!ok)
+            [self closeLeftViewAnimated:NO];
+    }
+    else if (x < 0) {
+        ok = [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
+        if (!ok)
+            [self closeRightViewAnimated:NO];
+    }
+    
+    return ok;
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     _panOrigin = self.slidingControllerView.frame.origin.x;
     return YES;
 }
 
-- (void)panned:(UIPanGestureRecognizer*)panner {
-    if (!_enabled) return;
-    
+- (CGFloat)locationOfPanner:(UIPanGestureRecognizer*)panner {
     CGPoint pan = [panner translationInView:self.referenceView];
     CGFloat x = pan.x + _panOrigin;
     
@@ -1021,22 +1037,64 @@ __typeof__(h) __h = (h);                                    \
     else {
         x = lx;
     }
-    x = [self limitOffset:x];
+    
+    return [self limitOffset:x];
+}
+
+- (void)panned:(UIPanGestureRecognizer*)panner {
+    if (!_enabled) return;
+    
+    CGFloat px = self.slidingControllerView.frame.origin.x;
+    CGFloat x = [self locationOfPanner:panner];
+    CGFloat w = self.referenceBounds.size.width;
+
+    SEL didCloseSelector = nil;
+    SEL didOpenSelector = nil;
+    
+    // if we move over a boundary while dragging, ... 
+    if (px <= 0 && x >= 0) {
+        // ... then we need to check if the other side can open.
+        if (px < 0) {
+            BOOL canClose = [self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:NO];
+            if (!canClose)
+                return;
+            didCloseSelector = @selector(viewDeckControllerDidCloseRightView:animated:);
+        }
+
+        if (x > 0) {
+            BOOL canOpen = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
+            didOpenSelector = @selector(viewDeckControllerDidOpenLeftView:animated:);
+            if (!canOpen) {
+                [self closeRightViewAnimated:NO];
+                return;
+            }
+        }
+    }
+    else if (px >= 0 && x <= 0) {
+        if (px > 0) {
+            BOOL canClose = [self checkDelegate:@selector(viewDeckControllerWillCloseLeftView:animated:) animated:NO];
+            if (!canClose) {
+                return;
+            }
+            didCloseSelector = @selector(viewDeckControllerDidCloseLeftView:animated:);
+        }
+
+        if (x < 0) {
+            BOOL canOpen = [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
+            didOpenSelector = @selector(viewDeckControllerDidOpenRightView:animated:);
+            if (!canOpen) {
+                [self closeLeftViewAnimated:NO];
+                return;
+            }
+        }
+    }
+    
     [self setSlidingFrameForOffset:x];
     
     BOOL rightWasHidden = self.rightController.view.hidden;
     BOOL leftWasHidden = self.leftController.view.hidden;
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
-    
-    if (panner.state == UIGestureRecognizerStateBegan) {
-        if (x > 0) {
-            [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
-        }
-        else if (x < 0) {
-            [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
-        }
-    }
     
     BOOL animated = NO;
     if (panner.state == UIGestureRecognizerStateEnded) {    
@@ -1084,6 +1142,11 @@ __typeof__(h) __h = (h);                                    \
     }
     else
         [self hideAppropriateSideViews];
+
+    if (didCloseSelector)
+        [self performDelegate:didCloseSelector animated:NO];
+    if (didOpenSelector)
+        [self performDelegate:didOpenSelector animated:NO];
 }
 
 

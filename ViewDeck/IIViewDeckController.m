@@ -397,6 +397,27 @@ __typeof__(h) __h = (h);                                    \
     _leftLedge = leftLedge;
 }
 
+- (void)setLeftLedge:(CGFloat)leftLedge completion:(void(^)(BOOL finished))completion {
+    // Compute the final ledge in two steps. This prevents a strange bug where
+    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
+    CGFloat minLedge = MIN(self.referenceBounds.size.width, leftLedge);
+    leftLedge = MAX(leftLedge, minLedge);
+    if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, self.referenceBounds.size.width - _leftLedge)) {
+        if (leftLedge < _leftLedge) {
+            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
+                [self setSlidingFrameForOffset:self.referenceBounds.size.width - leftLedge];
+            } completion:completion];
+        }
+        else if (leftLedge > _leftLedge) {
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
+                [self setSlidingFrameForOffset:self.referenceBounds.size.width - leftLedge];
+            } completion:completion];
+        }
+    }
+    _leftLedge = leftLedge;
+}
+
+
 - (void)setRightLedge:(CGFloat)rightLedge {
     // Compute the final ledge in two steps. This prevents a strange bug where
     // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
@@ -416,6 +437,27 @@ __typeof__(h) __h = (h);                                    \
     }
     _rightLedge = rightLedge;
 }
+
+- (void)setRightLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion {
+    // Compute the final ledge in two steps. This prevents a strange bug where
+    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
+    CGFloat minLedge = MIN(self.referenceBounds.size.width, rightLedge);
+    rightLedge = MAX(rightLedge, minLedge);
+    if (_viewAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, _rightLedge - self.referenceBounds.size.width)) {
+        if (rightLedge < _rightLedge) {
+            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
+                [self setSlidingFrameForOffset:rightLedge - self.referenceBounds.size.width];
+            } completion:completion];
+        }
+        else if (rightLedge > _rightLedge) {
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
+                [self setSlidingFrameForOffset:rightLedge - self.referenceBounds.size.width];
+            } completion:completion];
+        }
+    }
+    _rightLedge = rightLedge;
+}
+
 
 - (void)setMaxLedge:(CGFloat)maxLedge {
     _maxLedge = maxLedge;

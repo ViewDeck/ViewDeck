@@ -589,7 +589,11 @@ __typeof__(h) __h = (h);                                    \
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
-    [self.view removeObserver:self forKeyPath:@"bounds"];
+    @try {
+        [self.view removeObserver:self forKeyPath:@"bounds"];
+    } @catch(id anException){
+        //do nothing, obviously it wasn't attached because an exception was thrown
+    }
     
     [self relayAppearanceMethod:^(UIViewController *controller) {
         [controller viewDidDisappear:animated];

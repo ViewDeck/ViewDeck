@@ -1626,7 +1626,7 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     id result = [self viewDeckController_core];
     if (!result && self.navigationController) 
         result = [self.navigationController viewDeckController];
-    if (!result && self.wrapController) 
+    if (!result && [self respondsToSelector:@selector(wrapController)] && self.wrapController) 
         result = [self.wrapController viewDeckController];
     
     return result;

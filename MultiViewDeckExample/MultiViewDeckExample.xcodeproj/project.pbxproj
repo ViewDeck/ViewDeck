@@ -22,6 +22,8 @@
 		E267169515569A3800E0C3C0 /* BottomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E267169315569A3800E0C3C0 /* BottomViewController.m */; };
 		E267169615569A3800E0C3C0 /* BottomViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E267169415569A3800E0C3C0 /* BottomViewController.xib */; };
 		E267169A15569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m in Sources */ = {isa = PBXBuildFile; fileRef = E267169915569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m */; };
+		E2B01A33155BE2D400E05FB9 /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A31155BE2D300E05FB9 /* ModalViewController.m */; };
+		E2B01A34155BE2D400E05FB9 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,9 @@
 		E267169415569A3800E0C3C0 /* BottomViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BottomViewController.xib; sourceTree = "<group>"; };
 		E267169815569BA100E0C3C0 /* UITableViewCell+AutoDequeue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+AutoDequeue.h"; sourceTree = "<group>"; };
 		E267169915569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+AutoDequeue.m"; sourceTree = "<group>"; };
+		E2B01A30155BE2D300E05FB9 /* ModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalViewController.h; sourceTree = "<group>"; };
+		E2B01A31155BE2D300E05FB9 /* ModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalViewController.m; sourceTree = "<group>"; };
+		E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +114,9 @@
 				E267168D155699AF00E0C3C0 /* CenterViewController.h */,
 				E267168E155699AF00E0C3C0 /* CenterViewController.m */,
 				E267168F155699AF00E0C3C0 /* CenterViewController.xib */,
+				E2B01A30155BE2D300E05FB9 /* ModalViewController.h */,
+				E2B01A31155BE2D300E05FB9 /* ModalViewController.m */,
+				E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */,
 			);
 			path = MultiViewDeckExample;
 			sourceTree = "<group>";
@@ -209,6 +217,7 @@
 				E267168C1556998700E0C3C0 /* LeftViewController.xib in Resources */,
 				E2671691155699AF00E0C3C0 /* CenterViewController.xib in Resources */,
 				E267169615569A3800E0C3C0 /* BottomViewController.xib in Resources */,
+				E2B01A34155BE2D400E05FB9 /* ModalViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +236,7 @@
 				E2671690155699AF00E0C3C0 /* CenterViewController.m in Sources */,
 				E267169515569A3800E0C3C0 /* BottomViewController.m in Sources */,
 				E267169A15569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m in Sources */,
+				E2B01A33155BE2D400E05FB9 /* ModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +271,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -281,7 +291,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
-				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;

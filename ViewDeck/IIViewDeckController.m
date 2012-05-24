@@ -1099,7 +1099,7 @@ __typeof__(h) __h = (h);                                    \
     if (!self.rightController) x = MAX(0, x);
     
     CGFloat w = self.referenceBounds.size.width;
-    CGFloat lx = MAX(MIN(x, w-self.leftLedge), -w+self.rightLedge);
+    CGFloat lx = fmaxf(fminf(x, w-self.leftLedge), -w+self.rightLedge);
     
     if (self.elastic) {
         CGFloat dx = ABS(x) - ABS(lx);

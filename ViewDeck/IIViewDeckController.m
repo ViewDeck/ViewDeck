@@ -524,31 +524,33 @@ __typeof__(h) __h = (h);                                    \
     BOOL wasntAppeared = !_viewAppeared;
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 
-    [self setSlidingAndReferenceViews];
-    
-    [self reapplySideController:&_leftController];
-    [self reapplySideController:&_rightController];
-    
-    [self.centerController.view removeFromSuperview];
-    [self.centerView addSubview:self.centerController.view];
-    [self.leftController.view removeFromSuperview];
-    [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
-    [self.rightController.view removeFromSuperview];
-    [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
-    
-    [self setSlidingFrameForOffset:_offset];
-    self.slidingControllerView.hidden = NO;
-    
-    self.centerView.frame = self.centerViewBounds;
-    self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.centerController.view.frame = self.centerView.bounds;
-    self.leftController.view.frame = self.sideViewBounds;
-    self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.rightController.view.frame = self.sideViewBounds;
-    self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-    [self applyShadowToSlidingView];
-    _viewAppeared = YES;
+    if (!_viewAppeared) {
+        [self setSlidingAndReferenceViews];
+        
+        [self reapplySideController:&_leftController];
+        [self reapplySideController:&_rightController];
+        
+        [self.centerController.view removeFromSuperview];
+        [self.centerView addSubview:self.centerController.view];
+        [self.leftController.view removeFromSuperview];
+        [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
+        [self.rightController.view removeFromSuperview];
+        [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
+        
+        [self setSlidingFrameForOffset:_offset];
+        self.slidingControllerView.hidden = NO;
+        
+        self.centerView.frame = self.centerViewBounds;
+        self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.centerController.view.frame = self.centerView.bounds;
+        self.leftController.view.frame = self.sideViewBounds;
+        self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        self.rightController.view.frame = self.sideViewBounds;
+        self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        
+        [self applyShadowToSlidingView];
+        _viewAppeared = YES;
+    }
 
     // after 0.01 sec, since in certain cases the sliding view is reset.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
@@ -1637,7 +1639,7 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 - (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    UIViewController* controller = self.viewDeckController && (self.viewDeckController.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated || ![self.viewDeckController.centerController isKindOfClass:[UINavigationController class]]) ? self.viewDeckController : self;
     [controller vdc_presentModalViewController:modalViewController animated:animated]; // when we get here, the vdc_ method is actually the old, real method
 }
 
@@ -1649,7 +1651,7 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 #ifdef __IPHONE_5_0
 
 - (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    UIViewController* controller = self.viewDeckController && (self.viewDeckController.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated || ![self.viewDeckController.centerController isKindOfClass:[UINavigationController class]]) ? self.viewDeckController : self;
     [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
 }
 
@@ -1670,22 +1672,37 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     return [controller vdc_navigationItem]; // when we get here, the vdc_ method is actually the old, real method
 }
 
+- (UITabBarItem*)vdc_tabBarItem {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    return [controller vdc_tabBarItem]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (UITabBarItem*)vdc_setTabBarItem:(UITabBarItem*)item {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    return [controller vdc_setTabBarItem:item]; // when we get here, the vdc_ method is actually the old, real method
+}
+
+- (UITabBarItem*)vdc_tabBarController {
+    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
+    return [controller vdc_tabBarController]; // when we get here, the vdc_ method is actually the old, real method
+}
+
 + (void)vdc_swizzle {
     SEL presentModal = @selector(presentModalViewController:animated:);
     SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentModal), class_getInstanceMethod(self, vdcPresentModal));
     
-    SEL dismissModal = @selector(dismissModalViewControllerAnimated:);
-    SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
-    method_exchangeImplementations(class_getInstanceMethod(self, dismissModal), class_getInstanceMethod(self, vdcDismissModal));
+//    SEL dismissModal = @selector(dismissModalViewControllerAnimated:);
+//    SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
+//    method_exchangeImplementations(class_getInstanceMethod(self, dismissModal), class_getInstanceMethod(self, vdcDismissModal));
     
     SEL presentVC = @selector(presentViewController:animated:completion:);
     SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
     
-    SEL dismissVC = @selector(dismissViewControllerAnimated:completion:);
-    SEL vdcDismissVC = @selector(vdc_dismissViewControllerAnimated:completion:);
-    method_exchangeImplementations(class_getInstanceMethod(self, dismissVC), class_getInstanceMethod(self, vdcDismissVC));
+//    SEL dismissVC = @selector(dismissViewControllerAnimated:completion:);
+//    SEL vdcDismissVC = @selector(vdc_dismissViewControllerAnimated:completion:);
+//    method_exchangeImplementations(class_getInstanceMethod(self, dismissVC), class_getInstanceMethod(self, vdcDismissVC));
     
     SEL nc = @selector(navigationController);
     SEL vdcnc = @selector(vdc_navigationController);

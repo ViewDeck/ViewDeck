@@ -84,6 +84,7 @@ typedef enum {
 @property (nonatomic) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
 @property (nonatomic) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
 @property (nonatomic) IIViewDeckRotationBehavior rotationBehavior;
+@property (nonatomic) BOOL automaticallyUpdateTabBarItems;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;

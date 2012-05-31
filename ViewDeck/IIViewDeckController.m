@@ -201,6 +201,7 @@ __typeof__(h) __h = (h);                                    \
 @synthesize rotationBehavior = _rotationBehavior;
 @synthesize enabled = _enabled;
 @synthesize elastic = _elastic;
+@synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
 
 #pragma mark - Initalisation and deallocation
 
@@ -218,6 +219,7 @@ __typeof__(h) __h = (h);                                    \
         _rotationBehavior = IIViewDeckRotationKeepsLedgeSizes;
         _viewAppeared = NO;
         _resizesCenterView = NO;
+        _automaticallyUpdateTabBarItems = NO;
         self.panners = [NSMutableArray array];
         self.enabled = YES;
         
@@ -1509,9 +1511,19 @@ __typeof__(h) __h = (h);                                    \
         if (centerController == self.leftController) self.leftController = nil;
         if (centerController == self.rightController) self.rightController = nil;
         beforeBlock(_centerController);
-        [_centerController removeObserver:self forKeyPath:@"title"];
+        @try {
+            [_centerController removeObserver:self forKeyPath:@"title"];
+            if (self.automaticallyUpdateTabBarItems) {
+                [_centerController removeObserver:self forKeyPath:@"tabBarItem.title"];
+                [_centerController removeObserver:self forKeyPath:@"tabBarItem.image"];
+                [_centerController removeObserver:self forKeyPath:@"hidesBottomBarWhenPushed"];
+            }
+        }
+        @catch (NSException *exception) {}
         [_centerController setViewDeckController:nil];
         [_centerController removeFromParentViewController];
+
+        
         [_centerController didMoveToParentViewController:nil];
         II_RELEASE(_centerController);
     }
@@ -1525,9 +1537,40 @@ __typeof__(h) __h = (h);                                    \
         [self addChildViewController:_centerController];
         [_centerController setViewDeckController:self];
         [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
+        self.title = _centerController.title;
+        if (self.automaticallyUpdateTabBarItems) {
+            [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
+            [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
+            [_centerController addObserver:self forKeyPath:@"hidesBottomBarWhenPushed" options:0 context:nil];
+            self.tabBarItem.title = _centerController.tabBarItem.title;
+            self.tabBarItem.image = _centerController.tabBarItem.image;
+            self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
+        }
+        
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
     }    
+}
+
+- (void)setAutomaticallyUpdateTabBarItems:(BOOL)automaticallyUpdateTabBarItems {
+    if (_automaticallyUpdateTabBarItems) {
+        @try {
+            [_centerController removeObserver:self forKeyPath:@"tabBarItem.title"];
+            [_centerController removeObserver:self forKeyPath:@"tabBarItem.image"];
+            [_centerController removeObserver:self forKeyPath:@"hidesBottomBarWhenPushed"];
+        }
+        @catch (NSException *exception) {}
+    }
+    
+    _automaticallyUpdateTabBarItems = automaticallyUpdateTabBarItems;
+
+    if (_automaticallyUpdateTabBarItems) {
+        [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
+        [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
+        [_centerController addObserver:self forKeyPath:@"hidesBottomBarWhenPushed" options:0 context:nil];
+        self.tabBarItem.title = _centerController.tabBarItem.title;
+        self.tabBarItem.image = _centerController.tabBarItem.image;
+    }
 }
 
 
@@ -1560,12 +1603,32 @@ __typeof__(h) __h = (h);                                    \
 #pragma mark - observation
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == _centerController) {
+        if ([@"tabBarItem.title" isEqualToString:keyPath]) {
+            self.tabBarItem.title = _centerController.tabBarItem.title;
+            return;
+        }
+        
+        if ([@"tabBarItem.image" isEqualToString:keyPath]) {
+            self.tabBarItem.image = _centerController.tabBarItem.image;
+            return;
+        }
+
+        if ([@"hidesBottomBarWhenPushed" isEqualToString:keyPath]) {
+            self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
+            self.tabBarController.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
+            return;
+        }
+    }
+
     if ([@"title" isEqualToString:keyPath]) {
         if (!II_STRING_EQUAL([super title], self.centerController.title)) {
             self.title = self.centerController.title;
         }
+        return;
     }
-    else if ([keyPath isEqualToString:@"bounds"]) {
+    
+    if ([keyPath isEqualToString:@"bounds"]) {
         CGFloat offset = self.slidingControllerView.frame.origin.x;
         [self setSlidingFrameForOffset:offset];
         self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
@@ -1576,6 +1639,7 @@ __typeof__(h) __h = (h);                                    \
             navController.navigationBarHidden = YES;
             navController.navigationBarHidden = NO;
         }
+        return;
     }
 }
 
@@ -1613,11 +1677,6 @@ __typeof__(h) __h = (h);                                    \
         shadowedView.layer.shadowOffset = CGSizeZero;
         shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:shadowedView.bounds] CGPath];
     }
-}
-
-
-- (BOOL)hidesBottomBarWhenPushed {
-    return self.centerController.hidesBottomBarWhenPushed;
 }
 
 
@@ -1683,37 +1742,14 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     return [controller vdc_navigationItem]; // when we get here, the vdc_ method is actually the old, real method
 }
 
-- (UITabBarItem*)vdc_tabBarItem {
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
-    return [controller vdc_tabBarItem]; // when we get here, the vdc_ method is actually the old, real method
-}
-
-- (UITabBarItem*)vdc_setTabBarItem:(UITabBarItem*)item {
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
-    return [controller vdc_setTabBarItem:item]; // when we get here, the vdc_ method is actually the old, real method
-}
-
-- (UITabBarItem*)vdc_tabBarController {
-    UIViewController* controller = self.viewDeckController ? self.viewDeckController : self;
-    return [controller vdc_tabBarController]; // when we get here, the vdc_ method is actually the old, real method
-}
-
 + (void)vdc_swizzle {
     SEL presentModal = @selector(presentModalViewController:animated:);
     SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentModal), class_getInstanceMethod(self, vdcPresentModal));
     
-//    SEL dismissModal = @selector(dismissModalViewControllerAnimated:);
-//    SEL vdcDismissModal = @selector(vdc_dismissModalViewControllerAnimated:);
-//    method_exchangeImplementations(class_getInstanceMethod(self, dismissModal), class_getInstanceMethod(self, vdcDismissModal));
-    
     SEL presentVC = @selector(presentViewController:animated:completion:);
     SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
     method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
-    
-//    SEL dismissVC = @selector(dismissViewControllerAnimated:completion:);
-//    SEL vdcDismissVC = @selector(vdc_dismissViewControllerAnimated:completion:);
-//    method_exchangeImplementations(class_getInstanceMethod(self, dismissVC), class_getInstanceMethod(self, vdcDismissVC));
     
     SEL nc = @selector(navigationController);
     SEL vdcnc = @selector(vdc_navigationController);

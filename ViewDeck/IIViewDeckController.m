@@ -128,7 +128,7 @@ __typeof__(h) __h = (h);                                    \
 - (void)hideAppropriateSideViews;
 
 - (void)reapplySideController:(__strong UIViewController **)controllerStore;
-- (void)setSlidingAndReferenceViews;
+- (BOOL)setSlidingAndReferenceViews;
 - (void)applyShadowToSlidingView;
 - (void)restoreShadowToSlidingView;
 - (void)arrangeViewsAfterRotation;
@@ -524,18 +524,16 @@ __typeof__(h) __h = (h);                                    \
     BOOL wasntAppeared = !_viewAppeared;
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
 
-    if (!_viewAppeared) {
-        [self setSlidingAndReferenceViews];
-        
-        [self reapplySideController:&_leftController];
-        [self reapplySideController:&_rightController];
-        
+    void(^applyViews)(void) = ^{        
         [self.centerController.view removeFromSuperview];
         [self.centerView addSubview:self.centerController.view];
         [self.leftController.view removeFromSuperview];
         [self.referenceView insertSubview:self.leftController.view belowSubview:self.slidingControllerView];
         [self.rightController.view removeFromSuperview];
         [self.referenceView insertSubview:self.rightController.view belowSubview:self.slidingControllerView];
+        
+        [self reapplySideController:&_leftController];
+        [self reapplySideController:&_rightController];
         
         [self setSlidingFrameForOffset:_offset];
         self.slidingControllerView.hidden = NO;
@@ -549,11 +547,18 @@ __typeof__(h) __h = (h);                                    \
         self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
         [self applyShadowToSlidingView];
-        _viewAppeared = YES;
-    }
+    };
+
+    if ([self setSlidingAndReferenceViews]) 
+        applyViews();
+    _viewAppeared = YES;
 
     // after 0.01 sec, since in certain cases the sliding view is reset.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        if (!self.referenceView) {
+            [self setSlidingAndReferenceViews];
+            applyViews();
+        }
         [self setSlidingFrameForOffset:_offset];
         [self hideAppropriateSideViews];
     });
@@ -1526,15 +1531,21 @@ __typeof__(h) __h = (h);                                    \
 }
 
 
-- (void)setSlidingAndReferenceViews {
+- (BOOL)setSlidingAndReferenceViews {
     if (self.navigationController && self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
-        _slidingController = self.navigationController;
-        self.referenceView = [self.navigationController.view superview];
+        if ([self.navigationController.view superview]) {
+            _slidingController = self.navigationController;
+            self.referenceView = [self.navigationController.view superview];
+            return YES;
+        }
     }
     else {
         _slidingController = self.centerController;
         self.referenceView = self.view;
+        return YES;
     }
+    
+    return NO;
 }
 
 - (UIView*)slidingControllerView {

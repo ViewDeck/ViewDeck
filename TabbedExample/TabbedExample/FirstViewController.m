@@ -8,6 +8,7 @@
 
 #import "FirstViewController.h"
 #import "FourthViewController.h"
+#import "ThirdViewController.h"
 
 @implementation FirstViewController
 
@@ -15,8 +16,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = NSLocalizedString(@"First", @"First");
-        self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        self.title = NSLocalizedString(@"First2", @"First");
+
+        NSLog(@"first init");
+        self.tabBarItem.title = NSLocalizedString(@"FirstLike", @"First");
+        self.tabBarItem.image = [UIImage imageNamed:@"first.png"];
     }
     return self;
 }
@@ -32,12 +36,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+
+    self.navigationItem.title = @"Firstx";
+
+    NSLog(@"first VDL");
+    self.tabBarItem.title = NSLocalizedString(@"FirstLike", @"First");
+    self.tabBarItem.image = [UIImage imageNamed:@"first.png"];
     
-    self.title = @"First";
 }
 
 - (IBAction)pushed:(id)sender {
+    NSLog(@"first pushed");
+    NSArray* controllers = [self.tabBarController viewControllers];
+    controllers = [controllers arrayByAddingObject:[[ThirdViewController alloc] initWithNibName:@"ThirdViewController" bundle:nil]];
+    [self.tabBarController setViewControllers:controllers animated:YES];
+
     self.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:[[FourthViewController alloc] initWithNibName:@"FourthViewController" bundle:nil] animated:YES];
     self.hidesBottomBarWhenPushed = NO;

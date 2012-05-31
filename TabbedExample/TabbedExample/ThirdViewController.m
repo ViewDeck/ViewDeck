@@ -10,11 +10,16 @@
 
 @implementation ThirdViewController
 
+- (IBAction)changeItem:(id)sender {
+    self.tabBarItem.image = [UIImage imageNamed:@"contacts.png"];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.title = @"Third";
     }
     return self;
 }

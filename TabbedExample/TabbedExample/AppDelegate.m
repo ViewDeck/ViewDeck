@@ -15,6 +15,7 @@
 #import "FourthViewController.h"
 #import "FifthViewController.h"
 #import "SelectorController.h"
+#import "WrapController.h"
 
 #define VIEWDECK_ENABLED YES
 #define TABBAR_ENABLED YES
@@ -35,11 +36,12 @@
         UIViewController *selectorController = [[SelectorController alloc] initWithNibName:@"SelectorController" bundle:nil];
         
         IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:viewController1 leftViewController:selectorController];
+        deckController.automaticallyUpdateTabBarItems = YES;
         deckController.navigationControllerBehavior = IIViewDeckNavigationControllerIntegrated;
         deckController.maxLedge = 220;
         viewController1 = deckController;
     }
-    viewController1 = [[UINavigationController alloc] initWithRootViewController:viewController1];
+    viewController1 = [[WrapController alloc] initWithViewController:[[UINavigationController alloc] initWithRootViewController:viewController1]];
     
     if (TABBAR_ENABLED) {
         self.tabBarController = [[UITabBarController alloc] init];

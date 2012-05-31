@@ -694,7 +694,7 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)leftControllerIsOpen {
-    return self.leftController && CGRectGetMinX(self.slidingControllerView.frame) > 0 && CGRectGetMinX(self.slidingControllerView.frame) <= self.leftLedge;
+    return self.leftController && CGRectGetMinX(self.slidingControllerView.frame) < self.referenceBounds.size.width && CGRectGetMinX(self.slidingControllerView.frame) >= self.rightLedge;
 }
 
 - (BOOL)rightControllerIsOpen {
@@ -1108,7 +1108,7 @@ __typeof__(h) __h = (h);                                    \
     if (!self.rightController) x = MAX(0, x);
     
     CGFloat w = self.referenceBounds.size.width;
-    CGFloat lx = MAX(MIN(x, w-self.leftLedge), -w+self.rightLedge);
+    CGFloat lx = fmaxf(fminf(x, w-self.leftLedge), -w+self.rightLedge);
     
     if (self.elastic) {
         CGFloat dx = ABS(x) - ABS(lx);

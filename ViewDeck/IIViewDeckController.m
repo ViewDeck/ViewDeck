@@ -1386,7 +1386,7 @@ __typeof__(h) __h = (h);                                    \
 
 - (void)applySideController:(__strong UIViewController **)controllerStore to:(UIViewController *)newController otherSideController:(UIViewController *)otherController clearOtherController:(void(^)())clearOtherController {
     void(^beforeBlock)(UIViewController* controller) = ^(UIViewController* controller){};
-    void(^afterBlock)(UIViewController* controller) = ^(UIViewController* controller){};
+    void(^afterBlock)(UIViewController* controller, BOOL left) = ^(UIViewController* controller, BOOL left){};
     
     if (_viewAppeared) {
         beforeBlock = ^(UIViewController* controller) {
@@ -1394,9 +1394,9 @@ __typeof__(h) __h = (h);                                    \
             [controller.view removeFromSuperview];
             [controller vdc_viewDidDisappear:NO];
         };
-        afterBlock = ^(UIViewController* controller) {
+        afterBlock = ^(UIViewController* controller, BOOL left) {
             [controller vdc_viewWillAppear:NO];
-            controller.view.hidden = self.slidingControllerView.frame.origin.x <= 0;
+            controller.view.hidden = left ? self.slidingControllerView.frame.origin.x <= 0 : self.slidingControllerView.frame.origin.x >= 0;
             controller.view.frame = self.referenceBounds;
             controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             if (self.slidingController)
@@ -1434,7 +1434,7 @@ __typeof__(h) __h = (h);                                    \
         UIViewController* parentController = (self.referenceView == self.view) ? self : [[self parentViewController] parentViewController];
         [parentController addChildViewController:*controllerStore];
         [*controllerStore setViewDeckController:self];
-        afterBlock(*controllerStore);
+        afterBlock(*controllerStore, *controllerStore == _leftController);
         [*controllerStore didMoveToParentViewController:parentController];
     }
 }

@@ -129,6 +129,22 @@
     return NO;
 }
 
+- (UITabBarItem *)tabBarItem {
+    return _wrappedController.tabBarItem;
+}
+
+-(void)setTabBarItem:(UITabBarItem *)tabBarItem {
+    [_wrappedController setTabBarItem:tabBarItem];
+}
+
+- (BOOL)hidesBottomBarWhenPushed {
+    return _wrappedController.hidesBottomBarWhenPushed;
+}
+
+- (void)setHidesBottomBarWhenPushed:(BOOL)hidesBottomBarWhenPushed {
+    [_wrappedController setHidesBottomBarWhenPushed:hidesBottomBarWhenPushed];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];

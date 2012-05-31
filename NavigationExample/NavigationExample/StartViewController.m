@@ -41,6 +41,7 @@
     IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:[[UINavigationController alloc] initWithRootViewController:centerController]
                                                                                    leftViewController:leftController  
                                                                                   rightViewController:rightController];
+    deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     
     [self presentViewController:deckController animated:YES completion:nil];
 }

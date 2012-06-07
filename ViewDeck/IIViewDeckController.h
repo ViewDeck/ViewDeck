@@ -31,7 +31,8 @@ typedef enum {
     IIViewDeckNoPanning,              // no panning allowed
     IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
     IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
-    IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
+    IIViewDeckPanningViewPanning,      // panning only occurs when you start touching in a UIView set in panningView property
+    IIViewDeckConditionalPanning      //panning occurs when you start touching the navigation bar if the center controller is visible.  If the left or right controller is open, pannning occurs anywhere on the center controller, not just the navbar.    
 } IIViewDeckPanningMode;
 
 

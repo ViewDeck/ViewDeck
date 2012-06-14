@@ -1179,13 +1179,11 @@ __typeof__(h) __h = (h);                                    \
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     
-    if (panner.state == UIGestureRecognizerStateEnded) {    
-        if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
+    if (panner.state == UIGestureRecognizerStateEnded) {
+        if (self.slidingControllerView.frame.origin.x == 0.0f) 
             [self centerViewVisible];
-        }
-        else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.rightController.view.hidden)) {
+        else
             [self centerViewHidden];
-        }
         
         CGFloat lw3 = (w-self.leftLedge) / 3.0;
         CGFloat rw3 = (w-self.rightLedge) / 3.0;

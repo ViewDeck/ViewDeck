@@ -523,6 +523,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/ViewDeck;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 			};
@@ -543,6 +544,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/ViewDeck;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
@@ -698,6 +700,7 @@
 				376AD990159143F1005A0E48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		376AD9D015914461005A0E48 /* Build configuration list for PBXNativeTarget "ViewDeckExample" */ = {
 			isa = XCConfigurationList;
@@ -706,6 +709,7 @@
 				376AD9D215914461005A0E48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		376AD9F71591461C005A0E48 /* Build configuration list for PBXNativeTarget "FeaturesExample" */ = {
 			isa = XCConfigurationList;
@@ -714,6 +718,7 @@
 				376AD9F91591461C005A0E48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

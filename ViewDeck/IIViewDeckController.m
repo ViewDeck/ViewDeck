@@ -205,6 +205,11 @@ __typeof__(h) __h = (h);                                    \
 
 #pragma mark - Initalisation and deallocation
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    return [self initWithCenterViewController:nil];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     return [self initWithCenterViewController:nil];

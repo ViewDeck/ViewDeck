@@ -1187,6 +1187,11 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if([[touch view] isKindOfClass:[UISlider class]])
+    {
+        return NO;
+    }
+
     _panOrigin = self.slidingControllerView.frame.origin.x;
     return YES;
 }

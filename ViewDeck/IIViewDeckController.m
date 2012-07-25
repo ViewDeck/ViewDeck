@@ -813,7 +813,7 @@ __typeof__(h) __h = (h);                                    \
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         self.leftController.view.hidden = NO;
         [self setSlidingFrameForOffset:self.referenceBounds.size.width];
-    } completion:^(BOOL finished) {
+    } completion:^(BOOL openFinished) {
         // run block if it's defined
         if (bounced) bounced(self);
         [self centerViewHidden];
@@ -821,7 +821,7 @@ __typeof__(h) __h = (h);                                    \
         // now slide the view back to the ledge position
         [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
             [self setSlidingFrameForOffset:self.referenceBounds.size.width - self.leftLedge];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL slideBackFinished) {
             if (completed) completed(self);
             if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:YES];
         }];
@@ -982,7 +982,7 @@ __typeof__(h) __h = (h);                                    \
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         self.rightController.view.hidden = NO;
         [self setSlidingFrameForOffset:-self.referenceBounds.size.width];
-    } completion:^(BOOL finished) {
+    } completion:^(BOOL openFinished) {
         // run block if it's defined
         if (bounced) bounced(self);
         [self centerViewHidden];
@@ -990,7 +990,7 @@ __typeof__(h) __h = (h);                                    \
         // now slide the view back to the ledge position
         [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
             [self setSlidingFrameForOffset:self.rightLedge - self.referenceBounds.size.width];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL slideBackFinished) {
             if (completed) completed(self);
             if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:YES];
         }];
@@ -1270,8 +1270,8 @@ __typeof__(h) __h = (h);                                    \
     
     [self setSlidingFrameForOffset:x];
     
-    BOOL rightWasHidden = self.rightController.view.hidden;
-    BOOL leftWasHidden = self.leftController.view.hidden;
+    __unused BOOL rightWasHidden = self.rightController.view.hidden;
+    __unused BOOL leftWasHidden = self.leftController.view.hidden;
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     

@@ -1275,8 +1275,10 @@ __typeof__(h) __h = (h);                                    \
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     
-    if (panner.state == UIGestureRecognizerStateEnded) {
-        if (self.slidingControllerView.frame.origin.x == 0.0f) 
+    if (panner.state == UIGestureRecognizerStateEnded ||
+        panner.state == UIGestureRecognizerStateCancelled ||
+        panner.state == UIGestureRecognizerStateFailed) {
+        if (self.slidingControllerView.frame.origin.x == 0.0f)
             [self centerViewVisible];
         else
             [self centerViewHidden];

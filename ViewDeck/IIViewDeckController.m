@@ -94,7 +94,7 @@ __typeof__(h) __h = (h);                                    \
 #define OPEN_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_FAST)
 #define CLOSE_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_SLOW)
 
-@interface IIViewDeckController () <UIGestureRecognizerDelegate> 
+@interface IIViewDeckController () <UIGestureRecognizerDelegate>
 
 
 @property (nonatomic, retain) UIView* referenceView;
@@ -206,6 +206,7 @@ __typeof__(h) __h = (h);                                    \
 @synthesize enabled = _enabled;
 @synthesize elastic = _elastic;
 @synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
+@synthesize panningGestureDelegate = _panningGestureDelegate;
 
 #pragma mark - Initalisation and deallocation
 
@@ -1166,6 +1167,11 @@ __typeof__(h) __h = (h);                                    \
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
+        BOOL result = [self.panningGestureDelegate gestureRecognizerShouldBegin:gestureRecognizer];
+        if (!result) return result;
+    }
+    
     CGFloat px = self.slidingControllerView.frame.origin.x;
     if (px != 0) return YES;
         
@@ -1187,13 +1193,26 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if([[touch view] isKindOfClass:[UISlider class]])
-    {
-        return NO;
+    if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizer:shouldReceiveTouch:)]) {
+        BOOL result = [self.panningGestureDelegate gestureRecognizer:gestureRecognizer
+                                                  shouldReceiveTouch:touch];
+        if (!result) return result;
     }
+
+    if ([[touch view] isKindOfClass:[UISlider class]])
+        return NO;
 
     _panOrigin = self.slidingControllerView.frame.origin.x;
     return YES;
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+        return [self.panningGestureDelegate gestureRecognizer:gestureRecognizer
+           shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
+    }
+    
+    return NO;
 }
 
 - (CGFloat)locationOfPanner:(UIPanGestureRecognizer*)panner {

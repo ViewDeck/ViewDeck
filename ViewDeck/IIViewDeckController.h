@@ -74,6 +74,7 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 @property (nonatomic, retain) UIViewController* rightController;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
 @property (nonatomic, retain) UIView* panningView; 
+@property (nonatomic, assign) id<UIGestureRecognizerDelegate> panningGestureDelegate;
 @property (nonatomic, readonly, retain) NSArray* controllers;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic) BOOL elastic;

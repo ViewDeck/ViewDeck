@@ -141,7 +141,6 @@ __typeof__(h) __h = (h);                                    \
 - (void)centerViewVisible;
 - (void)centerViewHidden;
 - (void)centerTapped;
-- (void)applyCenterTapper;
 
 - (void)addPanners;
 - (void)removePanners;
@@ -580,10 +579,6 @@ __typeof__(h) __h = (h);                                    \
 
     // after 0.01 sec, since in certain cases the sliding view is reset.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-        if (!self.referenceView) {
-            [self setSlidingAndReferenceViews];
-            applyViews();
-        }
         [self setSlidingFrameForOffset:_offset];
         [self hideAppropriateSideViews];
     });
@@ -1521,11 +1516,6 @@ __typeof__(h) __h = (h);                                    \
     else {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Cannot set navigationcontroller behavior when the view deck is already showing." userInfo:nil];
     }
-}
-
-- (void)setCenterhiddenInteractivity:(IIViewDeckCenterHiddenInteractivity)centerhiddenInteractivity {
-    _centerhiddenInteractivity = centerhiddenInteractivity;
-    [self applyCenterTapper];
 }
 
 - (void)applySideController:(__strong UIViewController **)controllerStore to:(UIViewController *)newController otherSideController:(UIViewController *)otherController clearOtherController:(void(^)())clearOtherController {

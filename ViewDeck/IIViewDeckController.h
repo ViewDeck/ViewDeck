@@ -135,6 +135,12 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 - (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced;
 - (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+
+- (BOOL)toggleOpenView;
+- (BOOL)toggleOpenViewAnimated:(BOOL)animated;
+- (BOOL)toggleOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+
+- (BOOL)canRightViewPushViewControllerOverCenterController;
 - (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller;
 
 - (BOOL)leftControllerIsClosed;

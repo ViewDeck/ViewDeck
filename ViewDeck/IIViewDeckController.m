@@ -1081,34 +1081,96 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
+- (BOOL)canRightViewPushViewControllerOverCenterController {
+    return [self.centerController isKindOfClass:[UINavigationController class]];
+}
+
 - (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller {
     NSAssert([self.centerController isKindOfClass:[UINavigationController class]], @"cannot rightViewPushViewControllerOverCenterView when center controller is not a navigation controller");
 
-    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, 0.0);
+    UIView* view = self.view;
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, 0.0);
 
     CGContextRef context = UIGraphicsGetCurrentContext();
-    [self.view.layer renderInContext:context];
+    [view.layer renderInContext:context];
     UIImage *deckshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     UIImageView* shotView = [[UIImageView alloc] initWithImage:deckshot];
-    shotView.frame = self.view.frame; 
-    [self.view.superview addSubview:shotView];
-    CGRect targetFrame = self.view.frame; 
-    self.view.frame = CGRectOffset(self.view.frame, self.view.frame.size.width, 0);
+    shotView.frame = view.frame; 
+    [view.superview addSubview:shotView];
+    CGRect targetFrame = view.frame; 
+    view.frame = CGRectOffset(view.frame, view.frame.size.width, 0);
     
     [self closeRightViewAnimated:NO];
-    UINavigationController* navController = (UINavigationController*)self.centerController;
+    UINavigationController* navController = self.centerController.navigationController ? self.centerController.navigationController :(UINavigationController*)self.centerController;
     [navController pushViewController:controller animated:NO];
     
     [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
-        shotView.frame = CGRectOffset(shotView.frame, -self.view.frame.size.width, 0);
-        self.view.frame = targetFrame;
+        shotView.frame = CGRectOffset(shotView.frame, -view.frame.size.width, 0);
+        view.frame = targetFrame;
     } completion:^(BOOL finished) {
         [shotView removeFromSuperview];
     }];
 }
 
+
+- (BOOL)toggleOpenView {
+    return [self toggleOpenViewAnimated:YES];
+}
+
+- (BOOL)toggleOpenViewAnimated:(BOOL)animated {
+    return [self toggleOpenViewAnimated:animated completion:nil];
+}
+
+- (BOOL)toggleOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
+    if ([self leftControllerIsOpen]) {
+        // check the delegate to allow closing
+        if (![self checkDelegate:@selector(viewDeckControllerWillCloseLeftView:animated:) animated:animated]) return NO;
+
+        // check the delegate to allow closing
+        if (![self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:animated]) return NO;
+        
+        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
+            [self setSlidingFrameForOffset:0];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
+                [self setSlidingFrameForOffset:_rightLedge - self.referenceBounds.size.width];
+            } completion:^(BOOL finished) {
+                [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:animated];
+            }];
+            [self hideAppropriateSideViews];
+            [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:animated];
+            [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:animated];
+        }];
+
+        return YES;
+    }
+    else if (([self rightControllerIsOpen])) {
+        // check the delegate to allow closing
+        if (![self checkDelegate:@selector(viewDeckControllerWillCloseRightView:animated:) animated:animated]) return NO;
+        
+        // check the delegate to allow closing
+        if (![self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:animated]) return NO;
+        
+        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
+            [self setSlidingFrameForOffset:0];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
+                [self setSlidingFrameForOffset:self.referenceBounds.size.width - _leftLedge];
+            } completion:^(BOOL finished) {
+                [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:animated];
+            }];
+            [self hideAppropriateSideViews];
+            [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:animated];
+            [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:animated];
+        }];
+
+        return YES;
+    }
+    
+    return NO;
+}
 
 
 #pragma mark - Pre iOS5 message relaying

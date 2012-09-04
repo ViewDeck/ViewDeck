@@ -66,8 +66,9 @@ typedef UInt32 IIViewDeckSizeMode;
 @interface IIViewDeckController : UIViewController {
 @private    
     CGFloat _panOrigin;
-    BOOL _viewAppeared;
-    CGFloat _preRotationWidth, _leftWidth, _rightWidth, _preRotationCenterWidth, _maxLedge, _offset;
+    BOOL _viewAppeared, _shouldViewDidAppear;
+    CGFloat _preRotationWidth, _preRotationCenterWidth, _offset;
+    CGFloat _maxLedge, _leftLedge, _rightLedge;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
@@ -83,15 +84,15 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic) BOOL elastic;
 
-@property (nonatomic) CGFloat leftLedge;
-@property (nonatomic) CGFloat rightLedge;
-@property (nonatomic) CGFloat maxLedge;
+@property (nonatomic) CGFloat leftSize;
+@property (nonatomic) CGFloat rightSize;
+@property (nonatomic) CGFloat maxSize;
 @property (nonatomic) BOOL resizesCenterView;
 @property (nonatomic) IIViewDeckPanningMode panningMode;
 @property (nonatomic) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
 @property (nonatomic) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
-@property (nonatomic) IIViewDeckRotationBehavior rotationBehavior;
 @property (nonatomic) BOOL automaticallyUpdateTabBarItems;
+@property (nonatomic) IIViewDeckSizeMode sizeMode;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
@@ -103,8 +104,9 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 - (void)showCenterView:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 
 
-- (void)setLeftLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion;
-- (void)setRightLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion;
+- (void)setLeftSize:(CGFloat)leftSize completion:(void(^)(BOOL finished))completion;
+- (void)setRightSize:(CGFloat)rightSize completion:(void(^)(BOOL finished))completion;
+- (void)setMaxSize:(CGFloat)maxSize completion:(void(^)(BOOL finished))completion;
 
 - (BOOL)toggleLeftView;
 - (BOOL)openLeftView;

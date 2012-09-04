@@ -10,7 +10,7 @@
     IIViewDeckPanningMode _panning;
     IIViewDeckCenterHiddenInteractivity _centerHidden;
     IIViewDeckNavigationControllerBehavior _navBehavior;
-    IIViewDeckRotationBehavior _rotBehavior;
+    IIViewDeckSizeMode _sizeMode;
     BOOL _elastic;
     CGFloat _maxLedge;
 }
@@ -28,7 +28,7 @@
         _panning = IIViewDeckNoPanning;
         _centerHidden = IIViewDeckCenterHiddenUserInteractive;
         _navBehavior = IIViewDeckNavigationControllerContained;
-        _rotBehavior = IIViewDeckRotationKeepsLedgeSizes;
+        _sizeMode = IIViewDeckLedgeSizeMode;
         _elastic = YES;
         _maxLedge = 0;
     }
@@ -73,9 +73,11 @@
     controller.centerhiddenInteractivity = _centerHidden;
     controller.navigationControllerBehavior = _navBehavior;
     controller.panningView = self.panningView;
-    controller.maxLedge = _maxLedge > 0 ? self.view.bounds.size.width-_maxLedge : 0;
-    controller.rotationBehavior = _rotBehavior;
+    controller.maxSize = _maxLedge > 0 ? self.view.bounds.size.width-_maxLedge : 0;
+    controller.sizeMode = _sizeMode;
     controller.elastic = _elastic;
+    controller.leftSize = 320;
+    
     [self.navigationController pushViewController:controller animated:YES];
 }
 
@@ -103,8 +105,8 @@
 - (IBAction)rotationChanged:(id)sender {
     UISegmentedControl* control = (UISegmentedControl*)sender;
     
-    IIViewDeckRotationBehavior values[] = { IIViewDeckRotationKeepsLedgeSizes, IIViewDeckRotationKeepsViewSizes };
-    _rotBehavior = values[control.selectedSegmentIndex];
+    IIViewDeckSizeMode values[] = { IIViewDeckLedgeSizeMode, IIViewDeckViewSizeMode };
+    _sizeMode = values[control.selectedSegmentIndex];
 }
 
 - (IBAction)elasticChanged:(id)sender {

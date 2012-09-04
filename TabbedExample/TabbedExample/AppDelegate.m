@@ -38,7 +38,7 @@
         IIViewDeckController* deckController = [[IIViewDeckController alloc] initWithCenterViewController:viewController1 leftViewController:selectorController];
         deckController.automaticallyUpdateTabBarItems = YES;
         deckController.navigationControllerBehavior = IIViewDeckNavigationControllerIntegrated;
-        deckController.maxLedge = 220;
+        deckController.maxSize = 220;
         viewController1 = deckController;
     }
     viewController1 = [[WrapController alloc] initWithViewController:[[UINavigationController alloc] initWithRootViewController:viewController1]];

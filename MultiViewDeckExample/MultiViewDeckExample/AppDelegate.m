@@ -30,7 +30,7 @@
 
     IIViewDeckController* secondDeckController =  [[IIViewDeckController alloc] initWithCenterViewController:leftController 
                                                                                     leftViewController:bottomController];
-    secondDeckController.leftLedge = 66;
+    secondDeckController.leftSize = 66;
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:centerController 
                                                                                     leftViewController:secondDeckController];
     

@@ -11,7 +11,7 @@
 #import "IIViewDeckController.h"
 #import "ModalViewController.h"
 
-@interface CenterViewController () <UIGestureRecognizerDelegate>
+@interface CenterViewController () <UIGestureRecognizerDelegate, IIViewDeckControllerDelegate>
 
 @end
 
@@ -55,6 +55,14 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self.viewDeckController action:@selector(toggleLeftView)];
     [(IIViewDeckController*)self.viewDeckController.leftController closeLeftView];
     return YES;
+}
+
+- (void)viewDeckControllerDidOpenLeftView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
+    NSLog(@"did open");
+}
+
+- (void)viewDeckControllerDidCloseLeftView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
+    NSLog(@"did close");
 }
 
 #pragma mark - Table view data source

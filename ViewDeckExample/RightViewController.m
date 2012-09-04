@@ -85,12 +85,15 @@
     [self.viewDeckController rightViewPushViewControllerOverCenterController:controller];
 }
 
+- (IBAction)moveToLeft:(id)sender {
+    [self.viewDeckController toggleOpenView];
+}
 
 #pragma mark - view deck delegate
 
 - (void)addLog:(NSString*)line {
-    self.tableView.frame = (CGRect) { self.viewDeckController.rightLedge, self.tableView.frame.origin.y, 
-        self.view.frame.size.width - self.viewDeckController.rightLedge, self.tableView.frame.size.height };
+    self.tableView.frame = (CGRect) { self.viewDeckController.rightSize, self.tableView.frame.origin.y,
+        self.view.frame.size.width - self.viewDeckController.rightSize, self.tableView.frame.size.height };
 
     [self.logs addObject:line];
     NSIndexPath* index = [NSIndexPath indexPathForRow:self.logs.count-1 inSection:0];
@@ -180,6 +183,7 @@
 
     return cell;
 }
+
 
 
 @end

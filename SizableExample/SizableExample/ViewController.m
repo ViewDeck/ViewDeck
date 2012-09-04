@@ -44,6 +44,7 @@
     UIViewController* leftController = [[LeftController alloc] initWithNibName:@"LeftController" bundle:nil];
     UIViewController* centerController = [[CenterController alloc] initWithNibName:@"CenterController" bundle:nil];
     self.containerController = [[IIViewDeckController alloc] initWithCenterViewController:centerController leftViewController:leftController];
+    [self addChildViewController:self.containerController];
     self.containerController.view.frame = self.containerView.bounds;
     [self.containerView addSubview:self.containerController.view];
 }

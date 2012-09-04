@@ -14,6 +14,7 @@
 @interface RightViewController () <MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 
 @property (nonatomic, retain) IBOutlet UIButton* smsButton;
+@property (nonatomic, retain) IBOutlet UIButton* closeButton;
 
 @end
 
@@ -38,8 +39,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.closeButton.enabled = [self.viewDeckController canRightViewPushViewControllerOverCenterController];
+    self.closeButton.alpha = self.closeButton.enabled ? 1 : 0.5;
     self.smsButton.enabled = [MFMessageComposeViewController canSendText];
-    self.smsButton.alpha = [MFMessageComposeViewController canSendText] ? 1 : 0.5;
+    self.smsButton.alpha = self.smsButton.enabled ? 1 : 0.5;
     
 }
 - (IBAction)closeAndNavigatePressed:(id)sender {

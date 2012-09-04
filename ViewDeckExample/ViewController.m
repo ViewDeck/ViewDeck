@@ -143,10 +143,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!indexPath.section) {
-        self.viewDeckController.leftLedge = MAX(indexPath.row*44,10);
+        self.viewDeckController.leftSize = MAX(indexPath.row*44,10);
     }
     else {
-        self.viewDeckController.rightLedge = MAX(indexPath.row*44,10);
+        self.viewDeckController.rightSize = MAX(indexPath.row*44,10);
     }
 }
 

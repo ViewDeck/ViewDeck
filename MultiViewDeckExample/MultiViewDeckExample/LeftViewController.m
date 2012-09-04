@@ -53,13 +53,13 @@
 }
 
 - (BOOL)viewDeckControllerWillOpenLeftView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
-    [self.topViewDeckController setLeftLedge:22];
+    [self.topViewDeckController setLeftSize:22];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self.viewDeckController action:@selector(toggleLeftView)];
     return YES;
 }
 
 - (BOOL)viewDeckControllerWillCloseLeftView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
-    [self.topViewDeckController setLeftLedge:44];
+    [self.topViewDeckController setLeftSize:44];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self.viewDeckController action:@selector(toggleLeftView)];
     return YES;
 }

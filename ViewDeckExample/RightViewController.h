@@ -14,5 +14,6 @@
 - (IBAction)swapLeftAndCenterPressed:(id)sender;
 - (IBAction)centerNavController:(id)sender;
 - (IBAction)pushOverCenter:(id)sender;
+- (IBAction)moveToLeft:(id)sender;
 
 @end

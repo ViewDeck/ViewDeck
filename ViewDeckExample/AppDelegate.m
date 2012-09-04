@@ -30,7 +30,7 @@
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController 
                                                                                     leftViewController:self.leftController
                                                                                    rightViewController:rightController];
-    deckController.rightLedge = 100;
+    deckController.rightSize = 100;
     
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];

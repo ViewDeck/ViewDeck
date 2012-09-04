@@ -66,12 +66,15 @@ typedef enum {
     CGFloat _preRotationWidth, _leftWidth, _rightWidth, _preRotationCenterWidth, _maxLedge, _offset;
 }
 
+typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
+
 @property (nonatomic, assign) id<IIViewDeckControllerDelegate> delegate;
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
 @property (nonatomic, retain) UIView* panningView; 
+@property (nonatomic, assign) id<UIGestureRecognizerDelegate> panningGestureDelegate;
 @property (nonatomic, readonly, retain) NSArray* controllers;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic) BOOL elastic;
@@ -93,7 +96,7 @@ typedef enum {
 
 - (void)showCenterView;
 - (void)showCenterView:(BOOL)animated;
-- (void)showCenterView:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
+- (void)showCenterView:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 
 
 - (void)setLeftLedge:(CGFloat)rightLedge completion:(void(^)(BOOL finished))completion;
@@ -103,25 +106,29 @@ typedef enum {
 - (BOOL)openLeftView;
 - (BOOL)closeLeftView;
 - (BOOL)toggleLeftViewAnimated:(BOOL)animated;
-- (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)openLeftViewAnimated:(BOOL)animated;
-- (BOOL)openLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)openLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced;
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)closeLeftViewAnimated:(BOOL)animated;
 - (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
-- (BOOL)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
-- (BOOL)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced;
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 
 - (BOOL)toggleRightView;
 - (BOOL)openRightView;
 - (BOOL)closeRightView;
 - (BOOL)toggleRightViewAnimated:(BOOL)animated;
-- (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)openRightViewAnimated:(BOOL)animated;
-- (BOOL)openRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)openRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced;
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)closeRightViewAnimated:(BOOL)animated;
-- (BOOL)closeRightViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
-- (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced;
-- (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced;
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 - (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller;
 
 - (BOOL)leftControllerIsClosed;

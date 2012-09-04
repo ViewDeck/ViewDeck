@@ -94,7 +94,7 @@ __typeof__(h) __h = (h);                                    \
 #define OPEN_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_FAST)
 #define CLOSE_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_SLOW)
 
-@interface IIViewDeckController () <UIGestureRecognizerDelegate> 
+@interface IIViewDeckController () <UIGestureRecognizerDelegate>
 
 
 @property (nonatomic, retain) UIView* referenceView;
@@ -113,14 +113,18 @@ __typeof__(h) __h = (h);                                    \
 
 - (void)cleanup;
 
-- (BOOL)closeLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed;
-- (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void(^)(IIViewDeckController* controller))completed;
-- (BOOL)openLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed;
-- (BOOL)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void(^)(IIViewDeckController* controller))completed;
-- (BOOL)closeRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed;
-- (BOOL)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void(^)(IIViewDeckController* controller))completed;
-- (BOOL)openRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed;
-- (BOOL)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void(^)(IIViewDeckController* controller))completed;
+- (BOOL)closeLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset;
 - (CGSize)slidingSizeForOffset:(CGFloat)offset;
@@ -202,8 +206,14 @@ __typeof__(h) __h = (h);                                    \
 @synthesize enabled = _enabled;
 @synthesize elastic = _elastic;
 @synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
+@synthesize panningGestureDelegate = _panningGestureDelegate;
 
 #pragma mark - Initalisation and deallocation
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    return [self initWithCenterViewController:nil];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -709,7 +719,7 @@ __typeof__(h) __h = (h);                                    \
     [self showCenterView:animated completion:nil];
 }
 
-- (void)showCenterView:(BOOL)animated  completion:(void(^)(IIViewDeckController* controller))completed {
+- (void)showCenterView:(BOOL)animated  completion:(IIViewDeckControllerBlock)completed {
     BOOL mustRunCompletion = completed != nil;
     if (self.leftController && !self.leftController.view.hidden) {
         [self closeLeftViewAnimated:animated completion:completed];
@@ -741,7 +751,7 @@ __typeof__(h) __h = (h);                                    \
     return [self toggleLeftViewAnimated:animated completion:nil];
 }
 
-- (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
     if ([self leftControllerIsClosed]) 
         return [self openLeftViewAnimated:animated completion:completed];
     else
@@ -752,15 +762,15 @@ __typeof__(h) __h = (h);                                    \
     return [self openLeftViewAnimated:animated completion:nil];
 }
 
-- (BOOL)openLeftViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)openLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
     return [self openLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:YES completion:completed];
 }
 
-- (BOOL)openLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)openLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     return [self openLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:callDelegate completion:completed];
 }
 
-- (BOOL)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)openLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (!self.leftController || II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.leftLedge)) return YES;
     
     // check the delegate to allow opening
@@ -780,19 +790,60 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced {
+    return [self openLeftViewBouncing:bounced completion:nil];
+}
+
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed {
+    return [self openLeftViewBouncing:bounced callDelegate:YES completion:completed];
+}
+
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    return [self openLeftViewBouncing:bounced options:UIViewAnimationOptionCurveEaseInOut callDelegate:YES completion:completed];
+}
+
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    if (!self.leftController || II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.leftLedge)) return YES;
+    
+    // check the delegate to allow opening
+    if (callDelegate && ![self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:YES]) return NO;
+    // also close the right view if it's open. Since the delegate can cancel the close, check the result.
+    if (callDelegate && ![self closeRightViewAnimated:YES options:options callDelegate:callDelegate completion:completed]) return NO;
+    
+    // first open the view completely, run the block (to allow changes)
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
+        self.leftController.view.hidden = NO;
+        [self setSlidingFrameForOffset:self.referenceBounds.size.width];
+    } completion:^(BOOL finished) {
+        // run block if it's defined
+        if (bounced) bounced(self);
+        [self centerViewHidden];
+        
+        // now slide the view back to the ledge position
+        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self setSlidingFrameForOffset:self.referenceBounds.size.width - self.leftLedge];
+        } completion:^(BOOL finished) {
+            if (completed) completed(self);
+            if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:YES];
+        }];
+    }];
+    
+    return YES;
+}
+
 - (BOOL)closeLeftViewAnimated:(BOOL)animated {
     return [self closeLeftViewAnimated:animated completion:nil];
 }
 
-- (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
     return [self closeLeftViewAnimated:animated callDelegate:YES completion:completed];
 }
 
-- (BOOL)closeLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeLeftViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     return [self closeLeftViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:callDelegate completion:completed];
 }
 
-- (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeLeftViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (self.leftControllerIsClosed) return YES;
     
     // check the delegate to allow closing
@@ -813,15 +864,15 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
-- (BOOL)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced {
     return [self closeLeftViewBouncing:bounced completion:nil];
 }
 
-- (BOOL)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed {
     return [self closeLeftViewBouncing:bounced callDelegate:YES completion:completed];
 }
 
-- (BOOL)closeLeftViewBouncing:(void(^)(IIViewDeckController* controller))bounced callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (self.leftControllerIsClosed) return YES;
     
     // check the delegate to allow closing
@@ -869,7 +920,7 @@ __typeof__(h) __h = (h);                                    \
     return [self toggleRightViewAnimated:animated completion:nil];
 }
 
-- (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
     if ([self rightControllerIsClosed]) 
         return [self openRightViewAnimated:animated completion:completed];
     else
@@ -880,21 +931,21 @@ __typeof__(h) __h = (h);                                    \
     return [self openRightViewAnimated:animated completion:nil];
 }
 
-- (BOOL)openRightViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)openRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
     return [self openRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:YES completion:completed];
 }
 
-- (BOOL)openRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)openRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     return [self openRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:callDelegate completion:completed];
 }
 
-- (BOOL)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)openRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (!self.rightController || II_FLOAT_EQUAL(CGRectGetMaxX(self.slidingControllerView.frame), self.rightLedge)) return YES;
     
     // check the delegate to allow opening
     if (callDelegate && ![self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:animated]) return NO;
     // also close the left view if it's open. Since the delegate can cancel the close, check the result.
-    if (![self closeLeftViewAnimated:animated options:options callDelegate:callDelegate completion:completed]) return NO;
+    if (callDelegate && ![self closeLeftViewAnimated:animated options:options callDelegate:callDelegate completion:completed]) return NO;
     
     [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options | UIViewAnimationOptionLayoutSubviews animations:^{
         self.rightController.view.hidden = NO;
@@ -908,19 +959,60 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced {
+    return [self openRightViewBouncing:bounced completion:nil];
+}
+
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed {
+    return [self openRightViewBouncing:bounced callDelegate:YES completion:completed];
+}
+
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    return [self openRightViewBouncing:bounced options:UIViewAnimationOptionCurveEaseInOut callDelegate:YES completion:completed];
+}
+
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    if (!self.rightController || II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.rightLedge)) return YES;
+    
+    // check the delegate to allow opening
+    if (callDelegate && ![self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:YES]) return NO;
+    // also close the right view if it's open. Since the delegate can cancel the close, check the result.
+    if (callDelegate && ![self closeLeftViewAnimated:YES options:options callDelegate:callDelegate completion:completed]) return NO;
+    
+    // first open the view completely, run the block (to allow changes)
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
+        self.rightController.view.hidden = NO;
+        [self setSlidingFrameForOffset:-self.referenceBounds.size.width];
+    } completion:^(BOOL finished) {
+        // run block if it's defined
+        if (bounced) bounced(self);
+        [self centerViewHidden];
+        
+        // now slide the view back to the ledge position
+        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self setSlidingFrameForOffset:self.rightLedge - self.referenceBounds.size.width];
+        } completion:^(BOOL finished) {
+            if (completed) completed(self);
+            if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:YES];
+        }];
+    }];
+    
+    return YES;
+}
+
 - (BOOL)closeRightViewAnimated:(BOOL)animated {
     return [self closeRightViewAnimated:animated completion:nil];
 }
 
-- (BOOL)closeRightViewAnimated:(BOOL)animated completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
     return [self closeRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:YES completion:completed];
 }
 
-- (BOOL)closeRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeRightViewAnimated:(BOOL)animated callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     return [self openRightViewAnimated:animated options:UIViewAnimationOptionCurveEaseInOut callDelegate:callDelegate completion:completed];
 }
 
-- (BOOL)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeRightViewAnimated:(BOOL)animated options:(UIViewAnimationOptions)options callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (self.rightControllerIsClosed) return YES;
     
     // check the delegate to allow closing
@@ -941,15 +1033,15 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
-- (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced {
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced {
     return [self closeRightViewBouncing:bounced completion:nil];
 }
 
-- (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed {
     return [self closeRightViewBouncing:bounced callDelegate:YES completion:completed];
 }
 
-- (BOOL)closeRightViewBouncing:(void(^)(IIViewDeckController* controller))bounced callDelegate:(BOOL)callDelegate completion:(void (^)(IIViewDeckController *))completed {
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (self.rightControllerIsClosed) return YES;
     
     // check the delegate to allow closing
@@ -1075,6 +1167,11 @@ __typeof__(h) __h = (h);                                    \
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
+        BOOL result = [self.panningGestureDelegate gestureRecognizerShouldBegin:gestureRecognizer];
+        if (!result) return result;
+    }
+    
     CGFloat px = self.slidingControllerView.frame.origin.x;
     if (px != 0) return YES;
         
@@ -1096,8 +1193,26 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizer:shouldReceiveTouch:)]) {
+        BOOL result = [self.panningGestureDelegate gestureRecognizer:gestureRecognizer
+                                                  shouldReceiveTouch:touch];
+        if (!result) return result;
+    }
+
+    if ([[touch view] isKindOfClass:[UISlider class]])
+        return NO;
+
     _panOrigin = self.slidingControllerView.frame.origin.x;
     return YES;
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)]) {
+        return [self.panningGestureDelegate gestureRecognizer:gestureRecognizer
+           shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
+    }
+    
+    return NO;
 }
 
 - (CGFloat)locationOfPanner:(UIPanGestureRecognizer*)panner {
@@ -1174,18 +1289,15 @@ __typeof__(h) __h = (h);                                    \
     
     [self setSlidingFrameForOffset:x];
     
-    BOOL rightWasHidden = self.rightController.view.hidden;
-    BOOL leftWasHidden = self.leftController.view.hidden;
-    
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     
-    if (panner.state == UIGestureRecognizerStateEnded) {    
-        if ((self.leftController.view.hidden && !leftWasHidden) || (self.rightController.view.hidden && !rightWasHidden)) {
+    if (panner.state == UIGestureRecognizerStateEnded ||
+        panner.state == UIGestureRecognizerStateCancelled ||
+        panner.state == UIGestureRecognizerStateFailed) {
+        if (self.slidingControllerView.frame.origin.x == 0.0f)
             [self centerViewVisible];
-        }
-        else if (leftWasHidden && rightWasHidden && (!self.leftController.view.hidden || !self.rightController.view.hidden)) {
+        else
             [self centerViewHidden];
-        }
         
         CGFloat lw3 = (w-self.leftLedge) / 3.0;
         CGFloat rw3 = (w-self.rightLedge) / 3.0;

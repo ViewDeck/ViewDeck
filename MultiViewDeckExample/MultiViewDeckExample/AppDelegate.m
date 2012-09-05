@@ -31,8 +31,11 @@
     IIViewDeckController* secondDeckController =  [[IIViewDeckController alloc] initWithCenterViewController:leftController 
                                                                                     leftViewController:bottomController];
     secondDeckController.leftSize = 66;
-    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:centerController 
+    secondDeckController.delegateMode = IIViewDeckDelegateAndSubControllers;
+
+    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:centerController
                                                                                     leftViewController:secondDeckController];
+    deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
     
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];

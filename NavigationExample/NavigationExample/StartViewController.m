@@ -42,6 +42,7 @@
                                                                                    leftViewController:leftController  
                                                                                   rightViewController:rightController];
     deckController.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
+    deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
     
     [self presentViewController:deckController animated:YES completion:nil];
 }

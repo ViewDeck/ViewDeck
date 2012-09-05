@@ -142,7 +142,6 @@
 				E2C8E5BF1497FC6400560D23 /* PathlikeSliderController.h */,
 				E2C8E5C01497FC6400560D23 /* PathlikeSliderController.m */,
 				E2C8E5C21497FDAE00560D23 /* Content */,
-				E2C8E5BE1497FC5400560D23 /* Pathlike */,
 			);
 			path = FeaturesExample;
 			sourceTree = "<group>";
@@ -164,13 +163,6 @@
 				E2955F6B14B728E4003DDB4E /* ViewDeck */,
 			);
 			path = vendor;
-			sourceTree = "<group>";
-		};
-		E2C8E5BE1497FC5400560D23 /* Pathlike */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Pathlike;
 			sourceTree = "<group>";
 		};
 		E2C8E5C21497FDAE00560D23 /* Content */ = {

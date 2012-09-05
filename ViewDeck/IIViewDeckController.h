@@ -171,16 +171,22 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController didPanToOffset:(CGFloat)offset;
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController slideOffsetChanged:(CGFloat)offset;
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithOpeningController:(UIViewController*)openingController;
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
-- (BOOL)viewDeckControllerWillOpenLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (void)viewDeckControllerDidOpenLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (BOOL)viewDeckControllerWillCloseLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (void)viewDeckControllerDidCloseLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (BOOL)viewDeckControllerWillOpenRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (void)viewDeckControllerDidOpenRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (BOOL)viewDeckControllerWillCloseRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (void)viewDeckControllerDidCloseRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
-- (void)viewDeckControllerDidShowCenterView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
+
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldOpenLeftViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController willOpenLeftViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController didOpenLeftViewAnimated:(BOOL)animated;
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldCloseLeftViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController willCloseLeftViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController didCloseLeftViewAnimated:(BOOL)animated;
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldOpenRightViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController willOpenRightViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController didOpenRightViewAnimated:(BOOL)animated;
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldCloseRightViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController willCloseRightViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController didCloseRightViewAnimated:(BOOL)animated;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController didShowCenterViewAnimated:(BOOL)animated;
 
 @end
 

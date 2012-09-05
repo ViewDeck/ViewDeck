@@ -198,6 +198,7 @@ __typeof__(h) __h = (h);                                    \
 @synthesize originalShadowColor = _originalShadowColor;
 @synthesize originalShadowOffset = _originalShadowOffset;
 @synthesize delegate = _delegate;
+@synthesize delegateMode = _delegateMode;
 @synthesize navigationControllerBehavior = _navigationControllerBehavior;
 @synthesize panningView = _panningView; 
 @synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
@@ -233,6 +234,9 @@ __typeof__(h) __h = (h);                                    \
         _automaticallyUpdateTabBarItems = NO;
         self.panners = [NSMutableArray array];
         self.enabled = YES;
+        
+        _delegate = nil;
+        _delegateMode = IIViewDeckDelegateOnly;
         
         self.originalShadowRadius = 0;
         self.originalShadowOffset = CGSizeZero;
@@ -635,11 +639,6 @@ __typeof__(h) __h = (h);                                    \
 {
     _preRotationWidth = self.referenceBounds.size.width;
     _preRotationCenterWidth = self.centerView.bounds.size.width;
-    
-//    if (self.rotationBehavior == IIViewDeckRotationKeepsViewSizes) {
-//        _leftWidth = self.leftController.view.frame.size.width;
-//        _rightWidth = self.rightController.view.frame.size.width;
-//    }
     
     BOOL should = YES;
     if (self.centerController)
@@ -1484,15 +1483,17 @@ __typeof__(h) __h = (h);                                    \
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
         ok = ok & objc_msgSendTyped(self.delegate, selector, self, animated);
     
-    for (UIViewController* controller in self.controllers) {
-        // check controller first
-        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
-            ok = ok & objc_msgSendTyped(controller, selector, self, animated);
-        // if that fails, check if it's a navigation controller and use the top controller
-        else if ([controller isKindOfClass:[UINavigationController class]]) {
-            UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
-                ok = ok & objc_msgSendTyped(topController, selector, self, animated);
+    if (_delegateMode != IIViewDeckDelegateOnly) {
+        for (UIViewController* controller in self.controllers) {
+            // check controller first
+            if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate)
+                ok = ok & objc_msgSendTyped(controller, selector, self, animated);
+            // if that fails, check if it's a navigation controller and use the top controller
+            else if ([controller isKindOfClass:[UINavigationController class]]) {
+                UIViewController* topController = ((UINavigationController*)controller).topViewController;
+                if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
+                    ok = ok & objc_msgSendTyped(topController, selector, self, animated);
+            }
         }
     }
     
@@ -1506,6 +1507,9 @@ __typeof__(h) __h = (h);                                    \
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
         objc_msgSendTyped(self.delegate, selector, self, animated);
     
+    if (_delegateMode == IIViewDeckDelegateOnly)
+        return;
+
     for (UIViewController* controller in self.controllers) {
         // check controller first
         if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
@@ -1523,6 +1527,9 @@ __typeof__(h) __h = (h);                                    \
     void (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, CGFloat offset) = (void*)objc_msgSend;
     if (self.delegate && [self.delegate respondsToSelector:selector]) 
         objc_msgSendTyped(self.delegate, selector, self, offset);
+    
+    if (_delegateMode == IIViewDeckDelegateOnly)
+        return;
     
     for (UIViewController* controller in self.controllers) {
         // check controller first

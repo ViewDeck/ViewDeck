@@ -59,6 +59,12 @@ enum {
 typedef UInt32 IIViewDeckSizeMode;
 
 
+enum {
+    IIViewDeckDelegateOnly, // call the delegate only
+    IIViewDeckDelegateAndSubControllers  // call the delegate and the subcontrollers
+};
+typedef UInt32 IIViewDeckDelegateMode;
+
 #define IIViewDeckCenterHiddenCanTapToClose(interactivity) ((interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose || (interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing)
 #define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
 
@@ -74,15 +80,18 @@ typedef UInt32 IIViewDeckSizeMode;
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 
 @property (nonatomic, assign) id<IIViewDeckControllerDelegate> delegate;
+@property (nonatomic, assign) IIViewDeckDelegateMode delegateMode;
+
+@property (nonatomic, readonly, retain) NSArray* controllers;
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
-@property (nonatomic, retain) UIView* panningView; 
+
+@property (nonatomic, retain) UIView* panningView;
 @property (nonatomic, assign) id<UIGestureRecognizerDelegate> panningGestureDelegate;
-@property (nonatomic, readonly, retain) NSArray* controllers;
-@property (nonatomic, getter=isEnabled) BOOL enabled;
-@property (nonatomic) BOOL elastic;
+@property (nonatomic, assign, getter=isEnabled) BOOL enabled;
+@property (nonatomic, assign, getter=isElastic) BOOL elastic;
 
 @property (nonatomic) CGFloat leftSize;
 @property (nonatomic) CGFloat rightSize;

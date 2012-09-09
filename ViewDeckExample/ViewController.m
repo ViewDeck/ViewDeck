@@ -36,12 +36,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+    
+    if ([self.navigationItem respondsToSelector:@selector(leftBarButtonItems)]) {
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:
+                                                   [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)],
+                                                   [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(bounceLeftView)],
+                                                   nil];
+    } else {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+    }
     
     if ([self.navigationItem respondsToSelector:@selector(rightBarButtonItems)]) {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                    [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleRightView)],
+                                                   [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(bounceRightView)],
                                                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCam:)],
                                                    nil];
     }

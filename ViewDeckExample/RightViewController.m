@@ -113,6 +113,15 @@
     [self addLog:[NSString stringWithFormat:@"Pan: %f", offset]];
 }
 
+- (BOOL)viewDeckControllerWillBounceLeftView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
+    [self addLog:@"will bounce left view"];
+    return YES;
+}
+
+- (void)viewDeckControllerDidBounceLeftView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
+    [self addLog:@"did bounce left view"];
+}
+
 - (BOOL)viewDeckControllerWillOpenLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated {
     [self addLog:@"will open left view"];
     return YES;
@@ -129,6 +138,15 @@
 
 - (void)viewDeckControllerDidCloseLeftView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated {
     [self addLog:@"did close left view"];
+}
+
+- (BOOL)viewDeckControllerWillBounceRightView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
+    [self addLog:@"will bounce right view"];
+    return YES;
+}
+
+- (void)viewDeckControllerDidBounceRightView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
+    [self addLog:@"did bounce right view"];
 }
 
 - (BOOL)viewDeckControllerWillOpenRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated {

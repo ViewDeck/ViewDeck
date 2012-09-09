@@ -26,6 +26,7 @@
 		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
 		E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A26155B385600E05FB9 /* PushedViewController.m */; };
 		E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A27155B385600E05FB9 /* PushedViewController.xib */; };
+		EAC63E5815FC12D0008101FB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC63E5715FC12D0008101FB /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		E2B01A25155B385600E05FB9 /* PushedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushedViewController.h; sourceTree = "<group>"; };
 		E2B01A26155B385600E05FB9 /* PushedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushedViewController.m; sourceTree = "<group>"; };
 		E2B01A27155B385600E05FB9 /* PushedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushedViewController.xib; sourceTree = "<group>"; };
+		EAC63E5715FC12D0008101FB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAC63E5815FC12D0008101FB /* QuartzCore.framework in Frameworks */,
 				E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */,
 				E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */,
 				E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */,
@@ -95,6 +98,7 @@
 		E240A9AA148AB3770077282A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EAC63E5715FC12D0008101FB /* QuartzCore.framework */,
 				E240A9AB148AB3770077282A /* UIKit.framework */,
 				E240A9AD148AB3770077282A /* Foundation.framework */,
 				E240A9AF148AB3770077282A /* CoreGraphics.framework */,

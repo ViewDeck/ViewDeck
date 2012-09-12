@@ -34,8 +34,8 @@ enum {
 typedef UInt32 IIViewDeckSide;
 
 enum {
-    IIViewDeckHorizontalOffset = 1,
-    IIViewDeckVerticalOffset = 2
+    IIViewDeckHorizontalOrientation = 1,
+    IIViewDeckVerticalOrientation = 2
 };
 typedef UInt32 IIViewDeckOffsetOrientation;
 
@@ -86,8 +86,10 @@ extern NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 @private    
     CGFloat _panOrigin;
     BOOL _viewAppeared, _shouldViewDidAppear;
+    SInt32 _sideAppeared[4];
     CGFloat _preRotationWidth, _preRotationCenterWidth, _offset;
-    CGFloat _maxLedge, _leftLedge, _rightLedge;
+    CGFloat _maxLedge, _leftLedge, _rightLedge, _topLedge, _bottomLedge;
+    IIViewDeckOffsetOrientation _orientation;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
@@ -99,6 +101,8 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 @property (nonatomic, retain) UIViewController* centerController;
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
+@property (nonatomic, retain) UIViewController* topController;
+@property (nonatomic, retain) UIViewController* bottomController;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
 
 @property (nonatomic, retain) UIView* panningView;

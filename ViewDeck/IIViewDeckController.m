@@ -782,10 +782,10 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
             return self.rightController;
 
         case IIViewDeckTopSide:
-            return nil;
+            return self.topController;
 
         case IIViewDeckBottomSide:
-            return nil;
+            return self.bottomController;
 
         default:
             return nil;
@@ -801,7 +801,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 }
 
 - (void)notifyWillOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
-    if (![self isSideClosed:viewDeckSide])
+    if (viewDeckSide == IIViewDeckNoSide ||![self isSideClosed:viewDeckSide])
         return;
 
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:0 to:1];
@@ -809,7 +809,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 }
 
 - (void)notifyDidOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
-    if (![self isSideOpen:viewDeckSide])
+    if (viewDeckSide == IIViewDeckNoSide || ![self isSideOpen:viewDeckSide])
         return;
     
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:1 to:2];
@@ -817,7 +817,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 }
 
 - (void)notifyWillCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
-    if ([self isSideClosed:viewDeckSide])
+    if (viewDeckSide == IIViewDeckNoSide || [self isSideClosed:viewDeckSide])
         return;
     
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:2 to:1];
@@ -825,7 +825,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 }
 
 - (void)notifyDidCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
-    if (![self isSideClosed:viewDeckSide])
+    if (viewDeckSide == IIViewDeckNoSide || ![self isSideClosed:viewDeckSide])
         return;
     
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:1 to:0];
@@ -841,7 +841,6 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
     if (viewDeckSide == IIViewDeckNoSide)
         return;
     
-    NSLog(@"side = %@ %@ %d->%d (appeared=%d, side=%ld)", NSStringFromIIViewDeckSide(viewDeckSide), animated ? @"animated" : @"", from, to, _viewAppeared, _sideAppeared[viewDeckSide]);
     if (!_viewAppeared) {
         _sideAppeared[viewDeckSide] = to;
         return;
@@ -869,7 +868,6 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
     
     _sideAppeared[viewDeckSide] = to;
     
-    NSLog(@"bam");
     if (selector) {
         UIViewController* controller = [self controllerForSide:viewDeckSide];
         BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated) = (void*)objc_msgSend;
@@ -881,7 +879,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 
 
 - (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSize {
-    if (_orientation == IIViewDeckNoOrientation || ![self controllerForSide:viewDeckSize])
+    if (![self controllerForSide:viewDeckSize])
         return YES;
     
     switch (viewDeckSize) {
@@ -898,7 +896,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
             return CGRectGetMaxY(self.slidingControllerView.frame) >= self.referenceBounds.size.height;
             
         default:
-            return NO;
+            return YES;
     }
 }
 

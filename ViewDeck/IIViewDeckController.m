@@ -800,6 +800,8 @@ __typeof__(h) __h = (h);                                    \
         if (_offset == 0.0f) {
             self.rightController.view.hidden = YES;
         }
+        
+        // perform completion and delegate call
         if (completed) completed(self);
         if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidBounceLeftView:animated:) animated:YES];
     }];
@@ -1404,7 +1406,17 @@ __typeof__(h) __h = (h);                                    \
         }
     }
     
-    [self setSlidingFrameForOffset:x];
+    // Check for an in-flight bounce animation
+    CAKeyframeAnimation *bounceAnimation = (CAKeyframeAnimation *)[self.slidingControllerView.layer animationForKey:@"bounceAnimation"];
+    if (bounceAnimation != nil) {
+        self.slidingControllerView.frame = [[self.slidingControllerView.layer presentationLayer] frame];
+        [self.slidingControllerView.layer removeAnimationForKey:@"bounceAnimation"];
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self setSlidingFrameForOffset:x];
+        } completion:nil];
+    } else {
+        [self setSlidingFrameForOffset:x];
+    }
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     

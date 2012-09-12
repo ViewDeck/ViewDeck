@@ -81,18 +81,22 @@ typedef UInt32 IIViewDeckDelegateMode;
 #define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
 
 extern NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
+extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide(IIViewDeckSide side);
 
 @interface IIViewDeckController : UIViewController {
 @private    
-    CGFloat _panOrigin;
+    CGPoint _panOrigin;
     BOOL _viewAppeared, _shouldViewDidAppear;
-    SInt32 _sideAppeared[4];
+    SInt32 _sideAppeared[5];
+    CGFloat _ledge[5];
+    UIViewController* _controllers[5];
     CGFloat _preRotationWidth, _preRotationCenterWidth, _offset;
-    CGFloat _maxLedge, _leftLedge, _rightLedge, _topLedge, _bottomLedge;
-    IIViewDeckOffsetOrientation _orientation;
+    CGFloat _maxLedge;
+    IIViewDeckOffsetOrientation _offsetOrientation;
 }
 
-typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
+typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);
+typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controller);
 
 @property (nonatomic, assign) id<IIViewDeckControllerDelegate> delegate;
 @property (nonatomic, assign) IIViewDeckDelegateMode delegateMode;
@@ -112,6 +116,8 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 
 @property (nonatomic) CGFloat leftSize;
 @property (nonatomic) CGFloat rightSize;
+@property (nonatomic) CGFloat topSize;
+@property (nonatomic) CGFloat bottomSize;
 @property (nonatomic) CGFloat maxSize;
 @property (nonatomic) BOOL resizesCenterView;
 @property (nonatomic) IIViewDeckPanningMode panningMode;
@@ -124,14 +130,15 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
 - (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController;
-
-- (void)showCenterView;
-- (void)showCenterView:(BOOL)animated;
-- (void)showCenterView:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-
+- (id)initWithCenterViewController:(UIViewController*)centerController topViewController:(UIViewController*)topController;
+- (id)initWithCenterViewController:(UIViewController*)centerController bottomViewController:(UIViewController*)bottomController;
+- (id)initWithCenterViewController:(UIViewController*)centerController topViewController:(UIViewController*)topController bottomViewController:(UIViewController*)bottomController;
+- (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController topViewController:(UIViewController*)topController bottomViewController:(UIViewController*)bottomController;
 
 - (void)setLeftSize:(CGFloat)leftSize completion:(void(^)(BOOL finished))completion;
 - (void)setRightSize:(CGFloat)rightSize completion:(void(^)(BOOL finished))completion;
+- (void)setTopSize:(CGFloat)leftSize completion:(void(^)(BOOL finished))completion;
+- (void)setBottomSize:(CGFloat)rightSize completion:(void(^)(BOOL finished))completion;
 - (void)setMaxSize:(CGFloat)maxSize completion:(void(^)(BOOL finished))completion;
 
 - (BOOL)toggleLeftView;
@@ -141,12 +148,12 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 - (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)openLeftViewAnimated:(BOOL)animated;
 - (BOOL)openLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced;
-- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)closeLeftViewAnimated:(BOOL)animated;
-- (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(void(^)(IIViewDeckController* controller))completed;
-- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced;
-- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 
 - (BOOL)toggleRightView;
 - (BOOL)openRightView;
@@ -155,16 +162,50 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 - (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)openRightViewAnimated:(BOOL)animated;
 - (BOOL)openRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced;
-- (BOOL)openRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)openRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)closeRightViewAnimated:(BOOL)animated;
 - (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced;
-- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+
+- (BOOL)toggleTopView;
+- (BOOL)openTopView;
+- (BOOL)closeTopView;
+- (BOOL)toggleTopViewAnimated:(BOOL)animated;
+- (BOOL)toggleTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openTopViewAnimated:(BOOL)animated;
+- (BOOL)openTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)openTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeTopViewAnimated:(BOOL)animated;
+- (BOOL)closeTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)closeTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+
+- (BOOL)toggleBottomView;
+- (BOOL)openBottomView;
+- (BOOL)closeBottomView;
+- (BOOL)toggleBottomViewAnimated:(BOOL)animated;
+- (BOOL)toggleBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openBottomViewAnimated:(BOOL)animated;
+- (BOOL)openBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)openBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)openBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeBottomViewAnimated:(BOOL)animated;
+- (BOOL)closeBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)closeBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 
 - (BOOL)toggleOpenView;
 - (BOOL)toggleOpenViewAnimated:(BOOL)animated;
 - (BOOL)toggleOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+
+- (BOOL)closeOpenView;
+- (BOOL)closeOpenViewAnimated:(BOOL)animated;
+- (BOOL)closeOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
+- (BOOL)closeOpenViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
+- (BOOL)closeOpenViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 
 - (BOOL)canRightViewPushViewControllerOverCenterController;
 - (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller;

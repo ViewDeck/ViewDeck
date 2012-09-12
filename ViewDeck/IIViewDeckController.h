@@ -104,6 +104,7 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 
 - (BOOL)bounceLeftView;
 - (BOOL)bounceLeftViewWithCompletion:(IIViewDeckControllerBlock)completed;
+- (BOOL)bounceLeftViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)toggleLeftView;
 - (BOOL)openLeftView;
 - (BOOL)closeLeftView;
@@ -120,6 +121,7 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 
 - (BOOL)bounceRightView;
 - (BOOL)bounceRightViewWithCompletion:(IIViewDeckControllerBlock)completed;
+- (BOOL)bounceRightViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed;
 - (BOOL)toggleRightView;
 - (BOOL)openRightView;
 - (BOOL)closeRightView;

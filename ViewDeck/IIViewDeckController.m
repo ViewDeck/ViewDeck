@@ -128,7 +128,7 @@ __typeof__(h) __h = (h);                                    \
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset;
 - (CGSize)slidingSizeForOffset:(CGFloat)offset;
-- (NSArray *)bouncingValuesForPosition:(CGFloat)position maximumBounce:(CGFloat)maxBounce adjustingLeft:(BOOL)left duration:(NSTimeInterval)duration;
+- (NSArray *)bouncingValuesForPosition:(CGFloat)position adjustingLeft:(BOOL)left maximumBounce:(CGFloat)maxBounce dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration;
 - (void)setSlidingFrameForOffset:(CGFloat)frame;
 - (void)hideAppropriateSideViews;
 
@@ -394,11 +394,15 @@ __typeof__(h) __h = (h);                                    \
     self.rightController.view.hidden = CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width;
 }
 
-- (NSArray *)bouncingValuesForPosition:(CGFloat)position maximumBounce:(CGFloat)maxBounce adjustingLeft:(BOOL)left duration:(NSTimeInterval)duration   {
+- (NSArray *)bouncingValuesForPosition:(CGFloat)position adjustingLeft:(BOOL)left maximumBounce:(CGFloat)maxBounce dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration {
     
     // Underdamped, Free Vibration of a SDOF System
-    // u(t) = abs(e^(-zeta * wn * t) * ((Vo/wd) * sin(wd * t)))
-    // wd = wn * sqrt(1 - zeta^2);
+    // u(t) = abs(e^(-zeta * wn * t) * ((Vo/wd) * sin(wd * t))
+    
+    // Vo, initial velocity, is calculated to provide the desired maxBounce and
+    // animation duration. The damped period (wd) and distance of the maximum (first)
+    // bounce can be controlled either via the initial condition Vo or the damping
+    // factor zeta for a desired duration, Vo is simpler mathematically.
     
     int steps = 150;
     float time = 0.0;
@@ -408,7 +412,7 @@ __typeof__(h) __h = (h);                                    \
     double offset = 0;
     float Td = duration/2; //Damped period, equal to half the specified duration to give 4 bounces
     float wd = (2 * M_PI)/Td; // Damped frequency
-    float zeta = 0.4; // Damping factor, can be adjusted to vary bouncing response
+    zeta = MIN(MAX(0.0001f, zeta), 0.9999f); // For an underdamped system, we must have 0 < zeta < 1
     float zetaFactor = sqrtf(1 - powf(zeta, 2.0)); // Used in multiple places
     float wn = wd/zetaFactor; // Natural frequency
     float Vo = maxBounce * wd/(expf(-zeta/zetaFactor * (0.18 * Td) * wd) * sinf(0.18 * Td * wd));
@@ -416,7 +420,7 @@ __typeof__(h) __h = (h);                                    \
     for (int t = 0; t < steps; t++) {
         time = (t / (float)steps) * duration;
         offset = abs(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
-        offset = (left ? -1 : 1) * [self limitOffset:offset] + position;
+        offset = (left ? 1 : -1) * [self limitOffset:offset] + position;
         [values addObject:[NSNumber numberWithFloat:offset]];
     }
     
@@ -774,6 +778,10 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)bounceLeftViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    return [self bounceLeftViewToDistance:distance duration:duration dampingFactor:0.40f callDelegate:callDelegate completion:completed];
+}
+
+- (BOOL)bounceLeftViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (!self.leftController || II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.leftLedge)) return YES;
     
     // check the delegate to allow bouncing
@@ -788,7 +796,7 @@ __typeof__(h) __h = (h);                                    \
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     animation.duration = duration;
-    animation.values = [self bouncingValuesForPosition:self.slidingControllerView.layer.position.x maximumBounce:distance adjustingLeft:NO duration:duration];
+    animation.values = [self bouncingValuesForPosition:self.slidingControllerView.layer.position.x adjustingLeft:YES maximumBounce:distance dampingFactor:zeta duration:duration];
     animation.removedOnCompletion = YES;
     
     self.leftController.view.hidden = NO;
@@ -984,10 +992,10 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)bounceRightViewWithCompletion:(IIViewDeckControllerBlock)completed {
-    return [self bounceRightViewToDistance:40.0f duration:1.2f callDelegate:YES completion:completed];
+    return [self bounceRightViewToDistance:40.0f duration:1.2f dampingFactor:0.40f callDelegate:YES completion:completed];
 }
 
-- (BOOL)bounceRightViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+- (BOOL)bounceRightViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
     if (!self.rightController || II_FLOAT_EQUAL(CGRectGetMaxX(self.slidingControllerView.frame), self.rightLedge)) return YES;
     
     // check the delegate to allow bouncing
@@ -1002,7 +1010,7 @@ __typeof__(h) __h = (h);                                    \
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     animation.duration = duration;
-    animation.values = [self bouncingValuesForPosition:self.slidingControllerView.layer.position.x maximumBounce:distance adjustingLeft:YES duration:duration];
+    animation.values = [self bouncingValuesForPosition:self.slidingControllerView.layer.position.x adjustingLeft:NO maximumBounce:distance dampingFactor:zeta duration:duration];
     animation.removedOnCompletion = YES;
     
     self.rightController.view.hidden = NO;

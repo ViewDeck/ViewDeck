@@ -96,8 +96,6 @@ __typeof__(h) __h = (h);                                    \
 
 enum {
     IIViewDeckNoSide = 0,
-    IIViewDeckTopSide = 3,
-    IIViewDeckBottomSide = 4,
 };
 
 enum {
@@ -531,7 +529,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     switch (side) {
         case IIViewDeckLeftSide: {
             minLedge = MIN(self.referenceBounds.size.width, ledge);
-            offsetter = ^CGFloat(CGFloat l) { return  self.referenceBounds.size.width - ledge; };
+            offsetter = ^CGFloat(CGFloat l) { return  self.referenceBounds.size.width - l; };
             break;
         }
 

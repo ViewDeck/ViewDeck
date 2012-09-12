@@ -30,6 +30,8 @@
 enum {
     IIViewDeckLeftSide = 1,
     IIViewDeckRightSide = 2,
+    IIViewDeckTopSide = 3,
+    IIViewDeckBottomSide = 4,
 };
 typedef UInt32 IIViewDeckSide;
 

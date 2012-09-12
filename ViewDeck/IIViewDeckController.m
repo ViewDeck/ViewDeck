@@ -708,8 +708,16 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     [super viewDidUnload];
 }
 
-- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
+- (BOOL)shouldAutomaticallyForwardRotationMethods {
+    return YES;
+}
+
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods {
     return NO;
+}
+
+- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
+    return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -727,7 +735,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             [self.referenceView insertSubview:_controllers[side].view belowSubview:self.slidingControllerView];
         }
 
-        [self setSlidingFrameForOffset:_offset forOrientation:_offsetOrientation]; // todo check side
+        [self setSlidingFrameForOffset:_offset forOrientation:_offsetOrientation];
         self.slidingControllerView.hidden = NO;
         
         self.centerView.frame = self.centerViewBounds;
@@ -818,8 +826,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    _preRotationWidth = self.referenceBounds.size.width;
-    _preRotationCenterWidth = self.centerView.bounds.size.width;
+    _preRotationSize = self.referenceBounds.size;
+    _preRotationCenterSize = self.centerView.bounds.size;
     
     BOOL should = YES;
     if (self.centerController)
@@ -843,8 +851,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
     
-    _preRotationWidth = self.referenceBounds.size.width;
-    _preRotationCenterWidth = self.centerView.bounds.size.width;
+    _preRotationSize = self.referenceBounds.size;
+    _preRotationCenterSize = self.centerView.bounds.size;
 
     [self relayAppearanceMethod:^(UIViewController *controller) {
         [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -861,31 +869,46 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (void)arrangeViewsAfterRotation {
-    if (_preRotationWidth <= 0) return;
+    if (_preRotationSize.width <= 0 || _preRotationSize.height <= 0) return;
     
     // todo handle both sides
     
-    CGFloat offset = self.slidingControllerView.frame.origin.x;
-    if (self.resizesCenterView && II_FLOAT_EQUAL(offset, 0)) {
-        offset = offset + (_preRotationCenterWidth - _preRotationWidth);
-    }
-    
-    if (self.sizeMode == IIViewDeckLedgeSizeMode) {
-        if (offset > 0) {
-            offset = self.referenceBounds.size.width - _preRotationWidth + offset;
-        }
-        else if (offset < 0) {
-            offset = offset + _preRotationWidth - self.referenceBounds.size.width;
+    CGFloat offset, max, preSize;
+    if (_offsetOrientation == IIViewDeckVerticalOrientation) {
+        offset = self.slidingControllerView.frame.origin.y;
+        max = self.referenceBounds.size.height;
+        preSize = _preRotationSize.height;
+        if (self.resizesCenterView && II_FLOAT_EQUAL(offset, 0)) {
+            offset = offset + (_preRotationCenterSize.height - _preRotationSize.height);
         }
     }
     else {
-        _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckLeftSide] + self.referenceBounds.size.width - _preRotationWidth;
-        _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationWidth;
-        _maxLedge = _maxLedge + self.referenceBounds.size.width - _preRotationWidth;
+        offset = self.slidingControllerView.frame.origin.x;
+        max = self.referenceBounds.size.width;
+        preSize = _preRotationSize.width;
+        if (self.resizesCenterView && II_FLOAT_EQUAL(offset, 0)) {
+            offset = offset + (_preRotationCenterSize.width - _preRotationSize.width);
+        }
+    }
+    
+    if (self.sizeMode != IIViewDeckLedgeSizeMode) {
+        _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckLeftSide] + self.referenceBounds.size.width - _preRotationSize.width;
+        _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationSize.width;
+        _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckTopSide] + self.referenceBounds.size.height - _preRotationSize.height;
+        _ledge[IIViewDeckBottomSide] = _ledge[IIViewDeckBottomSide] + self.referenceBounds.size.height - _preRotationSize.height;
+        _maxLedge = _maxLedge + max - preSize;
+    }
+    else {
+        if (offset > 0) {
+            offset = max - preSize + offset;
+        }
+        else if (offset < 0) {
+            offset = offset + preSize - max;
+        }
     }
     [self setSlidingFrameForOffset:offset forOrientation:_offsetOrientation];
     
-    _preRotationWidth = 0;
+    _preRotationSize = CGSizeZero;
 }
 
 #pragma mark - Notify
@@ -1088,7 +1111,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         return [self toggleOpenViewAnimated:animated completion:completed];
     }
     
-    __block UIViewAnimationOptions options = UIViewAnimationCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
+    __block UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
 
     IIViewDeckControllerBlock finish = ^(IIViewDeckController *controller, BOOL success) {
         if (!success) {
@@ -1108,7 +1131,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     };
 
     if ([self isSideClosed:side]) {
-        options |= UIViewAnimationCurveEaseIn;
+        options |= UIViewAnimationOptionCurveEaseIn;
         // try to close any open view first
         return [self closeOpenViewAnimated:animated completion:finish];
     }
@@ -1181,8 +1204,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         return NO;
     }
     
-    UIViewAnimationOptions options = UIViewAnimationCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
-    if ([self isSideOpen:side]) options |= UIViewAnimationCurveEaseIn;
+    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
+    if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
 
     [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];
@@ -1777,11 +1800,9 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     }
     else {
         ofs = lofs;
-        //x = [self limitOffset:x forSide:IIViewDeckLeftSide]; // todo handle side
     }
-    //[self setSlidingFrameForOffset:ofs limit:!self.elastic forOrientation:orientation];
     
-    return [self limitOffset:ofs forOrientation:orientation]; // todo handle side
+    return [self limitOffset:ofs forOrientation:orientation]; 
 }
 
 
@@ -2370,8 +2391,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     }
     
     if ([keyPath isEqualToString:@"bounds"]) {
-        CGFloat offset = self.slidingControllerView.frame.origin.x;
-        [self setSlidingFrameForOffset:offset forOrientation:_offsetOrientation]; // todo check Side
+        [self setSlidingFrameForOffset:_offset forOrientation:_offsetOrientation];
         self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
         UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] 
         ? (UINavigationController*)self.centerController 

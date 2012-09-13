@@ -34,13 +34,12 @@
         [_disabledLabel setText:@"no viewdeck"];
 }
 
-
--(BOOL)viewDeckControllerWillOpenRightView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
-    return self.navigationController.viewControllers.count % 2 == 0;
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldOpenViewSide:(IIViewDeckSide)viewDeckSide {
+    return viewDeckSide != IIViewDeckRightSide || self.navigationController.viewControllers.count % 2 == 0;
 }
 
--(BOOL)viewDeckControllerWillCloseRightView:(IIViewDeckController *)viewDeckController animated:(BOOL)animated {
-    return self.navigationController.viewControllers.count % 2 == 0;
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+    return viewDeckSide != IIViewDeckRightSide || self.navigationController.viewControllers.count % 2 == 0;
 }
 
 - (IBAction)goOnPressed:(id)sender {

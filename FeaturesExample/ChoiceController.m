@@ -6,7 +6,7 @@
 #import "ChoiceController.h"
 #import "PathlikeSliderController.h"
 
-@interface ChoiceController () {
+@interface ChoiceController () <IIViewDeckControllerDelegate> {
     IIViewDeckPanningMode _panning;
     IIViewDeckCenterHiddenInteractivity _centerHidden;
     IIViewDeckNavigationControllerBehavior _navBehavior;
@@ -63,6 +63,7 @@
     controller.sizeMode = _sizeMode;
     controller.elastic = _elastic;
     controller.leftSize = 320;
+    controller.delegate = self;
     
     [self.navigationController pushViewController:controller animated:YES];
 }
@@ -70,7 +71,7 @@
 - (IBAction)panningChanged:(id)sender {
     UISegmentedControl* control = (UISegmentedControl*)sender;
     
-    IIViewDeckPanningMode values[] = { IIViewDeckNoPanning, IIViewDeckFullViewPanning, IIViewDeckNavigationBarPanning, IIViewDeckPanningViewPanning };
+    IIViewDeckPanningMode values[] = { IIViewDeckNoPanning, IIViewDeckFullViewPanning, IIViewDeckNavigationBarPanning, IIViewDeckPanningViewPanning, IIViewDeckDelegatePanning };
     _panning = values[control.selectedSegmentIndex];
 }
 
@@ -103,5 +104,38 @@
     _maxLedge = ((UISlider*)sender).value;
 }
 
+#define CGRectOffsetRightAndShrink(rect, offset)         \
+({                                                        \
+__typeof__(rect) __r = (rect);                          \
+__typeof__(offset) __o = (offset);                      \
+(CGRect) {  { __r.origin.x, __r.origin.y },            \
+{ __r.size.width - __o, __r.size.height }  \
+};                                            \
+})
+
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldPanAtTouch:(UITouch *)touch {
+    CGRect halfRect = self.navigationController.navigationBar.bounds;
+    halfRect = CGRectOffsetRightAndShrink(halfRect, halfRect.size.width/2);
+    
+    UIView* flash = [UIView new];
+    BOOL ok = CGRectContainsPoint(halfRect, [touch locationInView:self.navigationController.navigationBar]);
+    if (ok) {
+        flash.frame = halfRect;
+        flash.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.5];
+    }
+    else {
+        flash.frame = self.navigationController.navigationBar.bounds;
+        flash.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+    }
+
+    [self.navigationController.navigationBar addSubview:flash];
+    [UIView animateWithDuration:0.3 animations:^{
+        flash.alpha = 0;
+    } completion:^(BOOL finished) {
+        [flash removeFromSuperview];
+    }];
+
+    return ok;
+}
 
 @end

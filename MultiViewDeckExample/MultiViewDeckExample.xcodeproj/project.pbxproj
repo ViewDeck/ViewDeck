@@ -312,6 +312,7 @@
 				GCC_PREFIX_HEADER = "MultiViewDeckExample/MultiViewDeckExample-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
 				INFOPLIST_FILE = "MultiViewDeckExample/MultiViewDeckExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -324,6 +325,7 @@
 				GCC_PREFIX_HEADER = "MultiViewDeckExample/MultiViewDeckExample-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
 				INFOPLIST_FILE = "MultiViewDeckExample/MultiViewDeckExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

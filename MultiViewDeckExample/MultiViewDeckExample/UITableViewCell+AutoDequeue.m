@@ -17,7 +17,7 @@
     if (!cell) {
         cell = [self alloc];
         if ([cell respondsToSelector:@selector(initWithReuseIdentifier:)])
-            cell = [cell performSelector:@selector(initWithReuseIdentifier:) withObject:cellIdentifier];
+            cell = [cell initWithReuseIdentifier:cellIdentifier];
         else 
             cell = [cell initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }

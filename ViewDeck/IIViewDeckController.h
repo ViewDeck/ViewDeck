@@ -45,7 +45,8 @@ enum {
     IIViewDeckNoPanning,              // no panning allowed
     IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
     IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
-    IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
+    IIViewDeckPanningViewPanning,      // panning only occurs when you start touching in a UIView set in panningView property
+    IIViewDeckDelegatePanning         // allows panning with a delegate
 };
 typedef UInt32 IIViewDeckPanningMode;
 
@@ -225,6 +226,8 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @protocol IIViewDeckControllerDelegate <NSObject>
 
 @optional
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldPanAtTouch:(UITouch*)touch;
+
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController applyShadow:(CALayer*)shadowLayer withBounds:(CGRect)rect;
 
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController didChangeOffset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;

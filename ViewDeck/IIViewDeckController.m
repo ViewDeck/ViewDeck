@@ -1754,6 +1754,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         if (!result) return result;
     }
 
+    if (self.panningMode == IIViewDeckDelegatePanning && [self.delegate respondsToSelector:@selector(viewDeckController:shouldPanAtTouch:)]) {
+        if (![self.delegate viewDeckController:self shouldPanAtTouch:touch])
+            return NO;
+    }
+
     if ([[touch view] isKindOfClass:[UISlider class]])
         return NO;
 
@@ -1949,6 +1954,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             break;
             
         case IIViewDeckFullViewPanning:
+        case IIViewDeckDelegatePanning:
             [self addPanner:self.slidingControllerView];
             // also add to disabled center
             if (self.centerTapper)

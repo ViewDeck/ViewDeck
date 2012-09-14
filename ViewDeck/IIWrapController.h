@@ -25,14 +25,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WrapController : UIViewController
+@interface IIWrapController : UIViewController
 
 @property (nonatomic, readonly, retain) UIViewController* wrappedController;
-@property (nonatomic, copy) void(^onViewDidLoad)(WrapController* controller);
-@property (nonatomic, copy) void(^onViewWillAppear)(WrapController* controller, BOOL animated);
-@property (nonatomic, copy) void(^onViewDidAppear)(WrapController* controller, BOOL animated);
-@property (nonatomic, copy) void(^onViewWillDisappear)(WrapController* controller, BOOL animated);
-@property (nonatomic, copy) void(^onViewDidDisappear)(WrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewDidLoad)(IIWrapController* controller);
+@property (nonatomic, copy) void(^onViewWillAppear)(IIWrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewDidAppear)(IIWrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewWillDisappear)(IIWrapController* controller, BOOL animated);
+@property (nonatomic, copy) void(^onViewDidDisappear)(IIWrapController* controller, BOOL animated);
 
 - (id)initWithViewController:(UIViewController*)controller;
 
@@ -42,6 +42,6 @@
 // contained viewcontrollers, a la UINavigationController.
 @interface UIViewController (WrapControllerItem) 
 
-@property(nonatomic,readonly,assign) WrapController *wrapController; 
+@property(nonatomic,readonly,assign) IIWrapController *wrapController; 
 
 @end

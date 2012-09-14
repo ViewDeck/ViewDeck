@@ -42,18 +42,18 @@
 #define II_CGRectOffsetBottomAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width, __r.size.height-__o }; })
 #define II_CGRectShrink(rect, w, h) ({__typeof__(rect) __r = (rect); __typeof__(w) __w = (w); __typeof__(h) __h = (h); (CGRect) { __r.origin, __r.size.width - __w, __r.size.height - __h }; })
 
-#import "WrapController.h"
+#import "IIWrapController.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 
 @interface UIViewController (WrappedItem_Internal) 
 
 // internal setter for the wrapController property on UIViewController
-- (void)setWrapController:(WrapController *)wrapController;
+- (void)setWrapController:(IIWrapController*)wrapController;
 
 @end
 
-@implementation WrapController
+@implementation IIWrapController
 
 @synthesize wrappedController = _wrappedController;
 @synthesize onViewDidLoad = _onViewDidLoad;
@@ -75,15 +75,11 @@
 }
 
 - (CGFloat)statusBarHeight {
-//    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]]) 
-//        return 0;
-//    
     return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
     ? [UIApplication sharedApplication].statusBarFrame.size.width 
     : [UIApplication sharedApplication].statusBarFrame.size.height;
 }
 
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
 #if __IPHONE_5_0
@@ -91,11 +87,15 @@
         [self addChildViewController:self.wrappedController];
 #endif
     
-    self.view = II_AUTORELEASE([[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(self.wrappedController.view.frame, [self statusBarHeight])]);
-    self.view.autoresizingMask = self.wrappedController.view.autoresizingMask;
-    self.wrappedController.view.frame = self.view.bounds;
-    self.wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view = II_AUTORELEASE([[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(_wrappedController.view.frame, [self statusBarHeight])]);
+    self.view.autoresizingMask = _wrappedController.view.autoresizingMask;
+    _wrappedController.view.frame = self.view.bounds;
+    _wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.wrappedController.view];
+#if __IPHONE_5_0
+    if ([_wrappedController respondsToSelector:@selector(didMoveToParentViewController:)])
+        [_wrappedController didMoveToParentViewController:self];
+#endif
 }
 
 - (void)viewDidLoad {
@@ -113,13 +113,20 @@
 
 - (void)dealloc {
 #if __IPHONE_5_0
-    if ([_wrappedController respondsToSelector:@selector(removeFromParentViewController)]) {
+    if ([_wrappedController respondsToSelector:@selector(willMoveToParentViewController:)])
+        [_wrappedController willMoveToParentViewController:nil];
+    if ([_wrappedController respondsToSelector:@selector(removeFromParentViewController)])
         [_wrappedController removeFromParentViewController];
-    }
 #endif
     [_wrappedController setWrapController:nil];
-    II_RELEASE(_wrappedController);
+#if __IPHONE_5_0
+    if ([_wrappedController respondsToSelector:@selector(didMoveToParentViewController:)])
+        [_wrappedController didMoveToParentViewController:nil];
+#endif
+
     _wrappedController = nil;
+    II_RELEASE(_wrappedController);
+
 #if !II_ARC_ENABLED
     [super dealloc];
 #endif
@@ -151,7 +158,8 @@
     if (self.onViewWillAppear) 
         self.onViewWillAppear(self, animated);
 
-    [self.wrappedController viewWillAppear:animated];
+    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
+        [self.wrappedController viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -160,7 +168,8 @@
     if (self.onViewDidAppear) 
         self.onViewDidAppear(self, animated);
 
-    [self.wrappedController viewDidAppear:animated];
+    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
+        [_wrappedController viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -169,7 +178,8 @@
     if (self.onViewWillDisappear) 
         self.onViewWillDisappear(self, animated);
 
-    [self.wrappedController viewWillDisappear:animated];
+    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
+        [_wrappedController viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -178,7 +188,8 @@
     if (self.onViewDidDisappear) 
         self.onViewDidDisappear(self, animated);
 
-    [self.wrappedController viewDidDisappear:animated];
+    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
+        [_wrappedController viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -223,11 +234,11 @@
 
 static const char* wrapControllerKey = "WrapController";
 
-- (WrapController*)wrapController_core {
+- (IIWrapController*)wrapController_core {
     return objc_getAssociatedObject(self, wrapControllerKey);
 }
 
-- (WrapController*)wrapController {
+- (IIWrapController*)wrapController {
     id result = [self wrapController_core];
     if (!result && self.navigationController) 
         return [self.navigationController wrapController];
@@ -235,7 +246,7 @@ static const char* wrapControllerKey = "WrapController";
     return result;
 }
 
-- (void)setWrapController:(WrapController *)wrapController {
+- (void)setWrapController:(IIWrapController*)wrapController {
     objc_setAssociatedObject(self, wrapControllerKey, wrapController, OBJC_ASSOCIATION_ASSIGN);
 }
 

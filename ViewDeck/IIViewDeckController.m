@@ -86,7 +86,7 @@ __typeof__(h) __h = (h);                                    \
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
-#import "WrapController.h"
+#import "IIWrapController.h"
 
 #define DURATION_FAST 0.3
 #define DURATION_SLOW 0.3

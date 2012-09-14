@@ -118,17 +118,17 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 @property (nonatomic, assign, getter=isElastic) BOOL elastic;
 
-@property (nonatomic) CGFloat leftSize;
-@property (nonatomic) CGFloat rightSize;
-@property (nonatomic) CGFloat topSize;
-@property (nonatomic) CGFloat bottomSize;
-@property (nonatomic) CGFloat maxSize;
-@property (nonatomic) BOOL resizesCenterView;
-@property (nonatomic) IIViewDeckPanningMode panningMode;
-@property (nonatomic) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
-@property (nonatomic) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
-@property (nonatomic) BOOL automaticallyUpdateTabBarItems;
-@property (nonatomic) IIViewDeckSizeMode sizeMode;
+@property (nonatomic, assign) CGFloat leftSize;
+@property (nonatomic, assign) CGFloat rightSize;
+@property (nonatomic, assign) CGFloat topSize;
+@property (nonatomic, assign) CGFloat bottomSize;
+@property (nonatomic, assign) CGFloat maxSize;
+@property (nonatomic, assign) BOOL resizesCenterView;
+@property (nonatomic, assign) IIViewDeckPanningMode panningMode;
+@property (nonatomic, assign) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
+@property (nonatomic, assign) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
+@property (nonatomic, assign) BOOL automaticallyUpdateTabBarItems;
+@property (nonatomic, assign) IIViewDeckSizeMode sizeMode;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;

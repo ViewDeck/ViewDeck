@@ -193,8 +193,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 - (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize controller:(UIViewController*)controller;
 - (void)performDelegate:(SEL)selector offset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
 
-- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
-- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced;
+- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay;
 
 @end 
 
@@ -710,6 +709,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     [super viewDidUnload];
 }
 
+#pragma mark - View Containment
+
 - (BOOL)shouldAutomaticallyForwardRotationMethods {
     return YES;
 }
@@ -722,6 +723,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     return NO;
 }
 
+#pragma mark - Appearance
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -809,24 +811,41 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     _viewAppeared = 0;
 }
 
-#pragma mark - rotation
+#pragma mark - Rotation IOS6
+
+- (BOOL)shouldAutorotate {
+    _preRotationSize = self.referenceBounds.size;
+    _preRotationCenterSize = self.centerView.bounds.size;
+    
+    return !self.centerController || [self.centerController shouldAutorotate];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (self.centerController)
+        return [self.centerController supportedInterfaceOrientations];
+    
+    return [super supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (self.centerController)
+        return [self.centerController preferredInterfaceOrientationForPresentation];
+    
+    return [super preferredInterfaceOrientationForPresentation];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationSize = self.referenceBounds.size;
     _preRotationCenterSize = self.centerView.bounds.size;
     
-    BOOL should = YES;
-    if (self.centerController)
-        should = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    
-    return should;
+    return !self.centerController || [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    [self relayAppearanceMethod:^(UIViewController *controller) {
+    [self relayRotationMethod:^(UIViewController *controller) {
         [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
     
@@ -841,7 +860,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     _preRotationSize = self.referenceBounds.size;
     _preRotationCenterSize = self.centerView.bounds.size;
 
-    [self relayAppearanceMethod:^(UIViewController *controller) {
+    [self relayRotationMethod:^(UIViewController *controller) {
         [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
 }
@@ -850,7 +869,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self applyShadowToSlidingView];
     
-    [self relayAppearanceMethod:^(UIViewController *controller) {
+    [self relayRotationMethod:^(UIViewController *controller) {
         [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }];
 }
@@ -1202,7 +1221,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         }
         
         // first open the view completely, run the block (to allow changes)
-        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options animations:^{
+        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)/4*3 delay:0 options:options animations:^{
             [self notifyWillOpenSide:side animated:animated];
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
@@ -1213,7 +1232,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:self.leftController];
             
             // now slide the view back to the ledge position
-            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)/4 delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
                 if (completed) completed(self, YES);
@@ -1271,7 +1290,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     BOOL animated = YES;
     
     // first open the view completely, run the block (to allow changes) and close it again.
-    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options animations:^{
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)/4 delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];
         [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
     } completion:^(BOOL finished) {
@@ -1279,7 +1298,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         if (bounced) bounced(self);
         [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:self.leftController];
         
-        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
+        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES)/4*3 delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             [self centerViewVisible];
         } completion:^(BOOL finished2) {
@@ -1668,20 +1687,17 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 #pragma mark - Pre iOS5 message relaying
 
-- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced {
-    bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay {
+    // first check ios6. we return yes in the method, so don't bother
+    BOOL ios6 = [self respondsToSelector:@selector(shouldAutomaticallyForwardAppearanceMethods)];
+    if (ios6) return;
     
-    // don't relay if the controller supports automatic relaying
-    if (!shouldRelay && !forced) 
-        return;                                                                                                                                       
-    
+    // no need to check for ios5, since we already said that we'd handle it ourselves.
     relay(self.centerController);
     relay(self.leftController);
     relay(self.rightController);
-}
-
-- (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
-    [self relayAppearanceMethod:relay forced:NO];
+    relay(self.topController);
+    relay(self.bottomController);
 }
 
 #pragma mark - center view hidden stuff

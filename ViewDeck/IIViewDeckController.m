@@ -524,8 +524,6 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     // we store ledge sizes internally but allow size to be specified depending on size mode.
     CGFloat ledge = [self sizeAsLedge:size];
     
-    // Compute the final ledge in two steps. This prevents a strange bug where
-    // nesting MAX(X, MIN(Y, Z)) with miniscule referenceBounds returns a bogus near-zero value.
     CGFloat minLedge;
     CGFloat(^offsetter)(CGFloat ledge);
    
@@ -840,6 +838,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 {
     _preRotationSize = self.referenceBounds.size;
     _preRotationCenterSize = self.centerView.bounds.size;
+    _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
     
     return !self.centerController || [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
@@ -861,7 +860,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     
     _preRotationSize = self.referenceBounds.size;
     _preRotationCenterSize = self.centerView.bounds.size;
-
+    _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
@@ -879,7 +879,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 - (void)arrangeViewsAfterRotation {
     if (_preRotationSize.width <= 0 || _preRotationSize.height <= 0) return;
     
-    // todo handle both sides
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) == _preRotationIsLandscape)
+        return;
     
     CGFloat offset, max, preSize;
     if (_offsetOrientation == IIViewDeckVerticalOrientation) {

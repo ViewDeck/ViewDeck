@@ -96,6 +96,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     UIViewController* _controllers[6];
     CGFloat _offset, _maxLedge;
     CGSize _preRotationSize, _preRotationCenterSize;
+    BOOL _preRotationIsLandscape;
     IIViewDeckOffsetOrientation _offsetOrientation;
 }
 

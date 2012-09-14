@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E230F0421603F84200C7543B /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E230F0401603F84200C7543B /* IIWrapController.m */; };
 		E26716661556946C00E0C3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26716651556946C00E0C3C0 /* UIKit.framework */; };
 		E26716681556946C00E0C3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26716671556946C00E0C3C0 /* Foundation.framework */; };
 		E267166A1556946C00E0C3C0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26716691556946C00E0C3C0 /* CoreGraphics.framework */; };
@@ -14,7 +15,6 @@
 		E26716721556946C00E0C3C0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E26716711556946C00E0C3C0 /* main.m */; };
 		E26716761556946C00E0C3C0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E26716751556946C00E0C3C0 /* AppDelegate.m */; };
 		E26716861556949200E0C3C0 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26716831556949200E0C3C0 /* IIViewDeckController.m */; };
-		E26716871556949200E0C3C0 /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26716851556949200E0C3C0 /* WrapController.m */; };
 		E267168B1556998700E0C3C0 /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E26716891556998700E0C3C0 /* LeftViewController.m */; };
 		E267168C1556998700E0C3C0 /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E267168A1556998700E0C3C0 /* LeftViewController.xib */; };
 		E2671690155699AF00E0C3C0 /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E267168E155699AF00E0C3C0 /* CenterViewController.m */; };
@@ -27,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E230F0401603F84200C7543B /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
+		E230F0411603F84200C7543B /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		E26716611556946C00E0C3C0 /* MultiViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E26716651556946C00E0C3C0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E26716671556946C00E0C3C0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -39,8 +41,6 @@
 		E26716751556946C00E0C3C0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E26716821556949200E0C3C0 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E26716831556949200E0C3C0 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		E26716841556949200E0C3C0 /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrapController.h; sourceTree = "<group>"; };
-		E26716851556949200E0C3C0 /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrapController.m; sourceTree = "<group>"; };
 		E26716881556998700E0C3C0 /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
 		E26716891556998700E0C3C0 /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
 		E267168A1556998700E0C3C0 /* LeftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewController.xib; sourceTree = "<group>"; };
@@ -144,10 +144,10 @@
 		E26716811556949200E0C3C0 /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
+				E230F0401603F84200C7543B /* IIWrapController.m */,
+				E230F0411603F84200C7543B /* IIWrapController.h */,
 				E26716821556949200E0C3C0 /* IIViewDeckController.h */,
 				E26716831556949200E0C3C0 /* IIViewDeckController.m */,
-				E26716841556949200E0C3C0 /* WrapController.h */,
-				E26716851556949200E0C3C0 /* WrapController.m */,
 			);
 			name = ViewDeck;
 			path = ../../ViewDeck;
@@ -231,12 +231,12 @@
 				E26716721556946C00E0C3C0 /* main.m in Sources */,
 				E26716761556946C00E0C3C0 /* AppDelegate.m in Sources */,
 				E26716861556949200E0C3C0 /* IIViewDeckController.m in Sources */,
-				E26716871556949200E0C3C0 /* WrapController.m in Sources */,
 				E267168B1556998700E0C3C0 /* LeftViewController.m in Sources */,
 				E2671690155699AF00E0C3C0 /* CenterViewController.m in Sources */,
 				E267169515569A3800E0C3C0 /* BottomViewController.m in Sources */,
 				E267169A15569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m in Sources */,
 				E2B01A33155BE2D400E05FB9 /* ModalViewController.m in Sources */,
+				E230F0421603F84200C7543B /* IIWrapController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,7 +312,7 @@
 				GCC_PREFIX_HEADER = "MultiViewDeckExample/MultiViewDeckExample-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
 				INFOPLIST_FILE = "MultiViewDeckExample/MultiViewDeckExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -325,7 +325,7 @@
 				GCC_PREFIX_HEADER = "MultiViewDeckExample/MultiViewDeckExample-Prefix.pch";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = NO;
 				INFOPLIST_FILE = "MultiViewDeckExample/MultiViewDeckExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -230,7 +230,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @protocol IIViewDeckControllerDelegate <NSObject>
 
 @optional
-- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldPanAtTouch:(UITouch*)touch;
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldPan:(UIPanGestureRecognizer*)panGestureRecognizer;
 
 - (void)viewDeckController:(IIViewDeckController*)viewDeckController applyShadow:(CALayer*)shadowLayer withBounds:(CGRect)rect;
 

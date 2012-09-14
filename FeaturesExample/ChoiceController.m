@@ -113,12 +113,12 @@ __typeof__(offset) __o = (offset);                      \
 };                                            \
 })
 
-- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldPanAtTouch:(UITouch *)touch {
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldPan:(UIPanGestureRecognizer *)panGestureRecognizer {
     CGRect halfRect = self.navigationController.navigationBar.bounds;
     halfRect = CGRectOffsetRightAndShrink(halfRect, halfRect.size.width/2);
     
     UIView* flash = [UIView new];
-    BOOL ok = CGRectContainsPoint(halfRect, [touch locationInView:self.navigationController.navigationBar]);
+    BOOL ok = CGRectContainsPoint(halfRect, [panGestureRecognizer locationInView:self.navigationController.navigationBar]);
     if (ok) {
         flash.frame = halfRect;
         flash.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.5];

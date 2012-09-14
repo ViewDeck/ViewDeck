@@ -1783,6 +1783,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         pv = self.slidingControllerView.frame.origin.y;
     }
     
+    if (self.panningMode == IIViewDeckDelegatePanning && [self.delegate respondsToSelector:@selector(viewDeckController:shouldPan:)]) {
+        if (![self.delegate viewDeckController:self shouldPan:panner])
+            return NO;
+    }
+    
     if (pv != 0) return YES;
         
     CGFloat v = [self locationOfPanner:panner orientation:orientation];
@@ -1807,11 +1812,6 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         BOOL result = [self.panningGestureDelegate gestureRecognizer:gestureRecognizer
                                                   shouldReceiveTouch:touch];
         if (!result) return result;
-    }
-
-    if (self.panningMode == IIViewDeckDelegatePanning && [self.delegate respondsToSelector:@selector(viewDeckController:shouldPanAtTouch:)]) {
-        if (![self.delegate viewDeckController:self shouldPanAtTouch:touch])
-            return NO;
     }
 
     if ([[touch view] isKindOfClass:[UISlider class]])

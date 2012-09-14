@@ -244,6 +244,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 @synthesize elastic = _elastic;
 @synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
 @synthesize panningGestureDelegate = _panningGestureDelegate;
+@synthesize bounceDurationFactor = _bounceDurationFactor;
 
 #pragma mark - Initalisation and deallocation
 
@@ -271,6 +272,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         self.panners = [NSMutableArray array];
         self.enabled = YES;
         _offset = 0;
+        _bounceDurationFactor = 0.3;
         _offsetOrientation = IIViewDeckHorizontalOrientation;
         
         _delegate = nil;
@@ -1220,8 +1222,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             return;
         }
         
+        CGFloat longFactor = _bounceDurationFactor ? 1-_bounceDurationFactor : 1;
+        CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
+        
         // first open the view completely, run the block (to allow changes)
-        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)/4*3 delay:0 options:options animations:^{
+        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)*longFactor delay:0 options:options animations:^{
             [self notifyWillOpenSide:side animated:animated];
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
@@ -1232,7 +1237,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:self.leftController];
             
             // now slide the view back to the ledge position
-            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)/4 delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)*shortFactor delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
                 if (completed) completed(self, YES);
@@ -1289,8 +1294,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     
     BOOL animated = YES;
     
+    CGFloat longFactor = _bounceDurationFactor ? 1-_bounceDurationFactor : 1;
+    CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
+
     // first open the view completely, run the block (to allow changes) and close it again.
-    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)/4 delay:0 options:options animations:^{
+    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)*shortFactor delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];
         [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
     } completion:^(BOOL finished) {
@@ -1298,7 +1306,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         if (bounced) bounced(self);
         [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:self.leftController];
         
-        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES)/4*3 delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
+        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES)*longFactor delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             [self centerViewVisible];
         } completion:^(BOOL finished2) {
@@ -2136,6 +2144,10 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 
 #pragma mark - Properties
+
+- (void)setBounceDurationFactor:(CGFloat)bounceDurationFactor {
+    _bounceDurationFactor = MIN(MAX(0, bounceDurationFactor), 0.99f);
+}
 
 - (void)setTitle:(NSString *)title {
     if (!II_STRING_EQUAL(title, self.title)) [super setTitle:title];

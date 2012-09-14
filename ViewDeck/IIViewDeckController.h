@@ -89,10 +89,11 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 @interface IIViewDeckController : UIViewController {
 @private    
     CGPoint _panOrigin;
-    BOOL _viewAppeared, _shouldViewDidAppear;
-    SInt32 _sideAppeared[5];
+    UInt32 _viewAppeared;
+    BOOL _viewFirstAppeared, _shouldViewDidAppear;
+    UInt32 _sideAppeared[6];
     CGFloat _ledge[5];
-    UIViewController* _controllers[5];
+    UIViewController* _controllers[6];
     CGFloat _offset, _maxLedge;
     CGSize _preRotationSize, _preRotationCenterSize;
     IIViewDeckOffsetOrientation _offsetOrientation;
@@ -217,6 +218,8 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 - (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSize;
 
 - (CGFloat)statusBarHeight;
+
+- (IIViewDeckSide)sideForController:(UIViewController*)controller;
 
 @end
 

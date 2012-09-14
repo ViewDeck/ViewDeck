@@ -29,8 +29,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSLog(@"load %@", self);
     self.view.backgroundColor = self.color;
 }
 
@@ -47,7 +45,6 @@
 }
 
 -(IBAction)close:(id)sender {
-    NSLog(@"close %@", self);
     [self.viewDeckController closeOpenView];
 }
 
@@ -75,5 +72,26 @@
     [self.viewDeckController openBottomView];
 }
 
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"%@ will appear", NSStringFromIIViewDeckSide([self.viewDeckController sideForController:self]));
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@"%@ did appear", NSStringFromIIViewDeckSide([self.viewDeckController sideForController:self]));
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    NSLog(@"%@ will disappear", NSStringFromIIViewDeckSide([self.viewDeckController sideForController:self]));
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    NSLog(@"%@ did disappear", NSStringFromIIViewDeckSide([self.viewDeckController sideForController:self]));
+}
 
 @end

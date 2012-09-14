@@ -711,8 +711,9 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 #pragma mark - View Containment
 
+
 - (BOOL)shouldAutomaticallyForwardRotationMethods {
-    return YES;
+    return NO;
 }
 
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods {
@@ -1698,7 +1699,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 - (void)relayRotationMethod:(void(^)(UIViewController* controller))relay {
     // first check ios6. we return yes in the method, so don't bother
-    BOOL ios6 = [self respondsToSelector:@selector(shouldAutomaticallyForwardAppearanceMethods)];
+    BOOL ios6 = [super respondsToSelector:@selector(shouldAutomaticallyForwardRotationMethods)] && [self shouldAutomaticallyForwardRotationMethods];
     if (ios6) return;
     
     // no need to check for ios5, since we already said that we'd handle it ourselves.

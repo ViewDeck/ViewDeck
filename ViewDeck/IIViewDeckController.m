@@ -128,6 +128,7 @@ __typeof__(h) __h = (h);                                    \
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset;
 - (CGSize)slidingSizeForOffset:(CGFloat)offset;
+- (NSArray *)bouncingValuesForPosition:(CGFloat)position adjustingLeft:(BOOL)left maximumBounce:(CGFloat)maxBounce numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration;
 - (void)setSlidingFrameForOffset:(CGFloat)frame;
 - (void)hideAppropriateSideViews;
 
@@ -391,6 +392,39 @@ __typeof__(h) __h = (h);                                    \
 - (void)hideAppropriateSideViews {
     self.leftController.view.hidden = CGRectGetMinX(self.slidingControllerView.frame) <= 0;
     self.rightController.view.hidden = CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width;
+}
+
+- (NSArray *)bouncingValuesForPosition:(CGFloat)position adjustingLeft:(BOOL)left maximumBounce:(CGFloat)maxBounce numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration {
+    
+    // Underdamped, Free Vibration of a SDOF System
+    // u(t) = abs(e^(-zeta * wn * t) * ((Vo/wd) * sin(wd * t))
+    
+    // Vo, initial velocity, is calculated to provide the desired maxBounce and
+    // animation duration. The damped period (wd) and distance of the maximum (first)
+    // bounce can be controlled either via the initial condition Vo or the damping
+    // factor zeta for a desired duration, Vo is simpler mathematically.
+    
+    NSUInteger steps = (NSUInteger)MIN(floorf(duration * 100.0f), 100);
+    float time = 0.0;
+    
+    NSMutableArray *values = [NSMutableArray arrayWithCapacity:steps];
+    
+    double offset = 0.0;
+    float Td = (2.0f * duration) / numberOfBounces; //Damped period, calculated to give the number of bounces desired in the duration specified (2 bounces per Td)
+    float wd = (2.0f * M_PI)/Td; // Damped frequency
+    zeta = MIN(MAX(0.0001f, zeta), 0.9999f); // For an underdamped system, we must have 0 < zeta < 1
+    float zetaFactor = sqrtf(1 - powf(zeta, 2.0f)); // Used in multiple places
+    float wn = wd/zetaFactor; // Natural frequency
+    float Vo = maxBounce * wd/(expf(-zeta/zetaFactor * (0.18f * Td) * wd) * sinf(0.18f * Td * wd));
+    
+    for (int t = 0; t < steps; t++) {
+        time = (t / (float)steps) * duration;
+        offset = abs(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
+        offset = (left ? 1 : -1) * [self limitOffset:offset] + position;
+        [values addObject:[NSNumber numberWithFloat:offset]];
+    }
+    
+    return values;
 }
 
 #pragma mark - ledges
@@ -735,6 +769,56 @@ __typeof__(h) __h = (h);                                    \
         completed(self);
 }
 
+- (BOOL)bounceLeftView {
+    return [self bounceLeftViewWithCompletion:nil];
+}
+
+- (BOOL)bounceLeftViewWithCompletion:(IIViewDeckControllerBlock)completed {
+    return [self bounceLeftViewToDistance:40.0f duration:1.2f callDelegate:YES completion:completed];
+}
+
+- (BOOL)bounceLeftViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    return [self bounceLeftViewToDistance:distance duration:duration numberOfBounces:4.0f dampingFactor:0.40f callDelegate:YES completion:completed];
+}
+
+- (BOOL)bounceLeftViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    if (!self.leftController || II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.leftLedge)) return YES;
+    
+    // check the delegate to allow bouncing
+    if (callDelegate && ![self checkDelegate:@selector(viewDeckControllerWillBounceLeftView:animated:) animated:YES]) return NO;
+    // also close the right view if it's open. Since the delegate can cancel the close, check the result.
+    if (callDelegate && ![self closeRightViewAnimated:YES options:0 callDelegate:YES completion:nil]) return NO;
+    // check for in-flight animation, do not add another if so
+    if ([self.slidingControllerView.layer animationForKey:@"bounceAnimation"]) {
+        return NO;
+    }
+    
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    animation.duration = duration;
+    animation.values = [self bouncingValuesForPosition:self.slidingControllerView.layer.position.x adjustingLeft:YES maximumBounce:distance numberOfBounces:numberOfBounces dampingFactor:zeta duration:duration];
+    animation.removedOnCompletion = YES;
+    
+    self.leftController.view.hidden = NO;
+    
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
+    [CATransaction setCompletionBlock:^{
+        // do not re-hide if center view has been panned mid-animation
+        if (_offset == 0.0f) {
+            self.rightController.view.hidden = YES;
+        }
+        
+        // perform completion and delegate call
+        if (completed) completed(self);
+        if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidBounceLeftView:animated:) animated:YES];
+    }];
+    [self.slidingControllerView.layer addAnimation:animation forKey:@"bounceAnimation"];
+    [CATransaction commit];
+    
+    return YES;
+}
+
 - (BOOL)toggleLeftView {
     return [self toggleLeftViewAnimated:YES];
 }
@@ -903,6 +987,53 @@ __typeof__(h) __h = (h);                                    \
     return YES;
 }
 
+- (BOOL)bounceRightView {
+    return [self bounceRightViewWithCompletion:nil];
+}
+
+- (BOOL)bounceRightViewWithCompletion:(IIViewDeckControllerBlock)completed {
+    return [self bounceRightViewToDistance:40.0f duration:1.2f callDelegate:YES completion:completed];
+}
+
+- (BOOL)bounceRightViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    return [self bounceRightViewToDistance:distance duration:duration numberOfBounces:4.0f dampingFactor:0.40f callDelegate:YES completion:completed];
+}
+
+- (BOOL)bounceRightViewToDistance:(CGFloat)distance duration:(NSTimeInterval)duration numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    if (!self.rightController || II_FLOAT_EQUAL(CGRectGetMaxX(self.slidingControllerView.frame), self.rightLedge)) return YES;
+    
+    // check the delegate to allow bouncing
+    if (callDelegate && ![self checkDelegate:@selector(viewDeckControllerWillBounceRightView:animated:) animated:YES]) return NO;
+    // also close the left view if it's open. Since the delegate can cancel the close, check the result.
+    if (callDelegate && ![self closeLeftViewAnimated:YES options:0 callDelegate:YES completion:nil]) return NO;
+    // check for in-flight animation, do not add another if so
+    if ([self.slidingControllerView.layer animationForKey:@"bounceAnimation"]) {
+        return NO;
+    }
+    
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    animation.duration = duration;
+    animation.values = [self bouncingValuesForPosition:self.slidingControllerView.layer.position.x adjustingLeft:NO maximumBounce:distance numberOfBounces:numberOfBounces dampingFactor:zeta duration:duration];
+    animation.removedOnCompletion = YES;
+    
+    self.rightController.view.hidden = NO;
+    
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
+    [CATransaction setCompletionBlock:^{
+        // do not re-hide if center view has been panned mid-animation
+        if (_offset == 0.0f) {
+            self.rightController.view.hidden = YES;
+        }
+        if (completed) completed(self);
+        if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidBounceRightView:animated:) animated:YES];
+    }];
+    [self.slidingControllerView.layer addAnimation:animation forKey:@"bounceAnimation"];
+    [CATransaction commit];
+    
+    return YES;
+}
 
 - (BOOL)toggleRightView {
     return [self toggleRightViewAnimated:YES];
@@ -1287,7 +1418,17 @@ __typeof__(h) __h = (h);                                    \
         }
     }
     
-    [self setSlidingFrameForOffset:x];
+    // Check for an in-flight bounce animation
+    CAKeyframeAnimation *bounceAnimation = (CAKeyframeAnimation *)[self.slidingControllerView.layer animationForKey:@"bounceAnimation"];
+    if (bounceAnimation != nil) {
+        self.slidingControllerView.frame = [[self.slidingControllerView.layer presentationLayer] frame];
+        [self.slidingControllerView.layer removeAnimationForKey:@"bounceAnimation"];
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self setSlidingFrameForOffset:x];
+        } completion:nil];
+    } else {
+        [self setSlidingFrameForOffset:x];
+    }
     
     [self performOffsetDelegate:@selector(viewDeckController:didPanToOffset:) offset:x];
     

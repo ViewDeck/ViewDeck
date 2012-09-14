@@ -638,6 +638,15 @@ __typeof__(h) __h = (h);                                    \
     return should;
 }
 
+#ifdef __IPHONE_6_0
+- (NSUInteger)supportedInterfaceOrientations {
+  if (self.centerController) {
+    return [self.centerController supportedInterfaceOrientations];
+  }
+  return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? UIInterfaceOrientationMaskAll : UIInterfaceOrientationMaskAllButUpsideDown;
+}
+#endif
+
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     

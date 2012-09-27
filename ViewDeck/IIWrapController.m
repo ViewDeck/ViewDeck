@@ -158,8 +158,7 @@
     if (self.onViewWillAppear) 
         self.onViewWillAppear(self, animated);
 
-    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
-        [self.wrappedController viewWillAppear:animated];
+    [self.wrappedController viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -168,8 +167,7 @@
     if (self.onViewDidAppear) 
         self.onViewDidAppear(self, animated);
 
-    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
-        [_wrappedController viewDidAppear:animated];
+    [_wrappedController viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -178,8 +176,7 @@
     if (self.onViewWillDisappear) 
         self.onViewWillDisappear(self, animated);
 
-    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
-        [_wrappedController viewWillDisappear:animated];
+    [_wrappedController viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -188,8 +185,7 @@
     if (self.onViewDidDisappear) 
         self.onViewDidDisappear(self, animated);
 
-    if (![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)])
-        [_wrappedController viewDidDisappear:animated];
+    [_wrappedController viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

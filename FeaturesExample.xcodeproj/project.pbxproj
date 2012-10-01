@@ -10,7 +10,6 @@
 		E22E07F114BBA1AB00B002B7 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22E07EF14BBA1AB00B002B7 /* RootViewController.m */; };
 		E22E07F214BBA1AC00B002B7 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22E07F014BBA1AB00B002B7 /* RootViewController.xib */; };
 		E2955F7014B728E4003DDB4E /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F6D14B728E4003DDB4E /* IIViewDeckController.m */; };
-		E2955F7114B728E4003DDB4E /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F6F14B728E4003DDB4E /* WrapController.m */; };
 		E2955F7314B730AB003DDB4E /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = E2955F7214B730AB003DDB4E /* photo.png */; };
 		E2955F8A14B7D14F003DDB4E /* SimpleController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F8814B7D14F003DDB4E /* SimpleController.m */; };
 		E2955F8B14B7D14F003DDB4E /* SimpleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F8914B7D14F003DDB4E /* SimpleController.xib */; };
@@ -33,13 +32,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E0C300BE161A4E9D0097213B /* IIWrapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
+		E0C300BF161A4E9D0097213B /* IIWrapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		E22E07EE14BBA1AB00B002B7 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		E22E07EF14BBA1AB00B002B7 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		E22E07F014BBA1AB00B002B7 /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		E2955F6C14B728E4003DDB4E /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E2955F6D14B728E4003DDB4E /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		E2955F6E14B728E4003DDB4E /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrapController.h; sourceTree = "<group>"; };
-		E2955F6F14B728E4003DDB4E /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrapController.m; sourceTree = "<group>"; };
 		E2955F7214B730AB003DDB4E /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
 		E2955F8714B7D14F003DDB4E /* SimpleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleController.h; sourceTree = "<group>"; };
 		E2955F8814B7D14F003DDB4E /* SimpleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleController.m; sourceTree = "<group>"; };
@@ -89,10 +88,10 @@
 		E2955F6B14B728E4003DDB4E /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
+				E0C300BE161A4E9D0097213B /* IIWrapController.h */,
+				E0C300BF161A4E9D0097213B /* IIWrapController.m */,
 				E2955F6C14B728E4003DDB4E /* IIViewDeckController.h */,
 				E2955F6D14B728E4003DDB4E /* IIViewDeckController.m */,
-				E2955F6E14B728E4003DDB4E /* WrapController.h */,
-				E2955F6F14B728E4003DDB4E /* WrapController.m */,
 			);
 			path = ViewDeck;
 			sourceTree = SOURCE_ROOT;
@@ -260,7 +259,6 @@
 				E2C8E5C61497FDC600560D23 /* PhotosController.m in Sources */,
 				E2C8E5CB1497FDDB00560D23 /* SelectionController.m in Sources */,
 				E2955F7014B728E4003DDB4E /* IIViewDeckController.m in Sources */,
-				E2955F7114B728E4003DDB4E /* WrapController.m in Sources */,
 				E2955F8A14B7D14F003DDB4E /* SimpleController.m in Sources */,
 				E2955F8F14B7D15E003DDB4E /* WebController.m in Sources */,
 				E22E07F114BBA1AB00B002B7 /* RootViewController.m in Sources */,

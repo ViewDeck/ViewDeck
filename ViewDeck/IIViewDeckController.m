@@ -88,12 +88,6 @@ __typeof__(h) __h = (h);                                    \
 #import <objc/message.h>
 #import "IIWrapController.h"
 
-#define DURATION_FAST 0.3
-#define DURATION_SLOW 0.3
-#define SLIDE_DURATION(animated,duration) ((animated) ? (duration) : 0)
-#define OPEN_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_FAST)
-#define CLOSE_SLIDE_DURATION(animated) SLIDE_DURATION(animated,DURATION_SLOW)
-
 enum {
     IIViewDeckNoSide = 0,
     IIViewDeckCenterSide = 5,
@@ -195,6 +189,9 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 - (void)relayRotationMethod:(void(^)(UIViewController* controller))relay;
 
+- (CGFloat)openSlideDuration:(BOOL)animated;
+- (CGFloat)closeSlideDuration:(BOOL)animated;
+
 @end 
 
 
@@ -245,6 +242,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 @synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
 @synthesize panningGestureDelegate = _panningGestureDelegate;
 @synthesize bounceDurationFactor = _bounceDurationFactor;
+@synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
+@synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
 
 #pragma mark - Initalisation and deallocation
 
@@ -273,6 +272,8 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         self.enabled = YES;
         _offset = 0;
         _bounceDurationFactor = 0.3;
+        _openSlideAnimationDuration = 0.3;
+        _closeSlideAnimationDuration = 0.3;
         _offsetOrientation = IIViewDeckHorizontalOrientation;
         
         _delegate = nil;
@@ -560,12 +561,12 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     if (_viewFirstAppeared && II_FLOAT_EQUAL(self.slidingControllerView.frame.origin.x, offsetter(_ledge[side]))) {
         IIViewDeckOffsetOrientation orientation = IIViewDeckOffsetOrientationFromIIViewDeckSide(side);
         if (ledge < _ledge[side]) {
-            [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) animations:^{
+            [UIView animateWithDuration:[self closeSlideDuration:YES] animations:^{
                 [self setSlidingFrameForOffset:offsetter(ledge) forOrientation:orientation];
             } completion:completion];
         }
         else if (ledge > _ledge[side]) {
-            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) animations:^{
+            [UIView animateWithDuration:[self openSlideDuration:YES] animations:^{
                 [self setSlidingFrameForOffset:offsetter(ledge) forOrientation:orientation];
             } completion:completion];
         }
@@ -1178,7 +1179,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             return;
         }
         
-        [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:options animations:^{
+        [UIView animateWithDuration:[self openSlideDuration:animated] delay:0 options:options animations:^{
             [self notifyWillOpenSide:side animated:animated];
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:[self ledgeOffsetForSide:side] forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
@@ -1228,7 +1229,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
         
         // first open the view completely, run the block (to allow changes)
-        [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)*longFactor delay:0 options:options animations:^{
+        [UIView animateWithDuration:[self openSlideDuration:YES]*longFactor delay:0 options:options animations:^{
             [self notifyWillOpenSide:side animated:animated];
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
@@ -1239,7 +1240,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:self.leftController];
             
             // now slide the view back to the ledge position
-            [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)*shortFactor delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
                 if (completed) completed(self, YES);
@@ -1265,7 +1266,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
 
-    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:options animations:^{
+    [UIView animateWithDuration:[self closeSlideDuration:animated] delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
         [self centerViewVisible];
@@ -1276,6 +1277,14 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     }];
     
     return YES;
+}
+
+- (CGFloat)openSlideDuration:(BOOL)animated {
+    return animated ? self.openSlideAnimationDuration : 0;
+}
+
+- (CGFloat)closeSlideDuration:(BOOL)animated {
+    return animated ? self.closeSlideAnimationDuration : 0;
 }
 
 
@@ -1300,7 +1309,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
 
     // first open the view completely, run the block (to allow changes) and close it again.
-    [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES)*shortFactor delay:0 options:options animations:^{
+    [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];
         [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
     } completion:^(BOOL finished) {
@@ -1308,7 +1317,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         if (bounced) bounced(self);
         [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:self.leftController];
         
-        [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES)*longFactor delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
+        [UIView animateWithDuration:[self closeSlideDuration:YES]*longFactor delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             [self centerViewVisible];
         } completion:^(BOOL finished2) {
@@ -1627,11 +1636,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     // check the delegate to allow closing and opening
     if (![self checkCanCloseSide:fromSide] && ![self checkCanOpenSide:toSide]) return NO;
     
-    [UIView animateWithDuration:CLOSE_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
+    [UIView animateWithDuration:[self closeSlideDuration:animated] delay:0 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionLayoutSubviews animations:^{
         [self notifyWillCloseSide:fromSide animated:animated];
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(fromSide)];
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:OPEN_SLIDE_DURATION(animated) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
+        [UIView animateWithDuration:[self openSlideDuration:animated] delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self notifyWillOpenSide:toSide animated:animated];
             [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(toSide)];
         } completion:^(BOOL finished) {

@@ -31,6 +31,8 @@
                                                                                     leftViewController:self.leftController
                                                                                    rightViewController:rightController];
     deckController.rightSize = 100;
+    deckController.openSlideAnimationDuration = 0.15f;
+    deckController.closeSlideAnimationDuration = 0.15f;
     
     self.window.rootViewController = deckController;
     [self.window makeKeyAndVisible];

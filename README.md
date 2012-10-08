@@ -59,13 +59,13 @@ Like `UINavigationViewController` the `IIViewDeckController` assigns itself to i
 
 If the controller is not enclosed by a IIViewDeckController, this property returns `nil`.
 
-## ledges
+## ledge sizes
 
-You cannot close the centerview completely, since it would block the user from panning it back. You can set the ledge sizes yourself by assigning a value to the `leftLedge` property for the left side and the `rightLedge` property for the right side. It is possible to set a ledge size of 0.
+You cannot close the centerview completely, since it would block the user from panning it back. You can set the ledge sizes yourself by assigning a value to the `leftSize` property for the left side and the `rightSize` property for the right side. It is possible to set a ledge size of 0.
 
-### maximum ledge, or gap-mode
+### maximum ledge size, or gap-mode
 
-It is possible to have the viewController always show a side controller. You do this by setting the `maxLedge` value to any (positive) nonzero value. This will force the centerview to be always opened, exposing a side controller permanently. **This only works when you have ONE sidecontroller specified** (this means either a left side controller or a right side controller), because this scenario does not make sense if you would be able to slide the center view in both directions. When you have 2 side controllers, this property is ignored.
+It is possible to have the viewController always show a side controller. You do this by setting the `maxSize` value to any (positive) nonzero value. This will force the centerview to be always opened, exposing a side controller permanently. **This only works when you have ONE sidecontroller specified** (this means either a left side controller or a right side controller), because this scenario does not make sense if you would be able to slide the center view in both directions. When you have 2 side controllers, this property is ignored.
 
 ## bouncing close
 

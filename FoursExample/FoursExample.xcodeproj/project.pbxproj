@@ -14,7 +14,6 @@
 		E22354FF1600B65E00A3EEFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E22354FE1600B65E00A3EEFC /* main.m */; };
 		E22355031600B65E00A3EEFC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E22355021600B65E00A3EEFC /* AppDelegate.m */; };
 		E223550F1600B68400A3EEFC /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E223550C1600B68400A3EEFC /* IIViewDeckController.m */; };
-		E22355101600B68400A3EEFC /* WrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E223550E1600B68400A3EEFC /* WrapController.m */; };
 		E22355181600B9D900A3EEFC /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E22355161600B9D900A3EEFC /* CenterViewController.m */; };
 		E22355191600B9D900A3EEFC /* CenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22355171600B9D900A3EEFC /* CenterViewController.xib */; };
 		E223551D1600B9E900A3EEFC /* SideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E223551B1600B9E900A3EEFC /* SideViewController.m */; };
@@ -22,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E0C300C5161A4EF30097213B /* IIWrapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
+		E0C300C6161A4EF30097213B /* IIWrapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		E22354EE1600B65E00A3EEFC /* FoursExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoursExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E22354F21600B65E00A3EEFC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E22354F41600B65E00A3EEFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -34,8 +35,6 @@
 		E22355021600B65E00A3EEFC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E223550B1600B68400A3EEFC /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E223550C1600B68400A3EEFC /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		E223550D1600B68400A3EEFC /* WrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrapController.h; sourceTree = "<group>"; };
-		E223550E1600B68400A3EEFC /* WrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrapController.m; sourceTree = "<group>"; };
 		E22355151600B9D900A3EEFC /* CenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterViewController.h; sourceTree = "<group>"; };
 		E22355161600B9D900A3EEFC /* CenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterViewController.m; sourceTree = "<group>"; };
 		E22355171600B9D900A3EEFC /* CenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CenterViewController.xib; sourceTree = "<group>"; };
@@ -126,8 +125,8 @@
 			children = (
 				E223550B1600B68400A3EEFC /* IIViewDeckController.h */,
 				E223550C1600B68400A3EEFC /* IIViewDeckController.m */,
-				E223550D1600B68400A3EEFC /* WrapController.h */,
-				E223550E1600B68400A3EEFC /* WrapController.m */,
+				E0C300C5161A4EF30097213B /* IIWrapController.h */,
+				E0C300C6161A4EF30097213B /* IIWrapController.m */,
 			);
 			name = ViewDeck;
 			path = ../../ViewDeck;
@@ -200,7 +199,6 @@
 				E22354FF1600B65E00A3EEFC /* main.m in Sources */,
 				E22355031600B65E00A3EEFC /* AppDelegate.m in Sources */,
 				E223550F1600B68400A3EEFC /* IIViewDeckController.m in Sources */,
-				E22355101600B68400A3EEFC /* WrapController.m in Sources */,
 				E22355181600B9D900A3EEFC /* CenterViewController.m in Sources */,
 				E223551D1600B9E900A3EEFC /* SideViewController.m in Sources */,
 			);

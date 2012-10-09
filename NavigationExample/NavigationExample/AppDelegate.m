@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "StartViewController.h"
-#import "WrapController.h"
+#import "IIWrapController.h"
 
 @implementation AppDelegate
 
@@ -20,7 +20,7 @@
     
     StartViewController* startController = [[StartViewController alloc] initWithNibName:@"StartViewController" bundle:nil];
     
-    self.window.rootViewController = [[WrapController alloc] initWithViewController:startController];
+    self.window.rootViewController = [[IIWrapController alloc] initWithViewController:startController];
     [self.window makeKeyAndVisible];
     return YES;
 

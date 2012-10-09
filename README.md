@@ -1,15 +1,15 @@
 # IIViewDeckController
 
 When I saw the new UI in the Path 2.0 app, extending the sliding views UI found in the Facebook app, I wanted to recreate this effect and controller for myself. Mostly as an exercise, but it might come in handy later.
-A quick prototype was built in one evening, but the finetuning took a few more evenings. 
+A quick prototype was built in one evening, but the finetuning took a few more evenings.
 
-The ViewDeckController supports both a left and a right sideview (in any combination: you can leave one of them `nil` for example). You can pan the center view to the left or to the right. There's also a bunch of messages defined to open or close each side appropriately. 
+The ViewDeckController supports both a left and a right sideview (in any combination: you can leave one of them `nil` for example). You can pan the center view to the left or to the right. There's also a bunch of messages defined to open or close each side appropriately.
 
 The class is built so that it augments current navigation technologies found in IOS.
 
 # Requirements
 
-The library supports both ARC and non-ARC projects (the ARC mode is detected automagically, and the code is modified where necessary according to the ARC mode in use).  
+The library supports both ARC and non-ARC projects (the ARC mode is detected automagically, and the code is modified where necessary according to the ARC mode in use).
 
 # Demo video & Screenshots
 
@@ -17,7 +17,7 @@ You're probably curious how it looks. Here's some shots from the example app:
 
 ![Left opened](http://cl.ly/063X412a1i2U2e3f3D02/Image%202012.01.26%2023:26:55.png) ![Right opened](http://cl.ly/381S0i1c2c1Z2l2U3303/Image%202012.01.26%2023:29:31.png)
 
-See the controller in action: http://vimeo.com/34538429 (general demo) and http://vimeo.com/35716738 (elasticity). 
+See the controller in action: http://vimeo.com/34538429 (general demo) and http://vimeo.com/35716738 (elasticity).
 These are demos of the included `ViewDeckExample` app.
 
 # Installation
@@ -33,8 +33,8 @@ The class currently supports a left and a right side controller. Each of these c
     #import "IIViewDeckController.h"
 
     // prepare view controllers
-    UIViewController* leftController = [[UIViewController alloc] init]; 
-    UIViewController* rightController = [[UIViewController alloc] init]; 
+    UIViewController* leftController = [[UIViewController alloc] init];
+    UIViewController* rightController = [[UIViewController alloc] init];
 
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController leftViewController:leftController
                                                       rightViewController:rightController];
@@ -46,7 +46,7 @@ There's also two convenience factory methods for just a left or right view contr
 You can also switch view controllers in mid flight. Just assign a viewcontroller to the appropriate property and the view deck controller will do the rest:
 
     // prepare view controllers
-    UIViewController* newController = [[UIViewController alloc] init]; 
+    UIViewController* newController = [[UIViewController alloc] init];
     self.viewDeckController.leftViewController = newController;
 
 You can also use this to remove a side controller: just set it to `nil`.
@@ -59,22 +59,31 @@ Like `UINavigationViewController` the `IIViewDeckController` assigns itself to i
 
 If the controller is not enclosed by a IIViewDeckController, this property returns `nil`.
 
-## ledges
+## ledge sizes
 
-You cannot close the centerview completely, since it would block the user from panning it back. You can set the ledge sizes yourself by assigning a value to the `leftLedge` property for the left side and the `rightLedge` property for the right side. It is possible to set a ledge size of 0.
+You cannot close the centerview completely, since it would block the user from panning it back. You can set the ledge sizes yourself by assigning a value to the `leftSize` property for the left side and the `rightSize` property for the right side. It is possible to set a ledge size of 0.
 
-### maximum ledge, or gap-mode
+### maximum ledge size, or gap-mode
 
-It is possible to have the viewController always show a side controller. You do this by setting the `maxLedge` value to any (positive) nonzero value. This will force the centerview to be always opened, exposing a side controller permanently. **This only works when you have ONE sidecontroller specified** (this means either a left side controller or a right side controller), because this scenario does not make sense if you would be able to slide the center view in both directions. When you have 2 side controllers, this property is ignored.
+It is possible to have the viewController always show a side controller. You do this by setting the `maxSize` value to any (positive) nonzero value. This will force the centerview to be always opened, exposing a side controller permanently. **This only works when you have ONE sidecontroller specified** (this means either a left side controller or a right side controller), because this scenario does not make sense if you would be able to slide the center view in both directions. When you have 2 side controllers, this property is ignored.
 
 ## bouncing close
 
-The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation. 
+The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation.
 
 	[self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
 		controller.centerViewController = [UIViewController alloc] init];
 		// ...
     }];
+
+## open/close animation duration
+
+The view deck controller allows you to set the speed at which the opening and closing animations play. To do so, use the following properties.
+
+    self.viewDeckController.openSlideAnimationDuration = 0.15f;
+    self.viewDeckController.closeSlideAnimationDuration = 0.25f;
+
+The default speed of both, if not set, is 0.3f.
 
 ## shadow
 
@@ -97,13 +106,13 @@ The bounds passed in through `rect` can be used for setting the shadow path to t
 
 ## elasticity
 
-The controller supports "elasticity": when you pan the center view "over" one of the ledges, you'll see that it gets pulled a bit further, but you can't pull it all the way to the edge. When you let go, it jumps back to the set ledge size. This gives the controller behavior are a more lifelike feel. 
+The controller supports "elasticity": when you pan the center view "over" one of the ledges, you'll see that it gets pulled a bit further, but you can't pull it all the way to the edge. When you let go, it jumps back to the set ledge size. This gives the controller behavior are a more lifelike feel.
 
 Of course, you can turn this behavior off. Just set `elasticity = NO` when loading the controller and you're set.
 
 ## rotation
 
-The controller fully supports view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed. 
+The controller fully supports view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed.
 When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `rotationBehavior` property. You can use one of the following values:
 
     typedef enum {
@@ -120,7 +129,7 @@ It is possible to control the panning behavior a bit. Set the `panningMode` on t
     typedef enum {
         IIViewDeckNoPanning,              // no panning allowed
         IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
-        IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
+        IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning.
         IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
     } IIViewDeckPanningMode;
 
@@ -138,7 +147,7 @@ The center view can be disabled if it is slided out of the way. You do this by s
     } IIViewDeckCenterHiddenInteractivity;
 
 When you need to change the centercontroller (or something else) when the center view is bounced away, use the following message to react:
-    
+
      - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
 
 # UINavigationController
@@ -147,7 +156,7 @@ The view deck controller has two integration modes to deal with `UINavigationCon
 
 The other mode `IIViewDeckNavigationControllerIntegrated` has different behavoir: it allows you to "inject" the viewdeck controller into an existing navigation controller hierarchy. The feature example (see below) has the simple scenario: the center view is a navigation controller. Any action in that navigation controller stays in the centerview.
 
-But if you push a `IIViewDeckController` onto a navigation controller, the sideviews will nestly themselves _below_ the navigation view. This means that the animations regarding the navigation controller will be applied only to the center view controller and not to the side view controllers. 
+But if you push a `IIViewDeckController` onto a navigation controller, the sideviews will nestly themselves _below_ the navigation view. This means that the animations regarding the navigation controller will be applied only to the center view controller and not to the side view controllers.
 There's currently no way to disable this behavior, but it will be added later.
 
 # ViewDeckExample
@@ -164,7 +173,7 @@ This is a test program to test out sizing behavior. It presents a view with a vi
 
 # Credits
 
-I'd appreciate it to mention the use of this code somewhere if you use it in an app. On a website, in an about page, in the app itself, whatever. Or let me know by email or through github. It's nice to know where one's code is used. 
+I'd appreciate it to mention the use of this code somewhere if you use it in an app. On a website, in an about page, in the app itself, whatever. Or let me know by email or through github. It's nice to know where one's code is used.
 
 # License
 

@@ -1729,6 +1729,9 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     [self removePanners];
     if (!self.centerTapper) {
         self.centerTapper = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.centerTapper setBackgroundImage:nil forState:UIControlStateNormal];
+        [self.centerTapper setBackgroundImage:nil forState:UIControlStateHighlighted];
+        [self.centerTapper setBackgroundImage:nil forState:UIControlStateDisabled];
         self.centerTapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.centerTapper.frame = [self.centerView bounds];
         [self.centerTapper addTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];

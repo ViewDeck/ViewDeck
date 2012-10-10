@@ -242,6 +242,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 @synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
 @synthesize panningGestureDelegate = _panningGestureDelegate;
 @synthesize bounceDurationFactor = _bounceDurationFactor;
+@synthesize bounceOpenSideDurationFactor = _bounceOpenSideDurationFactor;
 @synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
 @synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
 
@@ -1225,7 +1226,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             return;
         }
         
-        CGFloat longFactor = _bounceDurationFactor ? 1-_bounceDurationFactor : 1;
+        CGFloat longFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
         CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
         
         // first open the view completely, run the block (to allow changes)
@@ -1305,7 +1306,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     
     BOOL animated = YES;
     
-    CGFloat longFactor = _bounceDurationFactor ? 1-_bounceDurationFactor : 1;
+    CGFloat longFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
     CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
 
     // first open the view completely, run the block (to allow changes) and close it again.

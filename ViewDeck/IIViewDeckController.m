@@ -1226,9 +1226,9 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             return;
         }
         
-        CGFloat longFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
-        CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
-        
+        CGFloat longFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
+        CGFloat shortFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
+      
         // first open the view completely, run the block (to allow changes)
         [UIView animateWithDuration:[self openSlideDuration:YES]*longFactor delay:0 options:options animations:^{
             [self notifyWillOpenSide:side animated:animated];
@@ -1306,9 +1306,9 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     
     BOOL animated = YES;
     
-    CGFloat longFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
-    CGFloat shortFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
-
+    CGFloat longFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
+    CGFloat shortFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
+  
     // first open the view completely, run the block (to allow changes) and close it again.
     [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];

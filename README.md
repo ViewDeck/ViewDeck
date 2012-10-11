@@ -80,10 +80,22 @@ The controller also allows you to close the side views with a bouncing animation
 
 The view deck controller allows you to set the speed at which the opening and closing animations play. To do so, use the following properties.
 
-    self.viewDeckController.openSlideAnimationDuration = 0.15f;
+    self.viewDeckController.openSlideAnimationDuration = 0.15f; // In seconds
     self.viewDeckController.closeSlideAnimationDuration = 0.25f;
 
 The default speed of both, if not set, is 0.3f.
+
+## bounce animation duration
+
+You can set the duration of the bounce animation as a factor (multiple) of the close/openSlideAnimationDurations. To control both the open and close of the bounce, you can simply use:
+    self.viewDeckController.bounceAnimationDurationFactor = 0.5; // Animate at twice the speed (half the duration)
+
+The default factor is 1.0 if bounceDurationFactor is not set.
+
+For even more control, you can also set the animation duration for the bounce open (the first part of the bounce):
+    self.viewDeckController.bounceOpenSideDurationFactor = 0.3f;
+
+If bounceOpenSideDurationFactor is not set, it will fallback to the bounceAnimationDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceAnimationDurationFactor affects only the "close" (2nd half) of the bounce animation.
 
 ## shadow
 

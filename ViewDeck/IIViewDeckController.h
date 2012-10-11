@@ -131,6 +131,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign) BOOL automaticallyUpdateTabBarItems;
 @property (nonatomic, assign) IIViewDeckSizeMode sizeMode;
 @property (nonatomic, assign) CGFloat bounceDurationFactor; // capped between 0.01 and 0.99. defaults to 0.3. Set to 0 to have the old 1.4 behavior (equal time for long part and short part of bounce)
+@property (nonatomic, assign) CGFloat bounceOpenSideDurationFactor; // Same as bounceDurationFactor, but if set, will give independent control of the bounce as the side opens fully (first half of the bounce)
 @property (nonatomic, assign) CGFloat openSlideAnimationDuration;
 @property (nonatomic, assign) CGFloat closeSlideAnimationDuration;
 

@@ -22,8 +22,8 @@ These are demos of the included `ViewDeckExample` app.
 
 # Installation
 
-Easy as pie: you just add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
-Just add IIViewDeckController.m/h into your project.
+- Add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
+- Add `QuartzCore.framework` to your libaries: Project-> Build Phases-> Link Binary With Libaries. 
 
 # How to use it?
 

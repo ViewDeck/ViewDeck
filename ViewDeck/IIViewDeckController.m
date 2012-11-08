@@ -1105,11 +1105,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 #pragma mark - controller state
 
-- (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSize {
-    if (![self controllerForSide:viewDeckSize])
+- (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSide {
+    if (![self controllerForSide:viewDeckSide])
         return YES;
     
-    switch (viewDeckSize) {
+    switch (viewDeckSide) {
         case IIViewDeckLeftSide:
             return CGRectGetMinX(self.slidingControllerView.frame) <= 0;
             
@@ -1128,11 +1128,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 
-- (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSize {
-    if (![self controllerForSide:viewDeckSize])
+- (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSide {
+    if (![self controllerForSide:viewDeckSide])
         return NO;
     
-    switch (viewDeckSize) {
+    switch (viewDeckSide) {
         case IIViewDeckLeftSide:
             return II_FLOAT_EQUAL(CGRectGetMinX(self.slidingControllerView.frame), self.referenceBounds.size.width - _ledge[IIViewDeckLeftSide]);
             

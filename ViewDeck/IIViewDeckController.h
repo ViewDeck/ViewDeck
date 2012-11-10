@@ -219,8 +219,8 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 - (BOOL)canRightViewPushViewControllerOverCenterController;
 - (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller;
 
-- (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSize;
-- (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSize;
+- (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSide;
+- (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSide;
 
 - (CGFloat)statusBarHeight;
 

@@ -869,6 +869,7 @@ __typeof__(h) __h = (h);                                    \
     } completion:^(BOOL finished) {
         if (completed) completed(self);
         if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:animated];
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
     }];
     
     return YES;
@@ -909,6 +910,7 @@ __typeof__(h) __h = (h);                                    \
         } completion:^(BOOL finished) {
             if (completed) completed(self);
             if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:YES];
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     }];
     
@@ -943,6 +945,7 @@ __typeof__(h) __h = (h);                                    \
             [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:animated];
             [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:animated];
         }
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
     }];
     
     return YES;
@@ -981,6 +984,7 @@ __typeof__(h) __h = (h);                                    \
                 [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:YES];
                 [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
             }
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     }];
     
@@ -1085,6 +1089,7 @@ __typeof__(h) __h = (h);                                    \
     } completion:^(BOOL finished) {
         if (completed) completed(self);
         if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:animated];
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
     }];
     
     return YES;
@@ -1125,6 +1130,7 @@ __typeof__(h) __h = (h);                                    \
         } completion:^(BOOL finished) {
             if (completed) completed(self);
             if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:YES];
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     }];
     
@@ -1159,6 +1165,7 @@ __typeof__(h) __h = (h);                                    \
             [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:animated];
             [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:animated];
         }
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
     }];
     
     return YES;
@@ -1193,6 +1200,7 @@ __typeof__(h) __h = (h);                                    \
             if (completed) completed(self);
             [self performDelegate:@selector(viewDeckControllerDidCloseRightView:animated:) animated:YES];
             [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     }];
     

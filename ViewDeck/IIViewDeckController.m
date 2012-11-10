@@ -1188,6 +1188,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         } completion:^(BOOL finished) {
             if (completed) completed(self, YES);
             [self notifyDidOpenSide:side animated:animated];
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     };
 
@@ -1246,6 +1247,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             } completion:^(BOOL finished) {
                 if (completed) completed(self, YES);
                 [self notifyDidOpenSide:side animated:animated];
+                UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
             }];
         }];
     }];
@@ -1275,6 +1277,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         [self hideAppropriateSideViews];
         if (completed) completed(self, YES);
         [self notifyDidCloseSide:side animated:animated];
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
     }];
     
     return YES;
@@ -1325,6 +1328,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             [self hideAppropriateSideViews];
             if (completed) completed(self, YES);
             [self notifyDidCloseSide:side animated:animated];
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     }];
     

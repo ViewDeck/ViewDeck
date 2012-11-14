@@ -1306,6 +1306,11 @@ __typeof__(h) __h = (h);                                    \
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(viewDeckControllerGestureRecognizerShouldBegin:)]) {
+        if ([self.delegate viewDeckControllerGestureRecognizerShouldBegin:self] == NO) {
+            return NO;
+        }
+    }
     if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
         BOOL result = [self.panningGestureDelegate gestureRecognizerShouldBegin:gestureRecognizer];
         if (!result) return result;

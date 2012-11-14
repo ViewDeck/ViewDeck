@@ -172,6 +172,7 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 - (BOOL)viewDeckControllerWillCloseRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
 - (void)viewDeckControllerDidCloseRightView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
 - (void)viewDeckControllerDidShowCenterView:(IIViewDeckController*)viewDeckController animated:(BOOL)animated;
+- (BOOL)viewDeckControllerGestureRecognizerShouldBegin:(IIViewDeckController *)viewDeckController;
 
 @end
 

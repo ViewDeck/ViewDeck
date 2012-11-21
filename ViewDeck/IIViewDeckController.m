@@ -134,6 +134,18 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     }
 }
 
+static const UIViewAnimationOptions DefaultSwipedAnimationCurve = UIViewAnimationOptionCurveEaseOut;
+
+static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocity)
+{
+    NSTimeInterval animationDuration = pointsToAnimate / fabsf(velocity);
+    // adjust duration for easing curve, if necessary
+    if (DefaultSwipedAnimationCurve != UIViewAnimationOptionCurveLinear) animationDuration *= 1.25;
+    return animationDuration;
+}
+
+#define DEFAULT_DURATION 0.0
+
 @interface IIViewDeckController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, retain) UIView* referenceView;
@@ -1156,6 +1168,10 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (BOOL)openSideView:(IIViewDeckSide)side animated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
+    return [self openSideView:side animated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)openSideView:(IIViewDeckSide)side animated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
     // if there's no controller or we're already open, just run the completion and say we're done.
     if (![self controllerForSide:side] || [self isSideOpen:side]) {
         if (completed) completed(self, YES);
@@ -1172,15 +1188,17 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         return [self toggleOpenViewAnimated:animated completion:completed];
     }
     
+    if (duration == DEFAULT_DURATION) duration = [self openSlideDuration:animated];
+    
     __block UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
-
+    
     IIViewDeckControllerBlock finish = ^(IIViewDeckController *controller, BOOL success) {
         if (!success) {
             if (completed) completed(self, NO);
             return;
         }
         
-        [UIView animateWithDuration:[self openSlideDuration:animated] delay:0 options:options animations:^{
+        [UIView animateWithDuration:duration delay:0 options:options animations:^{
             [self notifyWillOpenSide:side animated:animated];
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:[self ledgeOffsetForSide:side] forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
@@ -1191,7 +1209,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
         }];
     };
-
+    
     if ([self isSideClosed:side]) {
         options |= UIViewAnimationOptionCurveEaseIn;
         // try to close any open view first
@@ -1255,6 +1273,10 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 
 
 - (BOOL)closeSideView:(IIViewDeckSide)side animated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
+    return [self closeSideView:side animated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)closeSideView:(IIViewDeckSide)side animated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
     if ([self isSideClosed:side]) {
         if (completed) completed(self, YES);
         return YES;
@@ -1266,10 +1288,12 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
         return NO;
     }
     
+    if (duration == DEFAULT_DURATION) duration = [self closeSlideDuration:animated];
+    
     UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
-
-    [UIView animateWithDuration:[self closeSlideDuration:animated] delay:0 options:options animations:^{
+    
+    [UIView animateWithDuration:duration delay:0 options:options animations:^{
         [self notifyWillCloseSide:side animated:animated];
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
         [self centerViewVisible];
@@ -1382,7 +1406,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
-    return [self closeSideView:IIViewDeckLeftSide animated:animated completion:completed];
+    return [self closeLeftViewAnimated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)closeLeftViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
+    return [self closeSideView:IIViewDeckLeftSide animated:animated duration:duration completion:completed];
 }
 
 - (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced {
@@ -1439,7 +1467,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
-    return [self closeSideView:IIViewDeckRightSide animated:animated completion:completed];
+    return [self closeRightViewAnimated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)closeRightViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
+    return [self closeSideView:IIViewDeckRightSide animated:animated duration:duration completion:completed];
 }
 
 - (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced {
@@ -1531,7 +1563,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (BOOL)closeTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
-    return [self closeSideView:IIViewDeckTopSide animated:animated completion:completed];
+    return [self closeTopViewAnimated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)closeTopViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
+    return [self closeSideView:IIViewDeckTopSide animated:animated duration:duration completion:completed];
 }
 
 - (BOOL)closeTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced {
@@ -1589,7 +1625,11 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (BOOL)closeBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
-    return [self closeSideView:IIViewDeckBottomSide animated:animated completion:completed];
+    return [self closeBottomViewAnimated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)closeBottomViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
+    return [self closeSideView:IIViewDeckBottomSide animated:animated duration:duration completion:completed];
 }
 
 - (BOOL)closeBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced {
@@ -1668,17 +1708,21 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 }
 
 - (BOOL)closeOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
+    return [self closeOpenViewAnimated:animated duration:DEFAULT_DURATION completion:completed];
+}
+
+- (BOOL)closeOpenViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed {
     if (![self isSideClosed:IIViewDeckLeftSide]) {
-        return [self closeLeftViewAnimated:animated completion:completed];
+        return [self closeLeftViewAnimated:animated duration:duration completion:completed];
     }
     else if (![self isSideClosed:IIViewDeckRightSide]) {
-        return [self closeRightViewAnimated:animated completion:completed];
+        return [self closeRightViewAnimated:animated duration:duration completion:completed];
     }
     else if (![self isSideClosed:IIViewDeckTopSide]) {
-        return [self closeTopViewAnimated:animated completion:completed];
+        return [self closeTopViewAnimated:animated duration:duration completion:completed];
     }
     else if (![self isSideClosed:IIViewDeckBottomSide]) {
-        return [self closeBottomViewAnimated:animated completion:completed];
+        return [self closeBottomViewAnimated:animated duration:duration completion:completed];
     }
     
     if (completed) completed(self, YES);
@@ -1984,21 +2028,34 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
             else
                 [self closeOpenView];
         }
-        else if (orientationVelocity < 0) {
-            // swipe to the left
-            if (v < 0) {
-                [self openSideView:maxSide animated:YES completion:nil];
+        else if (orientationVelocity != 0.0f) {
+            if (orientationVelocity < 0) {
+                // swipe to the left
+                if (v < 0) {
+                    [self openSideView:maxSide animated:YES completion:nil];
+                }
+                else
+                {
+                    // Animation duration based on velocity
+                    CGFloat pointsToAnimate = self.slidingControllerView.frame.origin.x;
+                    NSTimeInterval animationDuration = durationToAnimate(pointsToAnimate, orientationVelocity);
+                    
+                    [self closeOpenViewAnimated:YES duration:animationDuration completion:nil];
+                }
             }
-            else 
-                [self closeOpenView];
-        }
-        else if (orientationVelocity > 0) {
-            // swipe to the right
-            if (v > 0) {
-                [self openSideView:minSide animated:YES completion:nil];
+            else if (orientationVelocity > 0) {
+                // swipe to the right
+                
+                // Animation duration based on velocity
+                CGFloat pointsToAnimate = fabsf(m - self.leftSize - self.slidingControllerView.frame.origin.x);
+                NSTimeInterval animationDuration = durationToAnimate(pointsToAnimate, orientationVelocity);
+                
+                if (v > 0) {
+                    [self openSideView:minSide animated:YES duration:animationDuration completion:nil];
+                }
+                else 
+                    [self closeOpenViewAnimated:YES duration:animationDuration completion:nil];
             }
-            else 
-                [self closeOpenView];
         }
     }
     else

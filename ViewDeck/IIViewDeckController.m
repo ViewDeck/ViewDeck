@@ -731,7 +731,7 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
+    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
 
     if (!_viewFirstAppeared) {
         _viewFirstAppeared = YES;

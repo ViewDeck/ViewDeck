@@ -1516,6 +1516,28 @@ __typeof__(h) __h = (h);                                    \
             if (self.navigationController && !self.navigationController.navigationBarHidden) 
                 [self addPanner:self.navigationController.navigationBar];
             break;
+
+        case IIViewDeckConditionalPanning:
+            // add the navbar no matter what
+            if (self.navigationController && !self.navigationController.navigationBarHidden) {
+                [self addPanner:self.navigationController.navigationBar];
+            }
+            
+            if (self.centerController.navigationController && !self.centerController.navigationController.navigationBarHidden) {
+                [self addPanner:self.centerController.navigationController.navigationBar];
+            }
+            
+            if ([self.centerController isKindOfClass:[UINavigationController class]] && !((UINavigationController*)self.centerController).navigationBarHidden) {
+                [self addPanner:((UINavigationController*)self.centerController).navigationBar];
+            }
+            
+            // if a panel is open, add allow the center to pan
+            if ([self leftControllerIsOpen] || [self rightControllerIsOpen])
+                [self addPanner:self.slidingControllerView];
+            // also add to disabled center
+            if (self.centerTapper)
+                [self addPanner:self.centerTapper];
+            break;
             
         case IIViewDeckNavigationBarPanning:
             if (self.navigationController && !self.navigationController.navigationBarHidden) {

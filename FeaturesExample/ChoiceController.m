@@ -71,7 +71,7 @@
 - (IBAction)panningChanged:(id)sender {
     UISegmentedControl* control = (UISegmentedControl*)sender;
     
-    IIViewDeckPanningMode values[] = { IIViewDeckNoPanning, IIViewDeckFullViewPanning, IIViewDeckNavigationBarPanning, IIViewDeckPanningViewPanning, IIViewDeckDelegatePanning };
+    IIViewDeckPanningMode values[] = { IIViewDeckNoPanning, IIViewDeckFullViewPanning, IIViewDeckNavigationBarPanning, IIViewDeckPanningViewPanning, IIViewDeckDelegatePanning, IIViewDeckNavigationBarOrOpenCenterPanning };
     _panning = values[control.selectedSegmentIndex];
 }
 

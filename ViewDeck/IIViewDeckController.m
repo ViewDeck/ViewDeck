@@ -1140,6 +1140,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 
+- (BOOL)isAnySideOpen {
+    return [self isSideOpen:IIViewDeckLeftSide] || [self isSideOpen:IIViewDeckRightSide] || [self isSideOpen:IIViewDeckTopSide] || [self isSideOpen:IIViewDeckBottomSide];
+}
+
+
 - (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSide {
     if (![self controllerForSide:viewDeckSide])
         return NO;
@@ -1822,6 +1827,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panner {
+    if (self.panningMode == IIViewDeckNavigationBarOrOpenCenterPanning && panner.view == self.slidingControllerView && [self isAnySideOpen])
+        return NO;
+    
     if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
         BOOL result = [self.panningGestureDelegate gestureRecognizerShouldBegin:panner];
         if (!result) return result;
@@ -2086,6 +2094,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             
         case IIViewDeckFullViewPanning:
         case IIViewDeckDelegatePanning:
+        case IIViewDeckNavigationBarOrOpenCenterPanning:
             [self addPanner:self.slidingControllerView];
             // also add to disabled center
             if (self.centerTapper)
@@ -2094,7 +2103,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             if (self.navigationController && !self.navigationController.navigationBarHidden) 
                 [self addPanner:self.navigationController.navigationBar];
             break;
-            
+
         case IIViewDeckNavigationBarPanning:
             if (self.navigationController && !self.navigationController.navigationBarHidden) {
                 [self addPanner:self.navigationController.navigationBar];
@@ -2108,6 +2117,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 [self addPanner:((UINavigationController*)self.centerController).navigationBar];
             }
             break;
+            
         case IIViewDeckPanningViewPanning:
             if (_panningView) {
                 [self addPanner:self.panningView];

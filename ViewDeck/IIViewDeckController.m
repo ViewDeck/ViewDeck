@@ -587,9 +587,26 @@ __typeof__(h) __h = (h);                                    \
         self.centerView.frame = self.centerViewBounds;
         self.centerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.centerController.view.frame = self.centerView.bounds;
-        self.leftController.view.frame = self.sideViewBounds;
+        
+        // If elastic is turned on, allow the center panel to clip the side
+        // view so that more of the view is shown when bouncing. Otherwise
+        // shrink the side view to fit only in the viewable area.
+        CGRect sideViewBounds = [self sideViewBounds];
+        if (self.elastic) {
+            self.leftController.view.frame = sideViewBounds;
+            self.rightController.view.frame = sideViewBounds;
+        } else {
+            self.leftController.view.frame = CGRectMake(sideViewBounds.origin.x,
+                                                        sideViewBounds.origin.y,
+                                                        sideViewBounds.size.width - self.leftLedge,
+                                                        sideViewBounds.size.height);
+            self.rightController.view.frame = CGRectMake(sideViewBounds.origin.x,
+                                                         sideViewBounds.origin.y,
+                                                         sideViewBounds.size.width - self.rightLedge,
+                                                         sideViewBounds.size.height);
+        }
+        
         self.leftController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.rightController.view.frame = self.sideViewBounds;
         self.rightController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         
         [self applyShadowToSlidingView];

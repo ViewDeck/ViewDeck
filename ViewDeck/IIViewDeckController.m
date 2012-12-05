@@ -152,6 +152,8 @@ __typeof__(h) __h = (h);                                    \
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced;
+- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay;
+- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced;
 
 @end 
 
@@ -675,7 +677,7 @@ __typeof__(h) __h = (h);                                    \
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     
-    [self relayAppearanceMethod:^(UIViewController *controller) {
+    [self relayRotationMethod:^(UIViewController *controller) {
         [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
     
@@ -687,7 +689,7 @@ __typeof__(h) __h = (h);                                    \
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
     
-    [self relayAppearanceMethod:^(UIViewController *controller) {
+    [self relayRotationMethod:^(UIViewController *controller) {
         [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
 }
@@ -696,7 +698,7 @@ __typeof__(h) __h = (h);                                    \
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self applyShadowToSlidingView];
     
-    [self relayAppearanceMethod:^(UIViewController *controller) {
+    [self relayRotationMethod:^(UIViewController *controller) {
         [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }];
 }
@@ -1240,7 +1242,10 @@ __typeof__(h) __h = (h);                                    \
 #pragma mark - Pre iOS5 message relaying
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced {
-    bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+    bool shouldRelay =
+        ([self respondsToSelector:@selector(shouldAutomaticallyForwardAppearanceMethods)] && ![self shouldAutomaticallyForwardAppearanceMethods])
+        || ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)]
+        || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
     
     // don't relay if the controller supports automatic relaying
     if (!shouldRelay && !forced) 
@@ -1253,6 +1258,25 @@ __typeof__(h) __h = (h);                                    \
 
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay {
     [self relayAppearanceMethod:relay forced:NO];
+}
+
+- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced {
+    bool shouldRelay =
+        ([self respondsToSelector:@selector(shouldAutomaticallyForwardRotationMethods)] && ![self shouldAutomaticallyForwardRotationMethods])
+        || ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)]
+        || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
+    
+    // don't relay if the controller supports automatic relaying
+    if (!shouldRelay && !forced)
+        return;
+    
+    relay(self.centerController);
+    relay(self.leftController);
+    relay(self.rightController);
+}
+
+- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay {
+    [self relayRotationMethod:relay forced:NO];
 }
 
 #pragma mark - center view hidden stuff

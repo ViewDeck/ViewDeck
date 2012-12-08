@@ -10,7 +10,7 @@
 //  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //  of the Software, and to permit persons to whom the Software is furnished to do
 //  so, subject to the following conditions:
-// 
+//
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
@@ -46,7 +46,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-@interface UIViewController (WrappedItem_Internal) 
+@interface UIViewController (WrappedItem_Internal)
 
 // internal setter for the wrapController property on UIViewController
 - (void)setWrapController:(WrapController *)wrapController;
@@ -70,16 +70,16 @@
         _wrappedController = controller;
         [controller setWrapController:self];
     }
-          
+    
     return self;
 }
 
 - (CGFloat)statusBarHeight {
-//    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]]) 
-//        return 0;
-//    
-    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
-    ? [UIApplication sharedApplication].statusBarFrame.size.width 
+    //    if (![[self.referenceView superview] isKindOfClass:[UIWindow class]])
+    //        return 0;
+    //
+    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)
+    ? [UIApplication sharedApplication].statusBarFrame.size.width
     : [UIApplication sharedApplication].statusBarFrame.size.height;
 }
 
@@ -100,8 +100,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    if (self.onViewDidLoad) 
+    
+    if (self.onViewDidLoad)
         self.onViewDidLoad(self);
 }
 
@@ -148,36 +148,36 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.onViewWillAppear) 
+    if (self.onViewWillAppear)
         self.onViewWillAppear(self, animated);
-
+    
     [self.wrappedController viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (self.onViewDidAppear) 
+    if (self.onViewDidAppear)
         self.onViewDidAppear(self, animated);
-
+    
     [self.wrappedController viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (self.onViewWillDisappear) 
+    if (self.onViewWillDisappear)
         self.onViewWillDisappear(self, animated);
-
+    
     [self.wrappedController viewWillDisappear:animated];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    if (self.onViewDidDisappear) 
+    if (self.onViewDidDisappear)
         self.onViewDidDisappear(self, animated);
-
+    
     [self.wrappedController viewDidDisappear:animated];
 }
 
@@ -217,7 +217,7 @@
 
 @end
 
-@implementation UIViewController (WrapControllerItem) 
+@implementation UIViewController (WrapControllerItem)
 
 @dynamic wrapController;
 
@@ -229,7 +229,7 @@ static const char* wrapControllerKey = "WrapController";
 
 - (WrapController*)wrapController {
     id result = [self wrapController_core];
-    if (!result && self.navigationController) 
+    if (!result && self.navigationController)
         return [self.navigationController wrapController];
     
     return result;

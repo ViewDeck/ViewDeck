@@ -10,7 +10,7 @@
 //  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //  of the Software, and to permit persons to whom the Software is furnished to do
 //  so, subject to the following conditions:
-// 
+//
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
@@ -153,17 +153,17 @@ __typeof__(h) __h = (h);                                    \
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay;
 - (void)relayAppearanceMethod:(void(^)(UIViewController* controller))relay forced:(BOOL)forced;
 
-@end 
+@end
 
 
-@interface UIViewController (UIViewDeckItem_Internal) 
+@interface UIViewController (UIViewDeckItem_Internal)
 
 // internal setter for the viewDeckController property on UIViewController
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController;
 
 @end
 
-@interface UIViewController (UIViewDeckController_ViewContainmentEmulation) 
+@interface UIViewController (UIViewDeckController_ViewContainmentEmulation)
 
 - (void)addChildViewController:(UIViewController *)childController;
 - (void)removeFromParentViewController;
@@ -199,7 +199,7 @@ __typeof__(h) __h = (h);                                    \
 @synthesize originalShadowOffset = _originalShadowOffset;
 @synthesize delegate = _delegate;
 @synthesize navigationControllerBehavior = _navigationControllerBehavior;
-@synthesize panningView = _panningView; 
+@synthesize panningView = _panningView;
 @synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
 @synthesize centerTapper = _centerTapper;
 @synthesize centerView = _centerView;
@@ -327,15 +327,15 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (CGFloat)relativeStatusBarHeight {
-    if (![self.referenceView isKindOfClass:[UIWindow class]]) 
+    if (![self.referenceView isKindOfClass:[UIWindow class]])
         return 0;
     
     return [self statusBarHeight];
 }
 
 - (CGFloat)statusBarHeight {
-    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) 
-    ? [UIApplication sharedApplication].statusBarFrame.size.width 
+    return UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)
+    ? [UIApplication sharedApplication].statusBarFrame.size.width
     : [UIApplication sharedApplication].statusBarFrame.size.height;
 }
 
@@ -377,7 +377,7 @@ __typeof__(h) __h = (h);                                    \
     if (!self.resizesCenterView) return self.referenceBounds.size;
     
     offset = [self limitOffset:offset];
-    if (offset < 0) 
+    if (offset < 0)
         return (CGSize) { self.centerViewBounds.size.width + offset, self.centerViewBounds.size.height };
     
     return (CGSize) { self.centerViewBounds.size.width - offset, self.centerViewBounds.size.height };
@@ -412,18 +412,20 @@ __typeof__(h) __h = (h);                                    \
     double offset = 0.0;
     float Td = (2.0f * duration) / numberOfBounces; //Damped period, calculated to give the number of bounces desired in the duration specified (2 bounces per Td)
     float wd = (2.0f * M_PI)/Td; // Damped frequency
-    zeta = MIN(MAX(0.0001f, zeta), 0.9999f); // For an underdamped system, we must have 0 < zeta < 1
+    // separated to 2 lines to avoid macro expansion error
+    CGFloat max = MAX(0.0001f, zeta);
+    zeta = MIN(max, 0.9999f); // For an underdamped system, we must have 0 < zeta < 1
     float zetaFactor = sqrtf(1 - powf(zeta, 2.0f)); // Used in multiple places
     float wn = wd/zetaFactor; // Natural frequency
     float Vo = maxBounce * wd/(expf(-zeta/zetaFactor * (0.18f * Td) * wd) * sinf(0.18f * Td * wd));
     
-    for (int t = 0; t < steps; t++) {
+    for (NSUInteger t = 0; t < steps; t++) {
         time = (t / (float)steps) * duration;
         offset = abs(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
         offset = (left ? 1 : -1) * [self limitOffset:offset] + position;
         [values addObject:[NSNumber numberWithFloat:offset]];
     }
-    
+
     return values;
 }
 
@@ -569,8 +571,8 @@ __typeof__(h) __h = (h);                                    \
     
     BOOL wasntAppeared = !_viewAppeared;
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueChangeSetting context:nil];
-
-    void(^applyViews)(void) = ^{        
+    
+    void(^applyViews)(void) = ^{
         [self.centerController.view removeFromSuperview];
         [self.centerView addSubview:self.centerController.view];
         [self.leftController.view removeFromSuperview];
@@ -594,11 +596,11 @@ __typeof__(h) __h = (h);                                    \
         
         [self applyShadowToSlidingView];
     };
-
-    if ([self setSlidingAndReferenceViews]) 
+    
+    if ([self setSlidingAndReferenceViews])
         applyViews();
     _viewAppeared = YES;
-
+    
     // after 0.01 sec, since in certain cases the sliding view is reset.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
         if (!self.referenceView) {
@@ -611,7 +613,7 @@ __typeof__(h) __h = (h);                                    \
     
     [self addPanners];
     
-    if (self.slidingControllerView.frame.origin.x == 0.0f) 
+    if (self.slidingControllerView.frame.origin.x == 0.0f)
         [self centerViewVisible];
     else
         [self centerViewHidden];
@@ -718,9 +720,9 @@ __typeof__(h) __h = (h);                                    \
         }
     }
     else {
-        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth; 
-        self.maxLedge = self.maxLedge + self.referenceBounds.size.width - _preRotationWidth; 
+        self.leftLedge = self.leftLedge + self.referenceBounds.size.width - _preRotationWidth;
+        self.rightLedge = self.rightLedge + self.referenceBounds.size.width - _preRotationWidth;
+        self.maxLedge = self.maxLedge + self.referenceBounds.size.width - _preRotationWidth;
     }
     [self setSlidingFrameForOffset:offset];
     
@@ -836,7 +838,7 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
-    if ([self leftControllerIsClosed]) 
+    if ([self leftControllerIsClosed])
         return [self openLeftViewAnimated:animated completion:completed];
     else
         return [self closeLeftViewAnimated:animated completion:completed];
@@ -907,7 +909,7 @@ __typeof__(h) __h = (h);                                    \
         // now slide the view back to the ledge position
         [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
             [self setSlidingFrameForOffset:self.referenceBounds.size.width - self.leftLedge];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL innerFinished) {
             if (completed) completed(self);
             if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenLeftView:animated:) animated:YES];
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -971,7 +973,7 @@ __typeof__(h) __h = (h);                                    \
     } completion:^(BOOL finished) {
         // run block if it's defined
         if (bounced) bounced(self);
-        if (callDelegate && self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 
+        if (callDelegate && self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)])
             [self.delegate viewDeckController:self didBounceWithClosingController:self.leftController];
         
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
@@ -1056,7 +1058,7 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed {
-    if ([self rightControllerIsClosed]) 
+    if ([self rightControllerIsClosed])
         return [self openRightViewAnimated:animated completion:completed];
     else
         return [self closeRightViewAnimated:animated completion:completed];
@@ -1127,7 +1129,7 @@ __typeof__(h) __h = (h);                                    \
         // now slide the view back to the ledge position
         [UIView animateWithDuration:OPEN_SLIDE_DURATION(YES) delay:0 options:options | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
             [self setSlidingFrameForOffset:self.rightLedge - self.referenceBounds.size.width];
-        } completion:^(BOOL finished) {
+        } completion:^(BOOL innerFinished) {
             if (completed) completed(self);
             if (callDelegate) [self performDelegate:@selector(viewDeckControllerDidOpenRightView:animated:) animated:YES];
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1189,7 +1191,7 @@ __typeof__(h) __h = (h);                                    \
         [self setSlidingFrameForOffset:-self.referenceBounds.size.width];
     } completion:^(BOOL finished) {
         if (bounced) bounced(self);
-        if (callDelegate && self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)]) 
+        if (callDelegate && self.delegate && [self.delegate respondsToSelector:@selector(viewDeckController:didBounceWithClosingController:)])
             [self.delegate viewDeckController:self didBounceWithClosingController:self.rightController];
         
         [UIView animateWithDuration:CLOSE_SLIDE_DURATION(YES) delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
@@ -1209,18 +1211,18 @@ __typeof__(h) __h = (h);                                    \
 
 - (void)rightViewPushViewControllerOverCenterController:(UIViewController*)controller {
     NSAssert([self.centerController isKindOfClass:[UINavigationController class]], @"cannot rightViewPushViewControllerOverCenterView when center controller is not a navigation controller");
-
+    
     UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, YES, 0.0);
-
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.view.layer renderInContext:context];
     UIImage *deckshot = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     UIImageView* shotView = [[UIImageView alloc] initWithImage:deckshot];
-    shotView.frame = self.view.frame; 
+    shotView.frame = self.view.frame;
     [self.view.superview addSubview:shotView];
-    CGRect targetFrame = self.view.frame; 
+    CGRect targetFrame = self.view.frame;
     self.view.frame = CGRectOffset(self.view.frame, self.view.frame.size.width, 0);
     
     [self closeRightViewAnimated:NO];
@@ -1243,8 +1245,8 @@ __typeof__(h) __h = (h);                                    \
     bool shouldRelay = ![self respondsToSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)] || ![self performSelector:@selector(automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers)];
     
     // don't relay if the controller supports automatic relaying
-    if (!shouldRelay && !forced) 
-        return;                                                                                                                                       
+    if (!shouldRelay && !forced)
+        return;
     
     relay(self.centerController);
     relay(self.leftController);
@@ -1268,7 +1270,7 @@ __typeof__(h) __h = (h);                                    \
 }
 
 - (void)centerViewHidden {
-    if (IIViewDeckCenterHiddenIsInteractive(self.centerhiddenInteractivity)) 
+    if (IIViewDeckCenterHiddenIsInteractive(self.centerhiddenInteractivity))
         return;
     
     [self removePanners];
@@ -1288,13 +1290,13 @@ __typeof__(h) __h = (h);                                    \
 - (void)centerTapped {
     if (IIViewDeckCenterHiddenCanTapToClose(self.centerhiddenInteractivity)) {
         if (self.leftController && CGRectGetMinX(self.slidingControllerView.frame) > 0) {
-            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose) 
+            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose)
                 [self closeLeftView];
             else
                 [self closeLeftViewBouncing:nil];
         }
         if (self.rightController && CGRectGetMinX(self.slidingControllerView.frame) < 0) {
-            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose) 
+            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose)
                 [self closeRightView];
             else
                 [self closeRightViewBouncing:nil];
@@ -1313,10 +1315,10 @@ __typeof__(h) __h = (h);                                    \
     
     CGFloat px = self.slidingControllerView.frame.origin.x;
     if (px != 0) return YES;
-        
+    
     CGFloat x = [self locationOfPanner:(UIPanGestureRecognizer*)gestureRecognizer];
     BOOL ok =  YES;
-
+    
     if (x > 0) {
         ok = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
         if (!ok)
@@ -1337,10 +1339,10 @@ __typeof__(h) __h = (h);                                    \
                                                   shouldReceiveTouch:touch];
         if (!result) return result;
     }
-
+    
     if ([[touch view] isKindOfClass:[UISlider class]])
         return NO;
-
+    
     _panOrigin = self.slidingControllerView.frame.origin.x;
     return YES;
 }
@@ -1384,11 +1386,11 @@ __typeof__(h) __h = (h);                                    \
     CGFloat px = self.slidingControllerView.frame.origin.x;
     CGFloat x = [self locationOfPanner:panner];
     CGFloat w = self.referenceBounds.size.width;
-
+    
     SEL didCloseSelector = nil;
     SEL didOpenSelector = nil;
     
-    // if we move over a boundary while dragging, ... 
+    // if we move over a boundary while dragging, ...
     if (px <= 0 && x >= 0 && px != x) {
         // ... then we need to check if the other side can open.
         if (px < 0) {
@@ -1397,7 +1399,7 @@ __typeof__(h) __h = (h);                                    \
                 return;
             didCloseSelector = @selector(viewDeckControllerDidCloseRightView:animated:);
         }
-
+        
         if (x > 0) {
             BOOL canOpen = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
             didOpenSelector = @selector(viewDeckControllerDidOpenLeftView:animated:);
@@ -1415,7 +1417,7 @@ __typeof__(h) __h = (h);                                    \
             }
             didCloseSelector = @selector(viewDeckControllerDidCloseLeftView:animated:);
         }
-
+        
         if (x < 0) {
             BOOL canOpen = [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
             didOpenSelector = @selector(viewDeckControllerDidOpenRightView:animated:);
@@ -1467,7 +1469,7 @@ __typeof__(h) __h = (h);                                    \
             if (x < 0) {
                 [self openRightViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut callDelegate:YES completion:nil];
             }
-            else 
+            else
                 [self showCenterView:YES];
         }
         else if (velocity > 0) {
@@ -1475,13 +1477,13 @@ __typeof__(h) __h = (h);                                    \
             if (x > 0) {
                 [self openLeftViewAnimated:YES options:UIViewAnimationOptionCurveEaseOut callDelegate:YES completion:nil];
             }
-            else 
+            else
                 [self showCenterView:YES];
         }
     }
     else
         [self hideAppropriateSideViews];
-
+    
     if (didCloseSelector)
         [self performDelegate:didCloseSelector animated:NO];
     if (didOpenSelector)
@@ -1504,7 +1506,7 @@ __typeof__(h) __h = (h);                                    \
     [self removePanners];
     
     switch (_panningMode) {
-        case IIViewDeckNoPanning: 
+        case IIViewDeckNoPanning:
             break;
             
         case IIViewDeckFullViewPanning:
@@ -1513,7 +1515,7 @@ __typeof__(h) __h = (h);                                    \
             if (self.centerTapper)
                 [self addPanner:self.centerTapper];
             // also add to navigationbar if present
-            if (self.navigationController && !self.navigationController.navigationBarHidden) 
+            if (self.navigationController && !self.navigationController.navigationBarHidden)
                 [self addPanner:self.navigationController.navigationBar];
             break;
             
@@ -1553,17 +1555,17 @@ __typeof__(h) __h = (h);                                    \
     // used typed message send to properly pass values
     BOOL (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, BOOL animated) = (void*)objc_msgSend;
     
-    if (self.delegate && [self.delegate respondsToSelector:selector]) 
+    if (self.delegate && [self.delegate respondsToSelector:selector])
         ok = ok & objc_msgSendTyped(self.delegate, selector, self, animated);
     
     for (UIViewController* controller in self.controllers) {
         // check controller first
-        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate)
             ok = ok & objc_msgSendTyped(controller, selector, self, animated);
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
                 ok = ok & objc_msgSendTyped(topController, selector, self, animated);
         }
     }
@@ -1574,18 +1576,18 @@ __typeof__(h) __h = (h);                                    \
 - (void)performDelegate:(SEL)selector animated:(BOOL)animated {
     // used typed message send to properly pass values
     void (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, BOOL animated) = (void*)objc_msgSend;
-
-    if (self.delegate && [self.delegate respondsToSelector:selector]) 
+    
+    if (self.delegate && [self.delegate respondsToSelector:selector])
         objc_msgSendTyped(self.delegate, selector, self, animated);
     
     for (UIViewController* controller in self.controllers) {
         // check controller first
-        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate)
             objc_msgSendTyped(controller, selector, self, animated);
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
                 objc_msgSendTyped(topController, selector, self, animated);
         }
     }
@@ -1593,18 +1595,18 @@ __typeof__(h) __h = (h);                                    \
 
 - (void)performOffsetDelegate:(SEL)selector offset:(CGFloat)offset {
     void (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, CGFloat offset) = (void*)objc_msgSend;
-    if (self.delegate && [self.delegate respondsToSelector:selector]) 
+    if (self.delegate && [self.delegate respondsToSelector:selector])
         objc_msgSendTyped(self.delegate, selector, self, offset);
     
     for (UIViewController* controller in self.controllers) {
         // check controller first
-        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate) 
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate)
             objc_msgSendTyped(controller, selector, self, offset);
         
         // if that fails, check if it's a navigation controller and use the top controller
         else if ([controller isKindOfClass:[UINavigationController class]]) {
             UIViewController* topController = ((UINavigationController*)controller).topViewController;
-            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate) 
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
                 objc_msgSendTyped(topController, selector, self, offset);
         }
     }
@@ -1741,8 +1743,8 @@ __typeof__(h) __h = (h);                                    \
         afterBlock = ^(UIViewController* controller) {
             [self.view addSubview:self.centerView];
             [controller vdc_viewWillAppear:NO];
-            UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
-            ? (UINavigationController*)centerController 
+            UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]]
+            ? (UINavigationController*)centerController
             : nil;
             BOOL barHidden = NO;
             if (navController != nil && !navController.navigationBarHidden) {
@@ -1756,7 +1758,7 @@ __typeof__(h) __h = (h);                                    \
             controller.view.hidden = NO;
             [self.centerView addSubview:controller.view];
             
-            if (barHidden) 
+            if (barHidden)
                 navController.navigationBarHidden = NO;
             
             [self addPanners];
@@ -1783,7 +1785,7 @@ __typeof__(h) __h = (h);                                    \
         @catch (NSException *exception) {}
         [_centerController setViewDeckController:nil];
         [_centerController removeFromParentViewController];
-
+        
         
         [_centerController didMoveToParentViewController:nil];
         II_RELEASE(_centerController);
@@ -1810,7 +1812,7 @@ __typeof__(h) __h = (h);                                    \
         
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
-    }    
+    }
 }
 
 - (void)setAutomaticallyUpdateTabBarItems:(BOOL)automaticallyUpdateTabBarItems {
@@ -1824,7 +1826,7 @@ __typeof__(h) __h = (h);                                    \
     }
     
     _automaticallyUpdateTabBarItems = automaticallyUpdateTabBarItems;
-
+    
     if (_automaticallyUpdateTabBarItems) {
         [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
         [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
@@ -1874,14 +1876,14 @@ __typeof__(h) __h = (h);                                    \
             self.tabBarItem.image = _centerController.tabBarItem.image;
             return;
         }
-
+        
         if ([@"hidesBottomBarWhenPushed" isEqualToString:keyPath]) {
             self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
             self.tabBarController.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
             return;
         }
     }
-
+    
     if ([@"title" isEqualToString:keyPath]) {
         if (!II_STRING_EQUAL([super title], self.centerController.title)) {
             self.title = self.centerController.title;
@@ -1893,8 +1895,8 @@ __typeof__(h) __h = (h);                                    \
         CGFloat offset = self.slidingControllerView.frame.origin.x;
         [self setSlidingFrameForOffset:offset];
         self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
-        UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] 
-        ? (UINavigationController*)self.centerController 
+        UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]]
+        ? (UINavigationController*)self.centerController
         : nil;
         if (navController != nil && !navController.navigationBarHidden) {
             navController.navigationBarHidden = YES;
@@ -1912,7 +1914,7 @@ __typeof__(h) __h = (h);                                    \
     
     shadowedView.layer.shadowRadius = self.originalShadowRadius;
     shadowedView.layer.shadowOpacity = self.originalShadowOpacity;
-    shadowedView.layer.shadowColor = [self.originalShadowColor CGColor]; 
+    shadowedView.layer.shadowColor = [self.originalShadowColor CGColor];
     shadowedView.layer.shadowOffset = self.originalShadowOffset;
     shadowedView.layer.shadowPath = [self.originalShadowPath CGPath];
 }
@@ -1945,7 +1947,7 @@ __typeof__(h) __h = (h);                                    \
 
 #pragma mark -
 
-@implementation UIViewController (UIViewDeckItem) 
+@implementation UIViewController (UIViewDeckItem)
 
 @dynamic viewDeckController;
 
@@ -1957,9 +1959,9 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 - (IIViewDeckController*)viewDeckController {
     id result = [self viewDeckController_core];
-    if (!result && self.navigationController) 
+    if (!result && self.navigationController)
         result = [self.navigationController viewDeckController];
-    if (!result && [self respondsToSelector:@selector(wrapController)] && self.wrapController) 
+    if (!result && [self respondsToSelector:@selector(wrapController)] && self.wrapController)
         result = [self.wrapController viewDeckController];
     
     return result;
@@ -2022,31 +2024,31 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     
     // view containment drop ins for <ios5
     SEL willMoveToPVC = @selector(willMoveToParentViewController:);
-    SEL vdcWillMoveToPVC = @selector(vdc_willMoveToParentViewController:);
+    SEL vdcWillMoveToPVC = sel_registerName("vdc_willMoveToParentViewController:");
     if (!class_getInstanceMethod(self, willMoveToPVC)) {
         Method implementation = class_getInstanceMethod(self, vdcWillMoveToPVC);
-        class_addMethod([UIViewController class], willMoveToPVC, method_getImplementation(implementation), "v@:@"); 
+        class_addMethod([UIViewController class], willMoveToPVC, method_getImplementation(implementation), "v@:@");
     }
     
     SEL didMoveToPVC = @selector(didMoveToParentViewController:);
-    SEL vdcDidMoveToPVC = @selector(vdc_didMoveToParentViewController:);
+    SEL vdcDidMoveToPVC = sel_registerName("vdc_didMoveToParentViewController:");
     if (!class_getInstanceMethod(self, didMoveToPVC)) {
         Method implementation = class_getInstanceMethod(self, vdcDidMoveToPVC);
-        class_addMethod([UIViewController class], didMoveToPVC, method_getImplementation(implementation), "v@:"); 
+        class_addMethod([UIViewController class], didMoveToPVC, method_getImplementation(implementation), "v@:");
     }
     
     SEL removeFromPVC = @selector(removeFromParentViewController);
-    SEL vdcRemoveFromPVC = @selector(vdc_removeFromParentViewController);
+    SEL vdcRemoveFromPVC = sel_registerName("vdc_removeFromParentViewController");
     if (!class_getInstanceMethod(self, removeFromPVC)) {
         Method implementation = class_getInstanceMethod(self, vdcRemoveFromPVC);
-        class_addMethod([UIViewController class], removeFromPVC, method_getImplementation(implementation), "v@:"); 
+        class_addMethod([UIViewController class], removeFromPVC, method_getImplementation(implementation), "v@:");
     }
     
     SEL addCVC = @selector(addChildViewController:);
-    SEL vdcAddCVC = @selector(vdc_addChildViewController:);
+    SEL vdcAddCVC = sel_registerName("vdc_addChildViewController:");
     if (!class_getInstanceMethod(self, addCVC)) {
         Method implementation = class_getInstanceMethod(self, vdcAddCVC);
-        class_addMethod([UIViewController class], addCVC, method_getImplementation(implementation), "v@:@"); 
+        class_addMethod([UIViewController class], addCVC, method_getImplementation(implementation), "v@:@");
     }
 }
 
@@ -2058,7 +2060,7 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 @end
 
-@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes) 
+@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes)
 
 - (BOOL)vdc_shouldRelay {
     if (self.viewDeckController)

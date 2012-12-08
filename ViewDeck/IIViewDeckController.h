@@ -10,7 +10,7 @@
 //  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //  of the Software, and to permit persons to whom the Software is furnished to do
 //  so, subject to the following conditions:
-// 
+//
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
@@ -30,7 +30,7 @@
 typedef enum {
     IIViewDeckNoPanning,              // no panning allowed
     IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
-    IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
+    IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning.
     IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
 } IIViewDeckPanningMode;
 
@@ -60,7 +60,7 @@ typedef enum {
 
 
 @interface IIViewDeckController : UIViewController {
-@private    
+@private
     CGFloat _panOrigin;
     BOOL _viewAppeared;
     CGFloat _preRotationWidth, _leftWidth, _rightWidth, _preRotationCenterWidth, _maxLedge, _offset;
@@ -73,7 +73,7 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 @property (nonatomic, retain) UIViewController* leftController;
 @property (nonatomic, retain) UIViewController* rightController;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
-@property (nonatomic, retain) UIView* panningView; 
+@property (nonatomic, retain) UIView* panningView;
 @property (nonatomic, assign) id<UIGestureRecognizerDelegate> panningGestureDelegate;
 @property (nonatomic, readonly, retain) NSArray* controllers;
 @property (nonatomic, getter=isEnabled) BOOL enabled;
@@ -176,10 +176,10 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 @end
 
 
-// category on UIViewController to provide access to the viewDeckController in the 
+// category on UIViewController to provide access to the viewDeckController in the
 // contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (UIViewDeckItem) 
+@interface UIViewController (UIViewDeckItem)
 
-@property(nonatomic,readonly,retain) IIViewDeckController *viewDeckController; 
+@property(nonatomic,readonly,retain) IIViewDeckController *viewDeckController;
 
 @end

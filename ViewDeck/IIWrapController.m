@@ -82,26 +82,24 @@
 
 - (void)loadView
 {
-#if __IPHONE_5_0
-    if ([self respondsToSelector:@selector(addChildViewController:)])
-        [self addChildViewController:self.wrappedController];
-#endif
-    
     self.view = II_AUTORELEASE([[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(_wrappedController.view.frame, [self statusBarHeight])]);
     self.view.autoresizingMask = _wrappedController.view.autoresizingMask;
     _wrappedController.view.frame = self.view.bounds;
     _wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+    if ([self respondsToSelector:@selector(addChildViewController:)])
+        [self addChildViewController:self.wrappedController];
     [self.view addSubview:self.wrappedController.view];
-#if __IPHONE_5_0
-    if ([_wrappedController respondsToSelector:@selector(didMoveToParentViewController:)])
-        [_wrappedController didMoveToParentViewController:self];
-#endif
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (self.onViewDidLoad) 
+    if ([_wrappedController respondsToSelector:@selector(didMoveToParentViewController:)])
+        [_wrappedController didMoveToParentViewController:self];
+
+    if (self.onViewDidLoad)
         self.onViewDidLoad(self);
 }
 
@@ -112,17 +110,13 @@
 }
 
 - (void)dealloc {
-#if __IPHONE_5_0
     if ([_wrappedController respondsToSelector:@selector(willMoveToParentViewController:)])
         [_wrappedController willMoveToParentViewController:nil];
     if ([_wrappedController respondsToSelector:@selector(removeFromParentViewController)])
         [_wrappedController removeFromParentViewController];
-#endif
     [_wrappedController setWrapController:nil];
-#if __IPHONE_5_0
     if ([_wrappedController respondsToSelector:@selector(didMoveToParentViewController:)])
         [_wrappedController didMoveToParentViewController:nil];
-#endif
 
     _wrappedController = nil;
     II_RELEASE(_wrappedController);
@@ -130,10 +124,6 @@
 #if !II_ARC_ENABLED
     [super dealloc];
 #endif
-}
-
-- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
-    return NO;
 }
 
 - (UITabBarItem *)tabBarItem {
@@ -186,6 +176,14 @@
         self.onViewDidDisappear(self, animated);
 
     [_wrappedController viewDidDisappear:animated];
+}
+
+- (BOOL)shouldAutorotate {
+    return [self.wrappedController shouldAutorotate];
+}
+
+- (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
+    return NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

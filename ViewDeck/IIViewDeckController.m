@@ -2565,6 +2565,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     shadowedView.layer.shadowColor = [self.originalShadowColor CGColor]; 
     shadowedView.layer.shadowOffset = self.originalShadowOffset;
     shadowedView.layer.shadowPath = [self.originalShadowPath CGPath];
+    shadowedView.layer.shouldRasterize = YES;
+    shadowedView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
 }
 
 - (void)applyShadowToSlidingView {
@@ -2587,6 +2589,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
         shadowedView.layer.shadowOffset = CGSizeZero;
         shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:shadowedView.bounds] CGPath];
+        shadowedView.layer.shouldRasterize = YES;
+        shadowedView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     }
 }
 

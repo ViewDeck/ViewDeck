@@ -964,7 +964,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationSize.width;
         _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckTopSide] + self.referenceBounds.size.height - _preRotationSize.height;
         _ledge[IIViewDeckBottomSide] = _ledge[IIViewDeckBottomSide] + self.referenceBounds.size.height - _preRotationSize.height;
-        _maxLedge = _maxLedge + max - preSize;
+
+        if (_maxLedge != 0) {
+            _maxLedge = _maxLedge + max - preSize;
+            _ledge[IIViewDeckLeftSide] = MIN(_maxLedge, _ledge[IIViewDeckLeftSide]);
+            _ledge[IIViewDeckRightSide] = MIN(_maxLedge, _ledge[IIViewDeckRightSide]);
+            _ledge[IIViewDeckTopSide] = MIN(_maxLedge, _ledge[IIViewDeckTopSide]);
+            _ledge[IIViewDeckBottomSide] = MIN(_maxLedge, _ledge[IIViewDeckBottomSide]);
+        }
     }
     else {
         if (offset > 0) {

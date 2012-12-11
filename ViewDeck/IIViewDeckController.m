@@ -418,7 +418,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (CGRect)referenceBounds {
-    return self.referenceView.bounds;
+    return self.referenceView
+        ? self.referenceView.bounds
+        : [[UIScreen mainScreen] bounds];
 }
 
 - (CGFloat)relativeStatusBarHeight {

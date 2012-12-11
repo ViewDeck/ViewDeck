@@ -920,7 +920,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationSize.width;
         _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckTopSide] + self.referenceBounds.size.height - _preRotationSize.height;
         _ledge[IIViewDeckBottomSide] = _ledge[IIViewDeckBottomSide] + self.referenceBounds.size.height - _preRotationSize.height;
-        _maxLedge = _maxLedge + max - preSize;
+        if (!UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+            _maxLedge + max - preSize;
     }
     else {
         if (offset > 0) {

@@ -89,6 +89,9 @@ typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller);
 @property (nonatomic) IIViewDeckRotationBehavior rotationBehavior;
 @property (nonatomic) BOOL automaticallyUpdateTabBarItems;
 
+@property (nonatomic) BOOL disableLeftOpeningGesture;
+@property (nonatomic) BOOL disableRightOpeningGesture;
+
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
 - (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController;

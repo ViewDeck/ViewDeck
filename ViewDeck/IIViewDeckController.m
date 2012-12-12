@@ -208,6 +208,9 @@ __typeof__(h) __h = (h);                                    \
 @synthesize elastic = _elastic;
 @synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
 @synthesize panningGestureDelegate = _panningGestureDelegate;
+@synthesize disableLeftOpeningGesture = _disableLeftOpeningGesture;
+@synthesize disableRightOpeningGesture = _disableRightOpeningGesture;
+
 
 #pragma mark - Initalisation and deallocation
 
@@ -246,6 +249,9 @@ __typeof__(h) __h = (h);                                    \
         self.rightController = nil;
         self.leftLedge = 44;
         self.rightLedge = 44;
+        
+        _disableLeftOpeningGesture = NO;
+        _disableRightOpeningGesture = NO;
     }
     return self;
 }
@@ -1318,12 +1324,12 @@ __typeof__(h) __h = (h);                                    \
     BOOL ok =  YES;
 
     if (x > 0) {
-        ok = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
+        ok = !self.disableLeftOpeningGesture && [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
         if (!ok)
             [self closeLeftViewAnimated:NO];
     }
     else if (x < 0) {
-        ok = [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
+        ok = !self.disableRightOpeningGesture && [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
         if (!ok)
             [self closeRightViewAnimated:NO];
     }
@@ -1399,7 +1405,7 @@ __typeof__(h) __h = (h);                                    \
         }
 
         if (x > 0) {
-            BOOL canOpen = [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
+            BOOL canOpen = !self.disableLeftOpeningGesture && [self checkDelegate:@selector(viewDeckControllerWillOpenLeftView:animated:) animated:NO];
             didOpenSelector = @selector(viewDeckControllerDidOpenLeftView:animated:);
             if (!canOpen) {
                 [self closeRightViewAnimated:NO];
@@ -1417,7 +1423,7 @@ __typeof__(h) __h = (h);                                    \
         }
 
         if (x < 0) {
-            BOOL canOpen = [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
+            BOOL canOpen = !self.disableRightOpeningGesture && [self checkDelegate:@selector(viewDeckControllerWillOpenRightView:animated:) animated:NO];
             didOpenSelector = @selector(viewDeckControllerDidOpenRightView:animated:);
             if (!canOpen) {
                 [self closeLeftViewAnimated:NO];

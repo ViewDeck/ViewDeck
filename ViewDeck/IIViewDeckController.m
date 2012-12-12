@@ -418,7 +418,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (CGRect)referenceBounds {
-    return self.referenceView.bounds;
+    return self.referenceView
+        ? self.referenceView.bounds
+        : [[UIScreen mainScreen] bounds];
 }
 
 - (CGFloat)relativeStatusBarHeight {
@@ -536,7 +538,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)setSize:(CGFloat)size forSide:(IIViewDeckSide)side completion:(void(^)(BOOL finished))completion {
     // we store ledge sizes internally but allow size to be specified depending on size mode.
-    CGFloat ledge = [self sizeAsLedge:size];
+    CGFloat ledge = [self sizeAsLedge:size forSide:side];
     
     CGFloat minLedge;
     CGFloat(^offsetter)(CGFloat ledge);
@@ -588,7 +590,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (CGFloat)sizeForSide:(IIViewDeckSide)side {
-    return [self ledgeAsSize:_ledge[side]];
+    return [self ledgeAsSize:_ledge[side] forSide:side];
 }
 
 #pragma mark left size
@@ -605,6 +607,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return [self sizeForSide:IIViewDeckLeftSide];
 }
 
+- (CGFloat)leftViewSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckLeftSide] mode:IIViewDeckViewSizeMode forSide:IIViewDeckLeftSide];
+}
+
+- (CGFloat)leftLedgeSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckLeftSide] mode:IIViewDeckLedgeSizeMode forSide:IIViewDeckLeftSide];
+}
+
 #pragma mark right size
 
 - (void)setRightSize:(CGFloat)rightSize {
@@ -618,6 +628,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (CGFloat)rightSize {
     return [self sizeForSide:IIViewDeckRightSide];
 }
+
+- (CGFloat)rightViewSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckRightSide] mode:IIViewDeckViewSizeMode forSide:IIViewDeckRightSide];
+}
+
+- (CGFloat)rightLedgeSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckRightSide] mode:IIViewDeckLedgeSizeMode forSide:IIViewDeckRightSide];
+}
+
 
 #pragma mark top size
 
@@ -633,6 +652,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return [self sizeForSide:IIViewDeckTopSide];
 }
 
+- (CGFloat)topViewSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckTopSide] mode:IIViewDeckViewSizeMode forSide:IIViewDeckTopSide];
+}
+
+- (CGFloat)topLedgeSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckTopSide] mode:IIViewDeckLedgeSizeMode forSide:IIViewDeckTopSide];
+}
+
+
 #pragma mark Bottom size
 
 - (void)setBottomSize:(CGFloat)bottomSize {
@@ -646,6 +674,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (CGFloat)bottomSize {
     return [self sizeForSide:IIViewDeckBottomSide];
 }
+
+- (CGFloat)bottomViewSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckBottomSide] mode:IIViewDeckViewSizeMode forSide:IIViewDeckBottomSide];
+}
+
+- (CGFloat)bottomLedgeSize {
+    return [self ledgeAsSize:_ledge[IIViewDeckBottomSide] mode:IIViewDeckLedgeSizeMode forSide:IIViewDeckBottomSide];
+}
+
 
 #pragma mark max size
 
@@ -671,21 +708,28 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (CGFloat)maxSize {
-    return [self ledgeAsSize:_maxLedge];
+    return _maxLedge;
 }
 
-- (CGFloat)sizeAsLedge:(CGFloat)size {
+- (CGFloat)sizeAsLedge:(CGFloat)size forSide:(IIViewDeckSide)side {
     if (_sizeMode == IIViewDeckLedgeSizeMode)
         return size;
-    else
-        return self.referenceBounds.size.width - size;
+    else {
+        return ((side == IIViewDeckLeftSide || side == IIViewDeckRightSide)
+                ? self.referenceBounds.size.width : self.referenceBounds.size.height) - size;
+    }
 }
 
-- (CGFloat)ledgeAsSize:(CGFloat)ledge {
-    if (_sizeMode == IIViewDeckLedgeSizeMode)
+- (CGFloat)ledgeAsSize:(CGFloat)ledge forSide:(IIViewDeckSide)side {
+    return [self ledgeAsSize:ledge mode:_sizeMode forSide:side];
+}
+
+- (CGFloat)ledgeAsSize:(CGFloat)ledge mode:(IIViewDeckSizeMode)mode forSide:(IIViewDeckSide)side {
+    if (mode == IIViewDeckLedgeSizeMode)
         return ledge;
     else
-        return self.referenceBounds.size.width - ledge;
+        return ((side == IIViewDeckLeftSide || side == IIViewDeckRightSide)
+                ? self.referenceBounds.size.width : self.referenceBounds.size.height) - ledge;
 }
 
 #pragma mark - View lifecycle
@@ -920,8 +964,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationSize.width;
         _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckTopSide] + self.referenceBounds.size.height - _preRotationSize.height;
         _ledge[IIViewDeckBottomSide] = _ledge[IIViewDeckBottomSide] + self.referenceBounds.size.height - _preRotationSize.height;
-        if (!UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-            _maxLedge + max - preSize;
+
+        if (_maxLedge != 0) {
+            _maxLedge = _maxLedge + max - preSize;
+            _ledge[IIViewDeckLeftSide] = MIN(_maxLedge, _ledge[IIViewDeckLeftSide]);
+            _ledge[IIViewDeckRightSide] = MIN(_maxLedge, _ledge[IIViewDeckRightSide]);
+            _ledge[IIViewDeckTopSide] = MIN(_maxLedge, _ledge[IIViewDeckTopSide]);
+            _ledge[IIViewDeckBottomSide] = MIN(_maxLedge, _ledge[IIViewDeckBottomSide]);
+        }
     }
     else {
         if (offset > 0) {

@@ -121,9 +121,17 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign, getter=isElastic) BOOL elastic;
 
 @property (nonatomic, assign) CGFloat leftSize;
+@property (nonatomic, assign, readonly) CGFloat leftViewSize;
+@property (nonatomic, assign, readonly) CGFloat leftLedgeSize;
 @property (nonatomic, assign) CGFloat rightSize;
+@property (nonatomic, assign, readonly) CGFloat rightViewSize;
+@property (nonatomic, assign, readonly) CGFloat rightLedgeSize;
 @property (nonatomic, assign) CGFloat topSize;
+@property (nonatomic, assign, readonly) CGFloat topViewSize;
+@property (nonatomic, assign, readonly) CGFloat topLedgeSize;
 @property (nonatomic, assign) CGFloat bottomSize;
+@property (nonatomic, assign, readonly) CGFloat bottomViewSize;
+@property (nonatomic, assign, readonly) CGFloat bottomLedgeSize;
 @property (nonatomic, assign) CGFloat maxSize;
 @property (nonatomic, assign) BOOL resizesCenterView;
 @property (nonatomic, assign) IIViewDeckPanningMode panningMode;

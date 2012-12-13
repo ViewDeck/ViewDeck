@@ -2512,7 +2512,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
-    }    
+        
+        if ([self isAnySideOpen]) {
+            [self centerViewHidden];
+        }
+
+    }
 }
 
 - (void)setAutomaticallyUpdateTabBarItems:(BOOL)automaticallyUpdateTabBarItems {

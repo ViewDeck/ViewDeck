@@ -945,12 +945,19 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         return;
     
     CGFloat offset, max, preSize;
+    IIViewDeckSide adjustOffset = IIViewDeckNoSide;
     if (_offsetOrientation == IIViewDeckVerticalOrientation) {
         offset = self.slidingControllerView.frame.origin.y;
         max = self.referenceBounds.size.height;
         preSize = _preRotationSize.height;
         if (self.resizesCenterView && II_FLOAT_EQUAL(offset, 0)) {
             offset = offset + (_preRotationCenterSize.height - _preRotationSize.height);
+        }
+        if (!II_FLOAT_EQUAL(offset, 0)) {
+            if (II_FLOAT_EQUAL(offset, preSize - _ledge[IIViewDeckTopSide]))
+                adjustOffset = IIViewDeckTopSide;
+            else if (II_FLOAT_EQUAL(offset, _ledge[IIViewDeckBottomSide] - preSize))
+                adjustOffset = IIViewDeckBottomSide;
         }
     }
     else {
@@ -959,6 +966,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         preSize = _preRotationSize.width;
         if (self.resizesCenterView && II_FLOAT_EQUAL(offset, 0)) {
             offset = offset + (_preRotationCenterSize.width - _preRotationSize.width);
+        }
+        if (!II_FLOAT_EQUAL(offset, 0)) {
+            if (II_FLOAT_EQUAL(offset, preSize - _ledge[IIViewDeckLeftSide]))
+                adjustOffset = IIViewDeckLeftSide;
+            else if (II_FLOAT_EQUAL(offset, _ledge[IIViewDeckRightSide] - preSize))
+                adjustOffset = IIViewDeckRightSide;
         }
     }
     
@@ -978,6 +991,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         else if (offset < 0) {
             offset = offset + preSize - max;
         }
+    }
+    
+    switch (adjustOffset) {
+        case IIViewDeckLeftSide:
+            offset = self.referenceBounds.size.width - _ledge[adjustOffset];
+            break;
+
+        case IIViewDeckRightSide:
+            offset = _ledge[adjustOffset] - self.referenceBounds.size.width;
+            break;
+
+        case IIViewDeckTopSide:
+            offset = self.referenceBounds.size.height - _ledge[adjustOffset];
+            break;
+
+        case IIViewDeckBottomSide:
+            offset = _ledge[adjustOffset] - self.referenceBounds.size.height;
+            break;
+
+        default:
+            break;
     }
     [self setSlidingFrameForOffset:offset forOrientation:_offsetOrientation];
     

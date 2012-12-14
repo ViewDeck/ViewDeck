@@ -182,7 +182,19 @@
     return [self.wrappedController shouldAutorotate];
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    return [self.wrappedController supportedInterfaceOrientations];
+}
+
 - (BOOL)automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers {
+    return NO;
+}
+
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods {
+    return NO;
+}
+
+- (BOOL)shouldAutomaticallyForwardRotationMethods {
     return NO;
 }
 

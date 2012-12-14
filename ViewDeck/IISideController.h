@@ -10,6 +10,8 @@
 
 @interface IISideController : IIWrapController
 
+@property (nonatomic, assign) BOOL animatedShrink; // if the shrink action should participate in any ongoing animation. Defaults to NO.
+
 - (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
 
 @end

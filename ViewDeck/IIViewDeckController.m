@@ -906,12 +906,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self arrangeViewsAfterRotation];
     
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
-    
-    [self arrangeViewsAfterRotation];
 }
 
 

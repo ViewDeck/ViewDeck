@@ -414,6 +414,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (self.centerController) [result addObject:self.centerController];
     if (self.leftController) [result addObject:self.leftController];
     if (self.rightController) [result addObject:self.rightController];
+    if (self.topController) [result addObject:self.topController];
+    if (self.bottomController) [result addObject:self.bottomController];
     return [NSArray arrayWithArray:result];
 }
 

@@ -588,7 +588,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             } completion:completion];
         }
     }
-    _ledge[side] = ledge;
+    
+    [self setLedgeValue:ledge forSide:side];
 }
 
 - (CGFloat)sizeForSide:(IIViewDeckSide)side {
@@ -702,6 +703,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     [self doForControllers:^(UIViewController* controller, IIViewDeckSide side) {
         if (controller) {
+            _maxLedge = [self sizeAsLedge:maxSize forSide:side];
             if (_ledge[side] > _maxLedge)
                 [self setSize:maxSize forSide:side completion:completion];
             [self setSlidingFrameForOffset:_offset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)]; // should be animated
@@ -961,18 +963,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     if (self.sizeMode != IIViewDeckLedgeSizeMode) {
-        _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckLeftSide] + self.referenceBounds.size.width - _preRotationSize.width;
-        _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationSize.width;
-        _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckTopSide] + self.referenceBounds.size.height - _preRotationSize.height;
-        _ledge[IIViewDeckBottomSide] = _ledge[IIViewDeckBottomSide] + self.referenceBounds.size.height - _preRotationSize.height;
-
-        if (_maxLedge != 0) {
+        if (_maxLedge != 0)
             _maxLedge = _maxLedge + max - preSize;
-            _ledge[IIViewDeckLeftSide] = MIN(_maxLedge, _ledge[IIViewDeckLeftSide]);
-            _ledge[IIViewDeckRightSide] = MIN(_maxLedge, _ledge[IIViewDeckRightSide]);
-            _ledge[IIViewDeckTopSide] = MIN(_maxLedge, _ledge[IIViewDeckTopSide]);
-            _ledge[IIViewDeckBottomSide] = MIN(_maxLedge, _ledge[IIViewDeckBottomSide]);
-        }
+
+        [self setLedgeValue:_ledge[IIViewDeckLeftSide] + self.referenceBounds.size.width - _preRotationSize.width forSide:IIViewDeckLeftSide];
+        [self setLedgeValue:_ledge[IIViewDeckRightSide] + self.referenceBounds.size.width - _preRotationSize.width forSide:IIViewDeckRightSide];
+        [self setLedgeValue:_ledge[IIViewDeckTopSide] + self.referenceBounds.size.height - _preRotationSize.height forSide:IIViewDeckTopSide];
+        [self setLedgeValue:_ledge[IIViewDeckBottomSide] + self.referenceBounds.size.height - _preRotationSize.height forSide:IIViewDeckBottomSide];
     }
     else {
         if (offset > 0) {
@@ -985,6 +982,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self setSlidingFrameForOffset:offset forOrientation:_offsetOrientation];
     
     _preRotationSize = CGSizeZero;
+}
+
+- (void)setLedgeValue:(CGFloat)ledge forSide:(IIViewDeckSide)side {
+    if (_maxLedge > 0)
+        ledge = MIN(_maxLedge, ledge);
+
+    _ledge[side] = [self performDelegate:@selector(viewDeckController:changesLedge:forSide:) ledge:ledge side:side];
 }
 
 #pragma mark - Notify
@@ -2257,6 +2261,30 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 objc_msgSendTyped(topController, selector, self, viewDeckSide, controller);
         }
     }
+}
+
+- (CGFloat)performDelegate:(SEL)selector ledge:(CGFloat)ledge side:(IIViewDeckSide)side {
+    CGFloat (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, CGFloat ledge, IIViewDeckSide side) = (void*)objc_msgSend;
+    if (self.delegate && [self.delegate respondsToSelector:selector])
+        ledge = objc_msgSendTyped(self.delegate, selector, self, ledge, side);
+    
+    if (_delegateMode == IIViewDeckDelegateOnly)
+        return ledge;
+    
+    for (UIViewController* controller in self.controllers) {
+        // check controller first
+        if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate)
+            ledge = objc_msgSendTyped(controller, selector, self, ledge, side);
+        
+        // if that fails, check if it's a navigation controller and use the top controller
+        else if ([controller isKindOfClass:[UINavigationController class]]) {
+            UIViewController* topController = ((UINavigationController*)controller).topViewController;
+            if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
+                ledge = objc_msgSendTyped(topController, selector, self, ledge, side);
+        }
+    }
+    
+    return ledge;
 }
 
 - (void)performDelegate:(SEL)selector offset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning {

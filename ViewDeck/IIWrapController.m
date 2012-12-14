@@ -220,6 +220,16 @@
     [self.wrappedController didReceiveMemoryWarning];
 }
 
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    if ([self.wrappedController respondsToSelector:aSelector]) return self.wrappedController;
+    return nil;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    if ([super respondsToSelector:aSelector]) return YES;
+    return [self.wrappedController respondsToSelector:aSelector];
+}
+
 @end
 
 @implementation UIViewController (WrapControllerItem) 
@@ -253,6 +263,7 @@ static const char* wrapControllerKey = "WrapController";
     UIViewController* controller = self.wrapController_core ? self.wrapController_core : self;
     return [controller wc_navigationItem]; // when we get here, the wc_ method is actually the old, real method
 }
+
 
 + (void)wc_swizzle {
     SEL nc = @selector(navigationController);

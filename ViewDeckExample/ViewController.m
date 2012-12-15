@@ -39,9 +39,19 @@
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
     
+    if ([self.navigationItem respondsToSelector:@selector(leftBarButtonItems)]) {
+        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:
+                                                  [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)],
+                                                  [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStyleBordered target:self action:@selector(previewBounceLeftView)],
+                                                  nil];
+    } else {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+    }
+    
     if ([self.navigationItem respondsToSelector:@selector(rightBarButtonItems)]) {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
                                                    [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleRightView)],
+                                                   [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStyleBordered target:self action:@selector(previewBounceRightView)],
                                                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCam:)],
                                                    nil];
     }
@@ -81,6 +91,22 @@
 {
     // Return YES for supported orientations
     return YES;
+}
+
+- (void)previewBounceLeftView {
+    [self.viewDeckController previewBounceView:IIViewDeckLeftSide];
+}
+
+- (void)previewBounceRightView {
+    [self.viewDeckController previewBounceView:IIViewDeckRightSide];
+}
+
+- (void)previewBounceTopView {
+    [self.viewDeckController previewBounceView:IIViewDeckTopSide];
+}
+
+- (void)previewBounceBottomView {
+    [self.viewDeckController previewBounceView:IIViewDeckBottomSide];
 }
 
 - (void)showCam:(id)sender {

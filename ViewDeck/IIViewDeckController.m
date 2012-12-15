@@ -178,6 +178,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)arrangeViewsAfterRotation;
 - (CGFloat)relativeStatusBarHeight;
 
+- (NSArray *)bouncingValuesForViewSide:(IIViewDeckSide)viewSide maximumBounce:(CGFloat)maxBounce numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration;
+
 - (void)centerViewVisible;
 - (void)centerViewHidden;
 - (void)centerTapped;
@@ -1696,6 +1698,135 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return [self closeSideView:IIViewDeckBottomSide bounceOffset:-self.referenceBounds.size.height bounced:bounced completion:completed];
 }
 
+#pragma mark - Side Bouncing
+
+- (BOOL)previewBounceView:(IIViewDeckSide)viewDeckSide {
+    return [self previewBounceView:viewDeckSide withCompletion:nil];
+}
+
+- (BOOL)previewBounceView:(IIViewDeckSide)viewDeckSide withCompletion:(IIViewDeckControllerBlock)completed {
+    return [self previewBounceView:viewDeckSide toDistance:40.0f duration:1.2f callDelegate:YES completion:completed];
+}
+
+- (BOOL)previewBounceView:(IIViewDeckSide)viewDeckSide toDistance:(CGFloat)distance duration:(NSTimeInterval)duration callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    return [self previewBounceView:viewDeckSide toDistance:distance duration:duration numberOfBounces:4.0f dampingFactor:0.40f callDelegate:callDelegate completion:completed];
+}
+
+- (BOOL)previewBounceView:(IIViewDeckSide)viewDeckSide toDistance:(CGFloat)distance duration:(NSTimeInterval)duration numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta callDelegate:(BOOL)callDelegate completion:(IIViewDeckControllerBlock)completed {
+    // Check if the requested side to bounce is nil, or if it's already open
+    if (![self controllerForSide:viewDeckSide] || [self isSideOpen:viewDeckSide]) return NO;
+    
+    // check the delegate to allow bouncing
+    if (callDelegate && ![self checkDelegate:@selector(viewDeckController:shouldPreviewBounceViewSide:) side:viewDeckSide]) return NO;
+    // also close any view that's open. Since the delegate can cancel the close, check the result.
+    if (callDelegate && [self isAnySideOpen]) {
+        if (![self toggleOpenViewAnimated:YES]) return NO;
+    }
+    // check for in-flight preview bounce animation, do not add another if so
+    if ([self.slidingControllerView.layer animationForKey:@"previewBounceAnimation"]) {
+        return NO;
+    }
+    
+    NSArray *animationValues = [self bouncingValuesForViewSide:viewDeckSide maximumBounce:distance numberOfBounces:numberOfBounces dampingFactor:zeta duration:duration];
+    if (!animationValues) {
+        return NO;
+    }
+    
+    UIViewController *previewController = [self controllerForSide:viewDeckSide];
+    
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    animation.duration = duration;
+    animation.values = animationValues;
+    animation.removedOnCompletion = YES;
+    
+    previewController.view.hidden = NO;
+    
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:duration] forKey:kCATransactionAnimationDuration];
+    [CATransaction setCompletionBlock:^{
+        // only re-hide controller if the view has not been panned mid-animation
+        if (_offset == 0.0f) {
+            previewController.view.hidden = YES;
+        }
+        
+        // perform completion and delegate call
+        if (completed) completed(self, YES);
+        if (callDelegate) [self performDelegate:@selector(viewDeckController:didPreviewBounceViewSide:) side:viewDeckSide animated:YES];
+    }];
+    [self.slidingControllerView.layer addAnimation:animation forKey:@"previewBounceAnimation"];
+    
+    // Inform delegate
+    if (callDelegate) [self performDelegate:@selector(viewDeckController:willPreviewBounceViewSide:animated:) side:viewDeckSide animated:YES];
+    
+    // Commit animation
+    [CATransaction commit];
+    
+    return YES;
+}
+
+- (NSArray *)bouncingValuesForViewSide:(IIViewDeckSide)viewDeckSide maximumBounce:(CGFloat)maxBounce numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration {
+    
+    // Underdamped, Free Vibration of a SDOF System
+    // u(t) = abs(e^(-zeta * wn * t) * ((Vo/wd) * sin(wd * t))
+    
+    // Vo, initial velocity, is calculated to provide the desired maxBounce and
+    // animation duration. The damped period (wd) and distance of the maximum (first)
+    // bounce can be controlled either via the initial condition Vo or the damping
+    // factor zeta for a desired duration, Vo is simpler mathematically.
+    
+    NSUInteger steps = (NSUInteger)MIN(floorf(duration * 100.0f), 100);
+    float time = 0.0;
+    
+    NSMutableArray *values = [NSMutableArray arrayWithCapacity:steps];
+    
+    double offset = 0.0;
+    float Td = (2.0f * duration) / numberOfBounces; //Damped period, calculated to give the number of bounces desired in the duration specified (2 bounces per Td)
+    float wd = (2.0f * M_PI)/Td; // Damped frequency
+    zeta = MIN(MAX(0.0001f, zeta), 0.9999f); // For an underdamped system, we must have 0 < zeta < 1
+    float zetaFactor = sqrtf(1 - powf(zeta, 2.0f)); // Used in multiple places
+    float wn = wd/zetaFactor; // Natural frequency
+    float Vo = maxBounce * wd/(expf(-zeta/zetaFactor * (0.18f * Td) * wd) * sinf(0.18f * Td * wd));
+    
+    // Determine parameters based on direction
+    CGFloat position = 0.0f;
+    NSInteger direction = 1;
+    switch (viewDeckSide) {
+        case IIViewDeckLeftSide:
+            position = self.slidingControllerView.layer.position.x;
+            direction = 1;
+            break;
+            
+        case IIViewDeckRightSide:
+            position = self.slidingControllerView.layer.position.x;
+            direction = -1;
+            break;
+        
+        case IIViewDeckTopSide:
+            position = self.slidingControllerView.layer.position.y;
+            direction = 1;
+            break;
+            
+        case IIViewDeckBottomSide:
+            position = self.slidingControllerView.layer.position.y;
+            direction = -1;
+            break;
+            
+        default:
+            return nil;
+            break;
+    }
+    
+    // Calculate steps
+    for (int t = 0; t < steps; t++) {
+        time = (t / (float)steps) * duration;
+        offset = abs(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
+        offset = direction * [self limitOffset:offset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(viewDeckSide)] + position;
+        [values addObject:[NSNumber numberWithFloat:offset]];
+    }
+    
+    return values;
+}
 
 #pragma mark - toggling open view
 

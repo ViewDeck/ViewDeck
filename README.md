@@ -122,18 +122,6 @@ The controller supports "elasticity": when you pan the center view "over" one of
 
 Of course, you can turn this behavior off. Just set `elasticity = NO` when loading the controller and you're set.
 
-## rotation
-
-The controller fully supports view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed.
-When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `rotationBehavior` property. You can use one of the following values:
-
-    typedef enum {
-        IIViewDeckRotationKeepsLedgeSizes, // when rotating, the ledge sizes are kept (side views are more/less visible)
-        IIViewDeckRotationKeepsViewSizes  // when rotating, the size view sizes are kept (ledges change)
-    } IIViewDeckRotationBehavior;
-
-The default is `IIViewDeckRotationKeepsLedgeSizes`, which keeps the sizes of the defined ledges the same when rotating.
-
 ## panning
 
 It is possible to control the panning behavior a bit. Set the `panningMode` on the controller to achieve 3 different modes:

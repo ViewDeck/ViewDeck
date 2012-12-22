@@ -173,7 +173,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)hideAppropriateSideViews;
 
 - (BOOL)setSlidingAndReferenceViews;
-- (void)applyShadowToSlidingView;
+- (void)applyShadowToSlidingViewAnimated:(BOOL)animated;
 - (void)restoreShadowToSlidingView;
 - (void)arrangeViewsAfterRotation;
 - (CGFloat)relativeStatusBarHeight;
@@ -819,7 +819,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             }];
             
-            [self applyShadowToSlidingView];
+            [self applyShadowToSlidingViewAnimated:NO];
         };
         
         if ([self setSlidingAndReferenceViews]) {
@@ -960,7 +960,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self applyShadowToSlidingView];
+    [self applyShadowToSlidingViewAnimated:YES];
     
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
@@ -2033,27 +2033,29 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     self.centerTapper = nil;
     [self addPanners];
+    [self applyShadowToSlidingViewAnimated:YES];
 }
 
 - (void)centerViewHidden {
-    if (IIViewDeckCenterHiddenIsInteractive(self.centerhiddenInteractivity)) 
-        return;
-    
-    [self removePanners];
-    if (!self.centerTapper) {
-        self.centerTapper = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.centerTapper setBackgroundImage:nil forState:UIControlStateNormal];
-        [self.centerTapper setBackgroundImage:nil forState:UIControlStateHighlighted];
-        [self.centerTapper setBackgroundImage:nil forState:UIControlStateDisabled];
-        self.centerTapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    if (!IIViewDeckCenterHiddenIsInteractive(self.centerhiddenInteractivity)) {
+        [self removePanners];
+        if (!self.centerTapper) {
+            self.centerTapper = [UIButton buttonWithType:UIButtonTypeCustom];
+            [self.centerTapper setBackgroundImage:nil forState:UIControlStateNormal];
+            [self.centerTapper setBackgroundImage:nil forState:UIControlStateHighlighted];
+            [self.centerTapper setBackgroundImage:nil forState:UIControlStateDisabled];
+            self.centerTapper.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            self.centerTapper.frame = [self.centerView bounds];
+            [self.centerTapper addTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];
+            self.centerTapper.backgroundColor = [UIColor clearColor];
+        }
+        [self.centerView addSubview:self.centerTapper];
         self.centerTapper.frame = [self.centerView bounds];
-        [self.centerTapper addTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];
-        self.centerTapper.backgroundColor = [UIColor clearColor];
+        
+        [self addPanners];
     }
-    [self.centerView addSubview:self.centerTapper];
-    self.centerTapper.frame = [self.centerView bounds];
-
-    [self addPanners];
+    
+    [self applyShadowToSlidingViewAnimated:YES];
 }
 
 - (void)centerTapped {
@@ -2683,7 +2685,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 navController.navigationBarHidden = NO;
             
             [self addPanners];
-            [self applyShadowToSlidingView];
+            [self applyShadowToSlidingViewAnimated:NO];
             [controller viewDidAppear:NO];
         };
     }
@@ -2841,7 +2843,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     shadowedView.layer.shadowPath = [self.originalShadowPath CGPath];
 }
 
-- (void)applyShadowToSlidingView {
+- (void)applyShadowToSlidingViewAnimated:(BOOL)animated {
     UIView* shadowedView = self.slidingControllerView;
     if (!shadowedView) return;
     
@@ -2855,12 +2857,19 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self.delegate viewDeckController:self applyShadow:shadowedView.layer withBounds:self.referenceBounds];
     }
     else {
+        UIBezierPath* newShadowPath = [UIBezierPath bezierPathWithRect:shadowedView.bounds];
+        CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+        anim.fromValue = (__bridge id)shadowedView.layer.shadowPath;
+        anim.toValue = newShadowPath;
+        anim.duration = MIN(self.closeSlideAnimationDuration, self.openSlideAnimationDuration);
+        [shadowedView.layer addAnimation:anim forKey:@"animateShadowPath"];
+        
         shadowedView.layer.masksToBounds = NO;
         shadowedView.layer.shadowRadius = 10;
         shadowedView.layer.shadowOpacity = 0.5;
         shadowedView.layer.shadowColor = [[UIColor blackColor] CGColor];
         shadowedView.layer.shadowOffset = CGSizeZero;
-        shadowedView.layer.shadowPath = [[UIBezierPath bezierPathWithRect:shadowedView.bounds] CGPath];
+        shadowedView.layer.shadowPath = [newShadowPath CGPath];
     }
 }
 

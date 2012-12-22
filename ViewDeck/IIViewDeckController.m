@@ -890,7 +890,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (BOOL)shouldAutorotate {
     _preRotationSize = self.referenceBounds.size;
-    NSLog(@"pre rotation size: %@", NSStringFromCGSize(_preRotationSize));
     _preRotationCenterSize = self.centerView.bounds.size;
     _willAppearShouldArrangeViewsAfterRotation = self.interfaceOrientation;
     
@@ -919,7 +918,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationSize = self.referenceBounds.size;
-    NSLog(@"pre rotation size sati: %@", NSStringFromCGSize(_preRotationSize));
     _preRotationCenterSize = self.centerView.bounds.size;
     _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
     _willAppearShouldArrangeViewsAfterRotation = interfaceOrientation;
@@ -948,7 +946,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (_preRotationSize.width == 0) {
         _preRotationSize = self.referenceBounds.size;
-        NSLog(@"pre rotation size wrti: %@", NSStringFromCGSize(_preRotationSize));
         _preRotationCenterSize = self.centerView.bounds.size;
         _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
     }

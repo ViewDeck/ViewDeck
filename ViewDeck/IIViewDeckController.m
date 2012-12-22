@@ -275,6 +275,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super initWithNibName:nil bundle:nil])) {
         _elastic = YES;
+        _willAppearShouldArrangeViewsAfterRotation = UIDeviceOrientationUnknown;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
@@ -840,6 +841,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         else
             [self centerViewHidden];
     }
+    else if (_willAppearShouldArrangeViewsAfterRotation != UIDeviceOrientationUnknown) {
+        for (NSString* key in [self.view.layer animationKeys]) {
+            NSLog(@"%@ %f", [self.view.layer animationForKey:key], [self.view.layer animationForKey:key].duration);
+        }
+        
+        [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+        [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation duration:0];
+        [self didRotateFromInterfaceOrientation:_willAppearShouldArrangeViewsAfterRotation];
+    }
     
     [self.centerController viewWillAppear:animated];
     [self transitionAppearanceFrom:0 to:1 animated:animated];
@@ -880,8 +890,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (BOOL)shouldAutorotate {
     _preRotationSize = self.referenceBounds.size;
+    NSLog(@"pre rotation size: %@", NSStringFromCGSize(_preRotationSize));
     _preRotationCenterSize = self.centerView.bounds.size;
+    _willAppearShouldArrangeViewsAfterRotation = self.interfaceOrientation;
     
+    // give other controllers a chance to act on it too
+    [self relayRotationMethod:^(UIViewController *controller) {
+        [controller shouldAutorotate];
+    }];
+
     return !self.centerController || [self.centerController shouldAutorotate];
 }
 
@@ -902,9 +919,16 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationSize = self.referenceBounds.size;
+    NSLog(@"pre rotation size sati: %@", NSStringFromCGSize(_preRotationSize));
     _preRotationCenterSize = self.centerView.bounds.size;
     _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    _willAppearShouldArrangeViewsAfterRotation = interfaceOrientation;
     
+    // give other controllers a chance to act on it too
+    [self relayRotationMethod:^(UIViewController *controller) {
+        [controller shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    }];
+
     return !self.centerController || [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
@@ -922,9 +946,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self restoreShadowToSlidingView];
     
-    _preRotationSize = self.referenceBounds.size;
-    _preRotationCenterSize = self.centerView.bounds.size;
-    _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    if (_preRotationSize.width == 0) {
+        _preRotationSize = self.referenceBounds.size;
+        NSLog(@"pre rotation size wrti: %@", NSStringFromCGSize(_preRotationSize));
+        _preRotationCenterSize = self.centerView.bounds.size;
+        _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    }
     
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -943,9 +970,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)arrangeViewsAfterRotation {
     if (_preRotationSize.width <= 0 || _preRotationSize.height <= 0) return;
     
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) == _preRotationIsLandscape)
-        return;
-    
+//    BOOL landscapeToLandscape = _willAppearShouldArrangeViewsAfterRotation != UIDeviceOrientationUnknown && UIInterfaceOrientationIsLandscape(self.interfaceOrientation) == _preRotationIsLandscape;
+    _willAppearShouldArrangeViewsAfterRotation = UIDeviceOrientationUnknown;
+//    if (landscapeToLandscape)
+//        return;
+//    
     CGFloat offset, max, preSize;
     IIViewDeckSide adjustOffset = IIViewDeckNoSide;
     if (_offsetOrientation == IIViewDeckVerticalOrientation) {
@@ -1193,9 +1222,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     [self doForControllers:^(UIViewController *controller, IIViewDeckSide side) {
-        if (from < to && _sideAppeared[side] <= from)
+        if (from < to && _sideAppeared[side] < from)
             return;
-        else if (from > to && _sideAppeared[side] >= from)
+        else if (from > to && _sideAppeared[side] > from)
             return;
         
         if (selector && controller) {

@@ -275,7 +275,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super initWithNibName:nil bundle:nil])) {
         _elastic = YES;
-        _willAppearShouldArrangeViewsAfterRotation = UIDeviceOrientationUnknown;
+        _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
         _panningMode = IIViewDeckFullViewPanning;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
@@ -965,13 +965,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)arrangeViewsAfterRotation {
+    _willAppearShouldArrangeViewsAfterRotation = UIDeviceOrientationUnknown;
     if (_preRotationSize.width <= 0 || _preRotationSize.height <= 0) return;
     
-//    BOOL landscapeToLandscape = _willAppearShouldArrangeViewsAfterRotation != UIDeviceOrientationUnknown && UIInterfaceOrientationIsLandscape(self.interfaceOrientation) == _preRotationIsLandscape;
-    _willAppearShouldArrangeViewsAfterRotation = UIDeviceOrientationUnknown;
-//    if (landscapeToLandscape)
-//        return;
-//    
     CGFloat offset, max, preSize;
     IIViewDeckSide adjustOffset = IIViewDeckNoSide;
     if (_offsetOrientation == IIViewDeckVerticalOrientation) {

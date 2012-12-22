@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20F7C1116866E16001BF2C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20F7C1016866E16001BF2C3 /* QuartzCore.framework */; };
 		E2B3B6C614C2249500FB5956 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B3B6C514C2249500FB5956 /* UIKit.framework */; };
 		E2B3B6C814C2249500FB5956 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B3B6C714C2249500FB5956 /* Foundation.framework */; };
 		E2B3B6CA14C2249500FB5956 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B3B6C914C2249500FB5956 /* CoreGraphics.framework */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E20F7C1016866E16001BF2C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E2B3B6C114C2249500FB5956 /* SizableExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SizableExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B3B6C514C2249500FB5956 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E2B3B6C714C2249500FB5956 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -53,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E20F7C1116866E16001BF2C3 /* QuartzCore.framework in Frameworks */,
 				E2B3B6C614C2249500FB5956 /* UIKit.framework in Frameworks */,
 				E2B3B6C814C2249500FB5956 /* Foundation.framework in Frameworks */,
 				E2B3B6CA14C2249500FB5956 /* CoreGraphics.framework in Frameworks */,
@@ -65,6 +68,7 @@
 		E2B3B6B614C2249500FB5956 = {
 			isa = PBXGroup;
 			children = (
+				E20F7C1016866E16001BF2C3 /* QuartzCore.framework */,
 				E2B3B6CB14C2249500FB5956 /* SizableExample */,
 				E2B3B6C414C2249500FB5956 /* Frameworks */,
 				E2B3B6C214C2249500FB5956 /* Products */,

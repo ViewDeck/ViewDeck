@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20F7C0B16862161001BF2C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20F7C0A16862161001BF2C3 /* QuartzCore.framework */; };
 		E230F0421603F84200C7543B /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E230F0401603F84200C7543B /* IIWrapController.m */; };
 		E26716661556946C00E0C3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26716651556946C00E0C3C0 /* UIKit.framework */; };
 		E26716681556946C00E0C3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26716671556946C00E0C3C0 /* Foundation.framework */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E20F7C0A16862161001BF2C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E230F0401603F84200C7543B /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		E230F0411603F84200C7543B /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		E26716611556946C00E0C3C0 /* MultiViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E20F7C0B16862161001BF2C3 /* QuartzCore.framework in Frameworks */,
 				E26716661556946C00E0C3C0 /* UIKit.framework in Frameworks */,
 				E26716681556946C00E0C3C0 /* Foundation.framework in Frameworks */,
 				E267166A1556946C00E0C3C0 /* CoreGraphics.framework in Frameworks */,
@@ -74,6 +77,7 @@
 		E26716561556946B00E0C3C0 = {
 			isa = PBXGroup;
 			children = (
+				E20F7C0A16862161001BF2C3 /* QuartzCore.framework */,
 				E267166B1556946C00E0C3C0 /* MultiViewDeckExample */,
 				E26716641556946C00E0C3C0 /* Frameworks */,
 				E26716621556946C00E0C3C0 /* Products */,

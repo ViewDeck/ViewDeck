@@ -1222,9 +1222,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     [self doForControllers:^(UIViewController *controller, IIViewDeckSide side) {
-        if (from < to && _sideAppeared[side] < from)
+        if (from < to && _sideAppeared[side] <= from)
             return;
-        else if (from > to && _sideAppeared[side] > from)
+        else if (from > to && _sideAppeared[side] >= from)
             return;
         
         if (selector && controller) {

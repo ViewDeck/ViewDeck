@@ -2065,7 +2065,19 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             else
                 [self closeRightViewBouncing:nil];
         }
+        if (self.bottomController && CGRectGetMinY(self.slidingControllerView.frame) < 0) {
+            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose)
+                [self closeBottomView];
+            else
+                [self closeBottomViewBouncing:nil];
+        }
         
+        if (self.topController && CGRectGetMinY(self.slidingControllerView.frame) > 0) {
+            if (self.centerhiddenInteractivity == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose)
+                [self closeTopView];
+            else
+                [self closeTopViewBouncing:nil];
+        }
     }
 }
 

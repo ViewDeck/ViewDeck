@@ -2868,12 +2868,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     else {
         UIBezierPath* newShadowPath = [UIBezierPath bezierPathWithRect:shadowedView.bounds];
-        CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-        anim.fromValue = (__bridge id)shadowedView.layer.shadowPath;
-        anim.toValue = newShadowPath;
-        anim.duration = MIN(self.closeSlideAnimationDuration, self.openSlideAnimationDuration);
-        [shadowedView.layer addAnimation:anim forKey:@"animateShadowPath"];
-        
         shadowedView.layer.masksToBounds = NO;
         shadowedView.layer.shadowRadius = 10;
         shadowedView.layer.shadowOpacity = 0.5;

@@ -48,7 +48,7 @@ You can also switch view controllers in mid flight. Just assign a viewcontroller
 
     // prepare view controllers
     UIViewController* newController = [[UIViewController alloc] init];
-    self.viewDeckController.leftViewController = newController;
+    self.viewDeckController.leftController = newController;
 
 You can also use this to remove a side controller: just set it to `nil`.
 
@@ -73,7 +73,7 @@ It is possible to have the viewController always show a side controller. You do 
 The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation.
 
 	[self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-		controller.centerViewController = [UIViewController alloc] init];
+		controller.centerController = [UIViewController alloc] init];
 		// ...
     }];
 

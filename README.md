@@ -22,8 +22,9 @@ These are demos of the included `ViewDeckExample` app.
 
 # Installation
 
-Easy as pie: you just add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
-Just add IIViewDeckController.m/h into your project.
+- Add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
+- Link the `QuartzCore.framework`
+- `#import "IIViewDeckController.h"` to use it in a class
 
 # How to use it?
 

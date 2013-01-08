@@ -22,8 +22,9 @@ These are demos of the included `ViewDeckExample` app.
 
 # Installation
 
-Easy as pie: you just add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
-Just add IIViewDeckController.m/h into your project.
+- Add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
+- Link the `QuartzCore.framework`
+- `#import "IIViewDeckController.h"` to use it in a class
 
 # How to use it?
 
@@ -47,7 +48,7 @@ You can also switch view controllers in mid flight. Just assign a viewcontroller
 
     // prepare view controllers
     UIViewController* newController = [[UIViewController alloc] init];
-    self.viewDeckController.leftViewController = newController;
+    self.viewDeckController.leftController = newController;
 
 You can also use this to remove a side controller: just set it to `nil`.
 
@@ -72,7 +73,7 @@ It is possible to have the viewController always show a side controller. You do 
 The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation.
 
 	[self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-		controller.centerViewController = [UIViewController alloc] init];
+		controller.centerController = [UIViewController alloc] init];
 		// ...
     }];
 
@@ -88,14 +89,14 @@ The default speed of both, if not set, is 0.3f.
 ## bounce animation duration
 
 You can set the duration of the bounce animation as a factor (multiple) of the close/openSlideAnimationDurations. To control both the open and close of the bounce, you can simply use:
-    self.viewDeckController.bounceAnimationDurationFactor = 0.5; // Animate at twice the speed (half the duration)
+    self.viewDeckController.bounceDurationFactor = 0.5; // Animate at twice the speed (half the duration)
 
 The default factor is 1.0 if bounceDurationFactor is not set.
 
 For even more control, you can also set the animation duration for the bounce open (the first part of the bounce):
     self.viewDeckController.bounceOpenSideDurationFactor = 0.3f;
 
-If bounceOpenSideDurationFactor is not set, it will fallback to the bounceAnimationDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceAnimationDurationFactor affects only the "close" (2nd half) of the bounce animation.
+If bounceOpenSideDurationFactor is not set, it will fallback to the bounceDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceDurationFactor affects only the "close" (2nd half) of the bounce animation.
 
 ## shadow
 

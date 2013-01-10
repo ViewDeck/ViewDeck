@@ -91,7 +91,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 @private    
     CGPoint _panOrigin;
     UInt32 _viewAppeared;
-    BOOL _viewFirstAppeared, _shouldViewDidAppear;
+    BOOL _viewFirstAppeared;
     UInt32 _sideAppeared[6];
     CGFloat _ledge[5];
     UIViewController* _controllers[6];

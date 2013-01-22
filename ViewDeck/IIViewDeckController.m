@@ -1231,6 +1231,18 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #pragma mark - controller state
 
+-(void)setCenterhiddenInteractivity:(IIViewDeckCenterHiddenInteractivity)centerhiddenInteractivity {
+    _centerhiddenInteractivity = centerhiddenInteractivity;
+    
+    if ([self isAnySideOpen]) {
+        if (IIViewDeckCenterHiddenIsInteractive(self.centerhiddenInteractivity)) {
+            [self centerViewVisible];
+        } else {
+            [self centerViewHidden];
+        }
+    }
+}
+
 - (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSide {
     if (![self controllerForSide:viewDeckSide])
         return YES;

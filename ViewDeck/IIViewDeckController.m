@@ -2267,7 +2267,17 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         }
     }
     
-    [self panToSlidingFrameForOffset:v forOrientation:orientation];
+    // Check for an in-flight bounce animation
+    CAKeyframeAnimation *bounceAnimation = (CAKeyframeAnimation *)[self.slidingControllerView.layer animationForKey:@"previewBounceAnimation"];
+    if (bounceAnimation != nil) {
+        self.slidingControllerView.frame = [[self.slidingControllerView.layer presentationLayer] frame];
+        [self.slidingControllerView.layer removeAnimationForKey:@"previewBounceAnimation"];
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [self panToSlidingFrameForOffset:v forOrientation:orientation];
+        } completion:nil];
+    } else {
+        [self panToSlidingFrameForOffset:v forOrientation:orientation];
+    }
     
     if (panner.state == UIGestureRecognizerStateEnded ||
         panner.state == UIGestureRecognizerStateCancelled ||

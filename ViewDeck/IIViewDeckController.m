@@ -1376,7 +1376,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self centerViewHidden];
             // run block if it's defined
             if (bounced) bounced(self);
-            [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:self.leftController];
+            [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:_controllers[side]];
             
             // now slide the view back to the ledge position
             [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -1462,7 +1462,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     } completion:^(BOOL finished) {
         // run block if it's defined
         if (bounced) bounced(self);
-        [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:self.leftController];
+        [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:_controllers[side]];
         
         [UIView animateWithDuration:[self closeSlideDuration:YES]*longFactor delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];

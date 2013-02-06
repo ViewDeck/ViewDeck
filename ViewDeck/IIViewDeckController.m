@@ -799,6 +799,17 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma clang diagnostic pop
 }
 
+- (BOOL)safe_shouldForwardRotationMethods {
+    if ([[UIViewController class] instancesRespondToSelector:@selector(shouldAutomaticallyForwardRotationMethods)] ) { // on iOS6 or later
+        return ![self shouldAutomaticallyForwardRotationMethods];
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    return ![self automaticallyForwardAppearanceAndRotationMethodsToChildViewControllers];
+#pragma clang diagnostic pop
+}
+
+
 #pragma mark - Appearance
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -2026,16 +2037,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark - Pre iOS5 message relaying
 
 - (void)relayRotationMethod:(void(^)(UIViewController* controller))relay {
-    // first check ios6. we return yes in the method, so don't bother
-    BOOL ios6 = [super respondsToSelector:@selector(shouldAutomaticallyForwardRotationMethods)] && [self shouldAutomaticallyForwardRotationMethods];
-    if (ios6) return;
-    
-    // no need to check for ios5, since we already said that we'd handle it ourselves.
-    relay(self.centerController);
-    relay(self.leftController);
-    relay(self.rightController);
-    relay(self.topController);
-    relay(self.bottomController);
+    if ([self safe_shouldForwardRotationMethods]) {
+        relay(self.centerController);
+        relay(self.leftController);
+        relay(self.rightController);
+        relay(self.topController);
+        relay(self.bottomController);
+    }
 }
 
 #pragma mark - center view hidden stuff

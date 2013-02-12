@@ -1806,8 +1806,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     UIViewController *previewController = [self controllerForSide:viewDeckSide];
+    NSString *keyPath = @"position.x";
     
-    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+    if (viewDeckSide == IIViewDeckBottomSide || viewDeckSide == IIViewDeckTopSide) {
+        keyPath = @"position.y";
+    }
+    
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:keyPath];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     animation.duration = duration;
     animation.values = animationValues;

@@ -3015,7 +3015,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 + (void)load {
-    [super load];
     [self vdc_swizzle];
 }
 

@@ -22,8 +22,9 @@ These are demos of the included `ViewDeckExample` app.
 
 # Installation
 
-Easy as pie: you just add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
-Just add IIViewDeckController.m/h into your project.
+- Add `IIViewDeckController.h` and `IIViewDeckController.m` to your project.
+- Link the `QuartzCore.framework`
+- `#import "IIViewDeckController.h"` to use it in a class
 
 # How to use it?
 
@@ -47,7 +48,7 @@ You can also switch view controllers in mid flight. Just assign a viewcontroller
 
     // prepare view controllers
     UIViewController* newController = [[UIViewController alloc] init];
-    self.viewDeckController.leftViewController = newController;
+    self.viewDeckController.leftController = newController;
 
 You can also use this to remove a side controller: just set it to `nil`.
 
@@ -72,7 +73,7 @@ It is possible to have the viewController always show a side controller. You do 
 The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation.
 
 	[self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-		controller.centerViewController = [UIViewController alloc] init];
+		controller.centerController = [UIViewController alloc] init];
 		// ...
     }];
 
@@ -88,14 +89,14 @@ The default speed of both, if not set, is 0.3f.
 ## bounce animation duration
 
 You can set the duration of the bounce animation as a factor (multiple) of the close/openSlideAnimationDurations. To control both the open and close of the bounce, you can simply use:
-    self.viewDeckController.bounceAnimationDurationFactor = 0.5; // Animate at twice the speed (half the duration)
+    self.viewDeckController.bounceDurationFactor = 0.5; // Animate at twice the speed (half the duration)
 
 The default factor is 1.0 if bounceDurationFactor is not set.
 
 For even more control, you can also set the animation duration for the bounce open (the first part of the bounce):
     self.viewDeckController.bounceOpenSideDurationFactor = 0.3f;
 
-If bounceOpenSideDurationFactor is not set, it will fallback to the bounceAnimationDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceAnimationDurationFactor affects only the "close" (2nd half) of the bounce animation.
+If bounceOpenSideDurationFactor is not set, it will fallback to the bounceDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceDurationFactor affects only the "close" (2nd half) of the bounce animation.
 
 ## shadow
 
@@ -122,18 +123,12 @@ The controller supports "elasticity": when you pan the center view "over" one of
 
 Of course, you can turn this behavior off. Just set `elasticity = NO` when loading the controller and you're set.
 
-## rotation
-
-The controller fully supports view rotation. If the center controller is set, it will control the possible interface rotation. If no center controller is set, all interface rotations are allowed.
 When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `sizeMode` property. You can use one of the following values:
-
     typdef enum {
         IIViewDeckLedgeSizeMode, // when rotating, the ledge sizes are kept (side views are more/less visible)
         IIViewDeckViewSizeMode  // when rotating, the size view sizes are kept (ledges change)
     } IIViewDeckSizeMode;
-
 The default is `IIViewDeckLedgeSizeMode`, which keeps the sizes of the defined ledges the same when rotating.
-
 ## panning
 
 It is possible to control the panning behavior a bit. Set the `panningMode` on the controller to achieve 3 different modes:

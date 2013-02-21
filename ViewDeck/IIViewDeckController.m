@@ -937,6 +937,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
+
+    CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+    anim.fromValue = @(0.0);
+    anim.duration = 1;
+    anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [self.slidingControllerView.layer addAnimation:anim forKey:@"shadowOpacity"];
+
 }
 
 

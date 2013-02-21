@@ -2362,7 +2362,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (!view) return;
     
     UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
-    panner.cancelsTouchesInView = YES;
+    panner.cancelsTouchesInView = NO;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
     [self.panners addObject:panner];

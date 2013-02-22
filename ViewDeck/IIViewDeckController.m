@@ -938,10 +938,32 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
 
-    CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
-    anim.fromValue = @(0.0);
-    anim.duration = 1;
-    anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    CABasicAnimation* anim = nil;
+    // only animate shadow if we've applied it ourselves.
+    if ([self.delegate respondsToSelector:@selector(viewDeckController:applyShadow:withBounds:)]) {
+        for (NSString* key in self.slidingControllerView.layer.animationKeys) {
+            if ([key isEqualToString:@"bounds"]) {
+                CABasicAnimation* other = (CABasicAnimation*)[self.slidingControllerView.layer animationForKey:key];
+                
+                if ([other isKindOfClass:[CABasicAnimation class]]) {
+                    anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+                    anim.fromValue = (__bridge id)[UIBezierPath bezierPathWithRect:[other.fromValue CGRectValue]].CGPath;
+                    anim.duration = other.duration;
+                    anim.timingFunction = other.timingFunction;
+                    break;
+                }
+            }
+        }
+    }
+    
+    // fallback: make shadow transparent and fade in to desired value. This gives the same visual
+    // effect as animating 
+    if (!anim) {
+        anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+        anim.fromValue = @(0.0);
+        anim.duration = 1;
+        anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    }
     [self.slidingControllerView.layer addAnimation:anim forKey:@"shadowOpacity"];
 
 }

@@ -853,6 +853,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     [self.centerController viewWillAppear:animated];
     [self transitionAppearanceFrom:0 to:1 animated:animated];
+
+    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            self.slidingControllerView.frame = (CGRect) { _willAppearOffset, self.slidingControllerView.frame.size };
+        });
+    }
+    
     _viewAppeared = 1;
 }
 
@@ -875,6 +883,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
+    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated)
+        _willAppearOffset = self.slidingControllerView.frame.origin;
+
     @try {
         [self.view removeObserver:self forKeyPath:@"bounds"];
     } @catch(id anException){

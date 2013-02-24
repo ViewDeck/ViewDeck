@@ -2416,6 +2416,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         case IIViewDeckNoPanning: 
             break;
             
+        case IIViewDeckAllViewsPanning:
+            [self addPanner:self.view];
+            break;
+            
         case IIViewDeckFullViewPanning:
         case IIViewDeckDelegatePanning:
         case IIViewDeckNavigationBarOrOpenCenterPanning:

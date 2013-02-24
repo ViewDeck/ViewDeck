@@ -26,7 +26,7 @@
     bottomController = [[UINavigationController alloc] initWithRootViewController:bottomController];
 
     UIViewController *centerController = [[CenterViewController alloc] initWithNibName:@"CenterViewController" bundle:nil];
-    centerController = [[UINavigationController alloc] initWithRootViewController:centerController];
+    //centerController = [[UINavigationController alloc] initWithRootViewController:centerController];
 
     IIViewDeckController* secondDeckController =  [[IIViewDeckController alloc] initWithCenterViewController:leftController 
                                                                                     leftViewController:bottomController];
@@ -37,7 +37,9 @@
                                                                                     leftViewController:secondDeckController];
     deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
     
-    self.window.rootViewController = deckController;
+    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:deckController];
+    deckController.navigationControllerBehavior = IIViewDeckNavigationControllerIntegrated;
+    self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     return YES;
 }

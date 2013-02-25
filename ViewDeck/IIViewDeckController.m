@@ -908,11 +908,29 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return [super supportedInterfaceOrientations];
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    if (self.centerController)
-        return [self.centerController preferredInterfaceOrientationForPresentation];
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    // default values
+    UIInterfaceOrientation preferedOrientation = [super preferredInterfaceOrientationForPresentation];
     
-    return [super preferredInterfaceOrientationForPresentation];
+    // get orientation
+    if (self.centerController)
+    {
+        // UINavigationController support
+        if ([self.centerController isKindOfClass:UINavigationController.class]) {
+            NSArray *vcList = [(id)self.centerController viewControllers];
+            if (vcList && vcList.count) {
+                id lastVc = [vcList lastObject];
+                if (lastVc) {
+                    preferedOrientation = [lastVc preferredInterfaceOrientationForPresentation];
+                }
+            }
+        } else {
+            preferedOrientation = [self.centerController preferredInterfaceOrientationForPresentation];
+        }
+    }
+    
+    return preferedOrientation;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -926,8 +944,28 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller shouldAutorotateToInterfaceOrientation:interfaceOrientation];
     }];
-
-    return !self.centerController || [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    
+    
+    BOOL shouldAutorotate = NO;
+    
+    if (self.centerController)
+    {
+        // UINavigationController support
+        if ([self.centerController isKindOfClass:UINavigationController.class])
+        {
+            NSArray *vcList = [(id)self.centerController viewControllers];
+            if (vcList && vcList.count) {
+                id lastVc = [vcList lastObject];
+                if (lastVc) {
+                    shouldAutorotate = [lastVc shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+                }
+            }
+        } else {
+            shouldAutorotate = [self.centerController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+        }
+    }
+    
+    return shouldAutorotate;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

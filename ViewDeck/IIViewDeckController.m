@@ -259,6 +259,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize bounceOpenSideDurationFactor = _bounceOpenSideDurationFactor;
 @synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
 @synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
+@synthesize paralaxAmmount = _paralaxAmmount;
 
 #pragma mark - Initalisation and deallocation
 
@@ -2363,6 +2364,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void) setParalax {
+    if(_paralaxAmmount <= 0.0) return;
+    
     self.leftController.view.frame = [self getLeftParalax];
     self.rightController.view.frame = [self getRightParalax];
 }
@@ -2372,7 +2375,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     CGFloat diff = (self.slidingControllerView.frame.size.width-(pv+_ledge[IIViewDeckLeftSide]));
     
-    return CGRectMake(-(diff*0.2), self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
+    return CGRectMake(-(diff*_paralaxAmmount), self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
 }
 
 - (CGRect) getRightParalax {
@@ -2380,7 +2383,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     CGFloat diff = -pv;
     
-    return CGRectMake(-(diff*0.2)+_ledge[IIViewDeckRightSide], self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
+    return CGRectMake(-(diff*_paralaxAmmount)+_ledge[IIViewDeckRightSide], self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
 }
 
 

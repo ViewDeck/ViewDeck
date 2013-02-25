@@ -259,7 +259,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize bounceOpenSideDurationFactor = _bounceOpenSideDurationFactor;
 @synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
 @synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
-@synthesize parallaxAmmount = _parallaxAmmount;
+@synthesize parallaxAmount = _parallaxAmount;
 
 #pragma mark - Initalisation and deallocation
 
@@ -2364,7 +2364,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void) setParallax {
-    if(_parallaxAmmount <= 0.0) return;
+    if(_parallaxAmount <= 0.0) return;
     
     self.leftController.view.frame = [self getLeftParallax];
     self.rightController.view.frame = [self getRightParallax];
@@ -2372,18 +2372,16 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (CGRect) getLeftParallax {
     CGFloat pv = self.slidingControllerView.frame.origin.x;
+    CGFloat diff = pv-(self.slidingControllerView.frame.size.width-_ledge[IIViewDeckLeftSide]);
     
-    CGFloat diff = (self.slidingControllerView.frame.size.width-(pv+_ledge[IIViewDeckLeftSide]));
-    
-    return CGRectMake(-(diff*_parallaxAmmount), self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
+    return CGRectMake(diff*_parallaxAmount, self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
 }
 
 - (CGRect) getRightParallax {
     CGFloat pv = self.slidingControllerView.frame.origin.x;
+    CGFloat diff = pv+(self.slidingControllerView.frame.size.width-_ledge[IIViewDeckRightSide]);
     
-    CGFloat diff = -pv;
-    
-    return CGRectMake(-(diff*_parallaxAmmount)+_ledge[IIViewDeckRightSide], self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
+    return CGRectMake(diff*_parallaxAmount, self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
 }
 
 

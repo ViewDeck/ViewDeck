@@ -530,6 +530,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
     if (beforeOffset != _offset)
         [self notifyDidChangeOffset:_offset orientation:orientation panning:panning];
+    
+    
+    [self setParalax];
 }
 
 - (void)hideAppropriateSideViews {
@@ -2228,6 +2231,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)panned:(UIPanGestureRecognizer*)panner orientation:(IIViewDeckOffsetOrientation)orientation {
+    [self setParalax];
+    
     CGFloat pv, m;
     IIViewDeckSide minSide, maxSide;
     if (orientation == IIViewDeckHorizontalOrientation) {
@@ -2355,6 +2360,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
     [self notifyDidCloseSide:closeSide animated:NO];
     [self notifyDidOpenSide:openSide animated:NO];
+}
+
+- (void) setParalax {
+    self.leftController.view.frame = [self getLeftParalax];
+    self.rightController.view.frame = [self getRightParalax];
+}
+
+- (CGRect) getLeftParalax {
+    CGFloat pv = self.slidingControllerView.frame.origin.x;
+    
+    CGFloat diff = (self.slidingControllerView.frame.size.width-(pv+_ledge[IIViewDeckLeftSide]));
+    
+    return CGRectMake(-(diff*0.2), self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
+}
+
+- (CGRect) getRightParalax {
+    CGFloat pv = self.slidingControllerView.frame.origin.x;
+    
+    CGFloat diff = -pv;
+    
+    return CGRectMake(-(diff*0.2)+_ledge[IIViewDeckRightSide], self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
 }
 
 

@@ -19,14 +19,11 @@
 
 @end
 
-@implementation IISideController {
-    CGFloat _constrainedSize;
-}
+@implementation IISideController 
 
 - (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize {
     if ((self = [super initWithViewController:controller])) {
         _constrainedSize = constrainedSize;
-        _animatedShrink = NO;
     }
     return self;
 }
@@ -34,7 +31,6 @@
 - (id)initWithViewController:(UIViewController*)controller {
     if ((self = [super initWithViewController:controller])) {
         _constrainedSize = -1;
-        _animatedShrink = NO;
     }
     return self;
 }
@@ -46,26 +42,40 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [CATransaction begin];
-    if (!self.animatedShrink) {
-        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-    }
+
     self.view.backgroundColor = self.wrappedController.view.backgroundColor;
-    [CATransaction commit];
-    [self shrinkSide];
+    [self shrinkSideAnimated:animated];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self shrinkSide];
+    [self shrinkSideAnimated:YES];
+}
+
+- (void)setConstrainedSize:(CGFloat)constrainedSize {
+    [self setConstrainedSize:constrainedSize animated:YES];
+}
+
+- (void)setConstrainedSize:(CGFloat)constrainedSize animated:(BOOL)animated {
+    _constrainedSize = constrainedSize;
+    [self shrinkSideAnimated:animated];
 }
 
 - (void)shrinkSide {
+    [self shrinkSideAnimated:YES];
+}
+
+- (void)shrinkSideAnimated:(BOOL)animated {
     if (self.viewDeckController) {
         // we don't want this animated
         [CATransaction begin];
-        if (!self.animatedShrink) {
-            [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        if (animated) {
+            [UIView beginAnimations:@"shrinkSide" context:nil];
+            [UIView setAnimationDuration:0.3];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        }
+        else {
+            [CATransaction disableActions];
         }
         
         if (self.viewDeckController.leftController == self) {
@@ -85,8 +95,20 @@
             self.wrappedController.view.frame = II_CGRectOffsetTopAndShrink(self.view.bounds, offset);
         }
         
+        if (animated) {
+            [UIView commitAnimations];
+        }
         [CATransaction commit];
     }
+}
+
+@end
+
+
+@implementation UIViewController (IISideController)
+
+- (IISideController*)sideController {
+    return (IISideController*)self.wrapController;
 }
 
 @end

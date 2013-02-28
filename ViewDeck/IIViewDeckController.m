@@ -88,6 +88,7 @@ __typeof__(h) __h = (h);                                    \
 #import <objc/message.h>
 #import "IIWrapController.h"
 
+
 enum {
     IIViewDeckNoSide = 0,
     IIViewDeckCenterSide = 5,
@@ -145,6 +146,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 #define DEFAULT_DURATION 0.0
+
+@interface UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes)
+- (void)vdc_addChildViewController:(UIViewController *)childController;
+- (void)vdc_removeFromParentViewController;
+- (void)vdc_willMoveToParentViewController:(UIViewController *)parent;
+- (void)vdc_didMoveToParentViewController:(UIViewController *)parent;
+@end
+
 
 @interface IIViewDeckController () <UIGestureRecognizerDelegate>
 
@@ -1167,7 +1176,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (BOOL)checkCanCloseSide:(IIViewDeckSide)viewDeckSide {
-    return ![self isSideClosed:viewDeckSide] && [self checkDelegate:@selector(viewDeckController:shouldCloseViewSide:) side:viewDeckSide];
+    return ![self isSideClosed:viewDeckSide] && [self checkDelegate:@selector(viewDeckController:shouldCloseViewSide:animated:) side:viewDeckSide];
 }
 
 - (void)notifyWillOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
@@ -1880,7 +1889,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         
         // perform completion and delegate call
         if (completed) completed(self, YES);
-        if (callDelegate) [self performDelegate:@selector(viewDeckController:didPreviewBounceViewSide:) side:viewDeckSide animated:YES];
+        if (callDelegate) [self performDelegate:@selector(viewDeckController:didPreviewBounceViewSide:animated:) side:viewDeckSide animated:YES];
     }];
     [self.slidingControllerView.layer addAnimation:animation forKey:@"previewBounceAnimation"];
     

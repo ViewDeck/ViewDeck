@@ -229,6 +229,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @implementation IIViewDeckController
 
 @synthesize panningMode = _panningMode;
+@synthesize panningCancelsTouchesInView = _panningCancelsTouchesInView;
 @synthesize panners = _panners;
 @synthesize referenceView = _referenceView;
 @synthesize slidingController = _slidingController;
@@ -277,6 +278,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         _elastic = YES;
         _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
         _panningMode = IIViewDeckFullViewPanning;
+        _panningCancelsTouchesInView = NO;
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
         _sizeMode = IIViewDeckLedgeSizeMode;
@@ -2391,7 +2393,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (!view) return;
     
     UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
-    panner.cancelsTouchesInView = NO;
+    panner.cancelsTouchesInView = _panningCancelsTouchesInView;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
     [self.panners addObject:panner];

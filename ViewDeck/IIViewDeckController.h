@@ -136,6 +136,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign) CGFloat maxSize;
 @property (nonatomic, assign) BOOL resizesCenterView;
 @property (nonatomic, assign) IIViewDeckPanningMode panningMode;
+@property (nonatomic, assign) BOOL panningCancelsTouchesInView;
 @property (nonatomic, assign) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
 @property (nonatomic, assign) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
 @property (nonatomic, assign) BOOL automaticallyUpdateTabBarItems;

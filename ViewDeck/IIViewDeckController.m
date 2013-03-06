@@ -3010,10 +3010,24 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 - (IIViewDeckController*)viewDeckController {
-    id result = [self viewDeckController_core];
-    if (!result && self.navigationController) 
+    IIViewDeckController* result = [self viewDeckController_core];
+    if (!result && self.navigationController) {
         result = [self.navigationController viewDeckController];
-    if (!result && [self respondsToSelector:@selector(wrapController)] && self.wrapController) 
+        if (!result) {
+            for (UIViewController* controller in [self.navigationController.viewControllers reverseObjectEnumerator]) {
+                if ([controller isKindOfClass:[IIViewDeckController class]])
+                    result = (IIViewDeckController*)controller;
+                else
+                    result = [controller viewDeckController_core];
+                if (result) {
+                    if (result.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated)
+                        break;
+                    result = nil;
+                }
+            }
+        }
+    }
+    if (!result && [self respondsToSelector:@selector(wrapController)] && self.wrapController)
         result = [self.wrapController viewDeckController];
     
     return result;

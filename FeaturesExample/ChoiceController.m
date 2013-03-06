@@ -4,7 +4,9 @@
 //
 
 #import "ChoiceController.h"
-#import "PathlikeSliderController.h"
+#import "PhotosController.h"
+#import "SelectionController.h"
+#import "IIViewDeckController.h"
 
 @interface ChoiceController () <IIViewDeckControllerDelegate> {
     IIViewDeckPanningMode _panning;
@@ -54,7 +56,10 @@
 
 
 - (IBAction)pressedNavigate:(id)sender {
-    PathlikeSliderController* controller = [[PathlikeSliderController alloc] init];  
+    PhotosController* photosController = [[PhotosController alloc] initWithNibName:@"PhotosController" bundle:nil];
+    SelectionController* selectionController = [[SelectionController alloc] initWithNibName:@"SelectionController" bundle:nil];
+
+    IIViewDeckController* controller = [[IIViewDeckController alloc] initWithCenterViewController:photosController leftViewController:selectionController];
     controller.panningMode = _panning;
     controller.centerhiddenInteractivity = _centerHidden;
     controller.navigationControllerBehavior = _navBehavior;
@@ -64,6 +69,7 @@
     controller.elastic = _elastic;
     controller.leftSize = 320;
     controller.delegate = self;
+    [controller openLeftView];
     
     [self.navigationController pushViewController:controller animated:YES];
 }

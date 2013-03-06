@@ -102,6 +102,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     IIViewDeckOffsetOrientation _offsetOrientation;
     UIInterfaceOrientation _willAppearShouldArrangeViewsAfterRotation;
     CGPoint _willAppearOffset;
+    NSMutableArray* _finishTransitionBlocks;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);

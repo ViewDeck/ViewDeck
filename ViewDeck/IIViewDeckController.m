@@ -2694,14 +2694,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (controller) {
         // and finish the transition
-        UIViewController* parentController = (self.referenceView == self.view) ? self : [[self parentViewController] parentViewController];
-        if (!parentController)
-            parentController = self;
-        
-        [parentController addChildViewController:controller];
-        [controller setViewDeckController:self];
-        afterBlock(controller);
-        [controller didMoveToParentViewController:parentController];
+        void(^finishTransition)(void) = ^{
+            UIViewController* parentController = (self.referenceView == self.view) ? self : [[self parentViewController] parentViewController];
+            if (!parentController)
+                parentController = self;
+            
+            [parentController addChildViewController:controller];
+            [controller setViewDeckController:self];
+            afterBlock(controller);
+            [controller didMoveToParentViewController:parentController];
+        };
+
+        if (self.referenceView) {
+            finishTransition();
+        }
+        else {
+            if (!_finishTransitionBlocks) {
+                _finishTransitionBlocks = [NSMutableArray new];
+                [self addObserver:self forKeyPath:@"parentViewController" options:0 context:nil];
+            }
+            [_finishTransitionBlocks addObject:finishTransition];
+        }
     }
 }
 
@@ -2863,12 +2876,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         if ([self.navigationController.view superview]) {
             _slidingController = self.navigationController;
             self.referenceView = [self.navigationController.view superview];
+            [self finishTransitionBlocks];
             return YES;
         }
     }
     else {
         _slidingController = self.centerController;
         self.referenceView = self.view;
+        [self finishTransitionBlocks];
         return YES;
     }
     
@@ -2924,6 +2939,22 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         }
         return;
     }
+    
+    if ([keyPath isEqualToString:@"parentViewController"] && [self parentViewController]) {
+        [self removeObserver:self forKeyPath:@"parentViewController" context:nil];
+        [self finishTransitionBlocks];
+        
+    }
+}
+
+- (void)finishTransitionBlocks {
+    if (![self parentViewController]) return;
+    if (!self.referenceView) return;
+
+    for (void(^finishTransition)(void) in _finishTransitionBlocks) {
+        finishTransition();
+    }
+    _finishTransitionBlocks = nil;
 }
 
 #pragma mark - Shadow

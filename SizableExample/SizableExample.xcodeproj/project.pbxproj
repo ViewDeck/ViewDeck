@@ -22,6 +22,7 @@
 		E2B3B6FE14C232BF00FB5956 /* CenterController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B3B6FC14C232BF00FB5956 /* CenterController.xib */; };
 		E2B3B70214C232DA00FB5956 /* LeftController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B3B70014C232DA00FB5956 /* LeftController.m */; };
 		E2B3B70314C232DA00FB5956 /* LeftController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B3B70114C232DA00FB5956 /* LeftController.xib */; };
+		E2DAC33616E7C06E002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC33516E7C06E002BD487 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		E2B3B6FF14C232DA00FB5956 /* LeftController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftController.h; sourceTree = "<group>"; };
 		E2B3B70014C232DA00FB5956 /* LeftController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftController.m; sourceTree = "<group>"; };
 		E2B3B70114C232DA00FB5956 /* LeftController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftController.xib; sourceTree = "<group>"; };
+		E2DAC33516E7C06E002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 		E2B3B6B614C2249500FB5956 = {
 			isa = PBXGroup;
 			children = (
+				E2DAC33516E7C06E002BD487 /* Default-568h@2x.png */,
 				E20F7C1016866E16001BF2C3 /* QuartzCore.framework */,
 				E2B3B6CB14C2249500FB5956 /* SizableExample */,
 				E2B3B6C414C2249500FB5956 /* Frameworks */,
@@ -199,6 +202,7 @@
 				E2B3B6E314C228D900FB5956 /* carbon.png in Resources */,
 				E2B3B6FE14C232BF00FB5956 /* CenterController.xib in Resources */,
 				E2B3B70314C232DA00FB5956 /* LeftController.xib in Resources */,
+				E2DAC33616E7C06E002BD487 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

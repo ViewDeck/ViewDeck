@@ -26,6 +26,7 @@
 		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
 		E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A26155B385600E05FB9 /* PushedViewController.m */; };
 		E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A27155B385600E05FB9 /* PushedViewController.xib */; };
+		E2DAC33216E7BFB8002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC32F16E7BFB8002BD487 /* Default-568h@2x.png */; };
 		EA82B9FE167CFB670028F389 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA82B9FD167CFB670028F389 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		E2B01A25155B385600E05FB9 /* PushedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushedViewController.h; sourceTree = "<group>"; };
 		E2B01A26155B385600E05FB9 /* PushedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushedViewController.m; sourceTree = "<group>"; };
 		E2B01A27155B385600E05FB9 /* PushedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushedViewController.xib; sourceTree = "<group>"; };
+		E2DAC32F16E7BFB8002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		EA82B9FD167CFB670028F389 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 		E240A99C148AB3770077282A = {
 			isa = PBXGroup;
 			children = (
+				E2DAC32F16E7BFB8002BD487 /* Default-568h@2x.png */,
 				E240A9B1148AB3770077282A /* ViewDeckExample */,
 				E240A9AA148AB3770077282A /* Frameworks */,
 				E240A9A8148AB3770077282A /* Products */,
@@ -229,6 +232,7 @@
 				E240A9EC148C51E00077282A /* bg.jpg in Resources */,
 				E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */,
 				E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */,
+				E2DAC33216E7BFB8002BD487 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

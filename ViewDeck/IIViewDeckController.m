@@ -260,6 +260,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize bounceOpenSideDurationFactor = _bounceOpenSideDurationFactor;
 @synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
 @synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
+@synthesize parallaxAmount = _parallaxAmount;
 
 #pragma mark - Initalisation and deallocation
 
@@ -532,6 +533,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
     if (beforeOffset != _offset)
         [self notifyDidChangeOffset:_offset orientation:orientation panning:panning];
+    
+    
+    [self setParallax];
 }
 
 - (void)hideAppropriateSideViews {
@@ -2259,6 +2263,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)panned:(UIPanGestureRecognizer*)panner orientation:(IIViewDeckOffsetOrientation)orientation {
+    [self setParallax];
+    
     CGFloat pv, m;
     IIViewDeckSide minSide, maxSide;
     if (orientation == IIViewDeckHorizontalOrientation) {
@@ -2386,6 +2392,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
     [self notifyDidCloseSide:closeSide animated:NO];
     [self notifyDidOpenSide:openSide animated:NO];
+}
+
+- (void) setParallax {
+    if(_parallaxAmount <= 0.0) return;
+    
+    self.leftController.view.frame = [self getLeftParallax];
+    self.rightController.view.frame = [self getRightParallax];
+}
+
+- (CGRect) getLeftParallax {
+    CGFloat pv = self.slidingControllerView.frame.origin.x;
+    CGFloat diff = pv-(self.slidingControllerView.frame.size.width-_ledge[IIViewDeckLeftSide]);
+    
+    return CGRectMake(diff*_parallaxAmount, self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
+}
+
+- (CGRect) getRightParallax {
+    CGFloat pv = self.slidingControllerView.frame.origin.x;
+    CGFloat diff = pv+(self.slidingControllerView.frame.size.width-_ledge[IIViewDeckRightSide]);
+    
+    return CGRectMake(diff*_parallaxAmount, self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
 }
 
 

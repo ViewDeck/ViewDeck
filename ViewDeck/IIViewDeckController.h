@@ -139,6 +139,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign) CGFloat maxSize;
 @property (nonatomic, assign) BOOL resizesCenterView;
 @property (nonatomic, assign) IIViewDeckPanningMode panningMode;
+@property (nonatomic, assign) BOOL panningCancelsTouchesInView;
 @property (nonatomic, assign) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
 @property (nonatomic, assign) IIViewDeckNavigationControllerBehavior navigationControllerBehavior;
 @property (nonatomic, assign) BOOL automaticallyUpdateTabBarItems;
@@ -147,6 +148,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign) CGFloat bounceOpenSideDurationFactor; // Same as bounceDurationFactor, but if set, will give independent control of the bounce as the side opens fully (first half of the bounce)
 @property (nonatomic, assign) CGFloat openSlideAnimationDuration;
 @property (nonatomic, assign) CGFloat closeSlideAnimationDuration;
+@property (nonatomic, assign) CGFloat parallaxAmount;
 
 - (id)initWithCenterViewController:(UIViewController*)centerController;
 - (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;

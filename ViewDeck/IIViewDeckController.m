@@ -2404,6 +2404,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (CGRect) getLeftParallax {
     CGFloat pv = self.slidingControllerView.frame.origin.x;
     CGFloat diff = pv-(self.slidingControllerView.frame.size.width-_ledge[IIViewDeckLeftSide]);
+    if (diff > 0.0f) diff = 0.0f;
     
     return CGRectMake(diff*_parallaxAmount, self.leftController.view.frame.origin.y, self.leftController.view.frame.size.width, self.leftController.view.frame.size.height);
 }
@@ -2411,6 +2412,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (CGRect) getRightParallax {
     CGFloat pv = self.slidingControllerView.frame.origin.x;
     CGFloat diff = pv+(self.slidingControllerView.frame.size.width-_ledge[IIViewDeckRightSide]);
+    if (diff < 0.0f) diff = 0.0f;
     
     return CGRectMake(diff*_parallaxAmount, self.rightController.view.frame.origin.y, self.rightController.view.frame.size.width, self.rightController.view.frame.size.height);
 }

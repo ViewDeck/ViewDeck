@@ -25,6 +25,7 @@
 		E267169A15569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m in Sources */ = {isa = PBXBuildFile; fileRef = E267169915569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m */; };
 		E2B01A33155BE2D400E05FB9 /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A31155BE2D300E05FB9 /* ModalViewController.m */; };
 		E2B01A34155BE2D400E05FB9 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */; };
+		E2DAC33C16E7C22D002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC33B16E7C22D002BD487 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		E2B01A30155BE2D300E05FB9 /* ModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalViewController.h; sourceTree = "<group>"; };
 		E2B01A31155BE2D300E05FB9 /* ModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalViewController.m; sourceTree = "<group>"; };
 		E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
+		E2DAC33B16E7C22D002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		E26716561556946B00E0C3C0 = {
 			isa = PBXGroup;
 			children = (
+				E2DAC33B16E7C22D002BD487 /* Default-568h@2x.png */,
 				E20F7C0A16862161001BF2C3 /* QuartzCore.framework */,
 				E267166B1556946C00E0C3C0 /* MultiViewDeckExample */,
 				E26716641556946C00E0C3C0 /* Frameworks */,
@@ -222,6 +225,7 @@
 				E2671691155699AF00E0C3C0 /* CenterViewController.xib in Resources */,
 				E267169615569A3800E0C3C0 /* BottomViewController.xib in Resources */,
 				E2B01A34155BE2D400E05FB9 /* ModalViewController.xib in Resources */,
+				E2DAC33C16E7C22D002BD487 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

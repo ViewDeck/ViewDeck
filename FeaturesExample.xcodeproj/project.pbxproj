@@ -23,7 +23,6 @@
 		E2C8E5A41497F62B00560D23 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C8E5A31497F62B00560D23 /* AppDelegate.m */; };
 		E2C8E5B81497F9CA00560D23 /* ChoiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C8E5B61497F9CA00560D23 /* ChoiceController.m */; };
 		E2C8E5B91497F9CA00560D23 /* ChoiceController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8E5B71497F9CA00560D23 /* ChoiceController.xib */; };
-		E2C8E5C11497FC6400560D23 /* PathlikeSliderController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C8E5C01497FC6400560D23 /* PathlikeSliderController.m */; };
 		E2C8E5C61497FDC600560D23 /* PhotosController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C8E5C41497FDC600560D23 /* PhotosController.m */; };
 		E2C8E5C71497FDC600560D23 /* PhotosController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2C8E5C51497FDC600560D23 /* PhotosController.xib */; };
 		E2C8E5CB1497FDDB00560D23 /* SelectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C8E5C91497FDDB00560D23 /* SelectionController.m */; };
@@ -59,8 +58,6 @@
 		E2C8E5B51497F9CA00560D23 /* ChoiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceController.h; sourceTree = "<group>"; };
 		E2C8E5B61497F9CA00560D23 /* ChoiceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceController.m; sourceTree = "<group>"; };
 		E2C8E5B71497F9CA00560D23 /* ChoiceController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChoiceController.xib; sourceTree = "<group>"; };
-		E2C8E5BF1497FC6400560D23 /* PathlikeSliderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathlikeSliderController.h; sourceTree = "<group>"; };
-		E2C8E5C01497FC6400560D23 /* PathlikeSliderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathlikeSliderController.m; sourceTree = "<group>"; };
 		E2C8E5C31497FDC600560D23 /* PhotosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosController.h; sourceTree = "<group>"; };
 		E2C8E5C41497FDC600560D23 /* PhotosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosController.m; sourceTree = "<group>"; };
 		E2C8E5C51497FDC600560D23 /* PhotosController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotosController.xib; sourceTree = "<group>"; };
@@ -138,8 +135,6 @@
 				E2C8E5B51497F9CA00560D23 /* ChoiceController.h */,
 				E2C8E5B61497F9CA00560D23 /* ChoiceController.m */,
 				E2C8E5B71497F9CA00560D23 /* ChoiceController.xib */,
-				E2C8E5BF1497FC6400560D23 /* PathlikeSliderController.h */,
-				E2C8E5C01497FC6400560D23 /* PathlikeSliderController.m */,
 				E2C8E5C21497FDAE00560D23 /* Content */,
 			);
 			path = FeaturesExample;
@@ -255,7 +250,6 @@
 				E2C8E5A01497F62B00560D23 /* main.m in Sources */,
 				E2C8E5A41497F62B00560D23 /* AppDelegate.m in Sources */,
 				E2C8E5B81497F9CA00560D23 /* ChoiceController.m in Sources */,
-				E2C8E5C11497FC6400560D23 /* PathlikeSliderController.m in Sources */,
 				E2C8E5C61497FDC600560D23 /* PhotosController.m in Sources */,
 				E2C8E5CB1497FDDB00560D23 /* SelectionController.m in Sources */,
 				E2955F7014B728E4003DDB4E /* IIViewDeckController.m in Sources */,

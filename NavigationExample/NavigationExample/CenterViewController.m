@@ -51,6 +51,7 @@
                                                                                        leftViewController:leftController 
                                                                                       rightViewController:rightController];
         deckController.navigationControllerBehavior = self.behavior;
+        deckController.delegateMode = IIViewDeckDelegateAndSubControllers;
         controller = deckController;
     }
     

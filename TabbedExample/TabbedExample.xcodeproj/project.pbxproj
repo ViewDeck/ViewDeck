@@ -33,6 +33,7 @@
 		E20D4B7014DB5FE2007A33CB /* FifthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20D4B6E14DB5FE2007A33CB /* FifthViewController.xib */; };
 		E20D4B7214DB61CB007A33CB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20D4B7114DB61CA007A33CB /* MapKit.framework */; };
 		E20F7C1316866E6F001BF2C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20F7C1216866E6F001BF2C3 /* QuartzCore.framework */; };
+		E2DAC33816E7C0D5002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC33716E7C0D5002BD487 /* Default-568h@2x.png */; };
 		E2F8EF59155BFE680094948B /* contacts.png in Resources */ = {isa = PBXBuildFile; fileRef = E2F8EF58155BFE680094948B /* contacts.png */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		E20D4B6E14DB5FE2007A33CB /* FifthViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FifthViewController.xib; sourceTree = "<group>"; };
 		E20D4B7114DB61CA007A33CB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E20F7C1216866E6F001BF2C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E2DAC33716E7C0D5002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		E2F8EF58155BFE680094948B /* contacts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contacts.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +99,7 @@
 		E20D4B1B14DB53B1007A33CB = {
 			isa = PBXGroup;
 			children = (
+				E2DAC33716E7C0D5002BD487 /* Default-568h@2x.png */,
 				E20F7C1216866E6F001BF2C3 /* QuartzCore.framework */,
 				E20D4B7114DB61CA007A33CB /* MapKit.framework */,
 				E20D4B3014DB53B1007A33CB /* TabbedExample */,
@@ -251,6 +254,7 @@
 				E20D4B6B14DB5FCC007A33CB /* FourthViewController.xib in Resources */,
 				E20D4B7014DB5FE2007A33CB /* FifthViewController.xib in Resources */,
 				E2F8EF59155BFE680094948B /* contacts.png in Resources */,
+				E2DAC33816E7C0D5002BD487 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

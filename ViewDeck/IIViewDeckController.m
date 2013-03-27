@@ -1240,6 +1240,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (selector) {
         UIViewController* controller = [self controllerForSide:viewDeckSide];
+        controller.view.tag = controller.view.tag; // access view property so that viewDidLoad is called before viewWillAppear is view is not loaded
         BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated) = (void*)objc_msgSend;
         objc_msgSendTyped(controller, selector, animated);
     }

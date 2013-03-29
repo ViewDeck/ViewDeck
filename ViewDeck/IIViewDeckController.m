@@ -3182,7 +3182,12 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 + (void)load {
-    [self vdc_swizzle];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        @autoreleasepool {
+            [self vdc_swizzle];
+        }
+    });
 }
 
 

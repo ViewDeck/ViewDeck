@@ -2759,6 +2759,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 parentController = self;
             
             [parentController addChildViewController:controller];
+            [controller setViewDeckController:self];
             afterBlock(controller);
             [controller didMoveToParentViewController:parentController];
         };

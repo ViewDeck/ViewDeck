@@ -3001,7 +3001,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     if ([keyPath isEqualToString:@"parentViewController"] && [self parentViewController]) {
-        [self removeObserver:self forKeyPath:@"parentViewController" context:nil];
         [self finishTransitionBlocks];
         
     }
@@ -3011,10 +3010,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (![self parentViewController]) return;
     if (!self.referenceView) return;
 
-    for (void(^finishTransition)(void) in _finishTransitionBlocks) {
-        finishTransition();
+    if (_finishTransitionBlocks) {
+        [self removeObserver:self forKeyPath:@"parentViewController" context:nil];
+        
+        for (void(^finishTransition)(void) in _finishTransitionBlocks) {
+            finishTransition();
+        }
+        _finishTransitionBlocks = nil;
     }
-    _finishTransitionBlocks = nil;
 }
 
 #pragma mark - Shadow

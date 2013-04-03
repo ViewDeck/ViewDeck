@@ -147,6 +147,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #define DEFAULT_DURATION 0.0
 
+@interface IIViewDeckView : UIView {
+    BOOL _userInteractionEnabled;
+}
+
+@property (nonatomic, assign) BOOL allowUserInteractionEnabled;
+
+@end
+
 @interface UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes)
 - (void)vdc_addChildViewController:(UIViewController *)childController;
 - (void)vdc_removeFromParentViewController;
@@ -535,8 +543,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 -(void)setSlidingFrameForOffset:(CGFloat)offset limit:(BOOL)limit panning:(BOOL)panning forOrientation:(IIViewDeckOffsetOrientation)orientation {
     CGFloat beforeOffset = _offset;
+    CGFloat origOffset = offset;
     if (limit)
         offset = [self limitOffset:offset forOrientation:orientation];
+    NSLog(@"ssffo %f -> (%f %d= %f)", beforeOffset, offset, limit, origOffset);
     _offset = offset;
     _offsetOrientation = orientation;
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
@@ -761,7 +771,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _offset = 0;
     _viewFirstAppeared = NO;
     _viewAppeared = 0;
-    self.view = II_AUTORELEASE([[UIView alloc] init]);
+    self.view = II_AUTORELEASE([[IIViewDeckView alloc] init]);
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.view.autoresizesSubviews = YES;
     self.view.clipsToBounds = YES;
@@ -1407,14 +1417,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         }
         
         [self notifyWillOpenSide:side animated:animated];
-        BOOL wasEnabled = self.view.userInteractionEnabled;
-        self.view.userInteractionEnabled = NO;
+        [self disableUserInteraction];
         [UIView animateWithDuration:duration delay:0 options:options animations:^{
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:[self ledgeOffsetForSide:side] forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             [self centerViewHidden];
         } completion:^(BOOL finished) {
-            self.view.userInteractionEnabled = wasEnabled;
+            [self enableUserInteraction];
             if (completed) completed(self, YES);
             [self notifyDidOpenSide:side animated:animated];
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1461,8 +1470,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
       
         // first open the view completely, run the block (to allow changes)
         [self notifyWillOpenSide:side animated:animated];
-        BOOL wasEnabled = self.view.userInteractionEnabled;
-        self.view.userInteractionEnabled = NO;
+        [self disableUserInteraction];
         [UIView animateWithDuration:[self openSlideDuration:YES]*longFactor delay:0 options:options animations:^{
             [self controllerForSide:side].view.hidden = NO;
             [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
@@ -1476,7 +1484,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
-                self.view.userInteractionEnabled = wasEnabled;
+                [self enableUserInteraction];
                 if (completed) completed(self, YES);
                 [self notifyDidOpenSide:side animated:animated];
                 UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1508,14 +1516,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
     
     [self notifyWillCloseSide:side animated:animated];
-    BOOL wasEnabled = self.view.userInteractionEnabled;
-    self.view.userInteractionEnabled = NO;
+    [self disableUserInteraction];
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
         [self centerViewVisible];
     } completion:^(BOOL finished) {
         [self hideAppropriateSideViews];
-        self.view.userInteractionEnabled = wasEnabled;
+        [self enableUserInteraction];
         if (completed) completed(self, YES);
         [self notifyDidCloseSide:side animated:animated];
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1555,8 +1562,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
   
     // first open the view completely, run the block (to allow changes) and close it again.
     [self notifyWillCloseSide:side animated:animated];
-    BOOL wasEnabled = self.view.userInteractionEnabled;
-    self.view.userInteractionEnabled = NO;
+    [self disableUserInteraction];
     [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:options animations:^{
         [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
     } completion:^(BOOL finished) {
@@ -1569,7 +1575,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self centerViewVisible];
         } completion:^(BOOL finished2) {
             [self hideAppropriateSideViews];
-            self.view.userInteractionEnabled = wasEnabled;
+            [self enableUserInteraction];
             if (completed) completed(self, YES);
             [self notifyDidCloseSide:side animated:animated];
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1729,13 +1735,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     UINavigationController* navController = self.centerController.navigationController ? self.centerController.navigationController :(UINavigationController*)self.centerController;
     [navController pushViewController:controller animated:NO];
     
-    BOOL wasEnabled = self.view.userInteractionEnabled;
-    self.view.userInteractionEnabled = NO;
+    [self disableUserInteraction];
     [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
         shotView.frame = CGRectOffset(shotView.frame, -view.frame.size.width, 0);
         view.frame = targetFrame;
     } completion:^(BOOL finished) {
-        self.view.userInteractionEnabled = wasEnabled;
+        [self enableUserInteraction];
         [shotView removeFromSuperview];
     }];
 }
@@ -2183,6 +2188,26 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 [self closeTopView];
             else
                 [self closeTopViewBouncing:nil];
+        }
+    }
+}
+
+- (void)disableUserInteraction {
+    @synchronized (self.view) {
+        ++_disabledUserInteractions;
+        if (_disabledUserInteractions == 1) {
+            ((IIViewDeckView*)self.view).allowUserInteractionEnabled = NO;
+        }
+    }
+}
+
+- (void)enableUserInteraction {
+    @synchronized (self.view) {
+        if (_disabledUserInteractions > 0) {
+            --_disabledUserInteractions;
+            if (_disabledUserInteractions == 0) {
+                ((IIViewDeckView*)self.view).allowUserInteractionEnabled = YES;
+            }
         }
     }
 }
@@ -3069,7 +3094,47 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #pragma mark -
 
-@implementation UIViewController (UIViewDeckItem) 
+@implementation IIViewDeckView
+
+@synthesize allowUserInteractionEnabled = _allowUserInteractionEnabled;
+
+- (id)init {
+    if ((self = [super init])) {
+        _allowUserInteractionEnabled = YES;
+        _userInteractionEnabled = [self isUserInteractionEnabled];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super initWithCoder:aDecoder])) {
+        _allowUserInteractionEnabled = YES;
+        _userInteractionEnabled = [self isUserInteractionEnabled];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        _allowUserInteractionEnabled = YES;
+        _userInteractionEnabled = [self isUserInteractionEnabled];
+    }
+    return self;
+}
+
+- (void)setAllowUserInteractionEnabled:(BOOL)allowUserInteractionEnabled {
+    _allowUserInteractionEnabled = allowUserInteractionEnabled;
+    [super setUserInteractionEnabled:_allowUserInteractionEnabled && _userInteractionEnabled];
+}
+
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+    _userInteractionEnabled = userInteractionEnabled;
+    [super setUserInteractionEnabled:_allowUserInteractionEnabled && _userInteractionEnabled];
+}
+
+@end
+
+@implementation UIViewController (UIViewDeckItem)
 
 @dynamic viewDeckController;
 

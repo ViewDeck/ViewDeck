@@ -116,6 +116,7 @@
         picker.sourceType =  UIImagePickerControllerSourceTypeCamera;
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        [self.popoverController dismissPopoverAnimated:NO];
         self.popoverController = [[UIPopoverController alloc] initWithContentViewController:picker];
         [self.popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES]; 
     }

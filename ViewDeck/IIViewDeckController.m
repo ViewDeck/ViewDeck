@@ -543,10 +543,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 -(void)setSlidingFrameForOffset:(CGFloat)offset limit:(BOOL)limit panning:(BOOL)panning forOrientation:(IIViewDeckOffsetOrientation)orientation {
     CGFloat beforeOffset = _offset;
-    CGFloat origOffset = offset;
     if (limit)
         offset = [self limitOffset:offset forOrientation:orientation];
-    NSLog(@"ssffo %f -> (%f %d= %f)", beforeOffset, offset, limit, origOffset);
     _offset = offset;
     _offsetOrientation = orientation;
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
@@ -888,10 +886,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self centerViewHidden];
     }
     else if (_willAppearShouldArrangeViewsAfterRotation != UIDeviceOrientationUnknown) {
-        for (NSString* key in [self.view.layer animationKeys]) {
-            NSLog(@"%@ %f", [self.view.layer animationForKey:key], [self.view.layer animationForKey:key].duration);
-        }
-        
         [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
         [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation duration:0];
         [self didRotateFromInterfaceOrientation:_willAppearShouldArrangeViewsAfterRotation];

@@ -2692,6 +2692,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
 }
 
+- (void)setPanningCancelsTouchesInView:(BOOL)panningCancelsTouchesInView {
+    _panningCancelsTouchesInView = panningCancelsTouchesInView;
+    for (UIGestureRecognizer* panner in _panners) {
+        panner.cancelsTouchesInView = panningCancelsTouchesInView;
+    }
+}
+
 - (void)setNavigationControllerBehavior:(IIViewDeckNavigationControllerBehavior)navigationControllerBehavior {
     if (!_viewFirstAppeared) {
         _navigationControllerBehavior = navigationControllerBehavior;

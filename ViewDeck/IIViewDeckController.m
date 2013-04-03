@@ -288,7 +288,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         _elastic = YES;
         _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
         _panningMode = IIViewDeckFullViewPanning;
-        _panningCancelsTouchesInView = NO;
+        _panningCancelsTouchesInView = YES; // let's default to standard IOS behavior. 
         _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
         _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
         _sizeMode = IIViewDeckLedgeSizeMode;

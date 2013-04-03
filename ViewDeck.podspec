@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name      = 'ViewDeck'
-  s.version   = '2.2.7'
+  s.version   = '2.2.8'
   s.platform  = :ios
   s.summary   = 'An implementation of the sliding functionality found in the ' \
                 'Path 2.0 or Facebook iOS apps.'
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   }
   s.author    = { 'Tom Adriaenssen' =>  'http://inferis.org/' }             
   s.source    = { :git => 'https://github.com/Inferis/ViewDeck.git',
-                  :tag => '2.2.7'}
+                  :tag => '2.2.8'}
   s.source_files  = 'ViewDeck/*.{h,m}'
   s.frameworks    = 'QuartzCore'
   s.requires_arc  = true

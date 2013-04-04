@@ -1321,7 +1321,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (duration == DEFAULT_DURATION) duration = [self openSlideDuration:animated];
     
-    __block UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
+    __block UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     
     IIViewDeckControllerBlock finish = ^(IIViewDeckController *controller, BOOL success) {
         if (!success) {
@@ -1342,11 +1342,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     };
     
     if ([self isSideClosed:side]) {
-        options |= UIViewAnimationOptionCurveEaseIn;
         // try to close any open view first
         return [self closeOpenViewAnimated:animated completion:finish];
     }
     else {
+        options |= UIViewAnimationOptionCurveEaseOut;
+
         finish(self, YES);
         return YES;
     }
@@ -1421,8 +1422,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (duration == DEFAULT_DURATION) duration = [self closeSlideDuration:animated];
     
-    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
-    if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
+    UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
+    if (![self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseOut;
     
     [self notifyWillCloseSide:side animated:animated];
     [UIView animateWithDuration:duration delay:0 options:options animations:^{

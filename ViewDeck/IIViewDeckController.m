@@ -2448,7 +2448,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 // swipe to the right
                 
                 // Animation duration based on velocity
-                CGFloat pointsToAnimate = fabsf(self.leftSize - self.slidingControllerView.frame.origin.x);
+                CGFloat maxDistance = CGRectGetWidth(self.view.frame) - self.leftSize;
+                CGFloat pointsToAnimate = fabsf(maxDistance - self.slidingControllerView.frame.origin.x);
                 NSTimeInterval animationDuration = durationToAnimate(pointsToAnimate, orientationVelocity);
                 
                 if (v > 0) {

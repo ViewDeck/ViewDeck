@@ -2925,6 +2925,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
         }
         
+        [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
         

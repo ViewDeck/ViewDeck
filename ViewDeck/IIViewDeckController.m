@@ -200,6 +200,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)centerViewVisible;
 - (void)centerViewHidden;
 - (void)centerTapped;
+- (void)setAccessibilityForCenterTapper;
 
 - (void)addPanners;
 - (void)removePanners;
@@ -278,6 +279,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
 @synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
 @synthesize parallaxAmount = _parallaxAmount;
+@synthesize centerTapperAccessibilityLabel = _centerTapperAccessibilityLabel;
+@synthesize centerTapperAccessibilityHint = _centerTapperAccessibilityHint;
 
 #pragma mark - Initalisation and deallocation
 
@@ -1053,6 +1056,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }];
+    
+    [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
 }
 
 - (void)arrangeViewsAfterRotation {
@@ -1429,6 +1434,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self centerViewHidden];
         } completion:^(BOOL finished) {
             [self enableUserInteraction];
+            [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
             if (completed) completed(self, YES);
             [self notifyDidOpenSide:side animated:animated];
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1489,6 +1495,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
                 [self enableUserInteraction];
+                [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
                 if (completed) completed(self, YES);
                 [self notifyDidOpenSide:side animated:animated];
                 UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -2156,9 +2163,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             self.centerTapper.frame = [self.centerView bounds];
             [self.centerTapper addTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];
             self.centerTapper.backgroundColor = [UIColor clearColor];
+            self.centerTapper.accessibilityViewIsModal = YES;
         }
         [self.centerView addSubview:self.centerTapper];
         self.centerTapper.frame = [self.centerView bounds];
+        [self setAccessibilityForCenterTapper]; // set accessibility label, hint, and frame
         
         [self addPanners];
     }
@@ -2213,6 +2222,28 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 ((IIViewDeckView*)self.view).allowUserInteractionEnabled = YES;
             }
         }
+    }
+}
+
+- (void)setAccessibilityForCenterTapper {
+    if (self.centerTapper) {
+        self.centerTapper.accessibilityLabel = self.centerTapperAccessibilityLabel;
+        self.centerTapper.accessibilityHint = self.centerTapperAccessibilityHint;
+        self.centerTapper.accessibilityFrame = CGRectIntersection(self.view.window.bounds, [self.centerTapper convertRect:self.centerTapper.bounds toView:nil]);
+    }
+}
+
+- (void)setCenterTapperAccessibilityLabel:(NSString *)centerTapperAccessibilityLabel {
+    if (![_centerTapperAccessibilityLabel isEqualToString:centerTapperAccessibilityLabel]) {
+        _centerTapperAccessibilityLabel = centerTapperAccessibilityLabel;
+        [self setAccessibilityForCenterTapper];
+    }
+}
+
+- (void)setCenterTapperAccessibilityHint:(NSString *)centerTapperAccessibilityHint {
+    if (![_centerTapperAccessibilityHint isEqualToString:centerTapperAccessibilityHint]) {
+        _centerTapperAccessibilityHint = centerTapperAccessibilityHint;
+        [self setAccessibilityForCenterTapper];
     }
 }
 
@@ -2473,7 +2504,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     else
         [self hideAppropriateSideViews];
-
+    
+    [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
+    
     [self notifyDidCloseSide:closeSide animated:NO];
     [self notifyDidOpenSide:openSide animated:NO];
 }

@@ -200,6 +200,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)centerViewVisible;
 - (void)centerViewHidden;
 - (void)centerTapped;
+- (void)setAccessibilityForCenterTapper;
 
 - (void)addPanners;
 - (void)removePanners;
@@ -278,57 +279,70 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
 @synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
 @synthesize parallaxAmount = _parallaxAmount;
+@synthesize centerTapperAccessibilityLabel = _centerTapperAccessibilityLabel;
+@synthesize centerTapperAccessibilityHint = _centerTapperAccessibilityHint;
 
 #pragma mark - Initalisation and deallocation
 
+- (void)commonInitWithCenterViewController:(UIViewController *)centerController
+{
+    _elastic = YES;
+    _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
+    _panningMode = IIViewDeckFullViewPanning;
+    _panningCancelsTouchesInView = YES; // let's default to standard IOS behavior.
+    _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
+    _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
+    _sizeMode = IIViewDeckLedgeSizeMode;
+    _viewAppeared = 0;
+    _viewFirstAppeared = NO;
+    _resizesCenterView = NO;
+    _automaticallyUpdateTabBarItems = NO;
+    self.panners = [NSMutableArray array];
+    self.enabled = YES;
+    _offset = 0;
+    _bounceDurationFactor = 0.3;
+    _openSlideAnimationDuration = 0.3;
+    _closeSlideAnimationDuration = 0.3;
+    _offsetOrientation = IIViewDeckHorizontalOrientation;
+    
+    _delegate = nil;
+    _delegateMode = IIViewDeckDelegateOnly;
+    
+    self.originalShadowRadius = 0;
+    self.originalShadowOffset = CGSizeZero;
+    self.originalShadowColor = nil;
+    self.originalShadowOpacity = 0;
+    self.originalShadowPath = nil;
+    
+    _slidingController = nil;
+    self.centerController = centerController;
+    self.leftController = nil;
+    self.rightController = nil;
+    self.topController = nil;
+    self.bottomController = nil;
+    
+    _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    return [self initWithCenterViewController:nil];
+    if ((self = [super initWithCoder:aDecoder])) {
+        [self commonInitWithCenterViewController:nil];
+    }
+    return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    return [self initWithCenterViewController:nil];
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+        [self commonInitWithCenterViewController:nil];
+    }
+    return self;
 }
 
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super initWithNibName:nil bundle:nil])) {
-        _elastic = YES;
-        _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
-        _panningMode = IIViewDeckFullViewPanning;
-        _panningCancelsTouchesInView = YES; // let's default to standard IOS behavior. 
-        _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
-        _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
-        _sizeMode = IIViewDeckLedgeSizeMode;
-        _viewAppeared = 0;
-        _viewFirstAppeared = NO;
-        _resizesCenterView = NO;
-        _automaticallyUpdateTabBarItems = NO;
-        self.panners = [NSMutableArray array];
-        self.enabled = YES;
-        _offset = 0;
-        _bounceDurationFactor = 0.3;
-        _openSlideAnimationDuration = 0.3;
-        _closeSlideAnimationDuration = 0.3;
-        _offsetOrientation = IIViewDeckHorizontalOrientation;
-        
-        _delegate = nil;
-        _delegateMode = IIViewDeckDelegateOnly;
-        
-        self.originalShadowRadius = 0;
-        self.originalShadowOffset = CGSizeZero;
-        self.originalShadowColor = nil;
-        self.originalShadowOpacity = 0;
-        self.originalShadowPath = nil;
-        
-        _slidingController = nil;
-        self.centerController = centerController;
-        self.leftController = nil;
-        self.rightController = nil;
-        self.topController = nil;
-        self.bottomController = nil;
-
-        _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
+        [self commonInitWithCenterViewController:centerController];
     }
     return self;
 }
@@ -1042,6 +1056,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     }];
+    
+    [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
 }
 
 - (void)arrangeViewsAfterRotation {
@@ -1418,6 +1434,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self centerViewHidden];
         } completion:^(BOOL finished) {
             [self enableUserInteraction];
+            [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
             if (completed) completed(self, YES);
             [self notifyDidOpenSide:side animated:animated];
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -1425,7 +1442,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     };
     
     if ([self isSideClosed:side]) {
-        options |= UIViewAnimationOptionCurveEaseIn;
         // try to close any open view first
         return [self closeOpenViewAnimated:animated completion:finish];
     }
@@ -1479,6 +1495,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
                 [self enableUserInteraction];
+                [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
                 if (completed) completed(self, YES);
                 [self notifyDidOpenSide:side animated:animated];
                 UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
@@ -2146,9 +2163,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             self.centerTapper.frame = [self.centerView bounds];
             [self.centerTapper addTarget:self action:@selector(centerTapped) forControlEvents:UIControlEventTouchUpInside];
             self.centerTapper.backgroundColor = [UIColor clearColor];
+            self.centerTapper.accessibilityViewIsModal = YES;
         }
         [self.centerView addSubview:self.centerTapper];
         self.centerTapper.frame = [self.centerView bounds];
+        [self setAccessibilityForCenterTapper]; // set accessibility label, hint, and frame
         
         [self addPanners];
     }
@@ -2206,11 +2225,40 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
 }
 
+- (void)setAccessibilityForCenterTapper {
+    if (self.centerTapper) {
+        self.centerTapper.accessibilityLabel = self.centerTapperAccessibilityLabel;
+        self.centerTapper.accessibilityHint = self.centerTapperAccessibilityHint;
+        self.centerTapper.accessibilityFrame = CGRectIntersection(self.view.window.bounds, [self.centerTapper convertRect:self.centerTapper.bounds toView:nil]);
+    }
+}
+
+- (void)setCenterTapperAccessibilityLabel:(NSString *)centerTapperAccessibilityLabel {
+    if (![_centerTapperAccessibilityLabel isEqualToString:centerTapperAccessibilityLabel]) {
+        _centerTapperAccessibilityLabel = centerTapperAccessibilityLabel;
+        [self setAccessibilityForCenterTapper];
+    }
+}
+
+- (void)setCenterTapperAccessibilityHint:(NSString *)centerTapperAccessibilityHint {
+    if (![_centerTapperAccessibilityHint isEqualToString:centerTapperAccessibilityHint]) {
+        _centerTapperAccessibilityHint = centerTapperAccessibilityHint;
+        [self setAccessibilityForCenterTapper];
+    }
+}
+
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panner {
-    if (self.panningMode == IIViewDeckNavigationBarOrOpenCenterPanning && panner.view == self.slidingControllerView && [self isAnySideOpen])
-        return NO;
+    if (self.panningMode == IIViewDeckNavigationBarOrOpenCenterPanning && panner.view == self.slidingControllerView) {
+        if ([self isAnySideOpen])
+            return YES;
+
+        UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] ? (UINavigationController*)self.centerController : self.centerController.navigationController;
+        CGPoint loc = [panner locationInView:navController.navigationBar];
+        NSLog(@"%@ in %@", NSStringFromCGPoint(loc), NSStringFromCGRect(navController.navigationBar.bounds));
+        return CGRectContainsPoint(navController.navigationBar.bounds, loc);
+    }
     
     if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
         BOOL result = [self.panningGestureDelegate gestureRecognizerShouldBegin:panner];
@@ -2449,7 +2497,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 // swipe to the right
                 
                 // Animation duration based on velocity
-                CGFloat pointsToAnimate = fabsf(self.leftSize - self.slidingControllerView.frame.origin.x);
+                CGFloat maxDistance = CGRectGetWidth(self.view.frame) - self.leftSize;
+                CGFloat pointsToAnimate = fabsf(maxDistance - self.slidingControllerView.frame.origin.x);
                 NSTimeInterval animationDuration = durationToAnimate(pointsToAnimate, orientationVelocity);
                 
                 if (v > 0) {
@@ -2462,7 +2511,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     else
         [self hideAppropriateSideViews];
-
+    
+    [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
+    
     [self notifyDidCloseSide:closeSide animated:NO];
     [self notifyDidOpenSide:openSide animated:NO];
 }
@@ -2925,6 +2976,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
         }
         
+        [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
         

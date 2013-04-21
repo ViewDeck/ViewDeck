@@ -1425,7 +1425,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     };
     
     if ([self isSideClosed:side]) {
-        options |= UIViewAnimationOptionCurveEaseIn;
         // try to close any open view first
         return [self closeOpenViewAnimated:animated completion:finish];
     }

@@ -281,54 +281,65 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #pragma mark - Initalisation and deallocation
 
+- (void)commonInitWithCenterViewController:(UIViewController *)centerController
+{
+    _elastic = YES;
+    _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
+    _panningMode = IIViewDeckFullViewPanning;
+    _panningCancelsTouchesInView = YES; // let's default to standard IOS behavior.
+    _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
+    _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
+    _sizeMode = IIViewDeckLedgeSizeMode;
+    _viewAppeared = 0;
+    _viewFirstAppeared = NO;
+    _resizesCenterView = NO;
+    _automaticallyUpdateTabBarItems = NO;
+    self.panners = [NSMutableArray array];
+    self.enabled = YES;
+    _offset = 0;
+    _bounceDurationFactor = 0.3;
+    _openSlideAnimationDuration = 0.3;
+    _closeSlideAnimationDuration = 0.3;
+    _offsetOrientation = IIViewDeckHorizontalOrientation;
+    
+    _delegate = nil;
+    _delegateMode = IIViewDeckDelegateOnly;
+    
+    self.originalShadowRadius = 0;
+    self.originalShadowOffset = CGSizeZero;
+    self.originalShadowColor = nil;
+    self.originalShadowOpacity = 0;
+    self.originalShadowPath = nil;
+    
+    _slidingController = nil;
+    self.centerController = centerController;
+    self.leftController = nil;
+    self.rightController = nil;
+    self.topController = nil;
+    self.bottomController = nil;
+    
+    _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    return [self initWithCenterViewController:nil];
+    if ((self = [super initWithCoder:aDecoder])) {
+        [self commonInitWithCenterViewController:nil];
+    }
+    return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    return [self initWithCenterViewController:nil];
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+        [self commonInitWithCenterViewController:nil];
+    }
+    return self;
 }
 
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super initWithNibName:nil bundle:nil])) {
-        _elastic = YES;
-        _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
-        _panningMode = IIViewDeckFullViewPanning;
-        _panningCancelsTouchesInView = YES; // let's default to standard IOS behavior. 
-        _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
-        _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
-        _sizeMode = IIViewDeckLedgeSizeMode;
-        _viewAppeared = 0;
-        _viewFirstAppeared = NO;
-        _resizesCenterView = NO;
-        _automaticallyUpdateTabBarItems = NO;
-        self.panners = [NSMutableArray array];
-        self.enabled = YES;
-        _offset = 0;
-        _bounceDurationFactor = 0.3;
-        _openSlideAnimationDuration = 0.3;
-        _closeSlideAnimationDuration = 0.3;
-        _offsetOrientation = IIViewDeckHorizontalOrientation;
-        
-        _delegate = nil;
-        _delegateMode = IIViewDeckDelegateOnly;
-        
-        self.originalShadowRadius = 0;
-        self.originalShadowOffset = CGSizeZero;
-        self.originalShadowColor = nil;
-        self.originalShadowOpacity = 0;
-        self.originalShadowPath = nil;
-        
-        _slidingController = nil;
-        self.centerController = centerController;
-        self.leftController = nil;
-        self.rightController = nil;
-        self.topController = nil;
-        self.bottomController = nil;
-
-        _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
+        [self commonInitWithCenterViewController:centerController];
     }
     return self;
 }

@@ -136,14 +136,14 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign) IIViewDeckDelegateMode delegateMode;
 
 @property (nonatomic, readonly, retain) NSArray* controllers;
-@property (nonatomic, retain) UIViewController* centerController;
-@property (nonatomic, retain) UIViewController* leftController;
-@property (nonatomic, retain) UIViewController* rightController;
-@property (nonatomic, retain) UIViewController* topController;
-@property (nonatomic, retain) UIViewController* bottomController;
+@property (nonatomic, retain) IBOutlet UIViewController* centerController;
+@property (nonatomic, retain) IBOutlet UIViewController* leftController;
+@property (nonatomic, retain) IBOutlet UIViewController* rightController;
+@property (nonatomic, retain) IBOutlet UIViewController* topController;
+@property (nonatomic, retain) IBOutlet UIViewController* bottomController;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
 
-@property (nonatomic, retain) UIView* panningView;
+@property (nonatomic, retain) IBOutlet UIView* panningView;
 @property (nonatomic, ii_weak_property) __ii_weak id<UIGestureRecognizerDelegate> panningGestureDelegate;
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 @property (nonatomic, assign, getter=isElastic) BOOL elastic;

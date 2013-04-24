@@ -1467,7 +1467,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     };
     
     UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
-    if ([self isSideClosed:side]) options |= UIViewAnimationCurveEaseIn;
+    if ([self isSideClosed:side]) options |= UIViewAnimationOptionCurveEaseIn;
 
     return [self closeOpenViewAnimated:animated completion:^(IIViewDeckController *controller, BOOL success) {
         if (!success) {
@@ -1491,7 +1491,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:_controllers[side]];
             
             // now slide the view back to the ledge position
-            [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
+            [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             } completion:^(BOOL finished) {
                 [self enableUserInteraction];
@@ -1523,8 +1523,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (duration == DEFAULT_DURATION) duration = [self closeSlideDuration:animated];
     
-    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
-    if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
+    UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
+    options |= [self isSideOpen:side] ? UIViewAnimationOptionCurveEaseInOut : UIViewAnimationOptionCurveEaseOut;
     
     [self notifyWillCloseSide:side animated:animated];
     [self disableUserInteraction];
@@ -1564,7 +1564,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
-    if ([self isSideOpen:side]) options |= UIViewAnimationCurveEaseIn;
+    if ([self isSideOpen:side]) options |= UIViewAnimationOptionCurveEaseIn;
     
     BOOL animated = YES;
     

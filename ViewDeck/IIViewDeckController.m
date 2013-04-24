@@ -1418,7 +1418,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (duration == DEFAULT_DURATION) duration = [self openSlideDuration:animated];
     
-    UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
+    UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     
     IIViewDeckControllerBlock finish = ^(IIViewDeckController *controller, BOOL success) {
         if (!success) {
@@ -1446,6 +1446,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         return [self closeOpenViewAnimated:animated completion:finish];
     }
     else {
+        options |= UIViewAnimationOptionCurveEaseOut;
+
         finish(self, YES);
         return YES;
     }

@@ -180,6 +180,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @property (nonatomic, readonly) UIView* slidingControllerView;
 
 - (void)cleanup;
+- (uint)sideControllerCount;
 
 - (CGRect)slidingRectForOffset:(CGFloat)offset forOrientation:(IIViewDeckOffsetOrientation)orientation;
 - (CGSize)slidingSizeForOffset:(CGFloat)offset forOrientation:(IIViewDeckOffsetOrientation)orientation;
@@ -445,6 +446,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 #pragma mark - Bookkeeping
+
+- (uint)sideControllerCount {
+    return (self.leftController ? 1 : 0) + (self.rightController ? 1 : 0) + (self.topController ? 1 : 0) + (self.bottomController ? 1 : 0);
+}
 
 - (NSArray*)controllers {
     NSMutableArray *result = [NSMutableArray array];
@@ -734,9 +739,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)setMaxSize:(CGFloat)maxSize completion:(void(^)(BOOL finished))completion {
-    int count = (self.leftController ? 1 : 0) + (self.rightController ? 1 : 0) + (self.topController ? 1 : 0) + (self.bottomController ? 1 : 0);
-    
-    if (count > 1) {
+    if ([self sideControllerCount] > 1) {
         NSLog(@"IIViewDeckController: warning: setting maxLedge with more than one side controllers. Value will be ignored.");
         return;
     }

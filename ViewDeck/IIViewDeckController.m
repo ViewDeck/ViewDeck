@@ -752,6 +752,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             _maxLedge = [self sizeAsLedge:maxSize forSide:side];
             if (_ledge[side] > _maxLedge)
                 [self setSize:maxSize forSide:side completion:completion];
+            else if (completion)
+                completion(NO);
             [self setSlidingFrameForOffset:_offset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)]; // should be animated
         }
     }];

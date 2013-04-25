@@ -128,6 +128,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     NSMutableArray* _finishTransitionBlocks;
     int _disabledUserInteractions;
     CALayer* _shadowLayer;
+    BOOL _needsAddPannersIfAllPannersAreInactive;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);

@@ -127,6 +127,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     CGPoint _willAppearOffset;
     NSMutableArray* _finishTransitionBlocks;
     int _disabledUserInteractions;
+    BOOL _needsAddPannersIfAllPannersAreInactive;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);

@@ -29,8 +29,8 @@
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:centerController
                                                                                     leftViewController:leftController];
     deckController.delegateMode = IIViewDeckDelegateOnly;
-    deckController.centerViewOpacity = 0.6;
-    deckController.shadowEnabled = NO;
+    deckController.centerViewOpacity = 0.4;
+    deckController.centerViewCornerRadius = 100;
     self.window.rootViewController = deckController;
 
     self.window.backgroundColor = [UIColor whiteColor];

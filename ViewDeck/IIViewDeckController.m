@@ -270,6 +270,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
 @synthesize centerTapper = _centerTapper;
 @synthesize centerView = _centerView;
+@synthesize centerViewOpacity = _centerViewOpacity;
 @synthesize sizeMode = _sizeMode;
 @synthesize enabled = _enabled;
 @synthesize elastic = _elastic;
@@ -298,6 +299,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _viewFirstAppeared = NO;
     _resizesCenterView = NO;
     _automaticallyUpdateTabBarItems = NO;
+    _centerViewOpacity = 1;
     self.panners = [NSMutableArray array];
     self.enabled = YES;
     _offset = 0;
@@ -575,10 +577,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)hideAppropriateSideViews {
-    self.leftController.view.hidden = CGRectGetMinX(self.slidingControllerView.frame) <= 0;
-    self.rightController.view.hidden = CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width;
-    self.topController.view.hidden = CGRectGetMinY(self.slidingControllerView.frame) <= 0;
-    self.bottomController.view.hidden = CGRectGetMaxY(self.slidingControllerView.frame) >= self.referenceBounds.size.height;
+    [self hide:(CGRectGetMinX(self.slidingControllerView.frame) <= 0) controllerViewForSide:IIViewDeckLeftSide];
+    [self hide:(CGRectGetMaxX(self.slidingControllerView.frame) >= self.referenceBounds.size.width) controllerViewForSide:IIViewDeckRightSide];
+    [self hide:(CGRectGetMinY(self.slidingControllerView.frame) <= 0) controllerViewForSide:IIViewDeckTopSide];
+    [self hide:(CGRectGetMaxY(self.slidingControllerView.frame) >= self.referenceBounds.size.height) controllerViewForSide:IIViewDeckBottomSide];
 }
 
 #pragma mark - ledges
@@ -1432,7 +1434,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self notifyWillOpenSide:side animated:animated];
         [self disableUserInteraction];
         [UIView animateWithDuration:duration delay:0 options:options animations:^{
-            [self controllerForSide:side].view.hidden = NO;
+            [self hide:NO controllerViewForSide:side];
             [self setSlidingFrameForOffset:[self ledgeOffsetForSide:side] forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
             [self centerViewHidden];
         } completion:^(BOOL finished) {
@@ -1454,6 +1456,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         finish(self, YES);
         return YES;
     }
+}
+
+- (void)hide:(BOOL)hidden controllerViewForSide:(IIViewDeckSide)side  {
+    if ([self sideControllerCount] > 1)
+        [self controllerForSide:side].view.hidden = hidden;
+    else
+        [self controllerForSide:side].view.hidden = NO;
 }
 
 - (BOOL)openSideView:(IIViewDeckSide)side bounceOffset:(CGFloat)bounceOffset targetOffset:(CGFloat)targetOffset bounced:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed {
@@ -1487,7 +1496,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self notifyWillOpenSide:side animated:animated];
         [self disableUserInteraction];
         [UIView animateWithDuration:[self openSlideDuration:YES]*longFactor delay:0 options:options animations:^{
-            [self controllerForSide:side].view.hidden = NO;
+            [self hide:NO controllerViewForSide:side];
             [self setSlidingFrameForOffset:bounceOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side)];
         } completion:^(BOOL finished) {
             [self centerViewHidden];
@@ -2844,6 +2853,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [controller setViewDeckController:self];
             afterBlock(controller);
             [controller didMoveToParentViewController:parentController];
+            [self applyCenterViewOpacityIfNeeded];
         };
 
         if (self.referenceView) {
@@ -2982,6 +2992,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         }
         
         [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
+        [self applyCenterViewOpacityIfNeeded];
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
         
@@ -3101,6 +3112,36 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         }
         _finishTransitionBlocks = nil;
     }
+}
+
+#pragma mark - Center Opacity
+
+- (void)setCenterViewOpacity:(CGFloat)centerViewOpacity {
+    _centerViewOpacity = centerViewOpacity;
+    
+    if (centerViewOpacity < 1 && [self sideControllerCount] > 1) {
+        NSLog(@"IIViewDeckController: warning: setting centerViewOpacity to value different than 1 with more than one side controller. Value will be ignored.");
+        return;
+    }
+    
+    [self applyCenterViewOpacityIfNeeded];
+}
+
+- (void)applyCenterViewOpacityIfNeeded {
+    if (!self.centerController.view)
+        return;
+
+    if ([self sideControllerCount] > 1) {
+        // more than once controller => not opaque
+        if (self.centerController.view.alpha < 1) {
+            self.centerController.view.alpha = 1;
+            self.centerController.view.opaque = YES;
+        }
+        return;
+    }
+    
+    self.centerController.view.alpha = _centerViewOpacity;
+    self.centerController.view.opaque = NO;
 }
 
 #pragma mark - Shadow

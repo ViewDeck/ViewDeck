@@ -2257,7 +2257,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
         UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] ? (UINavigationController*)self.centerController : self.centerController.navigationController;
         CGPoint loc = [panner locationInView:navController.navigationBar];
-        NSLog(@"%@ in %@", NSStringFromCGPoint(loc), NSStringFromCGRect(navController.navigationBar.bounds));
         return CGRectContainsPoint(navController.navigationBar.bounds, loc);
     }
     

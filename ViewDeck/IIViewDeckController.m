@@ -272,6 +272,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize centerTapper = _centerTapper;
 @synthesize centerView = _centerView;
 @synthesize centerViewOpacity = _centerViewOpacity;
+@synthesize centerViewCornerRadius = _centerViewCornerRadius;
 @synthesize sizeMode = _sizeMode;
 @synthesize enabled = _enabled;
 @synthesize elastic = _elastic;
@@ -301,6 +302,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _resizesCenterView = NO;
     _automaticallyUpdateTabBarItems = NO;
     _centerViewOpacity = 1;
+    _centerViewCornerRadius = 0;
     self.panners = [NSMutableArray array];
     self.enabled = YES;
     _offset = 0;
@@ -907,6 +909,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             }];
             
             [self applyShadowToSlidingViewAnimated:NO];
+            [self applyCenterViewCornerRadius];
+            [self applyCenterViewOpacityIfNeeded];
         };
         
         if ([self setSlidingAndReferenceViews]) {
@@ -3017,6 +3021,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         
         [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
         [self applyCenterViewOpacityIfNeeded];
+        [self applyCenterViewCornerRadius];
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
         
@@ -3106,7 +3111,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     if ([keyPath isEqualToString:@"bounds"]) {
-        [self setSlidingFrameForOffset:_offset forOrientation:_offsetOrientation];
+        [self setSlidingFrameForOffset:_offset forOrientation:_offsetOrientation animated:NO];
         self.slidingControllerView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.referenceBounds].CGPath;
         UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] 
         ? (UINavigationController*)self.centerController 
@@ -3166,6 +3171,41 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     self.centerController.view.alpha = _centerViewOpacity;
     self.centerController.view.opaque = NO;
+}
+
+#pragma mark - Center corner radius
+
+- (void)setCenterViewCornerRadius:(CGFloat)centerViewCornerRadius {
+    _centerViewCornerRadius = centerViewCornerRadius;
+    [self applyCenterViewCornerRadius];
+}
+
+- (void)applyCenterViewCornerRadius {
+    if (_centerViewCornerRadius == 0)
+        self.slidingControllerView.layer.mask = nil;
+    else {
+        // create mask path
+        CGRect rect = self.slidingControllerView.layer.bounds;
+        CGSize radius = (CGSize) { _centerViewCornerRadius, _centerViewCornerRadius };
+        UIRectCorner corners = 0;
+        if (self.leftController)
+            corners |= UIRectCornerTopLeft | UIRectCornerBottomLeft;
+        if (self.rightController)
+            corners |= UIRectCornerTopRight | UIRectCornerBottomRight;
+        if (self.topController)
+            corners |= UIRectCornerTopLeft | UIRectCornerTopRight;
+        if (self.bottomController)
+            corners |= UIRectCornerBottomLeft | UIRectCornerBottomRight;
+        UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:radius];
+        
+        CAShapeLayer* mask = [CAShapeLayer layer];
+        mask.path = [path CGPath];
+        mask.frame = rect;
+        self.slidingControllerView.layer.mask = mask;
+        // also update shadow layer
+        _shadowLayer.shadowPath = [path CGPath];
+    }
+    
 }
 
 #pragma mark - Shadow

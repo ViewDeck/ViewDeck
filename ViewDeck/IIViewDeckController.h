@@ -163,6 +163,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign, readonly) CGFloat bottomLedgeSize;
 @property (nonatomic, assign) CGFloat maxSize;
 @property (nonatomic, assign) CGFloat centerViewOpacity;
+@property (nonatomic, assign) CGFloat centerViewCornerRadius;
 @property (nonatomic, assign) BOOL shadowEnabled;
 @property (nonatomic, assign) BOOL resizesCenterView;
 @property (nonatomic, assign) IIViewDeckPanningMode panningMode;

@@ -257,6 +257,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @dynamic rightController;
 @dynamic topController;
 @dynamic bottomController;
+@synthesize shadowEnabled = _shadowEnabled;
 @synthesize resizesCenterView = _resizesCenterView;
 @synthesize originalShadowOpacity = _originalShadowOpacity;
 @synthesize originalShadowPath = _originalShadowPath;
@@ -3146,6 +3147,19 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #pragma mark - Shadow
 
+- (void)setShadowEnabled:(BOOL)shadowEnabled animated:(BOOL)animated {
+    _shadowEnabled = shadowEnabled;
+    
+    if (shadowEnabled)
+        [self applyShadowToSlidingViewAnimated:animated];
+    else
+        [self restoreShadowToSlidingView];
+}
+
+- (void)setShadowEnabled:(BOOL)shadowEnabled {
+    [self setShadowEnabled:shadowEnabled animated:NO];
+}
+
 - (void)restoreShadowToSlidingView {
     UIView* shadowedView = self.slidingControllerView;
     if (!shadowedView) return;
@@ -3158,6 +3172,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)applyShadowToSlidingViewAnimated:(BOOL)animated {
+    if (!self.shadowEnabled) return;
+
     UIView* shadowedView = self.slidingControllerView;
     if (!shadowedView) return;
     

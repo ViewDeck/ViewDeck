@@ -2316,9 +2316,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         if (!result) return result;
     }
 
-    if ([[touch view] isKindOfClass:[UISlider class]])
+    if ([[touch view] isKindOfClass:[UISlider class]]) {
         return NO;
-
+    }
+    if ([[touch view] isKindOfClass:[UIButton class]]) {
+        return NO;
+    }
     _panOrigin = self.slidingControllerView.frame.origin;
     return YES;
 }

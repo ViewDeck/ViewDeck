@@ -27,25 +27,43 @@
 
 // thanks to http://stackoverflow.com/a/8594878/742176
 
-#if TARGET_OS_IPHONE && defined(__IPHONE_5_0) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0) && __clang__ && (__clang_major__ >= 3)
-#define II_SDK_SUPPORTS_WEAK 1
-#elif TARGET_OS_MAC && defined(__MAC_10_7) && (MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7) && __clang__ && (__clang_major__ >= 3)
-#define II_SDK_SUPPORTS_WEAK 1
+#ifdef __has_feature
+
+    #if __has_feature(objc_arc_weak)
+    #define __ii_weak        __weak
+    #define ii_weak_property weak
+    #elif __has_feature(objc_arc)
+    #define ii_weak_property unsafe_unretained
+    #define __ii_weak __unsafe_unretained
+    #else
+    #define ii_weak_property assign
+    #define __ii_weak
+    #endif
+
 #else
-#define II_SDK_SUPPORTS_WEAK 0
+
+    #if TARGET_OS_IPHONE && defined(__IPHONE_5_0) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0) && __clang__ && (__clang_major__ >= 3)
+    #define II_SDK_SUPPORTS_WEAK 1
+    #elif TARGET_OS_MAC && defined(__MAC_10_7) && (MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7) && __clang__ && (__clang_major__ >= 3)
+    #define II_SDK_SUPPORTS_WEAK 1
+    #else
+    #define II_SDK_SUPPORTS_WEAK 0
+    #endif
+
+    #if II_SDK_SUPPORTS_WEAK
+    #define __ii_weak        __weak
+    #define ii_weak_property weak
+    #else
+    #if __clang__ && (__clang_major__ >= 3)
+    #define __ii_weak __unsafe_unretained
+    #else
+    #define __ii_weak
+    #endif
+    #define ii_weak_property assign
+    #endif
+
 #endif
 
-#if II_SDK_SUPPORTS_WEAK
-#define __ii_weak        __weak
-#define ii_weak_property weak
-#else
-#if __clang__ && (__clang_major__ >= 3)
-#define __ii_weak __unsafe_unretained
-#else
-#define __ii_weak
-#endif
-#define ii_weak_property assign
-#endif
 
 
 @protocol IIViewDeckControllerDelegate;

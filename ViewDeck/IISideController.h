@@ -12,6 +12,9 @@
 
 @property (nonatomic, assign) CGFloat constrainedSize;
 
++ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
++ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
+
 - (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
 
 - (void)shrinkSide;

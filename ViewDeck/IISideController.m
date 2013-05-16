@@ -21,6 +21,14 @@
 
 @implementation IISideController 
 
++ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller {
+    return [[IISideController alloc] initWithViewController:controller];
+}
+
++ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize {
+    return [[IISideController alloc] initWithViewController:controller constrained:constrainedSize];
+}
+
 - (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize {
     if ((self = [super initWithViewController:controller])) {
         _constrainedSize = constrainedSize;

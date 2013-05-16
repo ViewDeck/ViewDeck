@@ -923,8 +923,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             }];
             
+            [self applyCenterViewCornerRadiusAnimated:NO];
             [self applyShadowToSlidingViewAnimated:NO];
-            [self applyCenterViewCornerRadius];
             [self applyCenterViewOpacityIfNeeded];
         };
         
@@ -1051,40 +1051,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     }];
 
-    CABasicAnimation* anim = nil;
-    // only animate shadow if we've applied it ourselves.
-    if ([self.delegate respondsToSelector:@selector(viewDeckController:applyShadow:withBounds:)]) {
-        for (NSString* key in self.slidingControllerView.layer.animationKeys) {
-            if ([key isEqualToString:@"bounds"]) {
-                CABasicAnimation* other = (CABasicAnimation*)[self.slidingControllerView.layer animationForKey:key];
-                
-                if ([other isKindOfClass:[CABasicAnimation class]]) {
-                    anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-                    anim.fromValue = (__bridge id)[UIBezierPath bezierPathWithRect:[other.fromValue CGRectValue]].CGPath;
-                    anim.duration = other.duration;
-                    anim.timingFunction = other.timingFunction;
-                    break;
-                }
-            }
-        }
-    }
-    
-    // fallback: make shadow transparent and fade in to desired value. This gives the same visual
-    // effect as animating 
-    if (!anim) {
-        anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
-        anim.fromValue = @(0.0);
-        anim.duration = 1;
-        anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    }
-    [self.slidingControllerView.layer addAnimation:anim forKey:@"shadowOpacity"];
-
+    [self applyCenterViewCornerRadiusAnimated:YES];
+    [self applyShadowToSlidingViewAnimated:YES];
 }
 
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self restoreShadowToSlidingView];
     
     if (_preRotationSize.width == 0) {
         _preRotationSize = self.referenceBounds.size;
@@ -1099,7 +1072,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    [self applyShadowToSlidingViewAnimated:YES];
     
     [self relayRotationMethod:^(UIViewController *controller) {
         [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
@@ -3105,7 +3077,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         
         [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
         [self applyCenterViewOpacityIfNeeded];
-        [self applyCenterViewCornerRadius];
+        [self applyCenterViewCornerRadiusAnimated:NO];
         afterBlock(_centerController);
         [_centerController didMoveToParentViewController:self];
         
@@ -3281,35 +3253,90 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)setCenterViewCornerRadius:(CGFloat)centerViewCornerRadius {
     _centerViewCornerRadius = centerViewCornerRadius;
-    [self applyCenterViewCornerRadius];
+    [self applyCenterViewCornerRadiusAnimated:NO];
 }
 
-- (void)applyCenterViewCornerRadius {
+- (UIBezierPath*)generateCenterViewCornerRadiusPath {
+    CGRect rect = self.slidingControllerView.layer.bounds;
     if (_centerViewCornerRadius == 0)
-        self.slidingControllerView.layer.mask = nil;
-    else {
-        // create mask path
-        CGRect rect = self.slidingControllerView.layer.bounds;
-        CGSize radius = (CGSize) { _centerViewCornerRadius, _centerViewCornerRadius };
-        UIRectCorner corners = 0;
-        if (self.leftController)
-            corners |= UIRectCornerTopLeft | UIRectCornerBottomLeft;
-        if (self.rightController)
-            corners |= UIRectCornerTopRight | UIRectCornerBottomRight;
-        if (self.topController)
-            corners |= UIRectCornerTopLeft | UIRectCornerTopRight;
-        if (self.bottomController)
-            corners |= UIRectCornerBottomLeft | UIRectCornerBottomRight;
-        UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:radius];
-        
-        CAShapeLayer* mask = [CAShapeLayer layer];
-        mask.path = [path CGPath];
-        mask.frame = rect;
-        self.slidingControllerView.layer.mask = mask;
-        // also update shadow layer
-        _shadowLayer.shadowPath = [path CGPath];
-    }
+        return [UIBezierPath bezierPathWithRect:rect];
     
+    // create mask path
+    CGSize radius = (CGSize) { _centerViewCornerRadius, _centerViewCornerRadius };
+    UIRectCorner corners = 0;
+    if (self.leftController)
+        corners |= UIRectCornerTopLeft | UIRectCornerBottomLeft;
+    if (self.rightController)
+        corners |= UIRectCornerTopRight | UIRectCornerBottomRight;
+    if (self.topController)
+        corners |= UIRectCornerTopLeft | UIRectCornerTopRight;
+    if (self.bottomController)
+        corners |= UIRectCornerBottomLeft | UIRectCornerBottomRight;
+    UIBezierPath* path = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:radius];
+    
+    return path;
+}
+
+- (void)applyCenterViewCornerRadiusAnimated:(BOOL)animated {
+    UIBezierPath* path = [self generateCenterViewCornerRadiusPath];
+
+    if (!self.slidingControllerView.layer.mask) {
+        self.slidingControllerView.layer.mask = [CAShapeLayer layer];
+        ((CAShapeLayer*)self.slidingControllerView.layer.mask).path = [path CGPath];
+    }
+   
+    CAShapeLayer* mask = (CAShapeLayer*)self.slidingControllerView.layer.mask;
+    if (animated) {
+        CGFloat duration = 0.3;
+        CAMediaTimingFunction* timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        [self currentAnimationDuration:&duration timingFunction:&timingFunction];
+
+        CABasicAnimation* anim;
+        anim = [CABasicAnimation animationWithKeyPath:@"bounds"];
+        anim.duration = duration;
+        anim.timingFunction = timingFunction;
+        anim.fromValue = [NSValue valueWithCGRect:mask.bounds];
+        anim.toValue = [NSValue valueWithCGRect:[path bounds]];
+        anim.fillMode = kCAFillModeForwards;
+        [mask addAnimation:anim forKey:@"animateBounds"];
+        
+        anim = [CABasicAnimation animationWithKeyPath:@"path"];
+        anim.duration = duration;
+        anim.timingFunction = timingFunction;
+        anim.fromValue = (id)mask.path;
+        anim.toValue = (id)[path CGPath];
+        anim.fillMode = kCAFillModeForwards;
+        [mask addAnimation:anim forKey:@"animatePath"];
+
+        anim = [CABasicAnimation animationWithKeyPath:@"position"];
+        anim.duration = duration;
+        anim.timingFunction = timingFunction;
+        anim.fromValue = [NSValue valueWithCGPoint:_shadowLayer.position];
+        anim.toValue = [NSValue valueWithCGPoint:self.slidingControllerView.layer.position];
+        anim.fillMode = kCAFillModeForwards;
+        [_shadowLayer addAnimation:anim forKey:@"animatePosition"];
+
+        anim = [CABasicAnimation animationWithKeyPath:@"bounds"];
+        anim.duration = duration;
+        anim.timingFunction = timingFunction;
+        anim.fromValue = [NSValue valueWithCGRect:_shadowLayer.bounds];
+        anim.toValue = [NSValue valueWithCGRect:self.slidingControllerView.layer.bounds];
+        anim.fillMode = kCAFillModeForwards;
+        [_shadowLayer addAnimation:anim forKey:@"animateBounds"];
+
+        anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+        anim.duration = duration;
+        anim.timingFunction = timingFunction;
+        anim.fromValue = (id)_shadowLayer.shadowPath;
+        anim.toValue = (id)[path CGPath];
+        anim.fillMode = kCAFillModeForwards;
+        [_shadowLayer addAnimation:anim forKey:@"animateShadowPath"];
+    }
+
+    mask.path = [path CGPath];
+    mask.frame = [path bounds];
+    _shadowLayer.shadowPath = [path CGPath];
+    _shadowLayer.frame = self.slidingControllerView.layer.frame;
 }
 
 #pragma mark - Shadow
@@ -3344,13 +3371,65 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self.delegate viewDeckController:self applyShadow:_shadowLayer withBounds:self.referenceBounds];
     }
     else {
-        [shadowedView.layer.superlayer insertSublayer:_shadowLayer below:shadowedView.layer];
-        _shadowLayer.frame = shadowedView.layer.frame;
-        _shadowLayer.shadowPath = shadowedView.layer.mask ? ((CAShapeLayer*)shadowedView.layer.mask).path : [[UIBezierPath bezierPathWithRect:shadowedView.bounds] CGPath];
+        CGPathRef newPath = ((CAShapeLayer*)self.slidingControllerView.layer.mask).path;
+        if (animated) {
+            CGFloat duration;
+            CAMediaTimingFunction* timingFunction;
+            if ([self currentAnimationDuration:&duration timingFunction:&timingFunction]) {
+                CABasicAnimation* anim;
+                if (![_shadowLayer animationForKey:@"animateShadowPath"]) {
+                    anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+                    anim.fromValue = (id)_shadowLayer.shadowPath;
+                    anim.toValue = (__bridge id)newPath;
+                    anim.duration = duration;
+                    anim.timingFunction = timingFunction;
+                    anim.fillMode = kCAFillModeForwards;
+                    [_shadowLayer addAnimation:anim forKey:@"animateShadowPath"];
+
+                    anim = [CABasicAnimation animationWithKeyPath:@"bounds"];
+                    anim.duration = duration;
+                    anim.timingFunction = timingFunction;
+                    anim.fromValue = [NSValue valueWithCGRect:_shadowLayer.bounds];
+                    anim.toValue = [NSValue valueWithCGRect:self.slidingControllerView.layer.bounds];
+                    anim.fillMode = kCAFillModeForwards;
+                    [_shadowLayer addAnimation:anim forKey:@"animateBounds"];
+                }
+            }
+            
+            // fallback: make shadow transparent and fade in to desired value. This gives the same visual
+            // effect as animating
+            if ([_shadowLayer animationKeys].count == 0) {
+                CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+                anim.fromValue = @(0.0);
+                anim.duration = 1;
+                anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+                anim.fillMode = kCAFillModeForwards;
+                [_shadowLayer addAnimation:anim forKey:@"animateShadowOpacity"];
+            }
+        }
+        else {
+            [shadowedView.layer.superlayer insertSublayer:_shadowLayer below:shadowedView.layer];
+            _shadowLayer.frame = shadowedView.layer.frame;
+            _shadowLayer.shadowPath = newPath;
+        }
     }
 }
 
-
+- (BOOL)currentAnimationDuration:(CGFloat*)duration timingFunction:(CAMediaTimingFunction**)timingFunction {
+    for (NSString* key in self.slidingControllerView.layer.animationKeys) {
+        if ([key isEqualToString:@"bounds"]) {
+            CABasicAnimation* other = (CABasicAnimation*)[self.slidingControllerView.layer animationForKey:key];
+            
+            if ([other isKindOfClass:[CABasicAnimation class]]) {
+                *duration = other.duration;
+                *timingFunction = other.timingFunction;
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
 @end
 
 #pragma mark -

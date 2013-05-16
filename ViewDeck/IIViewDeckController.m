@@ -2316,15 +2316,18 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark - Panning
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panner {
-    if (self.panningMode == IIViewDeckNavigationBarOrOpenCenterPanning && panner.view == self.slidingControllerView) {
-        if ([self isAnySideOpen])
-            return YES;
+    UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] ? (UINavigationController*)self.centerController : self.centerController.navigationController;
 
-        UINavigationController* navController = [self.centerController isKindOfClass:[UINavigationController class]] ? (UINavigationController*)self.centerController : self.centerController.navigationController;
+    if (self.panningMode == IIViewDeckNavigationBarOrOpenCenterPanning && panner.view == self.slidingControllerView) {
+        if (![self isAnySideOpen])
+            return NO;
+
         CGPoint loc = [panner locationInView:navController.navigationBar];
-        return CGRectContainsPoint(navController.navigationBar.bounds, loc);
+        if (!CGRectContainsPoint(navController.navigationBar.bounds, loc)) {
+            return NO;
+        }
     }
-    
+
     if (self.panningGestureDelegate && [self.panningGestureDelegate respondsToSelector:@selector(gestureRecognizerShouldBegin:)]) {
         BOOL result = [self.panningGestureDelegate gestureRecognizerShouldBegin:panner];
         if (!result) return result;

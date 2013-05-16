@@ -2927,6 +2927,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     void(^beforeBlock)() = ^{};
     void(^afterBlock)(UIViewController* controller) = ^(UIViewController* controller){};
     
+    __block CGRect newFrame = self.referenceBounds;
     if (_viewFirstAppeared) {
         beforeBlock = ^{
             [self notifyAppearanceForSide:side animated:NO from:2 to:1];
@@ -2936,7 +2937,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         afterBlock = ^(UIViewController* controller) {
             [self notifyAppearanceForSide:side animated:NO from:0 to:1];
             [self hideAppropriateSideViews];
-            controller.view.frame = self.referenceBounds;
+            controller.view.frame = newFrame;
             controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             if (self.slidingController)
                 [self.referenceView insertSubview:controller.view belowSubview:self.slidingControllerView];
@@ -2948,6 +2949,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     // start the transition
     if (prevController) {
+        newFrame = prevController.view.frame;
         [prevController willMoveToParentViewController:nil];
         if (controller == self.centerController) self.centerController = nil;
         beforeBlock();

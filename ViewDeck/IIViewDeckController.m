@@ -217,6 +217,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)notifyDidChangeOffset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
 
 - (BOOL)checkDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize;
+- (BOOL)checkDelegate:(SEL)selector view:(UIView*)view;
 - (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize animated:(BOOL)animated;
 - (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize controller:(UIViewController*)controller;
 - (void)performDelegate:(SEL)selector offset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
@@ -2694,6 +2695,31 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 UIViewController* topController = ((UINavigationController*)controller).topViewController;
                 if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
                     ok = ok & objc_msgSendTyped(topController, selector, self, viewDeckSide);
+            }
+        }
+    }
+    
+    return ok;
+}
+
+- (BOOL)checkDelegate:(SEL)selector view:(UIView*)view {
+    BOOL ok = YES;
+    // used typed message send to properly pass values
+    BOOL (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, UIView* view) = (void*)objc_msgSend;
+    
+    if (self.delegate && [self.delegate respondsToSelector:selector])
+        ok = ok & objc_msgSendTyped(self.delegate, selector, self, view);
+    
+    if (_delegateMode != IIViewDeckDelegateOnly) {
+        for (UIViewController* controller in self.controllers) {
+            // check controller first
+            if ([controller respondsToSelector:selector] && (id)controller != (id)self.delegate)
+                ok = ok & objc_msgSendTyped(controller, selector, self, view);
+            // if that fails, check if it's a navigation controller and use the top controller
+            else if ([controller isKindOfClass:[UINavigationController class]]) {
+                UIViewController* topController = ((UINavigationController*)controller).topViewController;
+                if ([topController respondsToSelector:selector] && (id)topController != (id)self.delegate)
+                    ok = ok & objc_msgSendTyped(topController, selector, self, view);
             }
         }
     }

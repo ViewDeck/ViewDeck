@@ -26,6 +26,7 @@
 		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
 		E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A26155B385600E05FB9 /* PushedViewController.m */; };
 		E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A27155B385600E05FB9 /* PushedViewController.xib */; };
+		E2D2317F1745631A0098CCF5 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D2317E1745631A0098CCF5 /* IISideController.m */; };
 		E2DAC33216E7BFB8002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC32F16E7BFB8002BD487 /* Default-568h@2x.png */; };
 		EA82B9FE167CFB670028F389 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA82B9FD167CFB670028F389 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +62,8 @@
 		E2B01A25155B385600E05FB9 /* PushedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushedViewController.h; sourceTree = "<group>"; };
 		E2B01A26155B385600E05FB9 /* PushedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushedViewController.m; sourceTree = "<group>"; };
 		E2B01A27155B385600E05FB9 /* PushedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushedViewController.xib; sourceTree = "<group>"; };
+		E2D2317D1745631A0098CCF5 /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IISideController.h; sourceTree = "<group>"; };
+		E2D2317E1745631A0098CCF5 /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IISideController.m; sourceTree = "<group>"; };
 		E2DAC32F16E7BFB8002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		EA82B9FD167CFB670028F389 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -166,6 +169,8 @@
 		E25F8B3914B45F2B00C4182C /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
+				E2D2317D1745631A0098CCF5 /* IISideController.h */,
+				E2D2317E1745631A0098CCF5 /* IISideController.m */,
 				E25F8B3A14B45F2B00C4182C /* IIViewDeckController.h */,
 				E25F8B3B14B45F2B00C4182C /* IIViewDeckController.m */,
 				E25F8B3C14B45F2B00C4182C /* IIWrapController.h */,
@@ -252,6 +257,7 @@
 				E25F8B3F14B45F2B00C4182C /* IIWrapController.m in Sources */,
 				E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */,
 				E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */,
+				E2D2317F1745631A0098CCF5 /* IISideController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

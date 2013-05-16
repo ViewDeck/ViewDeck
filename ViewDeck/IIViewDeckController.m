@@ -313,7 +313,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _closeSlideAnimationDuration = 0.3;
     _offsetOrientation = IIViewDeckHorizontalOrientation;
 
-    _disabledPanClasses = [NSMutableSet setWithObject:[UISlider class]];
+    _disabledPanClasses = [NSMutableSet setWithObjects:[UISlider class], NSClassFromString(@"UITableViewCellReorderControl"), nil];
     II_RETAIN(_disabledPanClasses);
 
     _delegate = nil;

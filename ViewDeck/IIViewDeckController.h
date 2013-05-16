@@ -147,6 +147,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     int _disabledUserInteractions;
     CALayer* _shadowLayer;
     BOOL _needsAddPannersIfAllPannersAreInactive;
+    NSMutableSet* _disabledPanClasses;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);
@@ -301,6 +302,11 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 - (CGFloat)statusBarHeight;
 
 - (IIViewDeckSide)sideForController:(UIViewController*)controller;
+
+- (void)disablePanOverViewsOfClass:(Class)viewClass;
+- (void)enablePanOverViewsOfClass:(Class)viewClass;
+- (BOOL)canPanOverViewsOfClass:(Class)viewClass;
+- (NSArray*)viewClassesWithDisabledPan;
 
 @end
 

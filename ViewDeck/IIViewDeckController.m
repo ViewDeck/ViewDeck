@@ -3528,7 +3528,65 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 @end
 
-@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes) 
+@implementation UIView (UIViewDeckView_HandleOffsetAdjustment)
+
++ (void)vdc_swizzle {
+    SEL asv = @selector(addSubview:);
+    SEL vdcasv = @selector(vdc_addSubview:);
+    method_exchangeImplementations(class_getInstanceMethod(self, asv), class_getInstanceMethod(self, vdcasv));
+}
+
+- (void)vdc_addSubview:(UIView *)view {
+    if ([view isKindOfClass:[IIViewDeckView class]]) {
+        if ([self isKindOfClass:NSClassFromString(@"UITransitionView")]) {
+            // if the view needs offset adjustment (in case of a navigation controller), do it
+            if ([(IIViewDeckView*)view needsOffsetAdjustment]) {
+                CGRect fondlyRememberedFrame = view.frame; // remember the frame since it's actually correct
+                
+                // offset it
+                view.frame = (CGRect) { view.frame.origin.x, 0, view.frame.size.width, view.frame.size.height + view.frame.origin.y };
+                // remember the duration of the generated animation (since were in a transition view) to be able to
+                // dispatch_after so we can correct this back at the correct time
+                CGFloat duration = [view.layer animationForKey:@"position"].duration;
+                
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC));
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    // restore the correct frame
+                    view.frame = fondlyRememberedFrame;
+                });
+                
+                // recursively remove all animations (those are just position and bounds animations on all subviews)
+                [self vdc_removeAllAnimationsRecursive:view];
+                
+            }
+        }
+    }
+    
+    // do your stuff, UIView
+    [self vdc_addSubview:view];
+}
+
+- (void)vdc_removeAllAnimationsRecursive:(UIView*)view {
+    [view.layer removeAllAnimations];
+    for (UIView* subview in view.subviews) {
+        [self vdc_removeAllAnimationsRecursive:subview];
+    }
+}
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        @autoreleasepool {
+            [self vdc_swizzle];
+        }
+    });
+}
+
+
+@end
+
+
+@implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes)
 
 - (void)vdc_addChildViewController:(UIViewController *)childController {
     // intentionally empty

@@ -3086,34 +3086,30 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _centerController = centerController;
     
     if (_centerController) {
-        // and finish the transition
-        void(^finishTransition)(void) = ^{
-            [self addChildViewController:_centerController];
-            [_centerController setViewDeckController:self];
-            [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
-            self.title = _centerController.title;
-            if (self.automaticallyUpdateTabBarItems) {
-                [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
-                [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
-                [_centerController addObserver:self forKeyPath:@"hidesBottomBarWhenPushed" options:0 context:nil];
-                self.tabBarItem.title = _centerController.tabBarItem.title;
-                self.tabBarItem.image = _centerController.tabBarItem.image;
-                self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
-            }
-            
-            [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
-            [self applyCenterViewOpacityIfNeeded];
-            [self applyCenterViewCornerRadius];
-            afterBlock(_centerController);
-            [_centerController didMoveToParentViewController:self];
-            
-            if ([self isAnySideOpen]) {
-                [self centerViewHidden];
-            }
-        };
+        II_RETAIN(_centerController);
+        [_centerController willMoveToParentViewController:self];
+        [self addChildViewController:_centerController];
+        [_centerController setViewDeckController:self];
+        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
+        self.title = _centerController.title;
+        if (self.automaticallyUpdateTabBarItems) {
+            [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
+            [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
+            [_centerController addObserver:self forKeyPath:@"hidesBottomBarWhenPushed" options:0 context:nil];
+            self.tabBarItem.title = _centerController.tabBarItem.title;
+            self.tabBarItem.image = _centerController.tabBarItem.image;
+            self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
+        }
         
-        II_RETAIN(centerController);
-        [self enqueueFinishTransitionBlock:finishTransition forController:centerController];
+        [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
+        [self applyCenterViewOpacityIfNeeded];
+        [self applyCenterViewCornerRadius];
+        afterBlock(_centerController);
+        [_centerController didMoveToParentViewController:self];
+        
+        if ([self isAnySideOpen]) {
+            [self centerViewHidden];
+        }
     }
 }
 

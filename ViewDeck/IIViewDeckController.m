@@ -149,9 +149,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 @interface IIViewDeckView : UIView {
     BOOL _userInteractionEnabled;
+    BOOL _needsOffsetAdjustment;
 }
 
 @property (nonatomic, assign) BOOL allowUserInteractionEnabled;
+
+- (void)setNeedsOffsetAdjustment;
+- (BOOL)needsOffsetAdjustment;
 
 @end
 
@@ -3373,6 +3377,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
     _userInteractionEnabled = userInteractionEnabled;
     [super setUserInteractionEnabled:_allowUserInteractionEnabled && _userInteractionEnabled];
+}
+
+- (void)setNeedsOffsetAdjustment {
+    _needsOffsetAdjustment = YES;
+}
+
+- (BOOL)needsOffsetAdjustment {
+    return _needsOffsetAdjustment;
 }
 
 @end

@@ -2967,7 +2967,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (controller) {
         // and finish the transition
         void(^finishTransition)(void) = ^{
-            UIViewController* parentController = [self parentViewController] ?: [self presentingViewController] ?: self;
+            UIViewController* parentController = [[self parentViewController] parentViewController] ?: [self presentingViewController] ?: self;
             
             [parentController addChildViewController:controller];
             [controller setViewDeckController:self];

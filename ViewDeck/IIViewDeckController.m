@@ -2197,10 +2197,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)relayRotationMethod:(void(^)(UIViewController* controller))relay {
     if ([self safe_shouldForwardRotationMethods]) {
         relay(self.centerController);
-        relay(self.leftController);
-        relay(self.rightController);
-        relay(self.topController);
-        relay(self.bottomController);
+        [self doForControllers:^(UIViewController *controller, IIViewDeckSide side) {
+            relay(controller);
+        }];
     }
 }
 

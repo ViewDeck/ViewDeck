@@ -2,7 +2,7 @@
 //  IIViewDeckController.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011, Tom Adriaenssen
+//  Copyright (C) 2011-2013, Tom Adriaenssen
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -27,25 +27,43 @@
 
 // thanks to http://stackoverflow.com/a/8594878/742176
 
-#if TARGET_OS_IPHONE && defined(__IPHONE_5_0) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0) && __clang__ && (__clang_major__ >= 3)
-#define II_SDK_SUPPORTS_WEAK 1
-#elif TARGET_OS_MAC && defined(__MAC_10_7) && (MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7) && __clang__ && (__clang_major__ >= 3)
-#define II_SDK_SUPPORTS_WEAK 1
+#ifdef __has_feature
+
+    #if __has_feature(objc_arc_weak)
+    #define __ii_weak        __weak
+    #define ii_weak_property weak
+    #elif __has_feature(objc_arc)
+    #define ii_weak_property unsafe_unretained
+    #define __ii_weak __unsafe_unretained
+    #else
+    #define ii_weak_property assign
+    #define __ii_weak
+    #endif
+
 #else
-#define II_SDK_SUPPORTS_WEAK 0
+
+    #if TARGET_OS_IPHONE && defined(__IPHONE_5_0) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0) && __clang__ && (__clang_major__ >= 3)
+    #define II_SDK_SUPPORTS_WEAK 1
+    #elif TARGET_OS_MAC && defined(__MAC_10_7) && (MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7) && __clang__ && (__clang_major__ >= 3)
+    #define II_SDK_SUPPORTS_WEAK 1
+    #else
+    #define II_SDK_SUPPORTS_WEAK 0
+    #endif
+
+    #if II_SDK_SUPPORTS_WEAK
+    #define __ii_weak        __weak
+    #define ii_weak_property weak
+    #else
+    #if __clang__ && (__clang_major__ >= 3)
+    #define __ii_weak __unsafe_unretained
+    #else
+    #define __ii_weak
+    #endif
+    #define ii_weak_property assign
+    #endif
+
 #endif
 
-#if II_SDK_SUPPORTS_WEAK
-#define __ii_weak        __weak
-#define ii_weak_property weak
-#else
-#if __clang__ && (__clang_major__ >= 3)
-#define __ii_weak __unsafe_unretained
-#else
-#define __ii_weak
-#endif
-#define ii_weak_property assign
-#endif
 
 
 @protocol IIViewDeckControllerDelegate;
@@ -127,7 +145,9 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     CGPoint _willAppearOffset;
     NSMutableArray* _finishTransitionBlocks;
     int _disabledUserInteractions;
+    CALayer* _shadowLayer;
     BOOL _needsAddPannersIfAllPannersAreInactive;
+    NSMutableSet* _disabledPanClasses;
 }
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);
@@ -162,6 +182,9 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign, readonly) CGFloat bottomViewSize;
 @property (nonatomic, assign, readonly) CGFloat bottomLedgeSize;
 @property (nonatomic, assign) CGFloat maxSize;
+@property (nonatomic, assign) CGFloat centerViewOpacity;
+@property (nonatomic, assign) CGFloat centerViewCornerRadius;
+@property (nonatomic, assign) BOOL shadowEnabled;
 @property (nonatomic, assign) BOOL resizesCenterView;
 @property (nonatomic, assign) IIViewDeckPanningMode panningMode;
 @property (nonatomic, assign) BOOL panningCancelsTouchesInView;
@@ -280,6 +303,11 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 
 - (IIViewDeckSide)sideForController:(UIViewController*)controller;
 
+- (void)disablePanOverViewsOfClass:(Class)viewClass;
+- (void)enablePanOverViewsOfClass:(Class)viewClass;
+- (BOOL)canPanOverViewsOfClass:(Class)viewClass;
+- (NSArray*)viewClassesWithDisabledPan;
+
 @end
 
 
@@ -309,6 +337,8 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didPreviewBounceViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
 
 - (CGFloat)viewDeckController:(IIViewDeckController*)viewDeckController changesLedge:(CGFloat)ledge forSide:(IIViewDeckSide)viewDeckSide;
+
+- (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldBeginPanOverView:(UIView*)view;
 
 @end
 

@@ -103,6 +103,11 @@
     [self.viewDeckController toggleOpenView];
 }
 
+- (IBAction)presentModal:(id)sender {
+    IIViewDeckController* controller = [SharedAppDelegate generateControllerStack];
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
 #pragma mark - view deck delegate
 
 - (void)addLog:(NSString*)line {
@@ -156,6 +161,13 @@
 
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didPreviewBounceViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     [self addLog:[NSString stringWithFormat:@"did preview bounce %@ view", NSStringFromIIViewDeckSide(viewDeckSide)]];
+}
+
+// don't pan over "bounce" buttons
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldBeginPanOverView:(UIView *)view {
+    if ([NSStringFromClass([view class]) isEqualToString:@"UINavigationButton"] && [[[(id)view titleLabel] text] isEqualToString:@"bounce"])
+        return NO;
+    return YES;
 }
 
 #pragma mark - Table view

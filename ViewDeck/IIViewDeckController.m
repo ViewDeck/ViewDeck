@@ -3213,6 +3213,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark - transition blocks
 
 - (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller {
+    [controller willMoveToParentViewController:self];
     if (self.referenceView) {
         finishTransition();
     }

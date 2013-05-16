@@ -2916,6 +2916,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [controller setViewDeckController:self]; // do this now since the transition block my run to late
             if (!_finishTransitionBlocks) {
                 _finishTransitionBlocks = [NSMutableArray new];
+                II_RETAIN(_finishTransitionBlocks);
                 [self addObserver:self forKeyPath:@"parentViewController" options:0 context:nil];
             }
             [_finishTransitionBlocks addObject:finishTransition];
@@ -3164,6 +3165,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         for (void(^finishTransition)(void) in _finishTransitionBlocks) {
             finishTransition();
         }
+        II_RELEASE(_finishTransitionBlocks);
         _finishTransitionBlocks = nil;
     }
 }

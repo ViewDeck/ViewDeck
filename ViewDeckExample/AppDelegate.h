@@ -6,6 +6,7 @@
 #import <UIKit/UIKit.h>
 
 @class ViewController;
+@class IIViewDeckController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -13,6 +14,7 @@
 
 @property (retain, nonatomic) UIViewController *centerController;
 @property (retain, nonatomic) UIViewController *leftController;
-@property (retain, nonatomic) UIViewController *imageController;
+
+- (IIViewDeckController*)generateControllerStack;
 
 @end

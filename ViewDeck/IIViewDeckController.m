@@ -231,7 +231,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (CGFloat)openSlideDuration:(BOOL)animated;
 - (CGFloat)closeSlideDuration:(BOOL)animated;
 
-@end 
+- (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller;
+- (void)finishTransitionBlocks;
+
+@end
 
 
 @interface UIViewController (UIViewDeckItem_Internal) 
@@ -2964,9 +2967,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (controller) {
         // and finish the transition
         void(^finishTransition)(void) = ^{
-            UIViewController* parentController = (self.referenceView == self.view) ? self : [[self parentViewController] parentViewController];
-            if (!parentController)
-                parentController = self;
+            UIViewController* parentController = [self parentViewController] ?: [self presentingViewController] ?: self;
             
             [parentController addChildViewController:controller];
             [controller setViewDeckController:self];
@@ -2974,19 +2975,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [controller didMoveToParentViewController:parentController];
             [self applyCenterViewOpacityIfNeeded];
         };
-
-        if (self.referenceView) {
-            finishTransition();
-        }
-        else {
-            [controller setViewDeckController:self]; // do this now since the transition block my run to late
-            if (!_finishTransitionBlocks) {
-                _finishTransitionBlocks = [NSMutableArray new];
-                II_RETAIN(_finishTransitionBlocks);
-                [self addObserver:self forKeyPath:@"parentViewController" options:0 context:nil];
-            }
-            [_finishTransitionBlocks addObject:finishTransition];
-        }
+        
+        [self enqueueFinishTransitionBlock:finishTransition forController:controller];
     }
 }
 
@@ -3097,30 +3087,33 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (_centerController) {
         // and finish the transition
-        II_RETAIN(_centerController);
-        [self addChildViewController:_centerController];
-        [_centerController setViewDeckController:self];
-        [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
-        self.title = _centerController.title;
-        if (self.automaticallyUpdateTabBarItems) {
-            [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
-            [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
-            [_centerController addObserver:self forKeyPath:@"hidesBottomBarWhenPushed" options:0 context:nil];
-            self.tabBarItem.title = _centerController.tabBarItem.title;
-            self.tabBarItem.image = _centerController.tabBarItem.image;
-            self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
-        }
+        void(^finishTransition)(void) = ^{
+            [self addChildViewController:_centerController];
+            [_centerController setViewDeckController:self];
+            [_centerController addObserver:self forKeyPath:@"title" options:0 context:nil];
+            self.title = _centerController.title;
+            if (self.automaticallyUpdateTabBarItems) {
+                [_centerController addObserver:self forKeyPath:@"tabBarItem.title" options:0 context:nil];
+                [_centerController addObserver:self forKeyPath:@"tabBarItem.image" options:0 context:nil];
+                [_centerController addObserver:self forKeyPath:@"hidesBottomBarWhenPushed" options:0 context:nil];
+                self.tabBarItem.title = _centerController.tabBarItem.title;
+                self.tabBarItem.image = _centerController.tabBarItem.image;
+                self.hidesBottomBarWhenPushed = _centerController.hidesBottomBarWhenPushed;
+            }
+            
+            [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
+            [self applyCenterViewOpacityIfNeeded];
+            [self applyCenterViewCornerRadius];
+            afterBlock(_centerController);
+            [_centerController didMoveToParentViewController:self];
+            
+            if ([self isAnySideOpen]) {
+                [self centerViewHidden];
+            }
+        };
         
-        [_centerController view]; // make sure the view is loaded before calling viewWillAppear:
-        [self applyCenterViewOpacityIfNeeded];
-        [self applyCenterViewCornerRadius];
-        afterBlock(_centerController);
-        [_centerController didMoveToParentViewController:self];
-        
-        if ([self isAnySideOpen]) {
-            [self centerViewHidden];
-        }
-
+        II_RETAIN(centerController);
+        [self enqueueFinishTransitionBlock:finishTransition forController:centerController];
     }
 }
 
@@ -3215,18 +3208,37 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         return;
     }
     
-    if ([keyPath isEqualToString:@"parentViewController"] && [self parentViewController]) {
+    if ([keyPath isEqualToString:@"parentViewController"] || [keyPath isEqualToString:@"presentingViewController"]) {
         [self finishTransitionBlocks];
         
     }
 }
 
-- (void)finishTransitionBlocks {
-    if (![self parentViewController]) return;
-    if (!self.referenceView) return;
+#pragma mark - transition blocks
 
+- (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller {
+    if (self.referenceView) {
+        finishTransition();
+    }
+    else {
+        [controller setViewDeckController:self]; // do this now since the transition block my run to late
+        if (!_finishTransitionBlocks) {
+            _finishTransitionBlocks = [NSMutableArray new];
+            II_RETAIN(_finishTransitionBlocks);
+            [self addObserver:self forKeyPath:@"parentViewController" options:0 context:nil];
+            [self addObserver:self forKeyPath:@"presentingViewController" options:0 context:nil];
+        }
+        [_finishTransitionBlocks addObject:finishTransition];
+    }
+}
+
+- (void)finishTransitionBlocks {
+    if (![self parentViewController] && ![self presentingViewController]) return;
+    if (!self.referenceView) return;
+    
     if (_finishTransitionBlocks) {
         [self removeObserver:self forKeyPath:@"parentViewController" context:nil];
+        [self removeObserver:self forKeyPath:@"presentingViewController" context:nil];
         
         for (void(^finishTransition)(void) in _finishTransitionBlocks) {
             finishTransition();

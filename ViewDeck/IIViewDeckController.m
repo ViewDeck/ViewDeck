@@ -2388,6 +2388,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             return NO;
     }
 
+    // check the delegate if we should start panning over this view
+    if (![self checkDelegate:@selector(viewDeckController:shouldBeginPanOverView:) view:[touch view]]) {
+        return NO;
+    }
+
     _panOrigin = self.slidingControllerView.frame.origin;
     return YES;
 }

@@ -39,10 +39,12 @@
 #define II_RETAIN(xx)  ((void)(0))
 #define II_RELEASE(xx)  ((void)(0))
 #define II_AUTORELEASE(xx)  (xx)
+#define II_BRIDGE   __bridge
 #else
 #define II_RETAIN(xx)           [xx retain]
 #define II_RELEASE(xx)          [xx release]
 #define II_AUTORELEASE(xx)      [xx autorelease]
+#define II_BRIDGE   
 #endif
 
 #define II_FLOAT_EQUAL(x, y) (((x) - (y)) == 0.0f)
@@ -3385,7 +3387,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 if (![_shadowLayer animationForKey:@"animateShadowPath"]) {
                     anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
                     anim.fromValue = (id)_shadowLayer.shadowPath;
-                    anim.toValue = (__bridge id)newPath;
+                    anim.toValue = (II_BRIDGE id)newPath;
                     anim.duration = duration;
                     anim.timingFunction = timingFunction;
                     anim.fillMode = kCAFillModeForwards;

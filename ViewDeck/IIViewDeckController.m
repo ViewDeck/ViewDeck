@@ -1791,15 +1791,20 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark - disable pan over certain controllers
 
 - (void)disablePanOverViewsOfClass:(Class)viewClass {
-    return [_disabledPanClasses addObject:viewClass];
+    if (viewClass)
+        [_disabledPanClasses addObject:viewClass];
 }
 
 - (void)enablePanOverViewsOfClass:(Class)viewClass {
-    return [_disabledPanClasses removeObject:viewClass];
+    if (viewClass)
+        [_disabledPanClasses removeObject:viewClass];
 }
 
 - (BOOL)canPanOverViewsOfClass:(Class)viewClass {
-    return [_disabledPanClasses containsObject:viewClass];
+    if (viewClass)
+        return [_disabledPanClasses containsObject:viewClass];
+    else
+        return NO;
 }
 
 - (NSArray*)viewClassesWithDisabledPan {

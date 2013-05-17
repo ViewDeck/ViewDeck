@@ -186,7 +186,7 @@ I'd appreciate it to mention the use of this code somewhere if you use it in an 
 
 **IIViewDeckController** published under the MIT license:
 
-*Copyright (C) 2011, Tom Adriaenssen*
+*Copyright (C) 2011-2013, Tom Adriaenssen*
 
 *Permission is hereby granted, free of charge, to any person obtaining a copy of*
 *this software and associated documentation files (the "Software"), to deal in*

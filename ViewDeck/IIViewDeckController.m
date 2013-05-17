@@ -320,8 +320,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _closeSlideAnimationDuration = 0.3;
     _offsetOrientation = IIViewDeckHorizontalOrientation;
 
-    _disabledPanClasses = [NSMutableSet setWithObjects:[UISlider class], NSClassFromString(@"UITableViewCellReorderControl"), nil];
+    _disabledPanClasses = [NSMutableSet setWithObject:[UISlider class]];
     II_RETAIN(_disabledPanClasses);
+#ifndef EXTRA_APPSTORE_SAFETY
+    [self disablePanOverViewsOfClass:NSClassFromString(@"UITableViewCellReorderControl")];
+#endif   
 
     _delegate = nil;
     _delegateMode = IIViewDeckDelegateOnly;
@@ -3603,6 +3606,8 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 
 @end
 
+#ifndef EXTRA_APPSTORE_SAFETY
+
 @implementation UIView (UIViewDeckView_HandleOffsetAdjustment)
 
 + (void)vdc_swizzle {
@@ -3657,8 +3662,9 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     });
 }
 
-
 @end
+
+#endif
 
 
 @implementation UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes)

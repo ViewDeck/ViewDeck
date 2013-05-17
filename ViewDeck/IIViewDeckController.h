@@ -25,6 +25,15 @@
 
 #import <UIKit/UIKit.h>
 
+// undefine this if you don't want to use 'the undocumented stuff' we have
+// to work around some issues. This is limited to use of NSClassFromString() so
+// you're probably safe anyway since ViewDeck *does not* use anything undocumented
+// itself. The NSClassFromString() calls are use to detect certain classes, but
+// that's in.
+// But if you want to be absolutely safe: uncomment this line below.
+//#define EXTRA_APPSTORE_SAFETY
+
+
 // thanks to http://stackoverflow.com/a/8594878/742176
 
 #ifdef __has_feature

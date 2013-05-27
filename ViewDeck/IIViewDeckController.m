@@ -1281,14 +1281,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (viewDeckSide == IIViewDeckNoSide)
         return;
     
-    if (_viewAppeared < to) {
+    if ((int)_viewAppeared < to) {
         _sideAppeared[viewDeckSide] = to;
         return;
     }
 
     SEL selector = nil;
     if (from < to) {
-        if (_sideAppeared[viewDeckSide] > from)
+        if ((int)_sideAppeared[viewDeckSide] > from)
             return;
         
         if (to == 1)
@@ -1297,7 +1297,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             selector = @selector(viewDidAppear:);
     }
     else {
-        if (_sideAppeared[viewDeckSide] < from)
+        if ((int)_sideAppeared[viewDeckSide] < from)
             return;
 
         if (to == 1)
@@ -1332,9 +1332,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     [self doForControllers:^(UIViewController *controller, IIViewDeckSide side) {
-        if (from < to && _sideAppeared[side] <= from)
+        if (from < to && (int)_sideAppeared[side] <= from)
             return;
-        else if (from > to && _sideAppeared[side] >= from)
+        else if (from > to && (int)_sideAppeared[side] >= from)
             return;
         
         if ([self safe_shouldManageAppearanceMethods] && selector && controller) {
@@ -2052,7 +2052,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     // Calculate steps
-    for (int t = 0; t < steps; t++) {
+    for (NSUInteger t = 0; t < steps; t++) {
         time = (t / (float)steps) * duration;
         offset = abs(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
         offset = direction * [self limitOffset:offset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(viewDeckSide)] + position;

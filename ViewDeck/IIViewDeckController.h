@@ -162,6 +162,11 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, retain) IBOutlet UIViewController* rightController;
 @property (nonatomic, retain) IBOutlet UIViewController* topController;
 @property (nonatomic, retain) IBOutlet UIViewController* bottomController;
+@property (nonatomic, retain) NSString *centerStoryboardID;
+@property (nonatomic, retain) NSString *topStoryboardID;
+@property (nonatomic, retain) NSString *leftStoryboardID;
+@property (nonatomic, retain) NSString *rightStoryboardID;
+@property (nonatomic, retain) NSString *bottomStoryboardID;
 @property (nonatomic, readonly, assign) UIViewController* slidingController;
 
 @property (nonatomic, retain) IBOutlet UIView* panningView;

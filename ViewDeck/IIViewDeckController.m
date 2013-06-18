@@ -296,7 +296,19 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @synthesize centerTapperAccessibilityHint = _centerTapperAccessibilityHint;
 
 #pragma mark - Initalisation and deallocation
-
+- (void)loadViewControllersFromStoryboardIDs
+{
+    if(self.bottomStoryboardID)
+        self.bottomViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.bottomStoryboardID];
+    if(self.topStoryboardID)
+        self.topViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.topStoryboardID];
+    if(self.leftStoryboardID)
+        self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.leftStoryboardID];
+    if(self.rightStoryboardID)
+        self.rightViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.rightStoryboardID];
+    if(self.centerStoryboardID)
+        self.centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.centerStoryboardID];
+}
 - (void)commonInitWithCenterViewController:(UIViewController *)centerController
 {
     _elastic = YES;
@@ -837,7 +849,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self loadViewControllersFromStoryboardIDs];
+
     self.centerView = II_AUTORELEASE([[UIView alloc] init]);
     self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerView.autoresizesSubviews = YES;

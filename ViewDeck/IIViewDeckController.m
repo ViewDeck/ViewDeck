@@ -299,15 +299,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)loadViewControllersFromStoryboardIDs
 {
     if(self.bottomStoryboardID)
-        self.bottomViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.bottomStoryboardID];
+        self.bottomController = [self.storyboard instantiateViewControllerWithIdentifier:self.bottomStoryboardID];
     if(self.topStoryboardID)
-        self.topViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.topStoryboardID];
+        self.topController = [self.storyboard instantiateViewControllerWithIdentifier:self.topStoryboardID];
     if(self.leftStoryboardID)
-        self.leftViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.leftStoryboardID];
+        self.leftController = [self.storyboard instantiateViewControllerWithIdentifier:self.leftStoryboardID];
     if(self.rightStoryboardID)
-        self.rightViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.rightStoryboardID];
+        self.rightController = [self.storyboard instantiateViewControllerWithIdentifier:self.rightStoryboardID];
     if(self.centerStoryboardID)
-        self.centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:self.centerStoryboardID];
+        self.centerController = [self.storyboard instantiateViewControllerWithIdentifier:self.centerStoryboardID];
 }
 - (void)commonInitWithCenterViewController:(UIViewController *)centerController
 {

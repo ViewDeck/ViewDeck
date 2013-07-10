@@ -897,6 +897,17 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma clang diagnostic pop
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return self.centerController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return self.centerController;
+}
+
+#endif
 
 #pragma mark - Appearance
 
@@ -3043,6 +3054,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self addPanners];
             [self applyShadowToSlidingViewAnimated:NO];
             if ([self safe_shouldManageAppearanceMethods]) [controller viewDidAppear:NO];
+            
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+                [self setNeedsStatusBarAppearanceUpdate];
+            }
+#endif
         };
     }
     

@@ -1,0 +1,370 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		980E4B3217B5968F004B65B0 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980E4B2B17B5968F004B65B0 /* IISideController.m */; };
+		980E4B3317B5968F004B65B0 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980E4B2D17B5968F004B65B0 /* IIViewDeckController.m */; };
+		980E4B3417B5968F004B65B0 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980E4B2F17B5968F004B65B0 /* IIWrapController.m */; };
+		980E4B3517B5968F004B65B0 /* IIZoomBackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 980E4B3117B5968F004B65B0 /* IIZoomBackgroundViewController.m */; };
+		980E4B3717B5975B004B65B0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 980E4B3617B5975B004B65B0 /* QuartzCore.framework */; };
+		988141A217B598FB0060BFBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDB6636017B2B4DD005CDB8B /* Main.storyboard */; };
+		BDAC4FE917B45FE70088BD5A /* LeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAC4FE817B45FE70088BD5A /* LeftMenuViewController.m */; };
+		BDB6634F17B2B4DD005CDB8B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB6634E17B2B4DD005CDB8B /* Foundation.framework */; };
+		BDB6635117B2B4DD005CDB8B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB6635017B2B4DD005CDB8B /* CoreGraphics.framework */; };
+		BDB6635317B2B4DD005CDB8B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB6635217B2B4DD005CDB8B /* UIKit.framework */; };
+		BDB6635917B2B4DD005CDB8B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BDB6635717B2B4DD005CDB8B /* InfoPlist.strings */; };
+		BDB6635B17B2B4DD005CDB8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB6635A17B2B4DD005CDB8B /* main.m */; };
+		BDB6635F17B2B4DD005CDB8B /* VDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB6635E17B2B4DD005CDB8B /* VDAppDelegate.m */; };
+		BDB6636517B2B4DD005CDB8B /* VDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB6636417B2B4DD005CDB8B /* VDViewController.m */; };
+		BDB6638F17B2C5E0005CDB8B /* CenterController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDB6638E17B2C5E0005CDB8B /* CenterController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		980E4B2A17B5968F004B65B0 /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IISideController.h; sourceTree = "<group>"; };
+		980E4B2B17B5968F004B65B0 /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IISideController.m; sourceTree = "<group>"; };
+		980E4B2C17B5968F004B65B0 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
+		980E4B2D17B5968F004B65B0 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
+		980E4B2E17B5968F004B65B0 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
+		980E4B2F17B5968F004B65B0 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
+		980E4B3017B5968F004B65B0 /* IIZoomBackgroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIZoomBackgroundViewController.h; sourceTree = "<group>"; };
+		980E4B3117B5968F004B65B0 /* IIZoomBackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIZoomBackgroundViewController.m; sourceTree = "<group>"; };
+		980E4B3617B5975B004B65B0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BDAC4FE717B45FE70088BD5A /* LeftMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftMenuViewController.h; sourceTree = "<group>"; };
+		BDAC4FE817B45FE70088BD5A /* LeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftMenuViewController.m; sourceTree = "<group>"; };
+		BDB6634B17B2B4DD005CDB8B /* ViewDeckScaleExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDeckScaleExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDB6634E17B2B4DD005CDB8B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BDB6635017B2B4DD005CDB8B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BDB6635217B2B4DD005CDB8B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BDB6635617B2B4DD005CDB8B /* ViewDeckScaleExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ViewDeckScaleExample-Info.plist"; sourceTree = "<group>"; };
+		BDB6635817B2B4DD005CDB8B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BDB6635A17B2B4DD005CDB8B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BDB6635C17B2B4DD005CDB8B /* ViewDeckScaleExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ViewDeckScaleExample-Prefix.pch"; sourceTree = "<group>"; };
+		BDB6635D17B2B4DD005CDB8B /* VDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VDAppDelegate.h; sourceTree = "<group>"; };
+		BDB6635E17B2B4DD005CDB8B /* VDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VDAppDelegate.m; sourceTree = "<group>"; };
+		BDB6636117B2B4DD005CDB8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BDB6636317B2B4DD005CDB8B /* VDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VDViewController.h; sourceTree = "<group>"; };
+		BDB6636417B2B4DD005CDB8B /* VDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VDViewController.m; sourceTree = "<group>"; };
+		BDB6636D17B2B4DD005CDB8B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		BDB6638D17B2C5E0005CDB8B /* CenterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterController.h; sourceTree = "<group>"; };
+		BDB6638E17B2C5E0005CDB8B /* CenterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BDB6634817B2B4DD005CDB8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				980E4B3717B5975B004B65B0 /* QuartzCore.framework in Frameworks */,
+				BDB6635117B2B4DD005CDB8B /* CoreGraphics.framework in Frameworks */,
+				BDB6635317B2B4DD005CDB8B /* UIKit.framework in Frameworks */,
+				BDB6634F17B2B4DD005CDB8B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		980E4B2917B5968F004B65B0 /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				980E4B2A17B5968F004B65B0 /* IISideController.h */,
+				980E4B2B17B5968F004B65B0 /* IISideController.m */,
+				980E4B2C17B5968F004B65B0 /* IIViewDeckController.h */,
+				980E4B2D17B5968F004B65B0 /* IIViewDeckController.m */,
+				980E4B2E17B5968F004B65B0 /* IIWrapController.h */,
+				980E4B2F17B5968F004B65B0 /* IIWrapController.m */,
+				980E4B3017B5968F004B65B0 /* IIZoomBackgroundViewController.h */,
+				980E4B3117B5968F004B65B0 /* IIZoomBackgroundViewController.m */,
+			);
+			name = ViewDeck;
+			path = ../../ViewDeck;
+			sourceTree = "<group>";
+		};
+		BDB6634217B2B4DD005CDB8B = {
+			isa = PBXGroup;
+			children = (
+				BDB6635417B2B4DD005CDB8B /* ViewDeckScaleExample */,
+				BDB6634D17B2B4DD005CDB8B /* Frameworks */,
+				BDB6634C17B2B4DD005CDB8B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDB6634C17B2B4DD005CDB8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BDB6634B17B2B4DD005CDB8B /* ViewDeckScaleExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BDB6634D17B2B4DD005CDB8B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				980E4B3617B5975B004B65B0 /* QuartzCore.framework */,
+				BDB6634E17B2B4DD005CDB8B /* Foundation.framework */,
+				BDB6635017B2B4DD005CDB8B /* CoreGraphics.framework */,
+				BDB6635217B2B4DD005CDB8B /* UIKit.framework */,
+				BDB6636D17B2B4DD005CDB8B /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BDB6635417B2B4DD005CDB8B /* ViewDeckScaleExample */ = {
+			isa = PBXGroup;
+			children = (
+				980E4B2917B5968F004B65B0 /* ViewDeck */,
+				BDB6635D17B2B4DD005CDB8B /* VDAppDelegate.h */,
+				BDB6635E17B2B4DD005CDB8B /* VDAppDelegate.m */,
+				BDB6636017B2B4DD005CDB8B /* Main.storyboard */,
+				BDB6636317B2B4DD005CDB8B /* VDViewController.h */,
+				BDB6636417B2B4DD005CDB8B /* VDViewController.m */,
+				BDB6635517B2B4DD005CDB8B /* Supporting Files */,
+				BDB6638D17B2C5E0005CDB8B /* CenterController.h */,
+				BDB6638E17B2C5E0005CDB8B /* CenterController.m */,
+				BDAC4FE717B45FE70088BD5A /* LeftMenuViewController.h */,
+				BDAC4FE817B45FE70088BD5A /* LeftMenuViewController.m */,
+			);
+			path = ViewDeckScaleExample;
+			sourceTree = "<group>";
+		};
+		BDB6635517B2B4DD005CDB8B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDB6635617B2B4DD005CDB8B /* ViewDeckScaleExample-Info.plist */,
+				BDB6635717B2B4DD005CDB8B /* InfoPlist.strings */,
+				BDB6635A17B2B4DD005CDB8B /* main.m */,
+				BDB6635C17B2B4DD005CDB8B /* ViewDeckScaleExample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BDB6634A17B2B4DD005CDB8B /* ViewDeckScaleExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDB6637D17B2B4DD005CDB8B /* Build configuration list for PBXNativeTarget "ViewDeckScaleExample" */;
+			buildPhases = (
+				BDB6634717B2B4DD005CDB8B /* Sources */,
+				BDB6634817B2B4DD005CDB8B /* Frameworks */,
+				BDB6634917B2B4DD005CDB8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViewDeckScaleExample;
+			productName = ViewDeckTest;
+			productReference = BDB6634B17B2B4DD005CDB8B /* ViewDeckScaleExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BDB6634317B2B4DD005CDB8B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = VD;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = BitSuites;
+				TargetAttributes = {
+					BDB6636B17B2B4DD005CDB8B = {
+						TestTargetID = BDB6634A17B2B4DD005CDB8B;
+					};
+				};
+			};
+			buildConfigurationList = BDB6634617B2B4DD005CDB8B /* Build configuration list for PBXProject "ViewDeckScaleExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BDB6634217B2B4DD005CDB8B;
+			productRefGroup = BDB6634C17B2B4DD005CDB8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BDB6634A17B2B4DD005CDB8B /* ViewDeckScaleExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BDB6634917B2B4DD005CDB8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDB6635917B2B4DD005CDB8B /* InfoPlist.strings in Resources */,
+				988141A217B598FB0060BFBE /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BDB6634717B2B4DD005CDB8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BDB6635F17B2B4DD005CDB8B /* VDAppDelegate.m in Sources */,
+				BDB6636517B2B4DD005CDB8B /* VDViewController.m in Sources */,
+				BDB6635B17B2B4DD005CDB8B /* main.m in Sources */,
+				BDB6638F17B2C5E0005CDB8B /* CenterController.m in Sources */,
+				BDAC4FE917B45FE70088BD5A /* LeftMenuViewController.m in Sources */,
+				980E4B3217B5968F004B65B0 /* IISideController.m in Sources */,
+				980E4B3317B5968F004B65B0 /* IIViewDeckController.m in Sources */,
+				980E4B3417B5968F004B65B0 /* IIWrapController.m in Sources */,
+				980E4B3517B5968F004B65B0 /* IIZoomBackgroundViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BDB6635717B2B4DD005CDB8B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BDB6635817B2B4DD005CDB8B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BDB6636017B2B4DD005CDB8B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BDB6636117B2B4DD005CDB8B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BDB6637B17B2B4DD005CDB8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		BDB6637C17B2B4DD005CDB8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BDB6637E17B2B4DD005CDB8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeckScaleExample/ViewDeckScaleExample-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/ViewDeckScaleExample/ViewDeckScaleExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = ViewDeckScaleExample;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BDB6637F17B2B4DD005CDB8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeckScaleExample/ViewDeckScaleExample-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/ViewDeckScaleExample/ViewDeckScaleExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = ViewDeckScaleExample;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BDB6634617B2B4DD005CDB8B /* Build configuration list for PBXProject "ViewDeckScaleExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDB6637B17B2B4DD005CDB8B /* Debug */,
+				BDB6637C17B2B4DD005CDB8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BDB6637D17B2B4DD005CDB8B /* Build configuration list for PBXNativeTarget "ViewDeckScaleExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDB6637E17B2B4DD005CDB8B /* Debug */,
+				BDB6637F17B2B4DD005CDB8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BDB6634317B2B4DD005CDB8B /* Project object */;
+}

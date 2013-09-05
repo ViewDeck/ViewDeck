@@ -2331,6 +2331,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         pv = self.slidingControllerView.frame.origin.y;
     }
     
+    if (self.panningMode == IIViewDeckDelegateCustomPanning && [self.delegate respondsToSelector:@selector(viewDeckController:minSide:maxSide:)]) {
+        if (![self.delegate viewDeckController:self minSide:minSide maxSide:maxSide])
+            return NO;
+    }
+    
     if (self.panningMode == IIViewDeckDelegatePanning && [self.delegate respondsToSelector:@selector(viewDeckController:shouldPan:)]) {
         if (![self.delegate viewDeckController:self shouldPan:panner])
             return NO;
@@ -2637,6 +2642,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             
         case IIViewDeckFullViewPanning:
         case IIViewDeckDelegatePanning:
+        case IIViewDeckDelegateCustomPanning:
         case IIViewDeckNavigationBarOrOpenCenterPanning:
             [self addPanner:self.slidingControllerView];
             // also add to disabled center

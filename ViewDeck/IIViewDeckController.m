@@ -3366,7 +3366,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if ([self.delegate respondsToSelector:@selector(viewDeckController:applyShadow:withBounds:)]) {
         [self.delegate viewDeckController:self applyShadow:_shadowLayer withBounds:self.referenceBounds];
-		[shadowedView.layer.superlayer insertSublayer:_shadowLayer below:shadowedView.layer];
+        [shadowedView.layer.superlayer insertSublayer:_shadowLayer below:shadowedView.layer];
     }
     else {
         CGPathRef newPath = ((CAShapeLayer*)self.slidingControllerView.layer.mask).path;

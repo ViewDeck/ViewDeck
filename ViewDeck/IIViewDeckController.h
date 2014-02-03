@@ -169,6 +169,10 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 @property (nonatomic, assign, getter=isElastic) BOOL elastic;
 
+#ifdef __IPHONE_7_0
+@property (nonatomic, assign) BOOL fixStatusBarToCentreController;
+#endif
+
 @property (nonatomic, assign) CGFloat leftSize;
 @property (nonatomic, assign, readonly) CGFloat leftViewSize;
 @property (nonatomic, assign, readonly) CGFloat leftLedgeSize;

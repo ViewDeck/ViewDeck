@@ -3484,8 +3484,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #ifdef __IPHONE_7_0
 - (void)prepareForSnapShotCenterView {
-    if ([self fixStatusBarToCentreController]) {
-        NSParameterAssert(self.fixStatusBarToCentreController);
+    if ([self fixStatusBarToCentreController] && !self.fixStatusBarSnapShotView.superview) {
         self.fixStatusBarSnapShotView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
         self.fixStatusBarSnapShotView.opaque = YES;
         self.fixStatusBarSnapShotView.userInteractionEnabled = NO;
@@ -3495,7 +3494,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)completionForSnapShotCenterView {
-    if (self.fixStatusBarToCentreController) {
+    if (self.fixStatusBarToCentreController && self.fixStatusBarSnapShotView.superview) {
         UIView *snapshot = self.fixStatusBarSnapShotView;
         self.fixStatusBarSnapShotView = nil;
         [self setNeedsStatusBarAppearanceUpdate];

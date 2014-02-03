@@ -185,7 +185,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #ifdef __IPHONE_7_0
 @property (nonatomic, ii_weak_property) __ii_weak UIView *fixStatusBarSnapShotView;
-@property (nonatomic, assign) BOOL sideMenuOpen;
 #endif
 
 - (void)cleanup;
@@ -3495,7 +3494,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         if (self.fixStatusBarToCentreController &&
             [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
         {
-            self.sideMenuOpen = YES;
             [self setNeedsStatusBarAppearanceUpdate];
         }
     }
@@ -3503,7 +3501,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)completionForSnapShotCenterView {
     if (self.fixStatusBarToCentreController) {
-        self.sideMenuOpen = NO;
         [self.fixStatusBarSnapShotView removeFromSuperview];
         self.fixStatusBarSnapShotView = nil;
         if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
@@ -3512,7 +3509,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
 }
 
-- (BOOL)prefersStatusBarHidden { return self.sideMenuOpen; }
+- (BOOL)prefersStatusBarHidden {
+    return !!self.fixStatusBarSnapShotView;
+}
 #endif
 
 @end

@@ -3490,28 +3490,30 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         self.fixStatusBarSnapShotView.opaque = YES;
         self.fixStatusBarSnapShotView.userInteractionEnabled = NO;
         [self.centerController.view addSubview:self.fixStatusBarSnapShotView];
-
-        if (self.fixStatusBarToCentreController &&
-            [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
-        {
-            [self setNeedsStatusBarAppearanceUpdate];
-        }
+        [self setNeedsStatusBarAppearanceUpdate];
     }
 }
 
 - (void)completionForSnapShotCenterView {
     if (self.fixStatusBarToCentreController) {
-        [self.fixStatusBarSnapShotView removeFromSuperview];
+        UIView *snapshot = self.fixStatusBarSnapShotView;
         self.fixStatusBarSnapShotView = nil;
-        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-            [self setNeedsStatusBarAppearanceUpdate];
-        }
+        [self setNeedsStatusBarAppearanceUpdate];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [snapshot removeFromSuperview];
+        });
     }
 }
 
 - (BOOL)prefersStatusBarHidden {
     return !!self.fixStatusBarSnapShotView;
 }
+
+- (BOOL)fixStatusBarToCentreController {
+    return _fixStatusBarToCentreController &&
+    [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
 #endif
 
 @end

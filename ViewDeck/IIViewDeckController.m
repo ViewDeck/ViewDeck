@@ -184,7 +184,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @property (nonatomic, readonly) UIView* slidingControllerView;
 
 #ifdef __IPHONE_7_0
-@property (nonatomic, ii_weak_property) __ii_weak UIView *snapShotView;
+@property (nonatomic, ii_weak_property) __ii_weak UIView *fixStatusBarSnapShotView;
 @property (nonatomic, assign) BOOL sideMenuOpen;
 #endif
 
@@ -236,7 +236,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (CGFloat)openSlideDuration:(BOOL)animated;
 - (CGFloat)closeSlideDuration:(BOOL)animated;
 
-- (void)snapShotCentreView;
+- (void)prepareForSnapShotCenterView;
+- (void)completionForSnapShotCenterView;
 
 - (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller;
 - (void)finishTransitionBlocks;
@@ -1457,9 +1458,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     if (duration == DEFAULT_DURATION) duration = [self openSlideDuration:animated];
 
-    if (self.fixStatusBarToCentreController) {
-        [self snapShotCentreView];
-    }
+    [self prepareForSnapShotCenterView];
 
     __block UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     
@@ -1527,9 +1526,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             return;
         }
 
-        if (self.fixStatusBarToCentreController) {
-            [self snapShotCentreView];
-        }
+        [self prepareForSnapShotCenterView];
 
         CGFloat longFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
         CGFloat shortFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
@@ -1557,7 +1554,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 static const CGFloat kStandardStatusBarHeight = 20;
                 imageView.frame = CGRectOffset(imageView.frame, 0, kStandardStatusBarHeight);
                 imageView.userInteractionEnabled = NO;
-                [self.snapShotView addSubview:imageView];
+                [self.fixStatusBarSnapShotView addSubview:imageView];
             }
 
             // now slide the view back to the ledge position
@@ -1594,10 +1591,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (duration == DEFAULT_DURATION) duration = [self closeSlideDuration:animated];
 
     if (self.fixStatusBarToCentreController) {
-        UIView *snapshowView = self.snapShotView;
-        [self.snapShotView removeFromSuperview];
+        UIView *snapshowView = self.fixStatusBarSnapShotView;
+        [self.fixStatusBarSnapShotView removeFromSuperview];
         [self.centerController.view addSubview:snapshowView];
-        self.snapShotView = snapshowView;
+        self.fixStatusBarSnapShotView = snapshowView;
     }
 
     UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
@@ -1609,15 +1606,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:animated];
         [self centerViewVisible];
     } completion:^(BOOL finished) {
-        if (self.fixStatusBarToCentreController) {
-            self.sideMenuOpen = NO;
-            [self.snapShotView removeFromSuperview];
-            self.snapShotView = nil;
-            if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
-                [self setNeedsStatusBarAppearanceUpdate];
-            }
-        }
-
+        [self completionForSnapShotCenterView];
         [self hideAppropriateSideViews];
         [self enableUserInteraction];
         if (completed) completed(self, YES);
@@ -2017,7 +2006,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (!animationValues) {
         return NO;
     }
-    
+
+    [self prepareForSnapShotCenterView];
+
     UIViewController *previewController = [self controllerForSide:viewDeckSide];
     NSString *keyPath = @"position.x";
     
@@ -2040,6 +2031,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         if (_offset == 0.0f) {
             previewController.view.hidden = YES;
         }
+
+        [self completionForSnapShotCenterView];
         
         // perform completion and delegate call
         if (completed) completed(self, YES);
@@ -2484,6 +2477,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (!_enabled) return;
     
     if (_offset == 0 && panner.state == UIGestureRecognizerStateBegan) {
+        [self prepareForSnapShotCenterView];
+
         CGPoint velocity = [panner velocityInView:self.referenceView];
         if (ABS(velocity.x) >= ABS(velocity.y))
             [self panned:panner orientation:IIViewDeckHorizontalOrientation];
@@ -3489,17 +3484,31 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #pragma mark Snapshot Centre (iOS7 status bar)
 
 #ifdef __IPHONE_7_0
-- (void)snapShotCentreView {
-    self.snapShotView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
-    self.snapShotView.opaque = YES;
-    self.snapShotView.userInteractionEnabled = NO;
-    [self.centerController.view addSubview:self.snapShotView];
+- (void)prepareForSnapShotCenterView {
+    if ([self fixStatusBarToCentreController]) {
+        NSParameterAssert(self.fixStatusBarToCentreController);
+        self.fixStatusBarSnapShotView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+        self.fixStatusBarSnapShotView.opaque = YES;
+        self.fixStatusBarSnapShotView.userInteractionEnabled = NO;
+        [self.centerController.view addSubview:self.fixStatusBarSnapShotView];
 
-    if (self.fixStatusBarToCentreController &&
-        [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
-    {
-        self.sideMenuOpen = YES;
-        [self setNeedsStatusBarAppearanceUpdate];
+        if (self.fixStatusBarToCentreController &&
+            [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
+        {
+            self.sideMenuOpen = YES;
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+    }
+}
+
+- (void)completionForSnapShotCenterView {
+    if (self.fixStatusBarToCentreController) {
+        self.sideMenuOpen = NO;
+        [self.fixStatusBarSnapShotView removeFromSuperview];
+        self.fixStatusBarSnapShotView = nil;
+        if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
     }
 }
 

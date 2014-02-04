@@ -1542,20 +1542,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             if (bounced) bounced(self);
             [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:_controllers[side]];
 
-            if (self.fixStatusBarToCentreController) {
-                // snapshot the new centre view controller and place it on top to hide the jump
-                UIView *view = self.centerController.view;
-                UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
-                [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-                UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                UIImageView *imageView = [[UIImageView alloc] initWithImage:img];
-                static const CGFloat kStandardStatusBarHeight = 20;
-                imageView.frame = CGRectOffset(imageView.frame, 0, kStandardStatusBarHeight);
-                imageView.userInteractionEnabled = NO;
-                [self.fixStatusBarSnapShotView addSubview:imageView];
-            }
-
             // now slide the view back to the ledge position
             [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:YES];
@@ -1654,11 +1640,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         // run block if it's defined
         if (bounced) bounced(self);
         [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:_controllers[side]];
-        
+
         [UIView animateWithDuration:[self closeSlideDuration:YES]*longFactor delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:YES];
             [self centerViewVisible];
         } completion:^(BOOL finished2) {
+            [self completionForSnapShotCenterView];
             [self hideAppropriateSideViews];
             [self enableUserInteraction];
             if (completed) completed(self, YES);

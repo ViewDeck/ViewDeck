@@ -177,7 +177,7 @@ This is a simple example mimicing the Path 2.0 UI to a certain extent.
 
 This is a more extensive example. You can specify the different choices for the settable behavioral property and test them out live.
 
-# SizingEample
+# SizingExample
 
 This is a test program to test out sizing behavior. It presents a view with a viewdeck controller in, and a zoom button. The zoom button enlarges/shrinks the view. The view deck controller should resize along.
 

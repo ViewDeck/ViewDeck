@@ -974,13 +974,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return [super supportedInterfaceOrientations];
 }
 
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    if (self.centerController)
-        return [self.centerController preferredInterfaceOrientationForPresentation];
-    
-    return [super preferredInterfaceOrientationForPresentation];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _preRotationSize = self.referenceBounds.size;

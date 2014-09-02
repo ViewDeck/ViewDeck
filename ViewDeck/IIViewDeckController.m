@@ -1203,7 +1203,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         if (_controllers[side] == controller) return side;
     }
     
-    return NSNotFound;
+    return (IIViewDeckSide)NSNotFound;
 }
 
 

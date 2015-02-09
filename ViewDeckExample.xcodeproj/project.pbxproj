@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5BE3419929CB439686AFF7A4 /* CustomChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE34B8A5C651973B8AE5385 /* CustomChildViewController.m */; };
+		5BE3434054132101F0363A2C /* CustomContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE34DB1D93745CA0C9D1903 /* CustomContainerViewController.m */; };
+		5BE34A6766D5A96B4D2DEACD /* CustomModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE34323CD1C3F33C086BFDB /* CustomModalViewController.m */; };
+		5BE34EF8DD5548F584780AC7 /* CustomLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE342C19D57C19D208CBCF7 /* CustomLeftViewController.m */; };
 		E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AB148AB3770077282A /* UIKit.framework */; };
 		E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AD148AB3770077282A /* Foundation.framework */; };
 		E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AF148AB3770077282A /* CoreGraphics.framework */; };
@@ -31,6 +35,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5BE340F1C7F140A87F1A62F1 /* CustomLeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLeftViewController.h; sourceTree = "<group>"; };
+		5BE342C19D57C19D208CBCF7 /* CustomLeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLeftViewController.m; sourceTree = "<group>"; };
+		5BE34323CD1C3F33C086BFDB /* CustomModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomModalViewController.m; sourceTree = "<group>"; };
+		5BE345D666363F797F77A3AA /* CustomContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomContainerViewController.h; sourceTree = "<group>"; };
+		5BE34B08614F0DCE70206221 /* CustomChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomChildViewController.h; sourceTree = "<group>"; };
+		5BE34B8A5C651973B8AE5385 /* CustomChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomChildViewController.m; sourceTree = "<group>"; };
+		5BE34CF91C372ECB4E4BD52F /* CustomModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomModalViewController.h; sourceTree = "<group>"; };
+		5BE34DB1D93745CA0C9D1903 /* CustomContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomContainerViewController.m; sourceTree = "<group>"; };
 		E240A9A7148AB3770077282A /* ViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E240A9AB148AB3770077282A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E240A9AD148AB3770077282A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -80,6 +92,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BE3488D6B21AEBD408FDE23 /* CustomContainer */ = {
+			isa = PBXGroup;
+			children = (
+				5BE34DB1D93745CA0C9D1903 /* CustomContainerViewController.m */,
+				5BE345D666363F797F77A3AA /* CustomContainerViewController.h */,
+				5BE34B8A5C651973B8AE5385 /* CustomChildViewController.m */,
+				5BE34B08614F0DCE70206221 /* CustomChildViewController.h */,
+				5BE342C19D57C19D208CBCF7 /* CustomLeftViewController.m */,
+				5BE340F1C7F140A87F1A62F1 /* CustomLeftViewController.h */,
+				5BE34323CD1C3F33C086BFDB /* CustomModalViewController.m */,
+				5BE34CF91C372ECB4E4BD52F /* CustomModalViewController.h */,
+			);
+			path = CustomContainer;
+			sourceTree = "<group>";
+		};
 		E240A99C148AB3770077282A = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +159,7 @@
 				E2B01A25155B385600E05FB9 /* PushedViewController.h */,
 				E2B01A26155B385600E05FB9 /* PushedViewController.m */,
 				E2B01A27155B385600E05FB9 /* PushedViewController.xib */,
+				5BE3488D6B21AEBD408FDE23 /* CustomContainer */,
 			);
 			path = ViewDeckExample;
 			sourceTree = "<group>";
@@ -252,6 +280,10 @@
 				E25F8B3F14B45F2B00C4182C /* IIWrapController.m in Sources */,
 				E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */,
 				E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */,
+				5BE3434054132101F0363A2C /* CustomContainerViewController.m in Sources */,
+				5BE3419929CB439686AFF7A4 /* CustomChildViewController.m in Sources */,
+				5BE34EF8DD5548F584780AC7 /* CustomLeftViewController.m in Sources */,
+				5BE34A6766D5A96B4D2DEACD /* CustomModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +362,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ViewDeckExample/ViewDeckExample-Prefix.pch";
 				INFOPLIST_FILE = "ViewDeckExample/ViewDeckExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -343,7 +376,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ViewDeckExample/ViewDeckExample-Prefix.pch";
 				INFOPLIST_FILE = "ViewDeckExample/ViewDeckExample-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

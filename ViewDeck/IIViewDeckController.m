@@ -827,6 +827,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return NO;
 }
 
+/// Note: Manually forwarding is needed, to call viewWillAppear: on the side view controllers everytime they are displayed on screen and not only once when they are added to the view hierarchy
 - (BOOL)safe_shouldManageAppearanceMethods {
     if ([[UIViewController class] instancesRespondToSelector:@selector(shouldAutomaticallyForwardAppearanceMethods)] ) { // on iOS6 or later
         return ![self shouldAutomaticallyForwardAppearanceMethods];
@@ -906,7 +907,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self didRotateFromInterfaceOrientation:_willAppearShouldArrangeViewsAfterRotation];
     }
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewWillAppear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) [self.centerController beginAppearanceTransition:YES animated:animated];
     [self transitionAppearanceFrom:0 to:1 animated:animated];
 
     if (self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
@@ -922,7 +923,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewDidAppear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) [self.centerController endAppearanceTransition];
     [self transitionAppearanceFrom:1 to:2 animated:animated];
     _viewAppeared = 2;
 }
@@ -930,7 +931,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewWillDisappear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) [self.centerController beginAppearanceTransition:NO animated:animated];
     [self transitionAppearanceFrom:2 to:1 animated:animated];
     _viewAppeared = 1;
 }
@@ -947,7 +948,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         //do nothing, obviously it wasn't attached because an exception was thrown
     }
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewDidDisappear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) [self.centerController endAppearanceTransition];
     [self transitionAppearanceFrom:1 to:0 animated:animated];
     _viewAppeared = 0;
 }
@@ -1263,53 +1264,81 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         return;
     
     if (_viewAppeared < to) {
-        _sideAppeared[viewDeckSide] = to;
+        _sideAppeared[viewDeckSide] = (UInt32) to;
         return;
     }
 
     SEL selector = nil;
+    NSArray *arguments = nil;
+
     if (from < to) {
         if (_sideAppeared[viewDeckSide] > from)
             return;
-        
+
         if (to == 1)
-            selector = @selector(viewWillAppear:);
+        {
+            selector = @selector(beginAppearanceTransition:animated:);
+            BOOL viewWillAppear = YES;
+            arguments = @[@(viewWillAppear), @(animated)];
+        }
         else if (to == 2)
-            selector = @selector(viewDidAppear:);
+        {
+            selector = @selector(endAppearanceTransition);
+        }
     }
     else {
         if (_sideAppeared[viewDeckSide] < from)
             return;
 
         if (to == 1)
-            selector = @selector(viewWillDisappear:);
+        {
+            selector = @selector(beginAppearanceTransition:animated:);
+            BOOL viewWillAppear = NO; // So we want to call viewWillDisappear
+            arguments = @[@(viewWillAppear), @(animated)];
+        }
         else if (to == 0)
-            selector = @selector(viewDidDisappear:);
+        {
+            selector = @selector(endAppearanceTransition);
+        }
     }
+
+    _sideAppeared[viewDeckSide] = (UInt32) to;
     
-    _sideAppeared[viewDeckSide] = to;
-    
-    if ([self safe_shouldManageAppearanceMethods] && selector) {
+    if ([self safe_shouldManageAppearanceMethods] && selector)
+    {
         UIViewController* controller = [self controllerForSide:viewDeckSide];
         controller.view.tag = controller.view.tag; // access view property so that viewDidLoad is called before viewWillAppear is view is not loaded
-        BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated) = (void*)objc_msgSend;
-        objc_msgSendTyped(controller, selector, animated);
+        objc_msgSend(controller, selector, arguments);
     }
 }
 
-- (void)transitionAppearanceFrom:(int)from to:(int)to animated:(BOOL)animated {
+- (void)transitionAppearanceFrom:(int)from to:(int)to animated:(BOOL)animated
+{
     SEL selector = nil;
+    NSArray *arguments = nil;
     if (from < to) {
         if (to == 1)
-            selector = @selector(viewWillAppear:);
+        {
+            selector = @selector(beginAppearanceTransition:animated:);
+            BOOL viewWillAppear = YES;
+            arguments = @[@(viewWillAppear), @(animated)];
+        }
         else if (to == 2)
-            selector = @selector(viewDidAppear:);
+        {
+            selector = @selector(endAppearanceTransition);
+        }
     }
     else {
         if (to == 1)
-            selector = @selector(viewWillDisappear:);
+        {
+            selector = @selector(beginAppearanceTransition:animated:);
+            BOOL viewWillAppear = NO; // So we want to call viewWillDisappear
+            arguments = @[@(viewWillAppear), @(animated)];
+        }
         else if (to == 0)
-            selector = @selector(viewDidDisappear:);
+        {
+            selector = @selector(endAppearanceTransition);
+        }
     }
     
     [self doForControllers:^(UIViewController *controller, IIViewDeckSide side) {
@@ -1319,8 +1348,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             return;
         
         if ([self safe_shouldManageAppearanceMethods] && selector && controller) {
-            BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated) = (void*)objc_msgSend;
-            objc_msgSendTyped(controller, selector, animated);
+            objc_msgSend(controller, selector, arguments);
         }
     }];
 }
@@ -2922,16 +2950,16 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     __block CGRect currentFrame = self.referenceBounds;
     if (_viewFirstAppeared) {
         beforeBlock = ^(UIViewController* controller) {
-            if ([self safe_shouldManageAppearanceMethods]) [controller viewWillDisappear:NO];
+            if ([self safe_shouldManageAppearanceMethods]) [controller beginAppearanceTransition:NO animated:NO];
             [self restoreShadowToSlidingView];
             [self removePanners];
             [controller.view removeFromSuperview];
-            if ([self safe_shouldManageAppearanceMethods]) [controller viewDidDisappear:NO];
+            if ([self safe_shouldManageAppearanceMethods]) [controller endAppearanceTransition];
             [self.centerView removeFromSuperview];
         };
         afterBlock = ^(UIViewController* controller) {
             [self.view addSubview:self.centerView];
-             if ([self safe_shouldManageAppearanceMethods]) [controller viewWillAppear:NO];
+             if ([self safe_shouldManageAppearanceMethods]) [controller beginAppearanceTransition:YES animated:NO];
             UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
                 ? (UINavigationController*)centerController 
                 : nil;
@@ -2952,7 +2980,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             
             [self addPanners];
             [self applyShadowToSlidingViewAnimated:NO];
-            if ([self safe_shouldManageAppearanceMethods]) [controller viewDidAppear:NO];
+            if ([self safe_shouldManageAppearanceMethods]) [controller endAppearanceTransition];
         };
     }
     

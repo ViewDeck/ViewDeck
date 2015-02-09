@@ -29,4 +29,18 @@
     [self presentViewController:modalViewController animated:YES completion:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    NSLog(@"-viewWillAppear: on Side View Controller");
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    NSLog(@"-viewDidAppear: on Side View Controller");
+}
+
 @end

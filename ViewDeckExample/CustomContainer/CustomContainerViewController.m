@@ -65,4 +65,19 @@
     NSLog(@"-viewWillAppear: on Container View Controller");
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    NSLog(@"-viewWillDisappear: on Container View Controller");
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    NSLog(@"-viewDidDisappear: on Container View Controller");
+}
+
+
 @end

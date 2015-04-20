@@ -74,13 +74,13 @@ enum {
     IIViewDeckTopSide = 3,
     IIViewDeckBottomSide = 4,
 };
-typedef UInt32 IIViewDeckSide;
+typedef NSUInteger IIViewDeckSide;
 
 enum {
     IIViewDeckHorizontalOrientation = 1,
     IIViewDeckVerticalOrientation = 2
 };
-typedef UInt32 IIViewDeckOffsetOrientation;
+typedef NSUInteger IIViewDeckOffsetOrientation;
 
 enum {
     IIViewDeckNoPanning,              // no panning allowed
@@ -91,7 +91,7 @@ enum {
     IIViewDeckNavigationBarOrOpenCenterPanning,      //panning occurs when you start touching the navigation bar if the center controller is visible.  If the left or right controller is open, pannning occurs anywhere on the center controller, not just the navbar.
     IIViewDeckAllViewsPanning,        // you can pan anywhere in the viewdeck (including sideviews)
 };
-typedef UInt32 IIViewDeckPanningMode;
+typedef NSUInteger IIViewDeckPanningMode;
 
 
 enum {
@@ -100,28 +100,28 @@ enum {
     IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
     IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, // same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
 };
-typedef UInt32 IIViewDeckCenterHiddenInteractivity;
+typedef NSUInteger IIViewDeckCenterHiddenInteractivity;
 
 
 enum {
     IIViewDeckNavigationControllerContained,      // the center navigation controller will act as any other viewcontroller. Pushing and popping view controllers will be contained in the centerview.
     IIViewDeckNavigationControllerIntegrated      // the center navigation controller will integrate with the viewdeck.
 };
-typedef UInt32 IIViewDeckNavigationControllerBehavior;
+typedef NSUInteger IIViewDeckNavigationControllerBehavior;
 
 
 enum {
     IIViewDeckLedgeSizeMode, // when rotating, the ledge sizes are kept (side views are more/less visible)
     IIViewDeckViewSizeMode  // when rotating, the size view sizes are kept (ledges change)
 };
-typedef UInt32 IIViewDeckSizeMode;
+typedef NSUInteger IIViewDeckSizeMode;
 
 
 enum {
     IIViewDeckDelegateOnly, // call the delegate only
     IIViewDeckDelegateAndSubControllers  // call the delegate and the subcontrollers
 };
-typedef UInt32 IIViewDeckDelegateMode;
+typedef NSUInteger IIViewDeckDelegateMode;
 
 #define IIViewDeckCenterHiddenCanTapToClose(interactivity) ((interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose || (interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing)
 #define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
@@ -132,9 +132,9 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 @interface IIViewDeckController : UIViewController {
 @private    
     CGPoint _panOrigin;
-    UInt32 _viewAppeared;
+    NSUInteger _viewAppeared;
     BOOL _viewFirstAppeared;
-    UInt32 _sideAppeared[6];
+    NSUInteger _sideAppeared[6];
     CGFloat _ledge[5];
     UIViewController* _controllers[6];
     CGFloat _offset, _maxLedge;

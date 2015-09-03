@@ -1,7 +1,8 @@
 #USE 2.2.11, 2.3.1 IS BUGGY 
 and I do not have time soon to fix it properly. Sorry!
 
-# IIViewDeckController
+# ViewDeck
+## IIViewDeckController
 
 When I saw the new UI in the Path 2.0 app, extending the sliding views UI found in the Facebook app, I wanted to recreate this effect and controller for myself. Mostly as an exercise, but it might come in handy later.
 A quick prototype was built in one evening, but the finetuning took a few more evenings.
@@ -189,7 +190,7 @@ I'd appreciate it to mention the use of this code somewhere if you use it in an 
 
 **IIViewDeckController** published under the MIT license:
 
-*Copyright (C) 2011-2013, Tom Adriaenssen*
+*Copyright (C) 2011-2015, Tom Adriaenssen*
 
 *Permission is hereby granted, free of charge, to any person obtaining a copy of*
 *this software and associated documentation files (the "Software"), to deal in*

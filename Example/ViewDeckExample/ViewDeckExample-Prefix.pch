@@ -1,7 +1,4 @@
 //
-//  IISideController.h
-//  IIViewDeck
-//
 //  Copyright (C) 2011-2015, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -22,28 +19,21 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
+//
+// Prefix header for all source files of the 'ViewDeckExample' target in the 'ViewDeckExample' project
+//
 
-#import "IIWrapController.h"
+#import <Availability.h>
 
-@interface IISideController : IIWrapController
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
 
-@property (nonatomic, assign) CGFloat constrainedSize;
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#import "AppDelegate.h"
 
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
+#define SharedAppDelegate ((AppDelegate*)[[UIApplication sharedApplication] delegate])
 
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
-
-@end
-
-
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
-
-@property(nonatomic,readonly,retain) IISideController *sideController;
-
-@end
+#endif

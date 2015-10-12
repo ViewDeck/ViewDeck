@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     
-    self.levelLabel.text = [NSString stringWithFormat:@"Level %d", self.level];
+    self.levelLabel.text = [NSString stringWithFormat:@"Level %ld", (long)self.level];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

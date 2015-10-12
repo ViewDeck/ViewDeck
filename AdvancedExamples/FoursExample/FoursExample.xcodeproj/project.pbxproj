@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		677A0FED1BCC34CB000FFEDD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FEC1BCC34CB000FFEDD /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
 		E20F7C0D16866367001BF2C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20F7C0C16866367001BF2C3 /* QuartzCore.framework */; };
 		E22354F31600B65E00A3EEFC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22354F21600B65E00A3EEFC /* UIKit.framework */; };
 		E22354F51600B65E00A3EEFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E22354F41600B65E00A3EEFC /* Foundation.framework */; };
@@ -19,10 +20,10 @@
 		E22355191600B9D900A3EEFC /* CenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22355171600B9D900A3EEFC /* CenterViewController.xib */; };
 		E223551D1600B9E900A3EEFC /* SideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E223551B1600B9E900A3EEFC /* SideViewController.m */; };
 		E223551E1600B9E900A3EEFC /* SideViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E223551C1600B9E900A3EEFC /* SideViewController.xib */; };
-		E2DAC33A16E7C0E8002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC33916E7C0E8002BD487 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		677A0FEC1BCC34CB000FFEDD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E0C300C5161A4EF30097213B /* IIWrapController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		E0C300C6161A4EF30097213B /* IIWrapController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		E20F7C0C16866367001BF2C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -44,7 +45,6 @@
 		E223551A1600B9E900A3EEFC /* SideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideViewController.h; sourceTree = "<group>"; };
 		E223551B1600B9E900A3EEFC /* SideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideViewController.m; sourceTree = "<group>"; };
 		E223551C1600B9E900A3EEFC /* SideViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SideViewController.xib; sourceTree = "<group>"; };
-		E2DAC33916E7C0E8002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 		E22354E31600B65E00A3EEFC = {
 			isa = PBXGroup;
 			children = (
-				E2DAC33916E7C0E8002BD487 /* Default-568h@2x.png */,
+				677A0FEC1BCC34CB000FFEDD /* Default-568h@2x.png */,
 				E20F7C0C16866367001BF2C3 /* QuartzCore.framework */,
 				E22354F81600B65E00A3EEFC /* FoursExample */,
 				E22354F11600B65E00A3EEFC /* Frameworks */,
@@ -136,7 +136,7 @@
 				E0C300C6161A4EF30097213B /* IIWrapController.m */,
 			);
 			name = ViewDeck;
-			path = ../../ViewDeck;
+			path = ../../../ViewDeck;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,9 +191,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E22354FD1600B65E00A3EEFC /* InfoPlist.strings in Resources */,
+				677A0FED1BCC34CB000FFEDD /* Default-568h@2x.png in Resources */,
 				E22355191600B9D900A3EEFC /* CenterViewController.xib in Resources */,
 				E223551E1600B9E900A3EEFC /* SideViewController.xib in Resources */,
-				E2DAC33A16E7C0E8002BD487 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

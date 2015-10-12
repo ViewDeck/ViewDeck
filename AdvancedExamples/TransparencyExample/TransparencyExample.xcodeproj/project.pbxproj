@@ -19,7 +19,6 @@
 		E2B26E071729BCAE002E650F /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B26E001729BCAE002E650F /* IISideController.m */; };
 		E2B26E081729BCAE002E650F /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B26E021729BCAE002E650F /* IIViewDeckController.m */; };
 		E2B26E0A1729BCAE002E650F /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B26E051729BCAE002E650F /* IIWrapController.m */; };
-		E2B26E0C1729BD52002E650F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2B26E0B1729BD52002E650F /* Default-568h@2x.png */; };
 		E2B26E0E1729BD85002E650F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B26E0D1729BD85002E650F /* QuartzCore.framework */; };
 		E2B26E171729BE17002E650F /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B26E131729BDC8002E650F /* LeftViewController.m */; };
 		E2B26E181729BE19002E650F /* CenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B26E101729BDC8002E650F /* CenterViewController.m */; };
@@ -48,7 +47,6 @@
 		E2B26E021729BCAE002E650F /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
 		E2B26E041729BCAE002E650F /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		E2B26E051729BCAE002E650F /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
-		E2B26E0B1729BD52002E650F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		E2B26E0D1729BD85002E650F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E2B26E0F1729BDC8002E650F /* CenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CenterViewController.h; sourceTree = "<group>"; };
 		E2B26E101729BDC8002E650F /* CenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CenterViewController.m; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				E2B26E0D1729BD85002E650F /* QuartzCore.framework */,
-				E2B26E0B1729BD52002E650F /* Default-568h@2x.png */,
 				E2B26DE31729BC3A002E650F /* TransparencyExample */,
 				E2B26DDC1729BC3A002E650F /* Frameworks */,
 				E2B26DDB1729BC3A002E650F /* Products */,
@@ -156,7 +153,7 @@
 				E2B26E051729BCAE002E650F /* IIWrapController.m */,
 			);
 			name = ViewDeck;
-			path = ../../ViewDeck;
+			path = ../../../ViewDeck;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +211,6 @@
 				E2B26DF01729BC3A002E650F /* Default.png in Resources */,
 				E2B26DF21729BC3A002E650F /* Default@2x.png in Resources */,
 				E2B26DF41729BC3A002E650F /* Default-568h@2x.png in Resources */,
-				E2B26E0C1729BD52002E650F /* Default-568h@2x.png in Resources */,
 				E2B26E191729BEC3002E650F /* CenterViewController.xib in Resources */,
 				E2B26E1A1729BEC5002E650F /* LeftViewController.xib in Resources */,
 			);
@@ -351,6 +347,7 @@
 				E2B26DF91729BC3A002E650F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -156,7 +156,7 @@
 				E20F7C501686756C001BF2C3 /* IIWrapController.m */,
 			);
 			name = ViewDeck;
-			path = ../../ViewDeck;
+			path = ../../../ViewDeck;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,6 +369,7 @@
 				E20F7C481686752F001BF2C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

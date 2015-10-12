@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		677A0FEB1BCC34C0000FFEDD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FEA1BCC34C0000FFEDD /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
 		E20F7C0B16862161001BF2C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20F7C0A16862161001BF2C3 /* QuartzCore.framework */; };
 		E230F0421603F84200C7543B /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E230F0401603F84200C7543B /* IIWrapController.m */; };
 		E26716661556946C00E0C3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E26716651556946C00E0C3C0 /* UIKit.framework */; };
@@ -25,10 +26,10 @@
 		E267169A15569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m in Sources */ = {isa = PBXBuildFile; fileRef = E267169915569BA100E0C3C0 /* UITableViewCell+AutoDequeue.m */; };
 		E2B01A33155BE2D400E05FB9 /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A31155BE2D300E05FB9 /* ModalViewController.m */; };
 		E2B01A34155BE2D400E05FB9 /* ModalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */; };
-		E2DAC33C16E7C22D002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC33B16E7C22D002BD487 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		677A0FEA1BCC34C0000FFEDD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E20F7C0A16862161001BF2C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E230F0401603F84200C7543B /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		E230F0411603F84200C7543B /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		E2B01A30155BE2D300E05FB9 /* ModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalViewController.h; sourceTree = "<group>"; };
 		E2B01A31155BE2D300E05FB9 /* ModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalViewController.m; sourceTree = "<group>"; };
 		E2B01A32155BE2D300E05FB9 /* ModalViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModalViewController.xib; sourceTree = "<group>"; };
-		E2DAC33B16E7C22D002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 		E26716561556946B00E0C3C0 = {
 			isa = PBXGroup;
 			children = (
-				E2DAC33B16E7C22D002BD487 /* Default-568h@2x.png */,
+				677A0FEA1BCC34C0000FFEDD /* Default-568h@2x.png */,
 				E20F7C0A16862161001BF2C3 /* QuartzCore.framework */,
 				E267166B1556946C00E0C3C0 /* MultiViewDeckExample */,
 				E26716641556946C00E0C3C0 /* Frameworks */,
@@ -157,7 +157,7 @@
 				E26716831556949200E0C3C0 /* IIViewDeckController.m */,
 			);
 			name = ViewDeck;
-			path = ../../ViewDeck;
+			path = ../../../ViewDeck;
 			sourceTree = "<group>";
 		};
 		E267169715569B7200E0C3C0 /* Extensions */ = {
@@ -225,7 +225,7 @@
 				E2671691155699AF00E0C3C0 /* CenterViewController.xib in Resources */,
 				E267169615569A3800E0C3C0 /* BottomViewController.xib in Resources */,
 				E2B01A34155BE2D400E05FB9 /* ModalViewController.xib in Resources */,
-				E2DAC33C16E7C22D002BD487 /* Default-568h@2x.png in Resources */,
+				677A0FEB1BCC34C0000FFEDD /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

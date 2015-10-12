@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		677A0FE91BCC34B7000FFEDD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FE81BCC34B7000FFEDD /* Default-568h@2x.png */; settings = {ASSET_TAGS = (); }; };
 		E0C300D0161A508F0097213B /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0C300CF161A508F0097213B /* IIWrapController.m */; };
 		E20F7C0F16866DF6001BF2C3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20F7C0E16866DF6001BF2C3 /* QuartzCore.framework */; };
 		E27E514B15726C9F009D90EB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E27E514A15726C9F009D90EB /* UIKit.framework */; };
@@ -27,10 +28,10 @@
 		E2CA7FB61576CCCE00408061 /* DeeperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2CA7FB41576CCCE00408061 /* DeeperViewController.m */; };
 		E2CA7FB71576CCCE00408061 /* DeeperViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2CA7FB51576CCCE00408061 /* DeeperViewController.xib */; };
 		E2CA7FBF1576DEFD00408061 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2CA7FBE1576DEFD00408061 /* MessageUI.framework */; };
-		E2DAC32E16E7BF91002BD487 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2DAC32D16E7BF91002BD487 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		677A0FE81BCC34B7000FFEDD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E0C300CE161A508F0097213B /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		E0C300CF161A508F0097213B /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		E20F7C0E16866DF6001BF2C3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -62,7 +63,6 @@
 		E2CA7FB41576CCCE00408061 /* DeeperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeeperViewController.m; sourceTree = "<group>"; };
 		E2CA7FB51576CCCE00408061 /* DeeperViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeeperViewController.xib; sourceTree = "<group>"; };
 		E2CA7FBE1576DEFD00408061 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		E2DAC32D16E7BF91002BD487 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 		E27E513B15726C9F009D90EB = {
 			isa = PBXGroup;
 			children = (
-				E2DAC32D16E7BF91002BD487 /* Default-568h@2x.png */,
+				677A0FE81BCC34B7000FFEDD /* Default-568h@2x.png */,
 				E20F7C0E16866DF6001BF2C3 /* QuartzCore.framework */,
 				E27E515015726C9F009D90EB /* NavigationExample */,
 				E27E514915726C9F009D90EB /* Frameworks */,
@@ -166,7 +166,7 @@
 				E0C300CF161A508F0097213B /* IIWrapController.m */,
 			);
 			name = ViewDeck;
-			path = ../ViewDeck;
+			path = ../../ViewDeck;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,8 +225,8 @@
 				E2CA7FA11576C4D300408061 /* CenterViewController.xib in Resources */,
 				E2CA7FA71576C4E300408061 /* LeftViewController.xib in Resources */,
 				E2CA7FB11576C50B00408061 /* RightViewController.xib in Resources */,
+				677A0FE91BCC34B7000FFEDD /* Default-568h@2x.png in Resources */,
 				E2CA7FB71576CCCE00408061 /* DeeperViewController.xib in Resources */,
-				E2DAC32E16E7BF91002BD487 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,6 @@
 		E2D2316A174541F40098CCF5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2D23169174541F40098CCF5 /* QuartzCore.framework */; };
 		E2D2316E1745421C0098CCF5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D2316C1745421C0098CCF5 /* ViewController.m */; };
 		E2D2316F1745421C0098CCF5 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2D2316D1745421C0098CCF5 /* ViewController.xib */; };
-		E2D23179174560E90098CCF5 /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D23172174560E90098CCF5 /* IIDelegateProxy.m */; };
 		E2D2317A174560E90098CCF5 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D23174174560E90098CCF5 /* IISideController.m */; };
 		E2D2317B174560E90098CCF5 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D23176174560E90098CCF5 /* IIViewDeckController.m */; };
 		E2D2317C174560E90098CCF5 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2D23178174560E90098CCF5 /* IIWrapController.m */; };
@@ -43,8 +42,6 @@
 		E2D2316B1745421C0098CCF5 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E2D2316C1745421C0098CCF5 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E2D2316D1745421C0098CCF5 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
-		E2D23171174560E90098CCF5 /* IIDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIDelegateProxy.h; sourceTree = "<group>"; };
-		E2D23172174560E90098CCF5 /* IIDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIDelegateProxy.m; sourceTree = "<group>"; };
 		E2D23173174560E90098CCF5 /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IISideController.h; sourceTree = "<group>"; };
 		E2D23174174560E90098CCF5 /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IISideController.m; sourceTree = "<group>"; };
 		E2D23175174560E90098CCF5 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
@@ -135,8 +132,6 @@
 		E2D23170174560E90098CCF5 /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
-				E2D23171174560E90098CCF5 /* IIDelegateProxy.h */,
-				E2D23172174560E90098CCF5 /* IIDelegateProxy.m */,
 				E2D23173174560E90098CCF5 /* IISideController.h */,
 				E2D23174174560E90098CCF5 /* IISideController.m */,
 				E2D23175174560E90098CCF5 /* IIViewDeckController.h */,
@@ -145,7 +140,7 @@
 				E2D23178174560E90098CCF5 /* IIWrapController.m */,
 			);
 			name = ViewDeck;
-			path = ../../ViewDeck;
+			path = ../../../ViewDeck;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,7 +212,6 @@
 				E2D23145174540900098CCF5 /* main.m in Sources */,
 				E2D23149174540900098CCF5 /* AppDelegate.m in Sources */,
 				E2D2316E1745421C0098CCF5 /* ViewController.m in Sources */,
-				E2D23179174560E90098CCF5 /* IIDelegateProxy.m in Sources */,
 				E2D2317A174560E90098CCF5 /* IISideController.m in Sources */,
 				E2D2317B174560E90098CCF5 /* IIViewDeckController.m in Sources */,
 				E2D2317C174560E90098CCF5 /* IIWrapController.m in Sources */,
@@ -335,6 +329,7 @@
 				E2D2315A174540900098CCF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

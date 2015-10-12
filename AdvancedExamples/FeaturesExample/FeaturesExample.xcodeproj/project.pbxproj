@@ -90,7 +90,8 @@
 				E2955F6C14B728E4003DDB4E /* IIViewDeckController.h */,
 				E2955F6D14B728E4003DDB4E /* IIViewDeckController.m */,
 			);
-			path = ViewDeck;
+			name = ViewDeck;
+			path = ../../ViewDeck;
 			sourceTree = SOURCE_ROOT;
 		};
 		E2C8E5841497F62B00560D23 = {

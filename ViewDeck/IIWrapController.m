@@ -182,7 +182,7 @@
     return [self.wrappedController shouldAutorotate];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return [self.wrappedController supportedInterfaceOrientations];
 }
 

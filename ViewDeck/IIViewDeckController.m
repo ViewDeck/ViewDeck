@@ -91,14 +91,9 @@ __typeof__(h) __h = (h);                                    \
 #import "IIWrapController.h"
 
 
-enum {
-    IIViewDeckNoSide = 0,
-    IIViewDeckCenterSide = 5,
-};
+static const IIViewDeckSide IIViewDeckNoSide = 0;
+static const IIViewDeckOffsetOrientation IIViewDeckNoOrientation = 0;
 
-enum {
-    IIViewDeckNoOrientation = 0,
-};
 
 inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
     switch (side) {
@@ -122,6 +117,7 @@ inline NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
     }
 }
 
+
 inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide(IIViewDeckSide side) {
     switch (side) {
         case IIViewDeckLeftSide:
@@ -137,17 +133,19 @@ inline IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     }
 }
 
+
 static const UIViewAnimationOptions DefaultSwipedAnimationCurve = UIViewAnimationOptionCurveEaseOut;
 
 static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocity)
 {
-    NSTimeInterval animationDuration = pointsToAnimate / fabsf(velocity);
+    NSTimeInterval animationDuration = pointsToAnimate / ABS(velocity);
     // adjust duration for easing curve, if necessary
     if (DefaultSwipedAnimationCurve != UIViewAnimationOptionCurveLinear) animationDuration *= 1.25;
     return animationDuration;
 }
 
 #define DEFAULT_DURATION 0.0
+
 
 @interface IIViewDeckView : UIView {
     BOOL _userInteractionEnabled;
@@ -160,6 +158,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (BOOL)needsOffsetAdjustment;
 
 @end
+
 
 @interface UIViewController (UIViewDeckController_ViewContainmentEmulation_Fakes)
 - (void)vdc_addChildViewController:(UIViewController *)childController;
@@ -1019,9 +1018,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return !self.centerController || [self.centerController shouldAutorotate];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    if (self.centerController)
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if (self.centerController) {
         return [self.centerController supportedInterfaceOrientations];
+    }
     
     return [super supportedInterfaceOrientations];
 }
@@ -2065,7 +2065,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     // Calculate steps
     for (uint t = 0; t < steps; t++) {
         time = (t / (float)steps) * duration;
-        offset = abs(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
+        offset = ABS(expf(-zeta * wn * time) * ((Vo / wd) * sin(wd * time)));
         offset = direction * [self limitOffset:offset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(viewDeckSide)] + position;
         [values addObject:[NSNumber numberWithFloat:offset]];
     }
@@ -2550,7 +2550,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 // swipe to the left
                 // Animation duration based on velocity
                 CGFloat pointsToAnimate = self.slidingControllerView.frame.origin.x;
-                NSTimeInterval animationDuration = fabsf(durationToAnimate(pointsToAnimate, orientationVelocity));
+                NSTimeInterval animationDuration = ABS(durationToAnimate(pointsToAnimate, orientationVelocity));
                 
                 if (v < 0) {
                     [self openSideView:maxSide animated:YES duration:animationDuration completion:nil];
@@ -2565,7 +2565,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
                 
                 // Animation duration based on velocity
                 CGFloat maxDistance = CGRectGetWidth(self.view.frame) - self.leftSize;
-                CGFloat pointsToAnimate = fabsf(maxDistance - self.slidingControllerView.frame.origin.x);
+                CGFloat pointsToAnimate = ABS(maxDistance - self.slidingControllerView.frame.origin.x);
                 NSTimeInterval animationDuration = durationToAnimate(pointsToAnimate, orientationVelocity);
                 
                 if (v > 0) {

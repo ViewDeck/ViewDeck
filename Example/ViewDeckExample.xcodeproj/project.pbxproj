@@ -1,0 +1,428 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		677A0FE21BCC2CC5000FFEDD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
+		677A0FE51BCC3367000FFEDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FE41BCC3367000FFEDD /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AB148AB3770077282A /* UIKit.framework */; };
+		E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AD148AB3770077282A /* Foundation.framework */; };
+		E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AF148AB3770077282A /* CoreGraphics.framework */; };
+		E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E240A9B4148AB3770077282A /* InfoPlist.strings */; };
+		E240A9B8148AB3770077282A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9B7148AB3770077282A /* main.m */; };
+		E240A9BC148AB3770077282A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BB148AB3770077282A /* AppDelegate.m */; };
+		E240A9BF148AB3770077282A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BE148AB3770077282A /* ViewController.m */; };
+		E240A9D2148ADC020077282A /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D0148ADC020077282A /* LeftViewController.m */; };
+		E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D1148ADC020077282A /* LeftViewController.xib */; };
+		E240A9D7148ADC230077282A /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D5148ADC230077282A /* RightViewController.m */; };
+		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
+		E240A9E8148C51AC0077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9E7148C51AC0077282A /* ViewController.xib */; };
+		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
+		E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F9614B7D678003DDB4E /* NestViewController.m */; };
+		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
+		E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A26155B385600E05FB9 /* PushedViewController.m */; };
+		E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A27155B385600E05FB9 /* PushedViewController.xib */; };
+		E32C5403BFBEB166630F8A51 /* libPods-ViewDeckExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2850123F77E3D81AB672C8 /* libPods-ViewDeckExample.a */; };
+		EA82B9FE167CFB670028F389 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA82B9FD167CFB670028F389 /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0D2850123F77E3D81AB672C8 /* libPods-ViewDeckExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ViewDeckExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23AE579642B78599CA586068 /* Pods-ViewDeckExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.release.xcconfig"; sourceTree = "<group>"; };
+		677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		677A0FE41BCC3367000FFEDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BABC6C51445C17BDAFED4B76 /* Pods-ViewDeckExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.debug.xcconfig"; sourceTree = "<group>"; };
+		E240A9A7148AB3770077282A /* ViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E240A9AB148AB3770077282A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E240A9AD148AB3770077282A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E240A9AF148AB3770077282A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E240A9B3148AB3770077282A /* ViewDeckExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ViewDeckExample-Info.plist"; sourceTree = "<group>"; };
+		E240A9B5148AB3770077282A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E240A9B7148AB3770077282A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E240A9B9148AB3770077282A /* ViewDeckExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ViewDeckExample-Prefix.pch"; sourceTree = "<group>"; };
+		E240A9BA148AB3770077282A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E240A9BB148AB3770077282A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E240A9BD148AB3770077282A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		E240A9BE148AB3770077282A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E240A9CF148ADC020077282A /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		E240A9D0148ADC020077282A /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		E240A9D1148ADC020077282A /* LeftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewController.xib; sourceTree = "<group>"; };
+		E240A9D4148ADC230077282A /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightViewController.h; sourceTree = "<group>"; };
+		E240A9D5148ADC230077282A /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightViewController.m; sourceTree = "<group>"; };
+		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
+		E240A9E7148C51AC0077282A /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		E240A9EB148C51E00077282A /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
+		E2955F9514B7D678003DDB4E /* NestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestViewController.h; sourceTree = "<group>"; };
+		E2955F9614B7D678003DDB4E /* NestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestViewController.m; sourceTree = "<group>"; };
+		E2955F9714B7D678003DDB4E /* NestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NestViewController.xib; sourceTree = "<group>"; };
+		E2B01A25155B385600E05FB9 /* PushedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushedViewController.h; sourceTree = "<group>"; };
+		E2B01A26155B385600E05FB9 /* PushedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushedViewController.m; sourceTree = "<group>"; };
+		E2B01A27155B385600E05FB9 /* PushedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushedViewController.xib; sourceTree = "<group>"; };
+		EA82B9FD167CFB670028F389 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E240A9A4148AB3770077282A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA82B9FE167CFB670028F389 /* QuartzCore.framework in Frameworks */,
+				E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */,
+				E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */,
+				E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */,
+				E32C5403BFBEB166630F8A51 /* libPods-ViewDeckExample.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7972B7BCB71714107BE0B92D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BABC6C51445C17BDAFED4B76 /* Pods-ViewDeckExample.debug.xcconfig */,
+				23AE579642B78599CA586068 /* Pods-ViewDeckExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E240A99C148AB3770077282A = {
+			isa = PBXGroup;
+			children = (
+				E240A9B1148AB3770077282A /* ViewDeckExample */,
+				E240A9AA148AB3770077282A /* Frameworks */,
+				E240A9A8148AB3770077282A /* Products */,
+				7972B7BCB71714107BE0B92D /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		E240A9A8148AB3770077282A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9A7148AB3770077282A /* ViewDeckExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E240A9AA148AB3770077282A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA82B9FD167CFB670028F389 /* QuartzCore.framework */,
+				E240A9AB148AB3770077282A /* UIKit.framework */,
+				E240A9AD148AB3770077282A /* Foundation.framework */,
+				E240A9AF148AB3770077282A /* CoreGraphics.framework */,
+				0D2850123F77E3D81AB672C8 /* libPods-ViewDeckExample.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E240A9B1148AB3770077282A /* ViewDeckExample */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9EA148C51E00077282A /* assets */,
+				E240A9B2148AB3770077282A /* Supporting Files */,
+				E240A9BA148AB3770077282A /* AppDelegate.h */,
+				E240A9BB148AB3770077282A /* AppDelegate.m */,
+				E240A9BD148AB3770077282A /* ViewController.h */,
+				E240A9BE148AB3770077282A /* ViewController.m */,
+				E240A9E7148C51AC0077282A /* ViewController.xib */,
+				E240A9CF148ADC020077282A /* LeftViewController.h */,
+				E240A9D0148ADC020077282A /* LeftViewController.m */,
+				E240A9D1148ADC020077282A /* LeftViewController.xib */,
+				E240A9D4148ADC230077282A /* RightViewController.h */,
+				E240A9D5148ADC230077282A /* RightViewController.m */,
+				E240A9D6148ADC230077282A /* RightViewController.xib */,
+				E2955F9514B7D678003DDB4E /* NestViewController.h */,
+				E2955F9614B7D678003DDB4E /* NestViewController.m */,
+				E2955F9714B7D678003DDB4E /* NestViewController.xib */,
+				E2B01A25155B385600E05FB9 /* PushedViewController.h */,
+				E2B01A26155B385600E05FB9 /* PushedViewController.m */,
+				E2B01A27155B385600E05FB9 /* PushedViewController.xib */,
+				677A0FE41BCC3367000FFEDD /* Images.xcassets */,
+			);
+			path = ViewDeckExample;
+			sourceTree = "<group>";
+		};
+		E240A9B2148AB3770077282A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9B3148AB3770077282A /* ViewDeckExample-Info.plist */,
+				E240A9B4148AB3770077282A /* InfoPlist.strings */,
+				E240A9B7148AB3770077282A /* main.m */,
+				E240A9B9148AB3770077282A /* ViewDeckExample-Prefix.pch */,
+				677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E240A9EA148C51E00077282A /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				E240A9EB148C51E00077282A /* bg.jpg */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E240A9A6148AB3770077282A /* ViewDeckExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E240A9C5148AB3770077282A /* Build configuration list for PBXNativeTarget "ViewDeckExample" */;
+			buildPhases = (
+				06D0B3685DC212025A4BD50D /* Check Pods Manifest.lock */,
+				E240A9A3148AB3770077282A /* Sources */,
+				E240A9A4148AB3770077282A /* Frameworks */,
+				E240A9A5148AB3770077282A /* Resources */,
+				ADB09EC62F5FE01FB6540340 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViewDeckExample;
+			productName = ViewDeckExample;
+			productReference = E240A9A7148AB3770077282A /* ViewDeckExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E240A99E148AB3770077282A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Adriaenssen BVBA";
+			};
+			buildConfigurationList = E240A9A1148AB3770077282A /* Build configuration list for PBXProject "ViewDeckExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E240A99C148AB3770077282A;
+			productRefGroup = E240A9A8148AB3770077282A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E240A9A6148AB3770077282A /* ViewDeckExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E240A9A5148AB3770077282A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				677A0FE51BCC3367000FFEDD /* Images.xcassets in Resources */,
+				E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */,
+				677A0FE21BCC2CC5000FFEDD /* LaunchScreen.storyboard in Resources */,
+				E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */,
+				E240A9D8148ADC230077282A /* RightViewController.xib in Resources */,
+				E240A9E8148C51AC0077282A /* ViewController.xib in Resources */,
+				E240A9EC148C51E00077282A /* bg.jpg in Resources */,
+				E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */,
+				E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		06D0B3685DC212025A4BD50D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ADB09EC62F5FE01FB6540340 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E240A9A3148AB3770077282A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E240A9B8148AB3770077282A /* main.m in Sources */,
+				E240A9BC148AB3770077282A /* AppDelegate.m in Sources */,
+				E240A9BF148AB3770077282A /* ViewController.m in Sources */,
+				E240A9D2148ADC020077282A /* LeftViewController.m in Sources */,
+				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
+				E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */,
+				E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E240A9B4148AB3770077282A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E240A9B5148AB3770077282A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E240A9C3148AB3770077282A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E240A9C4148AB3770077282A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E240A9C6148AB3770077282A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BABC6C51445C17BDAFED4B76 /* Pods-ViewDeckExample.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeckExample/ViewDeckExample-Prefix.pch";
+				INFOPLIST_FILE = "ViewDeckExample/ViewDeckExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.inferis.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E240A9C7148AB3770077282A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23AE579642B78599CA586068 /* Pods-ViewDeckExample.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ViewDeckExample/ViewDeckExample-Prefix.pch";
+				INFOPLIST_FILE = "ViewDeckExample/ViewDeckExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.inferis.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E240A9A1148AB3770077282A /* Build configuration list for PBXProject "ViewDeckExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E240A9C3148AB3770077282A /* Debug */,
+				E240A9C4148AB3770077282A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E240A9C5148AB3770077282A /* Build configuration list for PBXNativeTarget "ViewDeckExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E240A9C6148AB3770077282A /* Debug */,
+				E240A9C7148AB3770077282A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E240A99E148AB3770077282A /* Project object */;
+}

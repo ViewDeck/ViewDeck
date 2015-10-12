@@ -1,6 +1,6 @@
 //
-//  IISideController.h
-//  IIViewDeck
+//  AppDelegate.h
+//  ViewDeckExample
 //
 //  Copyright (C) 2011-2015, ViewDeck
 //
@@ -23,27 +23,18 @@
 //  SOFTWARE.
 //
 
-#import "IIWrapController.h"
+#import <UIKit/UIKit.h>
 
-@interface IISideController : IIWrapController
+@class ViewController;
+@class IIViewDeckController;
 
-@property (nonatomic, assign) CGFloat constrainedSize;
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
+@property (retain, nonatomic) UIWindow *window;
 
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
+@property (retain, nonatomic) UIViewController *centerController;
+@property (retain, nonatomic) UIViewController *leftController;
 
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
-
-@end
-
-
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
-
-@property(nonatomic,readonly,retain) IISideController *sideController;
+- (IIViewDeckController*)generateControllerStack;
 
 @end

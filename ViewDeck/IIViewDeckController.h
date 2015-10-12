@@ -2,7 +2,7 @@
 //  IIViewDeckController.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2013, Tom Adriaenssen
+//  Copyright (C) 2011-2015, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -24,6 +24,15 @@
 //
 
 #import <UIKit/UIKit.h>
+
+// undefine this if you don't want to use 'the undocumented stuff' we have
+// to work around some issues. This is limited to use of NSClassFromString() so
+// you're probably safe anyway since ViewDeck *does not* use anything undocumented
+// itself. The NSClassFromString() calls are use to detect certain classes, but
+// that's in.
+// But if you want to be absolutely safe: uncomment this line below.
+//#define EXTRA_APPSTORE_SAFETY
+
 
 // thanks to http://stackoverflow.com/a/8594878/742176
 

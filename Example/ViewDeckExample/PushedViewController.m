@@ -1,6 +1,6 @@
 //
-//  IISideController.h
-//  IIViewDeck
+//  PushedViewController.m
+//  ViewDeckExample
 //
 //  Copyright (C) 2011-2015, ViewDeck
 //
@@ -23,27 +23,39 @@
 //  SOFTWARE.
 //
 
-#import "IIWrapController.h"
+#import "PushedViewController.h"
 
-@interface IISideController : IIWrapController
-
-@property (nonatomic, assign) CGFloat constrainedSize;
-
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
+@interface PushedViewController ()
 
 @end
 
+@implementation PushedViewController
 
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
-@property(nonatomic,readonly,retain) IISideController *sideController;
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 
 @end

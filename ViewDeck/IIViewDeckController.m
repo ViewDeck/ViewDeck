@@ -311,6 +311,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _resizesCenterView = NO;
     _automaticallyUpdateTabBarItems = NO;
     _centerViewOpacity = 1;
+	_centerScale = 1.0;
     _centerViewCornerRadius = 0;
     self.panners = [NSMutableArray array];
     self.enabled = YES;
@@ -607,6 +608,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [_shadowLayer addAnimation:anim forKey:@"position"];
     
     [self setParallax];
+	[self setScaleSide:IIViewDeckNoSide];
 
     if (beforeOffset != _offset)
         [self notifyDidChangeOffset:_offset orientation:orientation panning:panning];
@@ -1435,7 +1437,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (![self isSideClosed:[self oppositeOfSide:side]]) {
         return [self toggleOpenViewAnimated:animated completion:completed];
     }
-    
+	
+	[self setScaleSide:side];
+	
     if (duration == DEFAULT_DURATION) duration = [self openSlideDuration:animated];
     
     __block UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
@@ -2440,7 +2444,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)panned:(UIPanGestureRecognizer*)panner orientation:(IIViewDeckOffsetOrientation)orientation {
     [self setParallax];
-    
+	[self setScaleSide:IIViewDeckNoSide];
     CGFloat pv, m;
     IIViewDeckSide minSide, maxSide;
     if (orientation == IIViewDeckHorizontalOrientation) {
@@ -2572,6 +2576,77 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self notifyDidCloseSide:closeSide animated:NO];
     [self notifyDidOpenSide:openSide animated:NO];
     [self addPannersIfAllPannersAreInactiveAndNeeded];
+}
+
+- (void)setScaleSide:(IIViewDeckSide)side {
+	if (_centerScale >=1.0)
+		return;
+	CGFloat scaleLedge = 0.0;
+	CGFloat diff = self.slidingControllerView.frame.origin.x;
+	BOOL leftSide = YES;
+	if (diff == 0) {
+		CGPoint centerAnchor = self.centerController.view.layer.anchorPoint;
+		if (side == IIViewDeckLeftSide) {
+			centerAnchor = CGPointMake(0.0, 0.5);
+		} else if (side == IIViewDeckRightSide) {
+			centerAnchor = CGPointMake(1.0, 0.5);
+		} else if (centerAnchor.x != 1.0)
+			centerAnchor = CGPointMake(0.0, 0.5);
+		[self setAnchorPoint:centerAnchor forView:self.centerController.view];
+		self.centerController.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+		CGPoint centerPosition = self.centerController.view.layer.position;
+		if (centerAnchor.x == 1.0)
+			centerPosition.x = self.centerController.view.frame.size.width;
+		else
+			centerPosition.x = 0.0;
+		self.centerController.view.layer.position = centerPosition;
+	} else if (diff < 0) {
+		leftSide = NO;
+		diff = diff * -1;
+		scaleLedge = _ledge[IIViewDeckRightSide];
+		[self setAnchorPoint:CGPointMake(1.0, 0.5) forView:self.centerController.view];
+	} else{
+		scaleLedge = _ledge[IIViewDeckLeftSide];
+		[self setAnchorPoint:CGPointMake(0.0, 0.5) forView:self.centerController.view];
+	}
+	CGFloat scaleWidth = self.slidingControllerView.frame.size.width - scaleLedge;
+	CGFloat newDiff = (1 - _centerScale) - ((diff / scaleWidth) * (1 - _centerScale));
+	
+	CGFloat sideScale = 0.7;
+	CGFloat sideDiff = ((diff / scaleWidth) * (1 - sideScale));
+	
+	CGFloat alphaScale = 0.1;
+	CGFloat alphaDiff = ((diff / scaleWidth) * (1 - alphaScale));
+	
+	if (leftSide && [self.leftController isKindOfClass:[IIWrapController class]]){
+		[(IIWrapController *)self.leftController wrappedController].view.transform = CGAffineTransformMakeScale(sideScale + sideDiff, sideScale + sideDiff);
+		[(IIWrapController *)self.leftController wrappedController].view.alpha = (alphaScale + alphaDiff);
+	} else if (!leftSide && [self.rightController isKindOfClass:[IIWrapController class]]){
+		[(IIWrapController *)self.rightController wrappedController].view.transform = CGAffineTransformMakeScale(sideScale + sideDiff, sideScale + sideDiff);
+		[(IIWrapController *)self.rightController wrappedController].view.alpha = (alphaScale + alphaDiff);
+	}
+	if (diff != 0) {
+		self.centerController.view.transform = CGAffineTransformMakeScale(_centerScale + newDiff, _centerScale + newDiff);
+	}
+}
+
+-(void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view {
+    CGPoint newPoint = CGPointMake(view.bounds.size.width * anchorPoint.x, view.bounds.size.height * anchorPoint.y);
+    CGPoint oldPoint = CGPointMake(view.bounds.size.width * view.layer.anchorPoint.x, view.bounds.size.height * view.layer.anchorPoint.y);
+	
+    newPoint = CGPointApplyAffineTransform(newPoint, view.transform);
+    oldPoint = CGPointApplyAffineTransform(oldPoint, view.transform);
+	
+    CGPoint position = view.layer.position;
+	
+    position.x -= oldPoint.x;
+    position.x += newPoint.x;
+	
+    position.y -= oldPoint.y;
+    position.y += newPoint.y;
+	
+    view.layer.position = position;
+    view.layer.anchorPoint = anchorPoint;
 }
 
 - (void) setParallax {
@@ -2983,6 +3058,11 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self setController:bottomController forSide:IIViewDeckBottomSide];
 }
 
+- (void)setCenterScale:(CGFloat)centerScale{
+	_centerScale = centerScale;
+	
+	[self setShadowEnabled:(centerScale == 1.0)];
+}
 
 - (void)setCenterController:(UIViewController *)centerController {
     if (_centerController == centerController) return;

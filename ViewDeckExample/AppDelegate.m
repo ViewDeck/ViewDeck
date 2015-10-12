@@ -44,7 +44,10 @@
                                                                                     leftViewController:leftController
                                                                                    rightViewController:rightController];
     deckController.rightSize = 100;
-    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+      deckController.fixStatusBarToCentreController = YES;
+    }
+
     [deckController disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
     return deckController;
 }

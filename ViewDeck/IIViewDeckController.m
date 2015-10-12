@@ -183,6 +183,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @property (nonatomic, retain) UIView* centerView;
 @property (nonatomic, readonly) UIView* slidingControllerView;
 
+#ifdef __IPHONE_7_0
+@property (nonatomic, ii_weak_property) __ii_weak UIView *fixStatusBarSnapShotView;
+#endif
+
 - (void)cleanup;
 - (uint)sideControllerCount;
 
@@ -230,6 +234,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (CGFloat)openSlideDuration:(BOOL)animated;
 - (CGFloat)closeSlideDuration:(BOOL)animated;
+
+- (void)prepareForSnapShotCenterView;
+- (void)completionForSnapShotCenterView;
 
 - (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller;
 - (void)finishTransitionBlocks;
@@ -897,7 +904,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
+    if (self.fixStatusBarToCentreController &&
+        [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
+    {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+
     [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
 
     if (!_viewFirstAppeared) {
@@ -968,7 +981,13 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+
+    if (self.fixStatusBarToCentreController &&
+        [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)])
+    {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+
     if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewDidAppear:animated];
     [self transitionAppearanceFrom:1 to:2 animated:animated];
     _viewAppeared = 2;
@@ -1437,7 +1456,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     if (duration == DEFAULT_DURATION) duration = [self openSlideDuration:animated];
-    
+
+    [self prepareForSnapShotCenterView];
+
     __block UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     
     IIViewDeckControllerBlock finish = ^(IIViewDeckController *controller, BOOL success) {
@@ -1503,7 +1524,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             if (completed) completed(self, NO);
             return;
         }
-        
+
+        [self prepareForSnapShotCenterView];
+
         CGFloat longFactor = _bounceDurationFactor ? _bounceDurationFactor : 1;
         CGFloat shortFactor = _bounceOpenSideDurationFactor ? _bounceOpenSideDurationFactor : (_bounceDurationFactor ? 1-_bounceDurationFactor : 1);
       
@@ -1518,7 +1541,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             // run block if it's defined
             if (bounced) bounced(self);
             [self performDelegate:@selector(viewDeckController:didBounceViewSide:openingController:) side:side controller:_controllers[side]];
-            
+
             // now slide the view back to the ledge position
             [UIView animateWithDuration:[self openSlideDuration:YES]*shortFactor delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState animations:^{
                 [self setSlidingFrameForOffset:targetOffset forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:YES];
@@ -1551,7 +1574,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     
     if (duration == DEFAULT_DURATION) duration = [self closeSlideDuration:animated];
-    
+
+    if (self.fixStatusBarToCentreController) {
+        UIView *snapshowView = self.fixStatusBarSnapShotView;
+        [self.fixStatusBarSnapShotView removeFromSuperview];
+        [self.centerController.view addSubview:snapshowView];
+        self.fixStatusBarSnapShotView = snapshowView;
+    }
+
     UIViewAnimationOptions options = UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionBeginFromCurrentState;
     options |= [self isSideOpen:side] ? UIViewAnimationOptionCurveEaseInOut : UIViewAnimationOptionCurveEaseOut;
     
@@ -1561,6 +1591,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:animated];
         [self centerViewVisible];
     } completion:^(BOOL finished) {
+        [self completionForSnapShotCenterView];
         [self hideAppropriateSideViews];
         [self enableUserInteraction];
         if (completed) completed(self, YES);
@@ -1609,11 +1640,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         // run block if it's defined
         if (bounced) bounced(self);
         [self performDelegate:@selector(viewDeckController:didBounceViewSide:closingController:) side:side controller:_controllers[side]];
-        
+
         [UIView animateWithDuration:[self closeSlideDuration:YES]*longFactor delay:0 options:UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionLayoutSubviews animations:^{
             [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:YES];
             [self centerViewVisible];
         } completion:^(BOOL finished2) {
+            [self completionForSnapShotCenterView];
             [self hideAppropriateSideViews];
             [self enableUserInteraction];
             if (completed) completed(self, YES);
@@ -1960,7 +1992,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (!animationValues) {
         return NO;
     }
-    
+
+    [self prepareForSnapShotCenterView];
+
     UIViewController *previewController = [self controllerForSide:viewDeckSide];
     NSString *keyPath = @"position.x";
     
@@ -1983,6 +2017,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         if (_offset == 0.0f) {
             previewController.view.hidden = YES;
         }
+
+        [self completionForSnapShotCenterView];
         
         // perform completion and delegate call
         if (completed) completed(self, YES);
@@ -2427,6 +2463,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if (!_enabled) return;
     
     if (_offset == 0 && panner.state == UIGestureRecognizerStateBegan) {
+        [self prepareForSnapShotCenterView];
+
         CGPoint velocity = [panner velocityInView:self.referenceView];
         if (ABS(velocity.x) >= ABS(velocity.y))
             [self panned:panner orientation:IIViewDeckHorizontalOrientation];
@@ -3427,6 +3465,43 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     return NO;
 }
+
+#pragma mark -
+#pragma mark Snapshot Centre (iOS7 status bar)
+
+#ifdef __IPHONE_7_0
+- (void)prepareForSnapShotCenterView {
+    if ([self fixStatusBarToCentreController] && !self.fixStatusBarSnapShotView.superview) {
+        self.fixStatusBarSnapShotView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+        self.fixStatusBarSnapShotView.opaque = YES;
+        self.fixStatusBarSnapShotView.userInteractionEnabled = NO;
+        [self.centerController.view addSubview:self.fixStatusBarSnapShotView];
+        [self setNeedsStatusBarAppearanceUpdate];
+    }
+}
+
+- (void)completionForSnapShotCenterView {
+    if (self.fixStatusBarToCentreController && self.fixStatusBarSnapShotView.superview) {
+        UIView *snapshot = self.fixStatusBarSnapShotView;
+        self.fixStatusBarSnapShotView = nil;
+        [self setNeedsStatusBarAppearanceUpdate];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [snapshot removeFromSuperview];
+        });
+    }
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return !!self.fixStatusBarSnapShotView;
+}
+
+- (BOOL)fixStatusBarToCentreController {
+    return _fixStatusBarToCentreController &&
+    [self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
+#endif
+
 @end
 
 #pragma mark -
@@ -3476,6 +3551,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (BOOL)needsOffsetAdjustment {
     return _needsOffsetAdjustment;
 }
+
+#pragma mark -
+
+
 
 @end
 
@@ -3656,7 +3735,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
         }
     });
 }
-
 
 @end
 

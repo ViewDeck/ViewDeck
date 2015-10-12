@@ -486,10 +486,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return [NSArray arrayWithArray:result];
 }
 
-- (CGRect)referenceBounds {
-    return self.referenceView
-        ? self.referenceView.bounds
-        : [[UIScreen mainScreen] bounds];
+- (CGRect) referenceBounds {
+    if (self.referenceView) {
+        return self.referenceView.bounds;
+    }
+    CGRect bounds = [[UIScreen mainScreen] bounds]; // portrait bounds
+    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+        bounds.size = CGSizeMake(bounds.size.height, bounds.size.width);
+    }
+    return bounds;
 }
 
 - (CGFloat)relativeStatusBarHeight {

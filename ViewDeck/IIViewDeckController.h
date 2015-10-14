@@ -29,7 +29,7 @@
 // to work around some issues. This is limited to use of NSClassFromString() so
 // you're probably safe anyway since ViewDeck *does not* use anything undocumented
 // itself. The NSClassFromString() calls are use to detect certain classes, but
-// that's in.
+// that's it.
 // But if you want to be absolutely safe: uncomment this line below.
 //#define EXTRA_APPSTORE_SAFETY
 
@@ -77,66 +77,65 @@
 
 @protocol IIViewDeckControllerDelegate;
 
-enum {
+typedef NS_ENUM(NSInteger, IIViewDeckSide) {
     IIViewDeckLeftSide = 1,
     IIViewDeckRightSide = 2,
     IIViewDeckTopSide = 3,
     IIViewDeckBottomSide = 4,
 };
-typedef UInt32 IIViewDeckSide;
 
-enum {
+
+typedef NS_ENUM(NSInteger, IIViewDeckOffsetOrientation) {
     IIViewDeckHorizontalOrientation = 1,
     IIViewDeckVerticalOrientation = 2
 };
-typedef UInt32 IIViewDeckOffsetOrientation;
 
-enum {
-    IIViewDeckNoPanning,              // no panning allowed
-    IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
-    IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning. 
-    IIViewDeckPanningViewPanning,      // panning only occurs when you start touching in a UIView set in panningView property
-    IIViewDeckDelegatePanning,         // allows panning with a delegate
-    IIViewDeckNavigationBarOrOpenCenterPanning,      //panning occurs when you start touching the navigation bar if the center controller is visible.  If the left or right controller is open, pannning occurs anywhere on the center controller, not just the navbar.
-    IIViewDeckAllViewsPanning,        // you can pan anywhere in the viewdeck (including sideviews)
+
+typedef NS_ENUM(NSInteger, IIViewDeckPanningMode) {
+    IIViewDeckNoPanning,              /// no panning allowed
+    IIViewDeckFullViewPanning,        /// the default: touch anywhere in the center view to drag the center view around
+    IIViewDeckNavigationBarPanning,   /// panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning.
+    IIViewDeckPanningViewPanning,      /// panning only occurs when you start touching in a UIView set in panningView property
+    IIViewDeckDelegatePanning,         /// allows panning with a delegate
+    IIViewDeckNavigationBarOrOpenCenterPanning,      /// panning occurs when you start touching the navigation bar if the center controller is visible.  If the left or right controller is open, pannning occurs anywhere on the center controller, not just the navbar.
+    IIViewDeckAllViewsPanning,        /// you can pan anywhere in the viewdeck (including sideviews)
 };
-typedef UInt32 IIViewDeckPanningMode;
 
 
-enum {
-    IIViewDeckCenterHiddenUserInteractive,         // the center view stays interactive
-    IIViewDeckCenterHiddenNotUserInteractive,      // the center view will become nonresponsive to useractions
-    IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
-    IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, // same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
+typedef NS_ENUM(NSInteger, IIViewDeckCenterHiddenInteractivity) {
+    IIViewDeckCenterHiddenUserInteractive,         /// the center view stays interactive
+    IIViewDeckCenterHiddenNotUserInteractive,      /// the center view will become nonresponsive to useractions
+    IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, /// the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
+    IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, /// same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
 };
-typedef UInt32 IIViewDeckCenterHiddenInteractivity;
 
 
-enum {
-    IIViewDeckNavigationControllerContained,      // the center navigation controller will act as any other viewcontroller. Pushing and popping view controllers will be contained in the centerview.
-    IIViewDeckNavigationControllerIntegrated      // the center navigation controller will integrate with the viewdeck.
+typedef NS_ENUM(NSInteger, IIViewDeckNavigationControllerBehavior) {
+    IIViewDeckNavigationControllerContained,      /// the center navigation controller will act as any other viewcontroller. Pushing and popping view controllers will be contained in the centerview.
+    IIViewDeckNavigationControllerIntegrated      /// the center navigation controller will integrate with the viewdeck.
 };
-typedef UInt32 IIViewDeckNavigationControllerBehavior;
 
 
-enum {
-    IIViewDeckLedgeSizeMode, // when rotating, the ledge sizes are kept (side views are more/less visible)
-    IIViewDeckViewSizeMode  // when rotating, the size view sizes are kept (ledges change)
+typedef NS_ENUM(NSInteger, IIViewDeckSizeMode) {
+    IIViewDeckLedgeSizeMode, /// when rotating, the ledge sizes are kept (side views are more/less visible)
+    IIViewDeckViewSizeMode  /// when rotating, the size view sizes are kept (ledges change)
 };
-typedef UInt32 IIViewDeckSizeMode;
 
 
-enum {
-    IIViewDeckDelegateOnly, // call the delegate only
-    IIViewDeckDelegateAndSubControllers  // call the delegate and the subcontrollers
+typedef NS_ENUM(NSInteger, IIViewDeckDelegateMode) {
+    IIViewDeckDelegateOnly, /// call the delegate only
+    IIViewDeckDelegateAndSubControllers  /// call the delegate and the subcontrollers
 };
-typedef UInt32 IIViewDeckDelegateMode;
+
+
 
 #define IIViewDeckCenterHiddenCanTapToClose(interactivity) ((interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose || (interactivity) == IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing)
 #define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
 
+
 extern NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide(IIViewDeckSide side);
+
 
 @interface IIViewDeckController : UIViewController {
 @private    

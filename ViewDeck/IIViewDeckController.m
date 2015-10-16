@@ -3219,7 +3219,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (void)finishTransitionBlocks {
-    if (![self parentViewController] && ![self presentingViewController]) return;
     if (!self.referenceView) return;
     
     if (_finishTransitionBlocks) {

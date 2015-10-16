@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ViewDeck: 3e9bfcc36d889155d77ae47811a4d48714ee8d0c
+  ViewDeck: deab9bd325bf7108063b80facfa5bcd6b9007811
 
 COCOAPODS: 0.38.2

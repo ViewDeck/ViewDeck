@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8F7CCE7AA214CE88DFA0EEA75DEC1DFF /* PBXContainerItemProxy */ = {
+		4E1A8F2527C675B221EA73D00695F6DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
@@ -207,7 +207,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				1131360E238680B6E445926F624EBECD /* PBXTargetDependency */,
+				1FA2E373D3630ABAB0C503671E13CE0F /* PBXTargetDependency */,
 			);
 			name = "Pods-ViewDeckExample";
 			productName = "Pods-ViewDeckExample";
@@ -281,11 +281,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1131360E238680B6E445926F624EBECD /* PBXTargetDependency */ = {
+		1FA2E373D3630ABAB0C503671E13CE0F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ViewDeck;
 			target = 71ABE673658A243F2670B4DE9D1B8211 /* ViewDeck */;
-			targetProxy = 8F7CCE7AA214CE88DFA0EEA75DEC1DFF /* PBXContainerItemProxy */;
+			targetProxy = 4E1A8F2527C675B221EA73D00695F6DB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

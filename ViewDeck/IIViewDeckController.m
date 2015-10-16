@@ -3535,21 +3535,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     objc_setAssociatedObject(self, viewDeckControllerKey, viewDeckController, OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (void)vdc_presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
-    UIViewController* controller = self.viewDeckController ?: self;
-    [controller vdc_presentModalViewController:modalViewController animated:animated]; // when we get here, the vdc_ method is actually the old, real method
-}
-
-
-#ifdef __IPHONE_5_0
-
-- (void)vdc_presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion {
-    UIViewController* controller = self.viewDeckController ?: self;
-    [controller vdc_presentViewController:viewControllerToPresent animated:animated completion:completion]; // when we get here, the vdc_ method is actually the old, real method
-}
-
-#endif
-
 - (UINavigationController*)vdc_navigationController {
     UIViewController* controller = self.viewDeckController_core ? self.viewDeckController_core : self;
     return [controller vdc_navigationController]; // when we get here, the vdc_ method is actually the old, real method
@@ -3561,16 +3546,6 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 + (void)vdc_swizzle {
-    if (![self instancesRespondToSelector:@selector(presentViewController:animated:completion:)]) {
-        SEL presentModal = @selector(presentModalViewController:animated:);
-        SEL vdcPresentModal = @selector(vdc_presentModalViewController:animated:);
-        method_exchangeImplementations(class_getInstanceMethod(self, presentModal), class_getInstanceMethod(self, vdcPresentModal));
-    }
-    
-    SEL presentVC = @selector(presentViewController:animated:completion:);
-    SEL vdcPresentVC = @selector(vdc_presentViewController:animated:completion:);
-    method_exchangeImplementations(class_getInstanceMethod(self, presentVC), class_getInstanceMethod(self, vdcPresentVC));
-    
     SEL nc = @selector(navigationController);
     SEL vdcnc = @selector(vdc_navigationController);
     method_exchangeImplementations(class_getInstanceMethod(self, nc), class_getInstanceMethod(self, vdcnc));

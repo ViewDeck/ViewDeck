@@ -915,6 +915,38 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 #pragma mark - Appearance
 
+- (void)_forwardViewWillAppear:(BOOL)animated onViewController:(UIViewController *)viewController {
+    if ([viewController respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+        [viewController beginAppearanceTransition:YES animated:animated];
+    } else {
+        [viewController viewWillAppear:animated];
+    }
+}
+
+- (void)_forwardViewDidAppear:(BOOL)animated onViewController:(UIViewController *)viewController {
+    if ([viewController respondsToSelector:@selector(endAppearanceTransition)]) {
+        [viewController endAppearanceTransition];
+    } else {
+        [viewController viewDidAppear:animated];
+    }
+}
+
+- (void)_forwardViewWillDisappear:(BOOL)animated onViewController:(UIViewController *)viewController {
+    if ([viewController respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+        [viewController beginAppearanceTransition:NO animated:animated];
+    } else {
+        [viewController viewWillDisappear:animated];
+    }
+}
+
+- (void)_forwardViewDidDisappear:(BOOL)animated onViewController:(UIViewController *)viewController {
+    if ([viewController respondsToSelector:@selector(endAppearanceTransition)]) {
+        [viewController endAppearanceTransition];
+    } else {
+        [viewController viewDidDisappear:animated];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -973,7 +1005,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self didRotateFromInterfaceOrientation:_willAppearShouldArrangeViewsAfterRotation];
     }
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewWillAppear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) {
+        [self _forwardViewWillAppear:animated onViewController:self.centerController];
+    }
     [self transitionAppearanceFrom:0 to:1 animated:animated];
 
     if (self.navigationControllerBehavior == IIViewDeckNavigationControllerIntegrated) {
@@ -989,7 +1023,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewDidAppear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) {
+        [self _forwardViewDidAppear:animated onViewController:self.centerController];
+    }
     [self transitionAppearanceFrom:1 to:2 animated:animated];
     _viewAppeared = 2;
 }
@@ -997,7 +1033,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewWillDisappear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) {
+        [self _forwardViewWillDisappear:animated onViewController:self.centerController];
+    }
     [self transitionAppearanceFrom:2 to:1 animated:animated];
     _viewAppeared = 1;
 }
@@ -1014,7 +1052,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         //do nothing, obviously it wasn't attached because an exception was thrown
     }
     
-    if ([self safe_shouldManageAppearanceMethods]) [self.centerController viewDidDisappear:animated];
+    if ([self safe_shouldManageAppearanceMethods]) {
+        [self _forwardViewDidDisappear:animated onViewController:self.centerController];
+    }
     [self transitionAppearanceFrom:1 to:0 animated:animated];
     _viewAppeared = 0;
 }
@@ -1313,18 +1353,18 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             return;
         
         if (to == 1)
-            selector = @selector(viewWillAppear:);
+            selector = @selector(_forwardViewWillAppear:onViewController:);
         else if (to == 2)
-            selector = @selector(viewDidAppear:);
+            selector = @selector(_forwardViewDidAppear:onViewController:);
     }
     else {
         if (_sideAppeared[viewDeckSide] < from)
             return;
-
+        
         if (to == 1)
-            selector = @selector(viewWillDisappear:);
+            selector = @selector(_forwardViewWillDisappear:onViewController:);
         else if (to == 0)
-            selector = @selector(viewDidDisappear:);
+            selector = @selector(_forwardViewDidDisappear:onViewController:);
     }
     
     _sideAppeared[viewDeckSide] = to;
@@ -1332,8 +1372,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     if ([self safe_shouldManageAppearanceMethods] && selector) {
         UIViewController* controller = [self controllerForSide:viewDeckSide];
         controller.view.tag = controller.view.tag; // access view property so that viewDidLoad is called before viewWillAppear is view is not loaded
-        BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated) = (void*)objc_msgSend;
-        objc_msgSendTyped(controller, selector, animated);
+        BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated, UIViewController *destination) = (void*)objc_msgSend;
+        objc_msgSendTyped(self, selector, animated, controller);
     }
 }
 
@@ -1341,15 +1381,15 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     SEL selector = nil;
     if (from < to) {
         if (to == 1)
-            selector = @selector(viewWillAppear:);
+            selector = @selector(_forwardViewWillAppear:onViewController:);
         else if (to == 2)
-            selector = @selector(viewDidAppear:);
+            selector = @selector(_forwardViewDidAppear:onViewController:);
     }
     else {
         if (to == 1)
-            selector = @selector(viewWillDisappear:);
+            selector = @selector(_forwardViewWillDisappear:onViewController:);
         else if (to == 0)
-            selector = @selector(viewDidDisappear:);
+            selector = @selector(_forwardViewDidDisappear:onViewController:);
     }
     
     [self doForControllers:^(UIViewController *controller, IIViewDeckSide side) {
@@ -1359,8 +1399,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             return;
         
         if ([self safe_shouldManageAppearanceMethods] && selector && controller) {
-            BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated) = (void*)objc_msgSend;
-            objc_msgSendTyped(controller, selector, animated);
+            BOOL (*objc_msgSendTyped)(id self, SEL _cmd, BOOL animated, UIViewController *destination) = (void*)objc_msgSend;
+            objc_msgSendTyped(self, selector, animated, controller);
         }
     }];
 }
@@ -3022,16 +3062,16 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     __block CGRect currentFrame = self.referenceBounds;
     if (_viewFirstAppeared) {
         beforeBlock = ^(UIViewController* controller) {
-            if ([self safe_shouldManageAppearanceMethods]) [controller viewWillDisappear:NO];
+            if ([self safe_shouldManageAppearanceMethods]) [self _forwardViewWillDisappear:NO onViewController:controller];
             [self restoreShadowToSlidingView];
             [self removePanners];
             [controller.view removeFromSuperview];
-            if ([self safe_shouldManageAppearanceMethods]) [controller viewDidDisappear:NO];
+            if ([self safe_shouldManageAppearanceMethods]) [self _forwardViewDidDisappear:NO onViewController:controller];
             [self.centerView removeFromSuperview];
         };
         afterBlock = ^(UIViewController* controller) {
             [self.view addSubview:self.centerView];
-             if ([self safe_shouldManageAppearanceMethods]) [controller viewWillAppear:NO];
+             if ([self safe_shouldManageAppearanceMethods]) [self _forwardViewWillAppear:NO onViewController:controller];
             UINavigationController* navController = [centerController isKindOfClass:[UINavigationController class]] 
                 ? (UINavigationController*)centerController 
                 : nil;
@@ -3058,7 +3098,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
             [self addPanners];
             [self applyShadowToSlidingViewAnimated:NO];
-            if ([self safe_shouldManageAppearanceMethods]) [controller viewDidAppear:NO];
+            if ([self safe_shouldManageAppearanceMethods]) [self _forwardViewDidAppear:NO onViewController:controller];
             
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
             if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {

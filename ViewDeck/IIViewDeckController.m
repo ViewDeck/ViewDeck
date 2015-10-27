@@ -824,7 +824,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _viewFirstAppeared = NO;
     _viewAppeared = 0;
     
-    self.view = II_AUTORELEASE([[IIViewDeckView alloc] init]);
+    self.view = II_AUTORELEASE([[IIViewDeckView alloc] initWithFrame:UIScreen.mainScreen.bounds]);
     if ([[self presentingViewController] isKindOfClass:[UINavigationController class]])
         [((IIViewDeckView*)self.view) setNeedsOffsetAdjustment];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

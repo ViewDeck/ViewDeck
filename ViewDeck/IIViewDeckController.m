@@ -602,6 +602,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _offsetOrientation = orientation;
 
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
+    if (panning) {
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
+        _shadowLayer.frame = self.slidingControllerView.frame;
+        [CATransaction commit];
+    }
     
     [self setParallax];
 

@@ -603,18 +603,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
     
-    CABasicAnimation* slidingAnim = (CABasicAnimation*)[self.slidingControllerView.layer animationForKey:@"position"];
-    _shadowLayer.frame = self.slidingControllerView.layer.frame;
-
-    CABasicAnimation* anim = [CABasicAnimation animation];
-    anim.duration = slidingAnim.duration;
-    anim.keyPath = @"position";
-    anim.fillMode = kCAFillModeForwards;
-    anim.fromValue = slidingAnim.fromValue;
-    anim.toValue = slidingAnim.toValue ?: [NSValue valueWithCGPoint:self.slidingControllerView.layer.position];
-    anim.timingFunction = slidingAnim.timingFunction;
-    [_shadowLayer addAnimation:anim forKey:@"position"];
-    
     [self setParallax];
 
     if (beforeOffset != _offset)
@@ -3448,31 +3436,26 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [self.delegate viewDeckController:self applyShadow:_shadowLayer withBounds:self.referenceBounds];
     }
     else {
-        CGPathRef newPath = ((CAShapeLayer*)self.slidingControllerView.layer.mask).path;
         if (animated) {
             CGFloat duration;
             CAMediaTimingFunction* timingFunction;
             if ([self currentAnimationDuration:&duration timingFunction:&timingFunction]) {
                 CABasicAnimation* anim;
-                if (![_shadowLayer animationForKey:@"animateShadowPath"]) {
-                    anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-                    anim.fromValue = (id)_shadowLayer.shadowPath;
-                    anim.toValue = (II_BRIDGE id)newPath;
+                if (![_shadowLayer animationForKey:@"animatePosition"]) {
+                    [CATransaction begin];
+                    [CATransaction setDisableActions:YES];
+                    anim = [CABasicAnimation animationWithKeyPath:@"position"];
                     anim.duration = duration;
                     anim.timingFunction = timingFunction;
+                    anim.fromValue = [NSValue valueWithCGPoint:_shadowLayer.position];
+                    anim.toValue = [NSValue valueWithCGPoint:shadowedView.layer.position];
                     anim.fillMode = kCAFillModeForwards;
-                    [_shadowLayer addAnimation:anim forKey:@"animateShadowPath"];
-
-                    anim = [CABasicAnimation animationWithKeyPath:@"bounds"];
-                    anim.duration = duration;
-                    anim.timingFunction = timingFunction;
-                    anim.fromValue = [NSValue valueWithCGRect:_shadowLayer.bounds];
-                    anim.toValue = [NSValue valueWithCGRect:self.slidingControllerView.layer.bounds];
-                    anim.fillMode = kCAFillModeForwards;
-                    [_shadowLayer addAnimation:anim forKey:@"animateBounds"];
+                    [_shadowLayer addAnimation:anim forKey:@"animatePosition"];
+                    _shadowLayer.frame = shadowedView.layer.frame;
+                    [CATransaction commit];
                 }
             }
-            
+
             // fallback: make shadow transparent and fade in to desired value. This gives the same visual
             // effect as animating
             if ([_shadowLayer animationKeys].count == 0) {
@@ -3487,14 +3470,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         else {
             [shadowedView.layer.superlayer insertSublayer:_shadowLayer below:shadowedView.layer];
             _shadowLayer.frame = shadowedView.layer.frame;
-            _shadowLayer.shadowPath = newPath;
+            _shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:_shadowLayer.bounds] CGPath];
         }
     }
 }
 
 - (BOOL)currentAnimationDuration:(CGFloat*)duration timingFunction:(CAMediaTimingFunction**)timingFunction {
     for (NSString* key in self.slidingControllerView.layer.animationKeys) {
-        if ([key isEqualToString:@"bounds"]) {
+        if ([key isEqualToString:@"position"]) {
             CABasicAnimation* other = (CABasicAnimation*)[self.slidingControllerView.layer animationForKey:key];
             
             if ([other isKindOfClass:[CABasicAnimation class]]) {

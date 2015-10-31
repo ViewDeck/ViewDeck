@@ -441,6 +441,20 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.originalShadowOffset = CGSizeZero;
     self.originalShadowPath = nil;
     
+    @try {
+        [self.centerController removeObserver:self forKeyPath:@"title"];
+        [self.centerController removeObserver:self forKeyPath:@"tabBarItem.title"];
+        [self.centerController removeObserver:self forKeyPath:@"tabBarItem.iamge"];
+        [self.centerController removeObserver:self forKeyPath:@"hidesBottomBarWhenPushed"];
+    } @catch(id anException) {}
+    @try {
+        [self removeObserver:self forKeyPath:@"parentViewController"];
+        [self removeObserver:self forKeyPath:@"presentingViewController"];
+    } @catch(id anException) {}
+    @try {
+        [self.view removeObserver:self forKeyPath:@"bounds"];
+    } @catch(id anException) {}
+
     _slidingController = nil;
     self.referenceView = nil;
     self.centerView = nil;

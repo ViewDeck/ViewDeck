@@ -450,15 +450,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)dealloc {
     [self cleanup];
     
-    // double check we've removed observation before nilling out the centerController
-    @try {
-        [self.centerController removeObserver:self forKeyPath:@"title"];
-        [self.centerController removeObserver:self forKeyPath:@"tabBarItem.title"];
-        [self.centerController removeObserver:self forKeyPath:@"tabBarItem.image"];
-        [self.centerController removeObserver:self forKeyPath:@"hidesBottomBarWhenPushed"];
-    } @catch(id anException) {
-        
-    }
     self.centerController.viewDeckController = nil;
     self.centerController = nil;
     self.leftController.viewDeckController = nil;

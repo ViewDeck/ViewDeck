@@ -344,12 +344,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.bottomController = nil;
 
     _shadowEnabled = YES;
-    _shadowLayer = [CALayer new];
-    _shadowLayer.masksToBounds = NO;
-    _shadowLayer.shadowRadius = 10;
-    _shadowLayer.shadowOpacity = 0.5;
-    _shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
-    _shadowLayer.shadowOffset = CGSizeZero;
 
     _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
 }
@@ -602,13 +596,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _offsetOrientation = orientation;
 
     self.slidingControllerView.frame = [self slidingRectForOffset:_offset forOrientation:orientation];
-    if (panning) {
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        _shadowLayer.frame = self.slidingControllerView.frame;
-        [CATransaction commit];
-    }
-    
+
     [self setParallax];
 
     if (beforeOffset != _offset)
@@ -841,7 +829,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.centerView = II_AUTORELEASE([[UIView alloc] init]);
+    self.centerView = II_AUTORELEASE([[UIView alloc] initWithFrame:self.view.bounds]);
     self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerView.autoresizesSubviews = YES;
     self.centerView.clipsToBounds = YES;
@@ -3350,65 +3338,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)applyCenterViewCornerRadiusAnimated:(BOOL)animated {
     UIBezierPath* path = [self generateCenterViewCornerRadiusPath];
-
-    if (!self.slidingControllerView.layer.mask) {
-        self.slidingControllerView.layer.mask = [CAShapeLayer layer];
-        ((CAShapeLayer*)self.slidingControllerView.layer.mask).path = [path CGPath];
-    }
-   
-    CAShapeLayer* mask = (CAShapeLayer*)self.slidingControllerView.layer.mask;
+    CALayer *shadowLayer = self.slidingControllerView.layer;
+    
     if (animated) {
         CGFloat duration = 0.3;
         CAMediaTimingFunction* timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         [self currentAnimationDuration:&duration timingFunction:&timingFunction];
 
         CABasicAnimation* anim;
-        anim = [CABasicAnimation animationWithKeyPath:@"bounds"];
-        anim.duration = duration;
-        anim.timingFunction = timingFunction;
-        anim.fromValue = [NSValue valueWithCGRect:mask.bounds];
-        anim.toValue = [NSValue valueWithCGRect:[path bounds]];
-        anim.fillMode = kCAFillModeForwards;
-        [mask addAnimation:anim forKey:@"animateBounds"];
-        
-        anim = [CABasicAnimation animationWithKeyPath:@"path"];
-        anim.duration = duration;
-        anim.timingFunction = timingFunction;
-        anim.fromValue = (id)mask.path;
-        anim.toValue = (id)[path CGPath];
-        anim.fillMode = kCAFillModeForwards;
-        [mask addAnimation:anim forKey:@"animatePath"];
-
-        anim = [CABasicAnimation animationWithKeyPath:@"position"];
-        anim.duration = duration;
-        anim.timingFunction = timingFunction;
-        anim.fromValue = [NSValue valueWithCGPoint:_shadowLayer.position];
-        anim.toValue = [NSValue valueWithCGPoint:self.slidingControllerView.layer.position];
-        anim.fillMode = kCAFillModeForwards;
-        [_shadowLayer addAnimation:anim forKey:@"animatePosition"];
-
-        anim = [CABasicAnimation animationWithKeyPath:@"bounds"];
-        anim.duration = duration;
-        anim.timingFunction = timingFunction;
-        anim.fromValue = [NSValue valueWithCGRect:_shadowLayer.bounds];
-        anim.toValue = [NSValue valueWithCGRect:self.slidingControllerView.layer.bounds];
-        anim.fillMode = kCAFillModeForwards;
-        [_shadowLayer addAnimation:anim forKey:@"animateBounds"];
-
         anim = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
         anim.duration = duration;
         anim.timingFunction = timingFunction;
-        anim.fromValue = (id)_shadowLayer.shadowPath;
+        anim.fromValue = (id)shadowLayer.shadowPath;
         anim.toValue = (id)[path CGPath];
         anim.fillMode = kCAFillModeForwards;
-        [_shadowLayer addAnimation:anim forKey:@"animateShadowPath"];
+        [shadowLayer addAnimation:anim forKey:@"animateShadowPath"];
     }
 
-    mask.path = [path CGPath];
-    mask.frame = [path bounds];
-    _shadowLayer.shadowPath = [path CGPath];
-    _shadowLayer.frame = self.slidingControllerView.layer.frame;
+    shadowLayer.shadowPath = [path CGPath];
 }
+
+
 
 #pragma mark - Shadow
 
@@ -3429,7 +3379,9 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     UIView* shadowedView = self.slidingControllerView;
     if (!shadowedView) return;
     
-    [_shadowLayer removeFromSuperlayer];
+    CALayer *shadowLayer = shadowedView.layer;
+    shadowLayer.shadowOpacity = 0.0;
+    shadowLayer.shadowPath = nil;
 }
 
 - (void)applyShadowToSlidingViewAnimated:(BOOL)animated {
@@ -3438,45 +3390,25 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     UIView* shadowedView = self.slidingControllerView;
     if (!shadowedView) return;
     
+    CALayer *shadowLayer = shadowedView.layer;
+    
     if ([self.delegate respondsToSelector:@selector(viewDeckController:applyShadow:withBounds:)]) {
-        [self.delegate viewDeckController:self applyShadow:_shadowLayer withBounds:self.referenceBounds];
+        [self.delegate viewDeckController:self applyShadow:shadowLayer withBounds:self.referenceBounds];
     }
     else {
+        shadowLayer.masksToBounds = NO;
+        shadowLayer.shadowRadius = 10;
+        shadowLayer.shadowOpacity = 0.5;
+        shadowLayer.shadowColor = [[UIColor blackColor] CGColor];
+        shadowLayer.shadowOffset = CGSizeZero;
+        shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:shadowLayer.bounds] CGPath];
         if (animated) {
-            CGFloat duration;
-            CAMediaTimingFunction* timingFunction;
-            if ([self currentAnimationDuration:&duration timingFunction:&timingFunction]) {
-                CABasicAnimation* anim;
-                if (![_shadowLayer animationForKey:@"animatePosition"]) {
-                    [CATransaction begin];
-                    [CATransaction setDisableActions:YES];
-                    anim = [CABasicAnimation animationWithKeyPath:@"position"];
-                    anim.duration = duration;
-                    anim.timingFunction = timingFunction;
-                    anim.fromValue = [NSValue valueWithCGPoint:_shadowLayer.position];
-                    anim.toValue = [NSValue valueWithCGPoint:shadowedView.layer.position];
-                    anim.fillMode = kCAFillModeForwards;
-                    [_shadowLayer addAnimation:anim forKey:@"animatePosition"];
-                    _shadowLayer.frame = shadowedView.layer.frame;
-                    [CATransaction commit];
-                }
-            }
-
-            // fallback: make shadow transparent and fade in to desired value. This gives the same visual
-            // effect as animating
-            if ([_shadowLayer animationKeys].count == 0) {
-                CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
-                anim.fromValue = @(0.0);
-                anim.duration = 1;
-                anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-                anim.fillMode = kCAFillModeForwards;
-                [_shadowLayer addAnimation:anim forKey:@"animateShadowOpacity"];
-            }
-        }
-        else {
-            [shadowedView.layer.superlayer insertSublayer:_shadowLayer below:shadowedView.layer];
-            _shadowLayer.frame = shadowedView.layer.frame;
-            _shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:_shadowLayer.bounds] CGPath];
+            CABasicAnimation* anim = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+            anim.fromValue = @(0.0);
+            anim.duration = 1.0;
+            anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+            anim.fillMode = kCAFillModeForwards;
+            [shadowLayer addAnimation:anim forKey:@"animateShadowOpacity"];
         }
     }
 }

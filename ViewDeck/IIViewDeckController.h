@@ -153,7 +153,6 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
     CGPoint _willAppearOffset;
     NSMutableArray* _finishTransitionBlocks;
     int _disabledUserInteractions;
-    CALayer* _shadowLayer;
     BOOL _needsAddPannersIfAllPannersAreInactive;
     NSMutableSet* _disabledPanClasses;
 }

@@ -1,6 +1,3 @@
-#USE 2.2.11, 2.3.1 IS BUGGY 
-A release 2.4.0 is in the making but the maintainer has changed. So please have mercy with me.
-
 # ViewDeck
 ## IIViewDeckController
 

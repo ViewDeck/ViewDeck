@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name      = 'ViewDeck'
-  s.version   = '2.3.1'
+  s.version   = '2.4.0'
   s.platform  = :ios
   s.summary   = 'An implementation of the sliding functionality found in the ' \
                 'Path 2.0 or Facebook iOS apps.'
-  s.homepage  = 'https://github.com/Inferis/ViewDeck'
+  s.homepage  = 'https://github.com/ViewDeck/ViewDeck'
   s.license   = {
     :type => 'MIT',
     :text => <<-LICENSE
@@ -17,9 +17,14 @@ Pod::Spec.new do |s|
               THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     LICENSE
   }
-  s.author    = { 'Tom Adriaenssen' =>  'http://inferis.org/' }             
-  s.source    = { :git => 'https://github.com/Inferis/ViewDeck.git',
-                  :tag => '2.3.1'}
+  s.author    = {
+  					'Tom Adriaenssen' =>  'http://inferis.org/',
+  				  	'Michael Ochs' => 'http://ios-coding.com/'
+				}
+  s.source    = {
+  					:git => 'https://github.com/ViewDeck/ViewDeck.git',
+                	:tag => s.version.to_s
+                }
   s.source_files  = 'ViewDeck/*.{h,m}'
   s.frameworks    = 'QuartzCore'
   s.requires_arc  = true

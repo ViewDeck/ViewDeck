@@ -452,6 +452,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.leftController = nil;
     self.rightController.viewDeckController = nil;
     self.rightController = nil;
+    
+    [self removePanners];
     self.panners = nil;
     
     // observations related to UIViewController properties
@@ -2747,6 +2749,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)removePanners {
     for (UIGestureRecognizer* panner in self.panners) {
         [panner.view removeGestureRecognizer:panner];
+        panner.delegate = nil;
     }
     [self.panners removeAllObjects];
 }

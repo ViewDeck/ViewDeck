@@ -91,6 +91,10 @@ __typeof__(h) __h = (h);                                    \
 #import "IIWrapController.h"
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+
 static const IIViewDeckSide IIViewDeckNoSide = 0;
 static const IIViewDeckOffsetOrientation IIViewDeckNoOrientation = 0;
 
@@ -3690,8 +3694,7 @@ static const char* viewDeckControllerKey = "ViewDeckController";
     // intentionally empty
 }
 
-
-
-
 @end
 
+
+#pragma clang diagnostic pop

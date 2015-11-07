@@ -1,4 +1,13 @@
 # ViewDeck
+
+[![CocoaPods Version](https://img.shields.io/cocoapods/v/ViewDeck.svg?style=flat-square)](https://cocoapods.org/pods/ViewDeck)
+![GitHub Tag](https://img.shields.io/github/tag/ViewDeck/ViewDeck.svg?style=flat-square)
+![GitHub Release](https://img.shields.io/github/release/ViewDeck/ViewDeck.svg?style=flat-square)
+
+[![Semantic Versioning](https://img.shields.io/badge/semantic-versioning-orange.svg?style=flat-square)](http://semver.org)
+![License](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=flat-square)
+![Platform](https://img.shields.io/cocoapods/p/ViewDeck.svg?style=flat-square)
+
 ## IIViewDeckController
 
 When I saw the new UI in the Path 2.0 app, extending the sliding views UI found in the Facebook app, I wanted to recreate this effect and controller for myself. Mostly as an exercise, but it might come in handy later.

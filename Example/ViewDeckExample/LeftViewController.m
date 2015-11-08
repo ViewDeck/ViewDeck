@@ -106,7 +106,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return section > 0 ? [NSString stringWithFormat:@"%ld", section-1] : nil;
+    return section > 0 ? [NSString stringWithFormat:@"%ld", (long)section-1] : nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -124,7 +124,7 @@
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.text = [NSString stringWithFormat:@"%ld:%ld", indexPath.section-1, (long)indexPath.row];
+        cell.textLabel.text = [NSString stringWithFormat:@"%ld:%ld", (long)indexPath.section-1, (long)indexPath.row];
     }
     return cell;
 }

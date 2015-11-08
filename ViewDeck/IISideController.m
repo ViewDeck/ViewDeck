@@ -2,7 +2,7 @@
 //  IISideController.m
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2013, Tom Adriaenssen
+//  Copyright (C) 2011-2015, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -27,6 +27,9 @@
 #import "IISideController.h"
 #import "IIViewDeckController.h"
 #import <QuartzCore/QuartzCore.h>
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 #define II_CGRectOffsetLeftAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x + __o, __r.origin.y, __r.size.width-__o, __r.size.height }; })
 #define II_CGRectOffsetRightAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width-__o, __r.size.height }; })
@@ -138,3 +141,5 @@
 }
 
 @end
+
+#pragma clang diagnostic pop

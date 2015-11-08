@@ -1,6 +1,6 @@
 //
-//  IISideController.h
-//  IIViewDeck
+//  main.m
+//  ViewDeckExample
 //
 //  Copyright (C) 2011-2015, ViewDeck
 //
@@ -23,27 +23,20 @@
 //  SOFTWARE.
 //
 
-#import "IIWrapController.h"
+#import <UIKit/UIKit.h>
 
-@interface IISideController : IIWrapController
+#import "AppDelegate.h"
 
-@property (nonatomic, assign) CGFloat constrainedSize;
-
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
-
-@end
-
-
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
-
-@property(nonatomic,readonly,retain) IISideController *sideController;
-
-@end
+int main(int argc, char *argv[])
+{
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+#else
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    int retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    [pool release];
+    return retVal;
+#endif // __has_feature(objc_arc)
+}

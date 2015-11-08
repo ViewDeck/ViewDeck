@@ -1,0 +1,7 @@
+
+target 'ViewDeckExample' do
+
+    pod 'ViewDeck', :path => '../'
+
+end
+

@@ -1,6 +1,6 @@
 //
-//  IISideController.h
-//  IIViewDeck
+//  NestViewController.h
+//  ViewDeckExample
 //
 //  Copyright (C) 2011-2015, ViewDeck
 //
@@ -23,27 +23,12 @@
 //  SOFTWARE.
 //
 
-#import "IIWrapController.h"
+#import <UIKit/UIKit.h>
 
-@interface IISideController : IIWrapController
+@interface NestViewController : UIViewController
 
-@property (nonatomic, assign) CGFloat constrainedSize;
+@property (nonatomic, assign) NSInteger level;
+@property (nonatomic, retain) IBOutlet UILabel* levelLabel;
 
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
-
-@end
-
-
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
-
-@property(nonatomic,readonly,retain) IISideController *sideController;
-
+- (IBAction)pressedGoDeeper:(id)sender;
 @end

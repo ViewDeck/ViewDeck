@@ -1,6 +1,6 @@
 //
-//  IISideController.h
-//  IIViewDeck
+//  RightViewController.h
+//  ViewDeckExample
 //
 //  Copyright (C) 2011-2015, ViewDeck
 //
@@ -23,27 +23,17 @@
 //  SOFTWARE.
 //
 
-#import "IIWrapController.h"
+#import <UIKit/UIKit.h>
 
-@interface IISideController : IIWrapController
+@interface RightViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, assign) CGFloat constrainedSize;
+@property (nonatomic, retain) IBOutlet UITableView* tableView;
+@property (nonatomic, retain) IBOutlet UIButton* pushButton;
 
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
-
-@end
-
-
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
-
-@property(nonatomic,readonly,retain) IISideController *sideController;
+- (IBAction)defaultCenterPressed:(id)sender;
+- (IBAction)swapLeftAndCenterPressed:(id)sender;
+- (IBAction)centerNavController:(id)sender;
+- (IBAction)pushOverCenter:(id)sender;
+- (IBAction)moveToLeft:(id)sender;
 
 @end

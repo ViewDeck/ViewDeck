@@ -1,5 +1,5 @@
 PODS:
-  - ViewDeck (2.3.1)
+  - ViewDeck (2.4.0)
 
 DEPENDENCIES:
   - ViewDeck (from `../`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ViewDeck: deab9bd325bf7108063b80facfa5bcd6b9007811
+  ViewDeck: 3faa3ffc25f174499be29a582f1e37c69da01637
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

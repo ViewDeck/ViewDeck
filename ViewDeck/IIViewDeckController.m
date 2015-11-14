@@ -23,30 +23,6 @@
 //  SOFTWARE.
 //
 
-// define some LLVM3 macros if the code is compiled with a different compiler (ie LLVMGCC42)
-#ifndef __has_feature
-#define __has_feature(x) 0
-#endif
-#ifndef __has_extension
-#define __has_extension __has_feature // Compatibility with pre-3.0 compilers.
-#endif
-
-#if __has_feature(objc_arc) && __clang_major__ >= 3
-#define II_ARC_ENABLED 1
-#endif // __has_feature(objc_arc)
-
-#if II_ARC_ENABLED
-#define II_RETAIN(xx)  ((void)(0))
-#define II_RELEASE(xx)  ((void)(0))
-#define II_AUTORELEASE(xx)  (xx)
-#define II_BRIDGE   __bridge
-#else
-#define II_RETAIN(xx)           [xx retain]
-#define II_RELEASE(xx)          [xx release]
-#define II_AUTORELEASE(xx)      [xx autorelease]
-#define II_BRIDGE   
-#endif
-
 #define II_FLOAT_EQUAL(x, y) (((x) - (y)) == 0.0f)
 #define II_STRING_EQUAL(a, b) ((a == nil && b == nil) || (a != nil && [a isEqualToString:b]))
 
@@ -89,10 +65,6 @@ __typeof__(h) __h = (h);                                    \
 #import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
 #import "IIWrapController.h"
-
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 
 static const IIViewDeckSide IIViewDeckNoSide = 0;
@@ -328,7 +300,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _offsetOrientation = IIViewDeckHorizontalOrientation;
 
     _disabledPanClasses = [NSMutableSet setWithObject:[UISlider class]];
-    II_RETAIN(_disabledPanClasses);
 #ifndef EXTRA_APPSTORE_SAFETY
     [self disablePanOverViewsOfClass:NSClassFromString(@"UITableViewCellReorderControl")];
 #endif   
@@ -478,9 +449,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             
         }
     }
-#if !II_ARC_ENABLED
-    [super dealloc];
-#endif
 }
 
 #pragma mark - Memory management
@@ -844,7 +812,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _viewFirstAppeared = NO;
     _viewAppeared = 0;
     
-    self.view = II_AUTORELEASE([[IIViewDeckView alloc] initWithFrame:UIScreen.mainScreen.bounds]);
+    self.view = [[IIViewDeckView alloc] initWithFrame:UIScreen.mainScreen.bounds];
     if ([[self presentingViewController] isKindOfClass:[UINavigationController class]])
         [((IIViewDeckView*)self.view) setNeedsOffsetAdjustment];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -855,7 +823,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.centerView = II_AUTORELEASE([[UIView alloc] initWithFrame:self.view.bounds]);
+    self.centerView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.centerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.centerView.autoresizesSubviews = YES;
     self.centerView.clipsToBounds = YES;
@@ -2681,7 +2649,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)addPanner:(UIView*)view {
     if (!view) return;
     
-    UIPanGestureRecognizer* panner = II_AUTORELEASE([[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)]);
+    UIPanGestureRecognizer* panner = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panned:)];
     panner.cancelsTouchesInView = _panningCancelsTouchesInView;
     panner.delegate = self;
     [view addGestureRecognizer:panner];
@@ -2940,9 +2908,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 - (void)setPanningView:(UIView *)panningView {
     if (_panningView != panningView) {
-        II_RELEASE(_panningView);
         _panningView = panningView;
-        II_RETAIN(_panningView);
         
         if (_viewFirstAppeared && _panningMode == IIViewDeckPanningViewPanning)
             [self setNeedsAddPanners];
@@ -3012,9 +2978,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     
     // make the switch
     if (prevController != controller) {
-        II_RELEASE(prevController);
         _controllers[side] = controller;
-        II_RETAIN(controller);
     }
     
     if (controller) {
@@ -3144,14 +3108,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
         
         [_centerController didMoveToParentViewController:nil];
-        II_RELEASE(_centerController);
     }
     
     // make the switch
     _centerController = centerController;
     
     if (_centerController) {
-        II_RETAIN(_centerController);
         [_centerController willMoveToParentViewController:self];
         [self addChildViewController:_centerController];
         [_centerController setViewDeckController:self];
@@ -3286,7 +3248,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         [controller setViewDeckController:self]; // do this now since the transition block my run to late
         if (!_finishTransitionBlocks) {
             _finishTransitionBlocks = [NSMutableArray new];
-            II_RETAIN(_finishTransitionBlocks);
             [self addObserver:self forKeyPath:@"parentViewController" options:0 context:nil];
             [self addObserver:self forKeyPath:@"presentingViewController" options:0 context:nil];
             self.isObservingSelf = YES;
@@ -3312,7 +3273,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         for (void(^finishTransition)(void) in _finishTransitionBlocks) {
             finishTransition();
         }
-        II_RELEASE(_finishTransitionBlocks);
         _finishTransitionBlocks = nil;
     }
 }
@@ -3698,6 +3658,3 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 @end
-
-
-#pragma clang diagnostic pop

@@ -36,48 +36,7 @@
 
 // thanks to http://stackoverflow.com/a/8594878/742176
 
-#ifdef __has_feature
-
-    #if __has_feature(objc_arc_weak)
-    #define __ii_weak        __weak
-    #define ii_weak_property weak
-    #elif __has_feature(objc_arc)
-    #define ii_weak_property unsafe_unretained
-    #define __ii_weak __unsafe_unretained
-    #else
-    #define ii_weak_property assign
-    #define __ii_weak
-    #endif
-
-#else
-
-    #if TARGET_OS_IPHONE && defined(__IPHONE_5_0) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0) && __clang__ && (__clang_major__ >= 3)
-    #define II_SDK_SUPPORTS_WEAK 1
-    #elif TARGET_OS_MAC && defined(__MAC_10_7) && (MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_7) && __clang__ && (__clang_major__ >= 3)
-    #define II_SDK_SUPPORTS_WEAK 1
-    #else
-    #define II_SDK_SUPPORTS_WEAK 0
-    #endif
-
-    #if II_SDK_SUPPORTS_WEAK
-    #define __ii_weak        __weak
-    #define ii_weak_property weak
-    #else
-    #if __clang__ && (__clang_major__ >= 3)
-    #define __ii_weak __unsafe_unretained
-    #else
-    #define __ii_weak
-    #endif
-    #define ii_weak_property assign
-    #endif
-
-#endif
-
-
 #define II_DEPRECATED_DROP __deprecated_msg("This method is deprecated and will go away in 3.0.0 without a replacement. If you think it is still needed, please file an issue at https://github.com/ViewDeck/ViewDeck/issues/new")
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @protocol IIViewDeckControllerDelegate;
 
@@ -164,7 +123,7 @@ extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);
 typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controller);
 
-@property (nonatomic, ii_weak_property) __ii_weak id<IIViewDeckControllerDelegate> delegate;
+@property (nonatomic, weak) id<IIViewDeckControllerDelegate> delegate;
 @property (nonatomic, assign) IIViewDeckDelegateMode delegateMode;
 
 @property (nonatomic, readonly, retain) NSArray* controllers II_DEPRECATED_DROP;
@@ -176,7 +135,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, readonly, assign) UIViewController* slidingController II_DEPRECATED_DROP;
 
 @property (nonatomic, retain) IBOutlet UIView* panningView II_DEPRECATED_DROP;
-@property (nonatomic, ii_weak_property) __ii_weak id<UIGestureRecognizerDelegate> panningGestureDelegate;
+@property (nonatomic, weak) id<UIGestureRecognizerDelegate> panningGestureDelegate;
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 @property (nonatomic, assign, getter=isElastic) BOOL elastic;
 
@@ -361,7 +320,3 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property(nonatomic,readonly,retain) IIViewDeckController *viewDeckController; 
 
 @end
-
-#pragma clang diagnostic pop
-
-

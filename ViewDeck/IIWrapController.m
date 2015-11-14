@@ -23,20 +23,6 @@
 //  SOFTWARE.
 //
 
-#if __has_feature(objc_arc) && __clang_major__ >= 3
-#define II_ARC_ENABLED 1
-#endif // __has_feature(objc_arc)
-
-#if II_ARC_ENABLED
-#define II_RETAIN(xx)  ((void)(0))
-#define II_RELEASE(xx)  ((void)(0))
-#define II_AUTORELEASE(xx)  (xx)
-#else
-#define II_RETAIN(xx)           [xx retain]
-#define II_RELEASE(xx)          [xx release]
-#define II_AUTORELEASE(xx)      [xx autorelease]
-#endif
-
 #define II_CGRectOffsetRightAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width-__o, __r.size.height }; })
 #define II_CGRectOffsetTopAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) {{ __r.origin.x, __r.origin.y + __o}, {__r.size.width, __r.size.height-__o }}; })
 #define II_CGRectOffsetBottomAndShrink(rect, offset) ({__typeof__(rect) __r = (rect); __typeof__(offset) __o = (offset); (CGRect) { __r.origin.x, __r.origin.y, __r.size.width, __r.size.height-__o }; })
@@ -66,7 +52,6 @@
 
 - (id)initWithViewController:(UIViewController *)controller {
     if ((self = [super init])) {
-        II_RETAIN(controller);
         _wrappedController = controller;
         [controller setWrapController:self];
     }
@@ -82,7 +67,7 @@
 
 - (void)loadView
 {
-    self.view = II_AUTORELEASE([[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(_wrappedController.view.frame, [self statusBarHeight])]);
+    self.view = [[UIView alloc] initWithFrame:II_CGRectOffsetTopAndShrink(_wrappedController.view.frame, [self statusBarHeight])];
     self.view.autoresizingMask = _wrappedController.view.autoresizingMask;
     _wrappedController.view.frame = self.view.bounds;
     _wrappedController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -117,13 +102,6 @@
     [_wrappedController setWrapController:nil];
     if ([_wrappedController respondsToSelector:@selector(didMoveToParentViewController:)])
         [_wrappedController didMoveToParentViewController:nil];
-
-    II_RELEASE(_wrappedController);
-    _wrappedController = nil;
-
-#if !II_ARC_ENABLED
-    [super dealloc];
-#endif
 }
 
 - (UITabBarItem *)tabBarItem {

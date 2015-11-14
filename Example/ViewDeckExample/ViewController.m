@@ -57,26 +57,26 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
     
     if ([self.navigationItem respondsToSelector:@selector(leftBarButtonItems)]) {
         self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:
-                                                  [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)],
-                                                  [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStyleBordered target:self action:@selector(previewBounceLeftView)],
+                                                  [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)],
+                                                  [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStylePlain target:self action:@selector(previewBounceLeftView)],
                                                   nil];
     } else {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
     }
     
     if ([self.navigationItem respondsToSelector:@selector(rightBarButtonItems)]) {
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                   [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleRightView)],
-                                                   [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStyleBordered target:self action:@selector(previewBounceRightView)],
+                                                   [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleRightView)],
+                                                   [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStylePlain target:self action:@selector(previewBounceRightView)],
                                                    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCam:)],
                                                    nil];
     }
     else {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleRightView)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleRightView)];
     }
 }
 
@@ -141,16 +141,16 @@
         [self.popoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES]; 
     }
     else {
-        [self presentModalViewController:picker animated:YES];
+        [self presentViewController:picker animated:YES completion:NULL];
     }
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Table view data source
@@ -178,7 +178,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.textAlignment = indexPath.section ? UITextAlignmentRight : UITextAlignmentLeft;
+    cell.textLabel.textAlignment = indexPath.section ? NSTextAlignmentRight : NSTextAlignmentLeft;
     cell.textLabel.text = [NSString stringWithFormat:@"ledge: %d", (int)indexPath.row*44];
     
     return cell;

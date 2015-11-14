@@ -144,7 +144,24 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @end
 
 
-@interface IIViewDeckController () <UIGestureRecognizerDelegate>
+@interface IIViewDeckController () <UIGestureRecognizerDelegate> {
+    CGPoint _panOrigin;
+    UInt32 _viewAppeared;
+    BOOL _viewFirstAppeared;
+    UInt32 _sideAppeared[6];
+    CGFloat _ledge[5];
+    UIViewController* _controllers[6];
+    CGFloat _offset, _maxLedge;
+    CGSize _preRotationSize, _preRotationCenterSize;
+    BOOL _preRotationIsLandscape;
+    IIViewDeckOffsetOrientation _offsetOrientation;
+    UIInterfaceOrientation _willAppearShouldArrangeViewsAfterRotation;
+    CGPoint _willAppearOffset;
+    NSMutableArray* _finishTransitionBlocks;
+    int _disabledUserInteractions;
+    BOOL _needsAddPannersIfAllPannersAreInactive;
+    NSMutableSet* _disabledPanClasses;
+}
 
 @property (nonatomic, retain) UIView* referenceView;
 @property (nonatomic, readonly) CGRect referenceBounds;
@@ -162,61 +179,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @property (nonatomic, assign) BOOL isObservingView;
 @property (nonatomic, assign) BOOL isObservingSelf;
 
-- (void)cleanup;
-- (uint)sideControllerCount;
-
-- (CGRect)slidingRectForOffset:(CGFloat)offset forOrientation:(IIViewDeckOffsetOrientation)orientation;
-- (CGSize)slidingSizeForOffset:(CGFloat)offset forOrientation:(IIViewDeckOffsetOrientation)orientation;
-- (void)setSlidingFrameForOffset:(CGFloat)frame forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)setSlidingFrameForOffset:(CGFloat)offset limit:(BOOL)limit forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)setSlidingFrameForOffset:(CGFloat)offset limit:(BOOL)limit panning:(BOOL)panning forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)panToSlidingFrameForOffset:(CGFloat)frame forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)hideAppropriateSideViews;
-
-- (BOOL)setSlidingAndReferenceViews;
-- (void)applyShadowToSlidingViewAnimated:(BOOL)animated;
-- (void)restoreShadowToSlidingView;
-- (void)arrangeViewsAfterRotation;
-- (CGFloat)relativeStatusBarHeight;
-
-- (NSArray *)bouncingValuesForViewSide:(IIViewDeckSide)viewSide maximumBounce:(CGFloat)maxBounce numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration;
-
-- (void)centerViewVisible;
-- (void)centerViewHidden;
-- (void)centerTapped;
-- (void)setAccessibilityForCenterTapper;
-
-- (void)addPanners;
-- (void)removePanners;
-- (void)setNeedsAddPanners;
-- (void)addPannersIfAllPannersAreInactiveAndNeeded;
-
-- (BOOL)checkCanOpenSide:(IIViewDeckSide)viewDeckSide;
-- (BOOL)checkCanCloseSide:(IIViewDeckSide)viewDeckSide;
-- (void)notifyWillOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyDidOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyWillCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyDidCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyDidChangeOffset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
-
-- (BOOL)checkDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize;
-- (BOOL)checkDelegate:(SEL)selector view:(UIView*)view;
-- (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize animated:(BOOL)animated;
-- (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize controller:(UIViewController*)controller;
-- (void)performDelegate:(SEL)selector offset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
-
-- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay;
-
-- (CGFloat)openSlideDuration:(BOOL)animated;
-- (CGFloat)closeSlideDuration:(BOOL)animated;
-
-- (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller;
-- (void)finishTransitionBlocks;
-
 @end
 
 
-@interface UIViewController (UIViewDeckItem_Internal) 
+@interface UIViewController (UIViewDeckItem_Internal)
 
 // internal setter for the viewDeckController property on UIViewController
 - (void)setViewDeckController:(IIViewDeckController*)viewDeckController;
@@ -235,77 +201,43 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 @implementation IIViewDeckController
 
-@synthesize panningMode = _panningMode;
-@synthesize panningCancelsTouchesInView = _panningCancelsTouchesInView;
-@synthesize panners = _panners;
-@synthesize referenceView = _referenceView;
-@synthesize slidingController = _slidingController;
-@synthesize centerController = _centerController;
 @dynamic leftController;
 @dynamic rightController;
 @dynamic topController;
 @dynamic bottomController;
-@synthesize shadowEnabled = _shadowEnabled;
-@synthesize resizesCenterView = _resizesCenterView;
-@synthesize originalShadowOpacity = _originalShadowOpacity;
-@synthesize originalShadowPath = _originalShadowPath;
-@synthesize originalShadowRadius = _originalShadowRadius;
-@synthesize originalShadowColor = _originalShadowColor;
-@synthesize originalShadowOffset = _originalShadowOffset;
-@synthesize delegate = _delegate;
-@synthesize delegateMode = _delegateMode;
-@synthesize navigationControllerBehavior = _navigationControllerBehavior;
-@synthesize panningView = _panningView; 
-@synthesize centerhiddenInteractivity = _centerhiddenInteractivity;
-@synthesize centerTapper = _centerTapper;
-@synthesize centerView = _centerView;
-@synthesize centerViewOpacity = _centerViewOpacity;
-@synthesize centerViewCornerRadius = _centerViewCornerRadius;
-@synthesize sizeMode = _sizeMode;
-@synthesize enabled = _enabled;
-@synthesize elastic = _elastic;
-@synthesize automaticallyUpdateTabBarItems = _automaticallyUpdateTabBarItems;
-@synthesize panningGestureDelegate = _panningGestureDelegate;
-@synthesize bounceDurationFactor = _bounceDurationFactor;
-@synthesize bounceOpenSideDurationFactor = _bounceOpenSideDurationFactor;
-@synthesize openSlideAnimationDuration = _openSlideAnimationDuration;
-@synthesize closeSlideAnimationDuration = _closeSlideAnimationDuration;
-@synthesize parallaxAmount = _parallaxAmount;
-@synthesize centerTapperAccessibilityLabel = _centerTapperAccessibilityLabel;
-@synthesize centerTapperAccessibilityHint = _centerTapperAccessibilityHint;
 
 #pragma mark - Initalisation and deallocation
 
-- (void)commonInitWithCenterViewController:(UIViewController *)centerController
+static void commonInitWithCenterViewController(IIViewDeckController *self, UIViewController *centerController)
 {
-    _elastic = YES;
-    _willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
-    _panningMode = IIViewDeckFullViewPanning;
-    _panningCancelsTouchesInView = YES; // let's default to standard IOS behavior.
-    _navigationControllerBehavior = IIViewDeckNavigationControllerContained;
-    _centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
-    _sizeMode = IIViewDeckLedgeSizeMode;
-    _viewAppeared = 0;
-    _viewFirstAppeared = NO;
-    _resizesCenterView = NO;
-    _automaticallyUpdateTabBarItems = NO;
-    _centerViewOpacity = 1;
-    _centerViewCornerRadius = 0;
+    self.elastic = YES;
+    self->_willAppearShouldArrangeViewsAfterRotation = (UIInterfaceOrientation)UIDeviceOrientationUnknown;
+    self.panningMode = IIViewDeckFullViewPanning;
+    self.panningCancelsTouchesInView = YES; // let's default to standard IOS behavior.
+    self.navigationControllerBehavior = IIViewDeckNavigationControllerContained;
+    self.centerhiddenInteractivity = IIViewDeckCenterHiddenUserInteractive;
+    self.sizeMode = IIViewDeckLedgeSizeMode;
+    self->_viewAppeared = 0;
+    self->_viewFirstAppeared = NO;
+    self.resizesCenterView = NO;
+    self.automaticallyUpdateTabBarItems = NO;
+    self.centerViewOpacity = 1;
+    self.centerViewCornerRadius = 0;
     self.panners = [NSMutableArray array];
     self.enabled = YES;
-    _offset = 0;
-    _bounceDurationFactor = 0.3;
-    _openSlideAnimationDuration = 0.3;
-    _closeSlideAnimationDuration = 0.3;
-    _offsetOrientation = IIViewDeckHorizontalOrientation;
+    self->_offset = 0;
+    self.bounceDurationFactor = 0.3;
+    self.openSlideAnimationDuration = 0.3;
+    self.closeSlideAnimationDuration = 0.3;
+    self->_offsetOrientation = IIViewDeckHorizontalOrientation;
 
-    _disabledPanClasses = [NSMutableSet setWithObject:[UISlider class]];
+    self->_disabledPanClasses = [NSMutableSet setWithObject:[UISlider class]];
 #ifndef EXTRA_APPSTORE_SAFETY
     [self disablePanOverViewsOfClass:NSClassFromString(@"UITableViewCellReorderControl")];
 #endif   
 
-    _delegate = nil;
-    _delegateMode = IIViewDeckDelegateOnly;
+    self.delegate = nil;
+    self.delegateMode = IIViewDeckDelegateOnly;
     
     self.originalShadowRadius = 0;
     self.originalShadowOffset = CGSizeZero;
@@ -313,22 +245,21 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     self.originalShadowOpacity = 0;
     self.originalShadowPath = nil;
     
-    _slidingController = nil;
     self.centerController = centerController;
     self.leftController = nil;
     self.rightController = nil;
     self.topController = nil;
     self.bottomController = nil;
 
-    _shadowEnabled = YES;
+    self.shadowEnabled = YES;
 
-    _ledge[IIViewDeckLeftSide] = _ledge[IIViewDeckRightSide] = _ledge[IIViewDeckTopSide] = _ledge[IIViewDeckBottomSide] = 44;
+    self->_ledge[IIViewDeckLeftSide] = self->_ledge[IIViewDeckRightSide] = self->_ledge[IIViewDeckTopSide] = self->_ledge[IIViewDeckBottomSide] = 44;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if ((self = [super initWithCoder:aDecoder])) {
-        [self commonInitWithCenterViewController:nil];
+        commonInitWithCenterViewController(self, nil);
     }
     return self;
 }
@@ -336,14 +267,14 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        [self commonInitWithCenterViewController:nil];
+        commonInitWithCenterViewController(self, nil);
     }
     return self;
 }
 
 - (id)initWithCenterViewController:(UIViewController*)centerController {
     if ((self = [super initWithNibName:nil bundle:nil])) {
-        [self commonInitWithCenterViewController:centerController];
+        commonInitWithCenterViewController(self, centerController);
     }
     return self;
 }
@@ -401,9 +332,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     }
     return self;
 }
-
-
-
 
 - (void)cleanup {
     self.originalShadowRadius = 0;

@@ -41,13 +41,6 @@
 
 @implementation IIWrapController
 
-@synthesize wrappedController = _wrappedController;
-@synthesize onViewDidLoad = _onViewDidLoad;
-@synthesize onViewWillAppear = _onViewWillAppear;
-@synthesize onViewDidAppear = _onViewDidAppear;
-@synthesize onViewWillDisappear = _onViewWillDisappear;
-@synthesize onViewDidDisappear = _onViewDidDisappear;
-
 #pragma mark - View lifecycle
 
 - (id)initWithViewController:(UIViewController *)controller {

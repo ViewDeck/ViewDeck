@@ -100,25 +100,7 @@ extern NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide(IIViewDeckSide side);
 
 
-@interface IIViewDeckController : UIViewController {
-@private    
-    CGPoint _panOrigin;
-    UInt32 _viewAppeared;
-    BOOL _viewFirstAppeared;
-    UInt32 _sideAppeared[6];
-    CGFloat _ledge[5];
-    UIViewController* _controllers[6];
-    CGFloat _offset, _maxLedge;
-    CGSize _preRotationSize, _preRotationCenterSize;
-    BOOL _preRotationIsLandscape;
-    IIViewDeckOffsetOrientation _offsetOrientation;
-    UIInterfaceOrientation _willAppearShouldArrangeViewsAfterRotation;
-    CGPoint _willAppearOffset;
-    NSMutableArray* _finishTransitionBlocks;
-    int _disabledUserInteractions;
-    BOOL _needsAddPannersIfAllPannersAreInactive;
-    NSMutableSet* _disabledPanClasses;
-}
+@interface IIViewDeckController : UIViewController
 
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);
 typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controller);

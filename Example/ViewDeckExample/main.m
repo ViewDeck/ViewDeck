@@ -2,7 +2,7 @@
 //  main.m
 //  ViewDeckExample
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -29,14 +29,7 @@
 
 int main(int argc, char *argv[])
 {
-#if __has_feature(objc_arc) && __clang_major__ >= 3
     @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
     }
-#else
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-    [pool release];
-    return retVal;
-#endif // __has_feature(objc_arc)
 }

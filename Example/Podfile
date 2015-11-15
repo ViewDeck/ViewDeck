@@ -5,3 +5,10 @@ target 'ViewDeckExample' do
 
 end
 
+
+target 'ViewDeckExampleTests' do
+
+    pod 'ViewDeck', :path => '../'
+
+end
+

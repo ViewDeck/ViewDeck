@@ -2,7 +2,7 @@
 //  ViewController.m
 //  ViewDeckExample
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -26,9 +26,14 @@
 #import "ViewController.h"
 #import <ViewDeck/ViewDeck.h>
 
+
+static CGFloat const LedgeSizeFactor = 88.0;
+
+
 @interface ViewController () <UIImagePickerControllerDelegate>
 
 @end
+
 
 @implementation ViewController
 
@@ -57,27 +62,18 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
-    
-    if ([self.navigationItem respondsToSelector:@selector(leftBarButtonItems)]) {
-        self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:
-                                                  [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)],
-                                                  [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStylePlain target:self action:@selector(previewBounceLeftView)],
-                                                  nil];
-    } else {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleLeftView)];
-    }
-    
-    if ([self.navigationItem respondsToSelector:@selector(rightBarButtonItems)]) {
-        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:
-                                                   [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleRightView)],
-                                                   [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStylePlain target:self action:@selector(previewBounceRightView)],
-                                                   [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCam:)],
-                                                   nil];
-    }
-    else {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStylePlain target:self.viewDeckController action:@selector(toggleRightView)];
-    }
+    NSArray<UIBarButtonItem *> *leftItems = @[
+                                              [[UIBarButtonItem alloc] initWithTitle:@"left" style:UIBarButtonItemStylePlain target:self action:@selector(toggleLeftSide:)],
+//                                              [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStylePlain target:self action:@selector(previewBounceLeftView:)],
+                                              ];
+    self.navigationItem.leftBarButtonItems = leftItems;
+
+    NSArray<UIBarButtonItem *> *rightItems = @[
+                                               [[UIBarButtonItem alloc] initWithTitle:@"right" style:UIBarButtonItemStylePlain target:self action:@selector(toggleRightSide:)],
+//                                               [[UIBarButtonItem alloc] initWithTitle:@"bounce" style:UIBarButtonItemStylePlain target:self action:@selector(previewBounceRightView:)],
+                                               [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(showCam:)],
+                                               ];
+    self.navigationItem.rightBarButtonItems = rightItems;
 }
 
 - (void)viewDidUnload
@@ -113,20 +109,26 @@
     return YES;
 }
 
-- (void)previewBounceLeftView {
-    [self.viewDeckController previewBounceView:IIViewDeckLeftSide];
+- (IBAction)toggleLeftSide:(id)sender {
+    IIViewDeckController *viewDeckController = self.viewDeckController;
+    IIViewDeckSide side = viewDeckController.openSide;
+    [viewDeckController openSide:(side == IIViewDeckSideNone ? IIViewDeckSideLeft : IIViewDeckSideNone) animated:YES];
 }
 
-- (void)previewBounceRightView {
-    [self.viewDeckController previewBounceView:IIViewDeckRightSide];
+- (IBAction)toggleRightSide:(id)sender {
+    IIViewDeckController *viewDeckController = self.viewDeckController;
+    IIViewDeckSide side = viewDeckController.openSide;
+    [viewDeckController openSide:(side == IIViewDeckSideNone ? IIViewDeckSideRight : IIViewDeckSideNone) animated:YES];
 }
 
-- (void)previewBounceTopView {
-    [self.viewDeckController previewBounceView:IIViewDeckTopSide];
+- (IBAction)previewBounceLeftView:(id)sender {
+    IIViewDeckController *viewDeckController = self.viewDeckController;
+//    [viewDeckController previewBounceView:IIViewDeckSideLeft];
 }
 
-- (void)previewBounceBottomView {
-    [self.viewDeckController previewBounceView:IIViewDeckBottomSide];
+- (IBAction)previewBounceRightView:(id)sender {
+    IIViewDeckController *viewDeckController = self.viewDeckController;
+//    [viewDeckController previewBounceView:IIViewDeckSideRight];
 }
 
 - (void)showCam:(id)sender {
@@ -162,7 +164,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return 10;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -179,7 +181,7 @@
     }
     
     cell.textLabel.textAlignment = indexPath.section ? NSTextAlignmentRight : NSTextAlignmentLeft;
-    cell.textLabel.text = [NSString stringWithFormat:@"ledge: %d", (int)indexPath.row*44];
+    cell.textLabel.text = [NSString stringWithFormat:@"ledge: %g", indexPath.row * LedgeSizeFactor];
     
     return cell;
 }
@@ -189,11 +191,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!indexPath.section) {
-        self.viewDeckController.leftSize = MAX(indexPath.row*44,10);
-    }
-    else {
-        self.viewDeckController.rightSize = MAX(indexPath.row*44,10);
+    if (indexPath.section == 0) {
+        UIViewController *leftViewController = self.viewDeckController.leftViewController;
+        CGSize contentSize = leftViewController.preferredContentSize;
+        contentSize.width = indexPath.row * LedgeSizeFactor;
+        leftViewController.preferredContentSize = contentSize;
+    } else {
+        UIViewController *rightViewController = self.viewDeckController.rightViewController;
+        CGSize contentSize = rightViewController.preferredContentSize;
+        contentSize.width = indexPath.row * LedgeSizeFactor;
+        rightViewController.preferredContentSize = contentSize;
     }
 }
 

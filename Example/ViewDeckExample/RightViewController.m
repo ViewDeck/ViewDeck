@@ -2,7 +2,7 @@
 //  RightViewController.m
 //  ViewDeckExample
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -54,7 +54,6 @@
     return self;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -90,25 +89,25 @@
 #pragma mark - View lifecycle
 
 - (IBAction)defaultCenterPressed:(id)sender {
-    self.viewDeckController.centerController = SharedAppDelegate.centerController;
-    self.viewDeckController.leftController = SharedAppDelegate.leftController;
+    self.viewDeckController.centerViewController = SharedAppDelegate.centerController;
+    self.viewDeckController.leftViewController = SharedAppDelegate.leftController;
     self.pushButton.enabled = NO;
     self.pushButton.layer.opacity = 0.2;
 }
 
 - (IBAction)swapLeftAndCenterPressed:(id)sender {
-    self.viewDeckController.centerController = SharedAppDelegate.leftController;
-    self.viewDeckController.leftController = SharedAppDelegate.centerController;
+    self.viewDeckController.centerViewController = SharedAppDelegate.leftController;
+    self.viewDeckController.leftViewController = SharedAppDelegate.centerController;
     self.pushButton.enabled = NO;
     self.pushButton.layer.opacity = 0.2;
 }
 
 - (IBAction)centerNavController:(id)sender {
-    self.viewDeckController.leftController = SharedAppDelegate.leftController;
+    self.viewDeckController.leftViewController = SharedAppDelegate.leftController;
     
     NestViewController* nestController = [[NestViewController alloc] initWithNibName:@"NestViewController" bundle:nil];
     UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:nestController];
-    self.viewDeckController.centerController = navController;
+    self.viewDeckController.centerViewController = navController;
 
     self.pushButton.enabled = YES;
     self.pushButton.layer.opacity = 1;
@@ -116,11 +115,11 @@
 
 - (void)pushOverCenter:(id)sender {
     PushedViewController* controller = [[PushedViewController alloc] initWithNibName:@"PushedViewController" bundle:nil];
-    [self.viewDeckController rightViewPushViewControllerOverCenterController:controller];
+//    [self.viewDeckController rightViewPushViewControllerOverCenterController:controller];
 }
 
 - (IBAction)moveToLeft:(id)sender {
-    [self.viewDeckController toggleOpenView];
+//    [self.viewDeckController toggleOpenView];
 }
 
 - (IBAction)presentModal:(id)sender {
@@ -131,9 +130,6 @@
 #pragma mark - view deck delegate
 
 - (void)addLog:(NSString*)line {
-    self.tableView.frame = (CGRect) { self.viewDeckController.rightSize, self.tableView.frame.origin.y,
-        self.view.frame.size.width - self.viewDeckController.rightSize, self.tableView.frame.size.height };
-
     [self.logs addObject:line];
     NSIndexPath* index = [NSIndexPath indexPathForRow:self.logs.count-1 inSection:0];
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationBottom];
@@ -151,7 +147,7 @@
 //    shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:rect] CGPath];
 //}
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController didChangeOffset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning {
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didChangeOffset:(CGFloat)offset panning:(BOOL)panning {
     [self addLog:[NSString stringWithFormat:@"%@: %f", panning ? @"Pan" : @"Offset", offset]];
 }
 

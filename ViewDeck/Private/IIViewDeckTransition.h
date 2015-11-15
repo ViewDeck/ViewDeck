@@ -1,8 +1,8 @@
 //
-//  WrappedController.h
+//  IIViewDeckTransition.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -10,7 +10,7 @@
 //  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 //  of the Software, and to permit persons to whom the Software is furnished to do
 //  so, subject to the following conditions:
-// 
+//
 //  The above copyright notice and this permission notice shall be included in all
 //  copies or substantial portions of the Software.
 //
@@ -23,25 +23,24 @@
 //  SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "IIViewDeckTransitioning.h"
 
-@interface IIWrapController : UIViewController
+#import "IIEnvironment.h"
 
-@property (nonatomic, readonly, retain) UIViewController* wrappedController;
-@property (nonatomic, copy) void(^onViewDidLoad)(IIWrapController* controller);
-@property (nonatomic, copy) void(^onViewWillAppear)(IIWrapController* controller, BOOL animated);
-@property (nonatomic, copy) void(^onViewDidAppear)(IIWrapController* controller, BOOL animated);
-@property (nonatomic, copy) void(^onViewWillDisappear)(IIWrapController* controller, BOOL animated);
-@property (nonatomic, copy) void(^onViewDidDisappear)(IIWrapController* controller, BOOL animated);
 
-- (id)initWithViewController:(UIViewController*)controller;
+@class IIViewDeckController;
+@interface IIViewDeckTransition : NSObject <IIViewDeckTransitionContext>
 
-@end
+- (instancetype)initWithViewDeckController:(IIViewDeckController *)viewDeckController from:(IIViewDeckSide)fromSide to:(IIViewDeckSide)toSide;
 
-// category on WrappedController to provide access to the viewDeckController in the 
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (WrapControllerItem) 
+@property (nonatomic, copy) void(^completionHandler)(BOOL cancelled);
 
-@property(nonatomic,readonly,assign) IIWrapController *wrapController; 
+/// @name Managing Interactive Transitions
+- (void)beginInteractiveTransition:(UIGestureRecognizer *)recognizer;
+- (void)updateInteractiveTransition:(UIGestureRecognizer *)recognizer;
+- (void)endInteractiveTransition:(UIGestureRecognizer *)recognizer;
+
+/// @name Managing Animated Transitions
+- (void)performTransition:(BOOL)animated;
 
 @end

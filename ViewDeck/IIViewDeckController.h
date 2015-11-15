@@ -2,7 +2,7 @@
 //  IIViewDeckController.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -25,34 +25,14 @@
 
 #import <UIKit/UIKit.h>
 
-// undefine this if you don't want to use 'the undocumented stuff' we have
-// to work around some issues. This is limited to use of NSClassFromString() so
-// you're probably safe anyway since ViewDeck *does not* use anything undocumented
-// itself. The NSClassFromString() calls are use to detect certain classes, but
-// that's it.
-// But if you want to be absolutely safe: uncomment this line below.
-//#define EXTRA_APPSTORE_SAFETY
+#import "IIEnvironment.h"
 
 
 // thanks to http://stackoverflow.com/a/8594878/742176
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define II_DEPRECATED_DROP __deprecated_msg("This method is deprecated and will go away in 3.0.0 without a replacement. If you think it is still needed, please file an issue at https://github.com/ViewDeck/ViewDeck/issues/new")
-
-@protocol IIViewDeckControllerDelegate;
-
-typedef NS_ENUM(NSInteger, IIViewDeckSide) {
-    IIViewDeckLeftSide = 1,
-    IIViewDeckRightSide = 2,
-    IIViewDeckTopSide DEPRECATED_ATTRIBUTE = 3,
-    IIViewDeckBottomSide DEPRECATED_ATTRIBUTE = 4,
-};
-
-
-typedef NS_ENUM(NSInteger, IIViewDeckOffsetOrientation) {
-    IIViewDeckHorizontalOrientation = 1,
-    IIViewDeckVerticalOrientation = 2
-} II_DEPRECATED_DROP;
-
 
 typedef NS_ENUM(NSInteger, IIViewDeckPanningMode) {
     IIViewDeckNoPanning,              /// no panning allowed
@@ -73,12 +53,6 @@ typedef NS_ENUM(NSInteger, IIViewDeckCenterHiddenInteractivity) {
 };
 
 
-typedef NS_ENUM(NSInteger, IIViewDeckNavigationControllerBehavior) {
-    IIViewDeckNavigationControllerContained,      /// the center navigation controller will act as any other viewcontroller. Pushing and popping view controllers will be contained in the centerview.
-    IIViewDeckNavigationControllerIntegrated      /// the center navigation controller will integrate with the viewdeck.
-} II_DEPRECATED_DROP;
-
-
 typedef NS_ENUM(NSInteger, IIViewDeckSizeMode) {
     IIViewDeckLedgeSizeMode, /// when rotating, the ledge sizes are kept (side views are more/less visible)
     IIViewDeckViewSizeMode  /// when rotating, the size view sizes are kept (ledges change)
@@ -96,148 +70,239 @@ typedef NS_ENUM(NSInteger, IIViewDeckDelegateMode) {
 #define IIViewDeckCenterHiddenIsInteractive(interactivity) ((interactivity) == IIViewDeckCenterHiddenUserInteractive)
 
 
-extern NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
-extern IIViewDeckOffsetOrientation IIViewDeckOffsetOrientationFromIIViewDeckSide(IIViewDeckSide side);
+FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 
 
+@class IIViewDeckController;
+
+/**
+ The delegate of a `IIViewDeckController` is used to inform the delegate of changes
+ the view deck controller is undergoing, like opening or closing sides.
+ */
+@protocol IIViewDeckControllerDelegate <NSObject>
+@optional
+
+/// @name Open and Close Sides
+
+/**
+ Tells the delegate that the specified side will open.
+
+ @param viewDeckController The view deck controller informing the delegate.
+ @param side               The side that will open. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
+
+ @return `YES` if the View Deck Controller should open the side in question, `NO` otherwise.
+ */
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController willOpenSide:(IIViewDeckSide)side;
+
+/**
+ Tells the delegate that the specified side did open.
+
+ @param viewDeckController The view deck controller informing the delegate.
+ @param side               The side that did open. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
+ */
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didOpenSide:(IIViewDeckSide)side;
+
+/**
+ Tells the delegate that the specified side will close.
+
+ @param viewDeckController The view deck controller informing the delegate.
+ @param side               The side that will close. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
+ 
+ @return `YES` if the View Deck Controller should close the side in question, `NO` otherwise.
+ */
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController willCloseSide:(IIViewDeckSide)side;
+
+/**
+ Tells the delegate that the specified side did close.
+
+ @param viewDeckController The view deck controller informing the delegate.
+ @param side               The side that did close. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
+ */
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseSide:(IIViewDeckSide)side;
+
+@end
+
+
+@protocol IIViewDeckTransitionAnimator, IIViewDeckTransitionContext;
 @interface IIViewDeckController : UIViewController
 
+
+/// @name Initializing a View Deck Controller
+
+/**
+ Initialises an instance of `IIViewDeckController` with the given view controller
+ as the center view controller.
+ 
+ When using this method, the receiver has no left or right view controller after
+ initialization and you need to set these manually via `setLeftViewController:`
+ or `setRightViewController:`.
+ 
+ @see initWithCenterViewController:leftViewController:
+ @see initWithCenterViewController:rightViewController:
+ @see initWithCenterViewController:leftViewController:rightViewController:
+
+ @param centerController The view controller that should be responsible for the
+                         view in the center of the view deck controller.
+
+ @return A newly initialized instance of `IIViewDeckController`.
+ */
+- (instancetype)initWithCenterViewController:(UIViewController*)centerController;
+
+/**
+ Initialises an instance of `IIViewDeckController` with the given center and left
+ view controller.
+
+ When using this method, the receiver has no right view controller after
+ initialization and you need to set this manually via `setRightViewController:`
+ if you want to add one.
+
+ @param centerController The view controller that should be responsible for the
+                         view in the center of the view deck controller.
+ @param leftController   The view controller that should be responsible for the
+                         view on the left side of the view deck controller.
+
+ @return A newly initialized instance of `IIViewDeckController`.
+ */
+- (instancetype)initWithCenterViewController:(UIViewController*)centerController leftViewController:(nullable UIViewController*)leftController;
+
+/**
+ Initialises an instance of `IIViewDeckController` with the given center and
+ right view controller.
+
+ When using this method, the receiver has no left view controller after
+ initialization and you need to set this manually via `setLeftViewController:`
+ if you want to add one.
+
+ @param centerController The view controller that should be responsible for the
+                         view in the center of the view deck controller.
+ @param rightController  The view controller that should be responsible for the
+                         view on the right side of the view deck controller.
+
+ @return A newly initialized instance of `IIViewDeckController`.
+ */
+- (instancetype)initWithCenterViewController:(UIViewController*)centerController rightViewController:(nullable UIViewController*)rightController;
+
+/**
+ Initialises an instance of `IIViewDeckController` with the given center, left,
+ and right view controller.
+ 
+ @note This is the designated initializer.
+
+ @param centerController The view controller that should be responsible for the
+                         view in the center of the view deck controller.
+ @param leftController   The view controller that should be responsible for the
+                         view on the left side of the view deck controller.
+ @param rightController  The view controller that should be responsible for the
+                         view on the right side of the view deck controller.
+
+ @return A newly initialized instance of `IIViewDeckController`.
+ */
+- (instancetype)initWithCenterViewController:(UIViewController*)centerController leftViewController:(nullable UIViewController*)leftController rightViewController:(nullable UIViewController*)rightController NS_DESIGNATED_INITIALIZER;
+
+
+/// @name Managing the Delegate
+
+@property (nonatomic, weak) id<IIViewDeckControllerDelegate> delegate;
+
+
+/// @name Maintaining the Content View Controllers
+
+/**
+ The view controller that is responsible for the view in the center of the view
+ deck controller.
+ */
+@property (nonatomic) UIViewController* centerViewController;
+
+/**
+ The view controller that is responsible for the view on the left side of the
+ view deck controller.
+ 
+ @warning Setting this view controller while is is already on screen will
+          trigger an exception.
+ */
+@property (nonatomic, nullable) UIViewController* leftViewController;
+
+/**
+ The view controller that is responsible for the view on the right side of the
+ view deck controller.
+
+ @warning Setting this view controller while is is already on screen will
+          trigger an exception.
+ */
+@property (nonatomic, nullable) UIViewController* rightViewController;
+
+
+/// @name Managing Transitions
+
+/**
+ The side of the view deck controller that is currently open or `IIViewDeckSideNone`
+ if no side is currently open and the center view controller is the only
+ controller that the view deck controller is currently showing.
+ 
+ @see openSide:animated:
+ */
+@property (nonatomic) IIViewDeckSide openSide;
+
+/**
+ Opens the passed in side.
+ 
+ Opening a side that is already open does nothing.
+ 
+ @note You can only switch between no view controller (`IIViewDeckSideNone`) or
+       either the left (`IIViewDeckSideLeft`) or right (`IIViewDeckSideRight`)
+       view controller. You can not switch directly from left to right without
+       dismissing the open side first.
+ 
+ @see closeSide:
+
+ @param side     The side you want to open.
+ @param animated `YES` if you want to animate the transition, `NO` otherwise.
+ */
+- (void)openSide:(IIViewDeckSide)side animated:(BOOL)animated;
+
+/**
+ Closes the currently open side.
+ 
+ Closing a side when no side is open does nothing.
+
+ @see openSide:animated:
+
+ @param animated `YES` if you want to animate the transition, `NO` otherwise.
+ */
+- (void)closeSide:(BOOL)animated;
+
+
+/// @name Customizing Transitions
+
+- (id<IIViewDeckTransitionAnimator>)animatorForTransitionWithContext:(id<IIViewDeckTransitionContext>)context;
+- (nullable UIView *)decorationViewForTransitionWithContext:(id<IIViewDeckTransitionContext>)context;
+
+
+/*
 typedef void (^IIViewDeckControllerBlock) (IIViewDeckController *controller, BOOL success);
 typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controller);
 
 @property (nonatomic, weak) id<IIViewDeckControllerDelegate> delegate;
-@property (nonatomic, assign) IIViewDeckDelegateMode delegateMode;
+@property (nonatomic) IIViewDeckDelegateMode delegateMode;
 
-@property (nonatomic, readonly, retain) NSArray* controllers II_DEPRECATED_DROP;
-@property (nonatomic, retain) IBOutlet UIViewController* centerController;
-@property (nonatomic, retain) IBOutlet UIViewController* leftController;
-@property (nonatomic, retain) IBOutlet UIViewController* rightController;
-@property (nonatomic, retain) IBOutlet UIViewController* topController II_DEPRECATED_DROP;
-@property (nonatomic, retain) IBOutlet UIViewController* bottomController II_DEPRECATED_DROP;
-@property (nonatomic, readonly, assign) UIViewController* slidingController II_DEPRECATED_DROP;
-
-@property (nonatomic, retain) IBOutlet UIView* panningView II_DEPRECATED_DROP;
 @property (nonatomic, weak) id<UIGestureRecognizerDelegate> panningGestureDelegate;
-@property (nonatomic, assign, getter=isEnabled) BOOL enabled;
-@property (nonatomic, assign, getter=isElastic) BOOL elastic;
+@property (nonatomic, getter=isEnabled) BOOL enabled;
+@property (nonatomic, getter=isElastic) BOOL elastic;
 
-@property (nonatomic, assign) CGFloat leftSize;
-@property (nonatomic, assign, readonly) CGFloat leftViewSize;
-@property (nonatomic, assign, readonly) CGFloat leftLedgeSize;
-@property (nonatomic, assign) CGFloat rightSize;
-@property (nonatomic, assign, readonly) CGFloat rightViewSize;
-@property (nonatomic, assign, readonly) CGFloat rightLedgeSize;
-@property (nonatomic, assign) CGFloat topSize II_DEPRECATED_DROP;
-@property (nonatomic, assign, readonly) CGFloat topViewSize II_DEPRECATED_DROP;
-@property (nonatomic, assign, readonly) CGFloat topLedgeSize II_DEPRECATED_DROP;
-@property (nonatomic, assign) CGFloat bottomSize II_DEPRECATED_DROP;
-@property (nonatomic, assign, readonly) CGFloat bottomViewSize II_DEPRECATED_DROP;
-@property (nonatomic, assign, readonly) CGFloat bottomLedgeSize II_DEPRECATED_DROP;
-@property (nonatomic, assign) CGFloat maxSize;
-@property (nonatomic, assign) CGFloat centerViewOpacity;
-@property (nonatomic, assign) CGFloat centerViewCornerRadius;
-@property (nonatomic, assign) BOOL shadowEnabled;
-@property (nonatomic, assign) BOOL resizesCenterView;
-@property (nonatomic, assign) IIViewDeckPanningMode panningMode;
-@property (nonatomic, assign) BOOL panningCancelsTouchesInView;
-@property (nonatomic, assign) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
-@property (nonatomic, assign) IIViewDeckNavigationControllerBehavior navigationControllerBehavior II_DEPRECATED_DROP;
-@property (nonatomic, assign) BOOL automaticallyUpdateTabBarItems II_DEPRECATED_DROP;
-@property (nonatomic, assign) IIViewDeckSizeMode sizeMode;
-@property (nonatomic, assign) CGFloat bounceDurationFactor; // capped between 0.01 and 0.99. defaults to 0.3. Set to 0 to have the old 1.4 behavior (equal time for long part and short part of bounce)
-@property (nonatomic, assign) CGFloat bounceOpenSideDurationFactor; // Same as bounceDurationFactor, but if set, will give independent control of the bounce as the side opens fully (first half of the bounce)
-@property (nonatomic, assign) CGFloat openSlideAnimationDuration;
-@property (nonatomic, assign) CGFloat closeSlideAnimationDuration;
-@property (nonatomic, assign) CGFloat parallaxAmount;
+@property (nonatomic) CGFloat centerViewOpacity;
+@property (nonatomic) CGFloat centerViewCornerRadius;
+@property (nonatomic) BOOL shadowEnabled;
+@property (nonatomic) BOOL resizesCenterView;
+@property (nonatomic) IIViewDeckPanningMode panningMode;
+@property (nonatomic) BOOL panningCancelsTouchesInView;
+@property (nonatomic) IIViewDeckCenterHiddenInteractivity centerhiddenInteractivity;
+@property (nonatomic) CGFloat bounceDurationFactor; // capped between 0.01 and 0.99. defaults to 0.3. Set to 0 to have the old 1.4 behavior (equal time for long part and short part of bounce)
+@property (nonatomic) CGFloat bounceOpenSideDurationFactor; // Same as bounceDurationFactor, but if set, will give independent control of the bounce as the side opens fully (first half of the bounce)
+@property (nonatomic) CGFloat parallaxAmount;
 
-@property (nonatomic, strong) NSString *centerTapperAccessibilityLabel; // Voice over accessibility label for button to close side panel
-@property (nonatomic, strong) NSString *centerTapperAccessibilityHint;  // Voice over accessibility hint for button to close side panel
+@property (nonatomic) NSString *centerTapperAccessibilityLabel; // Voice over accessibility label for button to close side panel
+@property (nonatomic) NSString *centerTapperAccessibilityHint;  // Voice over accessibility hint for button to close side panel
 
-- (id)initWithCenterViewController:(UIViewController*)centerController;
-- (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController;
-- (id)initWithCenterViewController:(UIViewController*)centerController rightViewController:(UIViewController*)rightController;
-- (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController;
-- (id)initWithCenterViewController:(UIViewController*)centerController topViewController:(UIViewController*)topController II_DEPRECATED_DROP;
-- (id)initWithCenterViewController:(UIViewController*)centerController bottomViewController:(UIViewController*)bottomController II_DEPRECATED_DROP;
-- (id)initWithCenterViewController:(UIViewController*)centerController topViewController:(UIViewController*)topController bottomViewController:(UIViewController*)bottomController II_DEPRECATED_DROP;
-- (id)initWithCenterViewController:(UIViewController*)centerController leftViewController:(UIViewController*)leftController rightViewController:(UIViewController*)rightController topViewController:(UIViewController*)topController bottomViewController:(UIViewController*)bottomController II_DEPRECATED_DROP;
-
-- (void)setLeftSize:(CGFloat)leftSize completion:(void(^)(BOOL finished))completion;
-- (void)setRightSize:(CGFloat)rightSize completion:(void(^)(BOOL finished))completion;
-- (void)setTopSize:(CGFloat)leftSize completion:(void(^)(BOOL finished))completion II_DEPRECATED_DROP;
-- (void)setBottomSize:(CGFloat)rightSize completion:(void(^)(BOOL finished))completion II_DEPRECATED_DROP;
-- (void)setMaxSize:(CGFloat)maxSize completion:(void(^)(BOOL finished))completion;
-
-- (BOOL)toggleLeftView;
-- (BOOL)openLeftView;
-- (BOOL)closeLeftView;
-- (BOOL)toggleLeftViewAnimated:(BOOL)animated;
-- (BOOL)toggleLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)openLeftViewAnimated:(BOOL)animated;
-- (BOOL)openLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
-- (BOOL)openLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeLeftViewAnimated:(BOOL)animated;
-- (BOOL)closeLeftViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeLeftViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
-- (BOOL)closeLeftViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
-
-- (BOOL)toggleRightView;
-- (BOOL)openRightView;
-- (BOOL)closeRightView;
-- (BOOL)toggleRightViewAnimated:(BOOL)animated;
-- (BOOL)toggleRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)openRightViewAnimated:(BOOL)animated;
-- (BOOL)openRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)openRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
-- (BOOL)openRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeRightViewAnimated:(BOOL)animated;
-- (BOOL)closeRightViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeRightViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
-- (BOOL)closeRightViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
-
-- (BOOL)toggleTopView II_DEPRECATED_DROP;
-- (BOOL)openTopView II_DEPRECATED_DROP;
-- (BOOL)closeTopView II_DEPRECATED_DROP;
-- (BOOL)toggleTopViewAnimated:(BOOL)animated II_DEPRECATED_DROP;
-- (BOOL)toggleTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)openTopViewAnimated:(BOOL)animated II_DEPRECATED_DROP;
-- (BOOL)openTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)openTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced II_DEPRECATED_DROP;
-- (BOOL)openTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)closeTopViewAnimated:(BOOL)animated II_DEPRECATED_DROP;
-- (BOOL)closeTopViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)closeTopViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)closeTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced II_DEPRECATED_DROP;
-- (BOOL)closeTopViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-
-- (BOOL)toggleBottomView II_DEPRECATED_DROP;
-- (BOOL)openBottomView II_DEPRECATED_DROP;
-- (BOOL)closeBottomView II_DEPRECATED_DROP;
-- (BOOL)toggleBottomViewAnimated:(BOOL)animated II_DEPRECATED_DROP;
-- (BOOL)toggleBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)openBottomViewAnimated:(BOOL)animated II_DEPRECATED_DROP;
-- (BOOL)openBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)openBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced II_DEPRECATED_DROP;
-- (BOOL)openBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)closeBottomViewAnimated:(BOOL)animated II_DEPRECATED_DROP;
-- (BOOL)closeBottomViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)closeBottomViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-- (BOOL)closeBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced II_DEPRECATED_DROP;
-- (BOOL)closeBottomViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed II_DEPRECATED_DROP;
-
-- (BOOL)toggleOpenView;
-- (BOOL)toggleOpenViewAnimated:(BOOL)animated;
-- (BOOL)toggleOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-
-- (BOOL)closeOpenView;
-- (BOOL)closeOpenViewAnimated:(BOOL)animated;
-- (BOOL)closeOpenViewAnimated:(BOOL)animated completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeOpenViewAnimated:(BOOL)animated duration:(NSTimeInterval)duration completion:(IIViewDeckControllerBlock)completed;
-- (BOOL)closeOpenViewBouncing:(IIViewDeckControllerBounceBlock)bounced;
-- (BOOL)closeOpenViewBouncing:(IIViewDeckControllerBounceBlock)bounced completion:(IIViewDeckControllerBlock)completed;
 
 - (BOOL)previewBounceView:(IIViewDeckSide)viewDeckSide;
 - (BOOL)previewBounceView:(IIViewDeckSide)viewDeckSide withCompletion:(IIViewDeckControllerBlock)completed;
@@ -250,10 +315,6 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 - (BOOL)isSideClosed:(IIViewDeckSide)viewDeckSide;
 - (BOOL)isSideOpen:(IIViewDeckSide)viewDeckSide;
 - (BOOL)isAnySideOpen;
-
-- (CGFloat)statusBarHeight II_DEPRECATED_DROP;
-
-- (IIViewDeckSide)sideForController:(UIViewController*)controller II_DEPRECATED_DROP;
 
 - (void)disablePanOverViewsOfClass:(Class)viewClass;
 - (void)enablePanOverViewsOfClass:(Class)viewClass;
@@ -270,9 +331,7 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @optional
 - (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldPan:(UIPanGestureRecognizer*)panGestureRecognizer;
 
-- (void)viewDeckController:(IIViewDeckController*)viewDeckController applyShadow:(CALayer*)shadowLayer withBounds:(CGRect)rect II_DEPRECATED_DROP;
-
-- (void)viewDeckController:(IIViewDeckController*)viewDeckController didChangeOffset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
+- (void)viewDeckController:(IIViewDeckController*)viewDeckController didChangeOffset:(CGFloat)offset panning:(BOOL)panning;
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceViewSide:(IIViewDeckSide)viewDeckSide openingController:(UIViewController*)openingController;
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceViewSide:(IIViewDeckSide)viewDeckSide closingController:(UIViewController*)closingController;
 
@@ -292,13 +351,15 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 
 - (BOOL)viewDeckController:(IIViewDeckController*)viewDeckController shouldBeginPanOverView:(UIView*)view;
 
+//*/
 @end
 
 
-// category on UIViewController to provide access to the viewDeckController in the 
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (UIViewDeckItem) 
+@interface IIViewDeckController (GestureRecognizer)
 
-@property(nonatomic,readonly,retain) IIViewDeckController *viewDeckController; 
+@property (nonatomic, readonly) UIScreenEdgePanGestureRecognizer *leftEdgeGestureRecognizer;
+@property (nonatomic, readonly) UIScreenEdgePanGestureRecognizer *rightEdgeGestureRecognizer;
 
 @end
+
+NS_ASSUME_NONNULL_END

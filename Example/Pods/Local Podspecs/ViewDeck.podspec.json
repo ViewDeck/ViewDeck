@@ -18,7 +18,12 @@
     "git": "https://github.com/ViewDeck/ViewDeck.git",
     "tag": "2.4.0"
   },
-  "source_files": "ViewDeck/*.{h,m}",
+  "source_files": "ViewDeck/**/*.{h,m,mm}",
+  "private_header_files": [
+    "ViewDeck/Private/*.h",
+    "ViewDeck/**/*+Private.h"
+  ],
+  "libraries": "c++",
   "frameworks": [
     "Foundation",
     "UIKit",

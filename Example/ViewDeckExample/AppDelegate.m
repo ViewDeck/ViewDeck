@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  ViewDeckExample
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -27,7 +27,7 @@
 #import "AppDelegate.h"
 
 #import "ViewController.h"
-#import "IIViewDeckController.h"
+#import "ViewDeck/ViewDeck.h"
 #import "LeftViewController.h"
 #import "RightViewController.h"
 
@@ -42,8 +42,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     IIViewDeckController* deckController = [self generateControllerStack];
-    self.leftController = deckController.leftController;
-    self.centerController = deckController.centerController;
+    self.leftController = deckController.leftViewController;
+    self.centerController = deckController.centerViewController;
     
     /* To adjust speed of open/close animations, set either of these two properties. */
     // deckController.openSlideAnimationDuration = 0.15f;
@@ -63,9 +63,7 @@
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:centerController
                                                                                     leftViewController:leftController
                                                                                    rightViewController:rightController];
-    deckController.rightSize = 100;
-    
-    [deckController disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];
+
     return deckController;
 }
 

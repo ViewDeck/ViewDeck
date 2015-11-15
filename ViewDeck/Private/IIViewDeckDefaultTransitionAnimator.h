@@ -1,8 +1,8 @@
 //
-//  IISideController.h
+//  IIViewDeckDefaultTransitionAnimator.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -23,27 +23,9 @@
 //  SOFTWARE.
 //
 
-#import "IIWrapController.h"
-
-@interface IISideController : IIWrapController
-
-@property (nonatomic, assign) CGFloat constrainedSize;
-
-+ (IISideController*)autoConstrainedSideControllerWithViewController:(UIViewController*)controller;
-+ (IISideController*)sideControllerWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (id)initWithViewController:(UIViewController*)controller constrained:(CGFloat)constrainedSize;
-
-- (void)shrinkSide;
-- (void)shrinkSideAnimated:(BOOL)animated;
-
-@end
+#import "IIViewDeckTransitioning.h"
 
 
-// category on UIViewController to provide access to the sideController in the
-// contained viewcontrollers, a la UINavigationController.
-@interface UIViewController (IISideController)
-
-@property(nonatomic,readonly,retain) IISideController *sideController;
+@interface IIViewDeckDefaultTransitionAnimator : NSObject <IIViewDeckTransitionAnimator>
 
 @end

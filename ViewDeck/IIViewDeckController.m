@@ -535,14 +535,17 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 }
 
 - (CGRect)centerViewBounds {
-    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
+    BOOL greaterThanOrEqual7 = [@"7.0" compare:UIDevice.currentDevice.systemVersion options:NSNumericSearch] != NSOrderedDescending;
+    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained || greaterThanOrEqual7) {
         return self.referenceBounds;
+    }
     
     return II_CGRectShrink(self.referenceBounds, 0, [self relativeStatusBarHeight] + (self.navigationController.navigationBarHidden ? 0 : self.navigationController.navigationBar.frame.size.height));
 }
 
 - (CGRect)sideViewBounds {
-    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained)
+    BOOL greaterThanOrEqual7 = [@"7.0" compare:UIDevice.currentDevice.systemVersion options:NSNumericSearch] != NSOrderedDescending;
+    if (self.navigationControllerBehavior == IIViewDeckNavigationControllerContained || greaterThanOrEqual7)
         return self.referenceBounds;
     
     return II_CGRectOffsetTopAndShrink(self.referenceBounds, [self relativeStatusBarHeight]);

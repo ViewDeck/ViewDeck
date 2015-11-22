@@ -62,14 +62,15 @@ After integrating ViewDeck via CocoaPods, all you need to do is `#import <ViewDe
 ### Factories
 The class currently supports a left and a right side controller. Each of these can be nil (if it is, no panning or opening to that side will work).
 
+```objc
     #import "IIViewDeckController.h"
 
     // prepare view controllers
     UIViewController* leftController = [[UIViewController alloc] init];
     UIViewController* rightController = [[UIViewController alloc] init];
 
-    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController leftViewController:leftController
-                                                      rightViewController:rightController];
+    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController leftViewController:leftController rightViewController:rightController];
+```
 
 There's also two convenience factory methods for just a left or right view controller.
 
@@ -77,9 +78,11 @@ There's also two convenience factory methods for just a left or right view contr
 
 You can also switch view controllers in mid flight. Just assign a viewcontroller to the appropriate property and the view deck controller will do the rest:
 
+```objc
     // prepare view controllers
     UIViewController* newController = [[UIViewController alloc] init];
     self.viewDeckController.leftController = newController;
+```
 
 You can also use this to remove a side controller: just set it to `nil`.
 
@@ -87,7 +90,9 @@ You can also use this to remove a side controller: just set it to `nil`.
 
 Like `UINavigationViewController` the `IIViewDeckController` assigns itself to its childviews. You can use the `viewDeckController` property to get access to the enclosing view deck controller:
 
+```objc
     [self.viewDeckController toggleLeftViewAnimated:YES]
+```
 
 If the controller is not enclosed by a IIViewDeckController, this property returns `nil`.
 
@@ -103,29 +108,39 @@ It is possible to have the viewController always show a side controller. You do 
 
 The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation.
 
+```objc
 	[self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
 		controller.centerController = [UIViewController alloc] init];
 		// ...
     }];
+```
 
 ### open/close animation duration
 
 The view deck controller allows you to set the speed at which the opening and closing animations play. To do so, use the following properties.
 
+```objc
     self.viewDeckController.openSlideAnimationDuration = 0.15f; // In seconds
     self.viewDeckController.closeSlideAnimationDuration = 0.25f;
+```
 
 The default speed of both, if not set, is 0.3f.
 
 ### bounce animation duration
 
 You can set the duration of the bounce animation as a factor (multiple) of the close/openSlideAnimationDurations. To control both the open and close of the bounce, you can simply use:
+
+```objc
     self.viewDeckController.bounceDurationFactor = 0.5; // Animate at twice the speed (half the duration)
+```
 
 The default factor is 1.0 if bounceDurationFactor is not set.
 
 For even more control, you can also set the animation duration for the bounce open (the first part of the bounce):
+
+```objc
     self.viewDeckController.bounceOpenSideDurationFactor = 0.3f;
+```
 
 If bounceOpenSideDurationFactor is not set, it will fallback to the bounceDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceDurationFactor affects only the "close" (2nd half) of the bounce animation.
 
@@ -136,6 +151,7 @@ You can override the shadow (or leave it out alltogether) by assigning a delegat
 
 For example:
 
+```objc
     // applies a small, red shadow
     - (void)viewDeckController:(IIViewDeckController *)viewDeckController applyShadow:(CALayer *)shadowLayer withBounds:(CGRect)rect {
         shadowLayer.masksToBounds = NO;
@@ -145,6 +161,7 @@ For example:
         shadowLayer.shadowOffset = CGSizeZero;
         shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:rect] CGPath];
     }
+```
 
 The bounds passed in through `rect` can be used for setting the shadow path to the layer, for performance reasons. It will be set to the bounds of the center view.
 
@@ -155,22 +172,28 @@ The controller supports "elasticity": when you pan the center view "over" one of
 Of course, you can turn this behavior off. Just set `elasticity = NO` when loading the controller and you're set.
 
 When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `sizeMode` property. You can use one of the following values:
+
+```objc
     typdef enum {
         IIViewDeckLedgeSizeMode, // when rotating, the ledge sizes are kept (side views are more/less visible)
         IIViewDeckViewSizeMode  // when rotating, the size view sizes are kept (ledges change)
     } IIViewDeckSizeMode;
+```
+
 The default is `IIViewDeckLedgeSizeMode`, which keeps the sizes of the defined ledges the same when rotating.
 
 ### panning
 
 It is possible to control the panning behavior a bit. Set the `panningMode` on the controller to achieve 3 different modes:
 
+```objc
     typedef enum {
         IIViewDeckNoPanning,              // no panning allowed
         IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
         IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning.
         IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
     } IIViewDeckPanningMode;
+```
 
 When you specify `IIViewDeckPanningViewPanning`, you have to set the `panningView` property on the controller. This view will react to pan motions that will pan the view deck.
 
@@ -178,16 +201,20 @@ When you specify `IIViewDeckPanningViewPanning`, you have to set the `panningVie
 
 The center view can be disabled if it is slided out of the way. You do this by setting the `centerhiddenInteractivity` property on the controller.
 
+```objc
     typedef enum {
         IIViewDeckCenterHiddenUserInteractive,         // the center view stays interactive
         IIViewDeckCenterHiddenNotUserInteractive,      // the center view will become nonresponsive to useractions
         IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
         IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, // same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
     } IIViewDeckCenterHiddenInteractivity;
+```
 
 When you need to change the centercontroller (or something else) when the center view is bounced away, use the following message to react:
 
+```objc
      - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
+```
 
 ## UINavigationController
 

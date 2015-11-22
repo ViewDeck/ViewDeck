@@ -176,6 +176,13 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 @property (nonatomic, readonly, assign) UIViewController* slidingController II_DEPRECATED_DROP;
 
 @property (nonatomic, retain) IBOutlet UIView* panningView II_DEPRECATED_DROP;
+
+@property (nonatomic, retain) NSString* centerControllerStoryboardId;
+@property (nonatomic, retain) NSString* leftControllerStoryboardId;
+@property (nonatomic, retain) NSString* rightControllerStoryboardId;
+@property (nonatomic, retain) NSString* topControllerStoryboardId;
+@property (nonatomic, retain) NSString* bottomControllerStoryboardId;
+
 @property (nonatomic, ii_weak_property) __ii_weak id<UIGestureRecognizerDelegate> panningGestureDelegate;
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 @property (nonatomic, assign, getter=isElastic) BOOL elastic;

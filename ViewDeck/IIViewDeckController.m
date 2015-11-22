@@ -431,6 +431,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return self;
 }
 
+- (void)awakeFromNib {
+    if (self.centerControllerStoryboardId) {
+        self.centerController = [self.storyboard instantiateViewControllerWithIdentifier:self.centerControllerStoryboardId];
+    }
+    
+    if (self.leftControllerStoryboardId) {
+        self.leftController = [self.storyboard instantiateViewControllerWithIdentifier:self.leftControllerStoryboardId];
+    }
+    
+    if (self.rightControllerStoryboardId) {
+        self.rightController = [self.storyboard instantiateViewControllerWithIdentifier:self.rightControllerStoryboardId];
+    }
+    
+    if (self.topControllerStoryboardId) {
+        self.topController = [self.storyboard instantiateViewControllerWithIdentifier:self.topControllerStoryboardId];
+    }
+    
+    if (self.bottomControllerStoryboardId) {
+        self.bottomController = [self.storyboard instantiateViewControllerWithIdentifier:self.bottomControllerStoryboardId];
+    }
+}
 
 
 

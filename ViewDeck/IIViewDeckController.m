@@ -1231,6 +1231,25 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _preRotationSize = CGSizeZero;
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    if (CGSizeEqualToSize(_preRotationSize, CGSizeZero) == NO) {
+        return;
+    }
+    
+    _preRotationSize = self.referenceBounds.size;
+    _preRotationCenterSize = self.centerView.bounds.size;
+    _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    
+    [coordinator animateAlongsideTransition:NULL completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self arrangeViewsAfterRotation];
+        
+        [self applyCenterViewCornerRadiusAnimated:NO];
+        [self applyShadowToSlidingViewAnimated:NO];
+    }];
+}
+
 - (void)setLedgeValue:(CGFloat)ledge forSide:(IIViewDeckSide)side {
     if (_maxLedge > 0)
         ledge = MIN(_maxLedge, ledge);

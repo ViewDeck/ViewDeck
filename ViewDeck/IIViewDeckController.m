@@ -961,8 +961,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
-    self.isObservingView = YES;
+    if (!self.isObservingView) {
+        [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+        self.isObservingView = YES;
+    }
 
     if (!_viewFirstAppeared) {
         _viewFirstAppeared = YES;

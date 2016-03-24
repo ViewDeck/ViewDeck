@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+__deprecated_msg("This class isn't used anymore and will be removed in a future version.");
 @interface IIWrapController : UIViewController
 
 @property (nonatomic, readonly, retain) UIViewController* wrappedController;

@@ -25,6 +25,7 @@
 
 #import "IIWrapController.h"
 
+__deprecated_msg("You do not need to box your view controller inside an IISideController anymore. In fact this may even cause issues. Directly assign your view controller to the IIViewDeckController instance.");
 @interface IISideController : IIWrapController
 
 @property (nonatomic, assign) CGFloat constrainedSize;

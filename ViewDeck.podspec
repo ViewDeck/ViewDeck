@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name      = 'ViewDeck'
-  s.version   = '2.4.1'
+  s.version   = '2.4.2'
   s.platform  = :ios
   s.summary   = 'An implementation of the sliding functionality found in the ' \
                 'Path 2.0 or Facebook iOS apps.'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license   = {
     :type => 'MIT',
     :text => <<-LICENSE
-              Copyright (C) 2011-2015, ViewDeck
+              Copyright (C) 2011-2016, ViewDeck
 
               Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

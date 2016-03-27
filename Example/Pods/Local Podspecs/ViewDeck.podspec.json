@@ -16,7 +16,7 @@
   },
   "source": {
     "git": "https://github.com/ViewDeck/ViewDeck.git",
-    "tag": "2.4.1"
+    "tag": "2.4.2"
   },
   "source_files": "ViewDeck/*.{h,m}",
   "frameworks": "QuartzCore",

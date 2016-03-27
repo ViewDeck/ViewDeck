@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 
 
-__deprecated_msg("This class isn't used anymore and will be removed in a future version.");
+__deprecated_msg("This class isn't used anymore and will be removed in a future version.")
 @interface IIWrapController : UIViewController
 
 @property (nonatomic, readonly, retain) UIViewController* wrappedController;
@@ -40,10 +40,16 @@ __deprecated_msg("This class isn't used anymore and will be removed in a future 
 
 @end
 
-// category on WrappedController to provide access to the viewDeckController in the 
+
+#pragma clang diagnostics push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+// category on WrappedController to provide access to the viewDeckController in the
 // contained viewcontrollers, a la UINavigationController.
 @interface UIViewController (WrapControllerItem) 
 
 @property(nonatomic,readonly,assign) IIWrapController *wrapController; 
 
 @end
+
+#pragma clang diagnostics pop

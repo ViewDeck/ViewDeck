@@ -2,7 +2,7 @@
 //  IISideController.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -25,6 +25,7 @@
 
 #import "IIWrapController.h"
 
+__deprecated_msg("You do not need to box your view controller inside an IISideController anymore. In fact this may even cause issues. Directly assign your view controller to the IIViewDeckController instance.")
 @interface IISideController : IIWrapController
 
 @property (nonatomic, assign) CGFloat constrainedSize;
@@ -40,6 +41,9 @@
 @end
 
 
+#pragma clang diagnostics push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 // category on UIViewController to provide access to the sideController in the
 // contained viewcontrollers, a la UINavigationController.
 @interface UIViewController (IISideController)
@@ -47,3 +51,5 @@
 @property(nonatomic,readonly,retain) IISideController *sideController;
 
 @end
+
+#pragma clang diagnostics pop

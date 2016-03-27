@@ -2,7 +2,7 @@
 //  IIViewDeckController.m
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -961,8 +961,10 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
-    self.isObservingView = YES;
+    if (!self.isObservingView) {
+        [self.view addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+        self.isObservingView = YES;
+    }
 
     if (!_viewFirstAppeared) {
         _viewFirstAppeared = YES;
@@ -1245,7 +1247,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _preRotationCenterSize = self.centerView.bounds.size;
     _preRotationIsLandscape = UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
     
-    [coordinator animateAlongsideTransition:NULL completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+    [coordinator animateAlongsideTransition:NULL completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [self arrangeViewsAfterRotation];
         
         [self applyCenterViewCornerRadiusAnimated:NO];

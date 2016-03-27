@@ -2,7 +2,7 @@
 //  WrappedController.h
 //  IIViewDeck
 //
-//  Copyright (C) 2011-2015, ViewDeck
+//  Copyright (C) 2011-2016, ViewDeck
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of
 //  this software and associated documentation files (the "Software"), to deal in
@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+
+__deprecated_msg("This class isn't used anymore and will be removed in a future version.")
 @interface IIWrapController : UIViewController
 
 @property (nonatomic, readonly, retain) UIViewController* wrappedController;
@@ -38,10 +40,16 @@
 
 @end
 
-// category on WrappedController to provide access to the viewDeckController in the 
+
+#pragma clang diagnostics push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+// category on WrappedController to provide access to the viewDeckController in the
 // contained viewcontrollers, a la UINavigationController.
 @interface UIViewController (WrapControllerItem) 
 
 @property(nonatomic,readonly,assign) IIWrapController *wrapController; 
 
 @end
+
+#pragma clang diagnostics pop

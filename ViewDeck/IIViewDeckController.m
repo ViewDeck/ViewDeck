@@ -915,11 +915,27 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
 
 - (UIViewController *)childViewControllerForStatusBarHidden {
-    return self.centerController;
+    if ([self isSideOpen:IIViewDeckLeftSide])
+    {
+        return self.leftController;
+    } else if ([self isSideOpen:IIViewDeckRightSide])
+    {
+        return self.rightController;
+    } else {
+        return self.centerController;
+    }
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle {
-    return self.centerController;
+    if ([self isSideOpen:IIViewDeckLeftSide])
+    {
+        return self.leftController;
+    } else if ([self isSideOpen:IIViewDeckRightSide])
+    {
+        return self.rightController;
+    } else {
+        return self.centerController;
+    }
 }
 
 #endif
@@ -1549,6 +1565,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
             [self hide:NO controllerViewForSide:side];
             [self setSlidingFrameForOffset:[self ledgeOffsetForSide:side] forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:YES];
             [self centerViewHidden];
+            [self setNeedsStatusBarAppearanceUpdate];
         } completion:^(BOOL finished) {
             [self enableUserInteraction];
             [self setAccessibilityForCenterTapper]; // update since the frame and the frame's intersection with the window will have changed
@@ -1657,6 +1674,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [UIView animateWithDuration:duration delay:0 options:options animations:^{
         [self setSlidingFrameForOffset:0 forOrientation:IIViewDeckOffsetOrientationFromIIViewDeckSide(side) animated:animated];
         [self centerViewVisible];
+        [self setNeedsStatusBarAppearanceUpdate];
     } completion:^(BOOL finished) {
         [self hideAppropriateSideViews];
         [self enableUserInteraction];

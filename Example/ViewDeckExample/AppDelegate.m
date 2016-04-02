@@ -27,7 +27,7 @@
 #import "AppDelegate.h"
 
 #import "ViewController.h"
-#import "IIViewDeckController.h"
+#import "ViewDeck/ViewDeck.h"
 #import "LeftViewController.h"
 #import "RightViewController.h"
 
@@ -61,8 +61,8 @@
     UIViewController *centerController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     centerController = [[UINavigationController alloc] initWithRootViewController:centerController];
     IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:centerController
-                                                                                    leftViewController:leftController
-                                                                                   rightViewController:rightController];
+                                                                                    leftViewController:[IISideController autoConstrainedSideControllerWithViewController:leftController]
+                                                                                   rightViewController:[IISideController autoConstrainedSideControllerWithViewController:rightController]];
     deckController.rightSize = 100;
     
     [deckController disablePanOverViewsOfClass:NSClassFromString(@"_UITableViewHeaderFooterContentView")];

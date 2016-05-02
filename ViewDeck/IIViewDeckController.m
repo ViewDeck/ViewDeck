@@ -3537,6 +3537,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
 @end
 
+#if !TARGET_INTERFACE_BUILDER
+
 @implementation UIViewController (UIViewDeckItem)
 
 @dynamic viewDeckController;
@@ -3716,6 +3718,8 @@ static const char* viewDeckControllerKey = "ViewDeckController";
 }
 
 @end
+
+#endif
 
 
 #pragma clang diagnostic pop

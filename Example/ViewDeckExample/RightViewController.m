@@ -155,19 +155,19 @@
     [self addLog:[NSString stringWithFormat:@"%@: %f", panning ? @"Pan" : @"Offset", offset]];
 }
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     [self addLog:[NSString stringWithFormat:@"will open %@ view", NSStringFromIIViewDeckSide(viewDeckSide)]];
 }
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController didOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     [self addLog:[NSString stringWithFormat:@"did open %@ view", NSStringFromIIViewDeckSide(viewDeckSide)]];
 }
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController willCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController willCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     [self addLog:[NSString stringWithFormat:@"will close %@ view", NSStringFromIIViewDeckSide(viewDeckSide)]];
 }
 
-- (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+- (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     [self addLog:[NSString stringWithFormat:@"did close %@ view", NSStringFromIIViewDeckSide(viewDeckSide)]];
 }
 

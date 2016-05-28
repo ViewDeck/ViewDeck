@@ -84,6 +84,13 @@ __typeof__(h) __h = (h);                                    \
 };                                                 \
 })
 
+#define IIViewDeckWarnOnce(__msg__, ...) do {\
+    static dispatch_once_t onceToken;\
+    dispatch_once(&onceToken, ^{\
+        NSLog(@"[IIViewDeck] Warning: %@", [NSString stringWithFormat:__msg__, ##__VA_ARGS__]);\
+    });\
+} while(0);
+
 #import "IIViewDeckController.h"
 #import <objc/runtime.h>
 #import <QuartzCore/QuartzCore.h>
@@ -189,57 +196,6 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 @property (nonatomic, readonly) UIView* slidingControllerView;
 @property (nonatomic, assign) BOOL isObservingView;
 @property (nonatomic, assign) BOOL isObservingSelf;
-
-- (void)cleanup;
-- (uint)sideControllerCount;
-
-- (CGRect)slidingRectForOffset:(CGFloat)offset forOrientation:(IIViewDeckOffsetOrientation)orientation;
-- (CGSize)slidingSizeForOffset:(CGFloat)offset forOrientation:(IIViewDeckOffsetOrientation)orientation;
-- (void)setSlidingFrameForOffset:(CGFloat)frame forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)setSlidingFrameForOffset:(CGFloat)offset limit:(BOOL)limit forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)setSlidingFrameForOffset:(CGFloat)offset limit:(BOOL)limit panning:(BOOL)panning forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)panToSlidingFrameForOffset:(CGFloat)frame forOrientation:(IIViewDeckOffsetOrientation)orientation animated:(BOOL)animated;
-- (void)hideAppropriateSideViews;
-
-- (BOOL)setSlidingAndReferenceViews;
-- (void)applyShadowToSlidingViewAnimated:(BOOL)animated;
-- (void)restoreShadowToSlidingView;
-- (void)arrangeViewsAfterRotation;
-- (CGFloat)relativeStatusBarHeight;
-
-- (NSArray *)bouncingValuesForViewSide:(IIViewDeckSide)viewSide maximumBounce:(CGFloat)maxBounce numberOfBounces:(CGFloat)numberOfBounces dampingFactor:(CGFloat)zeta duration:(NSTimeInterval)duration;
-
-- (void)centerViewVisible;
-- (void)centerViewHidden;
-- (void)centerTapped;
-- (void)setAccessibilityForCenterTapper;
-
-- (void)addPanners;
-- (void)removePanners;
-- (void)setNeedsAddPanners;
-- (void)addPannersIfAllPannersAreInactiveAndNeeded;
-
-- (BOOL)checkCanOpenSide:(IIViewDeckSide)viewDeckSide;
-- (BOOL)checkCanCloseSide:(IIViewDeckSide)viewDeckSide;
-- (void)notifyWillOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyDidOpenSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyWillCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyDidCloseSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated;
-- (void)notifyDidChangeOffset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
-
-- (BOOL)checkDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize;
-- (BOOL)checkDelegate:(SEL)selector view:(UIView*)view;
-- (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize animated:(BOOL)animated;
-- (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSize controller:(UIViewController*)controller;
-- (void)performDelegate:(SEL)selector offset:(CGFloat)offset orientation:(IIViewDeckOffsetOrientation)orientation panning:(BOOL)panning;
-
-- (void)relayRotationMethod:(void(^)(UIViewController* controller))relay;
-
-- (CGFloat)openSlideDuration:(BOOL)animated;
-- (CGFloat)closeSlideDuration:(BOOL)animated;
-
-- (void)enqueueFinishTransitionBlock:(void(^)(void))finishTransition forController:(UIViewController*)controller;
-- (void)finishTransitionBlocks;
 
 @end
 
@@ -1338,7 +1294,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:0 to:1];
 
     if ([self isSideClosed:viewDeckSide]) {
-        [self performDelegate:@selector(viewDeckController:willOpenViewSide:animated:) side:viewDeckSide animated:animated];
+        [self performDelegate:@selector(viewDeckController:willOpenSide:) deprecatedDelegate:@selector(viewDeckController:willOpenViewSide:animated:) side:viewDeckSide animated:animated];
     }
 }
 
@@ -1347,7 +1303,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:1 to:2];
 
     if ([self isSideOpen:viewDeckSide]) {
-        [self performDelegate:@selector(viewDeckController:didOpenViewSide:animated:) side:viewDeckSide animated:animated];
+        [self performDelegate:@selector(viewDeckController:didOpenSide:) deprecatedDelegate:@selector(viewDeckController:didOpenViewSide:animated:) side:viewDeckSide animated:animated];
     }
 }
 
@@ -1356,7 +1312,7 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:2 to:1];
 
     if (![self isSideClosed:viewDeckSide]) {
-        [self performDelegate:@selector(viewDeckController:willCloseViewSide:animated:) side:viewDeckSide animated:animated];
+        [self performDelegate:@selector(viewDeckController:willCloseSide:) deprecatedDelegate:@selector(viewDeckController:willCloseViewSide:animated:) side:viewDeckSide animated:animated];
     }
 }
 
@@ -1365,8 +1321,8 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
 
     [self notifyAppearanceForSide:viewDeckSide animated:animated from:1 to:0];
     if ([self isSideClosed:viewDeckSide]) {
-        [self performDelegate:@selector(viewDeckController:didCloseViewSide:animated:) side:viewDeckSide animated:animated];
-        [self performDelegate:@selector(viewDeckController:didShowCenterViewFromSide:animated:) side:viewDeckSide animated:animated];
+        [self performDelegate:@selector(viewDeckController:didCloseSide:) deprecatedDelegate:@selector(viewDeckController:didCloseViewSide:animated:) side:viewDeckSide animated:animated];
+        [self performDelegate:@selector(viewDeckController:didShowCenterViewFromSide:animated:) deprecatedDelegate:NULL side:viewDeckSide animated:animated];
     }
 }
 
@@ -2088,12 +2044,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
         
         // perform completion and delegate call
         if (completed) completed(self, YES);
-        if (callDelegate) [self performDelegate:@selector(viewDeckController:didPreviewBounceViewSide:animated:) side:viewDeckSide animated:YES];
+        if (callDelegate) [self performDelegate:@selector(viewDeckController:didPreviewBounceViewSide:animated:) deprecatedDelegate:NULL side:viewDeckSide animated:YES];
     }];
     [self.slidingControllerView.layer addAnimation:animation forKey:@"previewBounceAnimation"];
     
     // Inform delegate
-    if (callDelegate) [self performDelegate:@selector(viewDeckController:willPreviewBounceViewSide:animated:) side:viewDeckSide animated:YES];
+    if (callDelegate) [self performDelegate:@selector(viewDeckController:willPreviewBounceViewSide:animated:) deprecatedDelegate:NULL side:viewDeckSide animated:YES];
     
     // Commit animation
     [CATransaction commit];
@@ -2844,12 +2800,18 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     return ok;
 }
 
-- (void)performDelegate:(SEL)selector side:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
+- (void)performDelegate:(SEL)selector deprecatedDelegate:(SEL)deprecatedSelector side:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated {
     // used typed message send to properly pass values
     void (*objc_msgSendTyped)(id self, SEL _cmd, IIViewDeckController* foo, IIViewDeckSide viewDeckSide, BOOL animated) = (void*)objc_msgSend;
-    
-    if (self.delegate && [self.delegate respondsToSelector:selector])
-        objc_msgSendTyped(self.delegate, selector, self, viewDeckSide, animated);
+
+    id<IIViewDeckControllerDelegate> delegate = self.delegate;
+    if (delegate && [delegate respondsToSelector:selector]) {
+        void (*objc_msgSendTypedDelegate)(id self, SEL _cmd, IIViewDeckController* foo, IIViewDeckSide viewDeckSide) = (void*)objc_msgSend;
+        objc_msgSendTypedDelegate(delegate, selector, self, viewDeckSide);
+    } else if (deprecatedSelector && delegate && [delegate respondsToSelector:deprecatedSelector]) {
+        objc_msgSendTyped(delegate, deprecatedSelector, self, viewDeckSide, animated);
+        IIViewDeckWarnOnce(@"You are using deprecated delegate methods. The method %@ is deprecated in favor of %@. This warning is only logged once, there may be more deprecated methods in use.", NSStringFromSelector(deprecatedSelector), NSStringFromSelector(selector));
+    }
     
     if (_delegateMode == IIViewDeckDelegateOnly)
         return;

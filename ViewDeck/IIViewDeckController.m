@@ -1032,6 +1032,12 @@ static NSTimeInterval durationToAnimate(CGFloat pointsToAnimate, CGFloat velocit
     _viewAppeared = 0;
 }
 
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    [self setShadowEnabled:YES];
+}
+
 #pragma mark - Rotation IOS6
 
 - (BOOL)shouldAutorotate {

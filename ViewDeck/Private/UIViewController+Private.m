@@ -25,11 +25,15 @@
 
 #import "UIViewController+Private.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @implementation UIViewController (II_Private)
 
-- (void)ii_exchangeViewController:(UIViewController *)oldController withViewController:(UIViewController *)newController viewTransition:(void(^)(void))viewTransition {
+- (void)ii_exchangeViewController:(nullable UIViewController *)oldController withViewController:(nullable UIViewController *)newController viewTransition:(nullable void(^)(void))viewTransition {
     [oldController willMoveToParentViewController:nil];
-    [self addChildViewController:newController];
+    if (newController) {
+        [self addChildViewController:newController];
+    }
 
     if (self.isViewLoaded && viewTransition) {
         viewTransition();
@@ -39,7 +43,7 @@
     [oldController removeFromParentViewController];
 }
 
-- (void)ii_exchangeViewFromController:(UIViewController *)oldController toController:(UIViewController *)newController inContainerView:(UIView *)containerView {
+- (void)ii_exchangeViewFromController:(nullable UIViewController *)oldController toController:(nullable UIViewController *)newController inContainerView:(UIView *)containerView {
     if (oldController == nil && newController == nil) {
         return;
     }
@@ -68,3 +72,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

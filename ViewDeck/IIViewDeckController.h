@@ -124,6 +124,35 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 
 
 @protocol IIViewDeckTransitionAnimator, IIViewDeckTransitionContext;
+
+/**
+ The `IIViewDeckController` is the hart of ViewDeck. It is the main view controller
+ controlls the content and whether or not a side bar is presented.
+ 
+ The `IIViewDeckController` is a container view controller that uses the view controller
+ hierarchy to display it's content. You always need to define a center view controller.
+ This is the view controller that is visible in the center of the `IIViewDeckController`
+ and has the same size. You can optionally set a left view controller and / or a
+ right view controller that slides in from the left or right side either programatically
+ or through a user action.
+ 
+ # Controlling the size of a side view controller
+ 
+ A side view controller always has the same height as the view deck controller
+ itself. You can control the width of the view controller by setting `preferredContentSize`
+ on your left or right content view controller, similar like you do when presenting
+ a view controller as a popover.
+ 
+ # Customizing the appearance
+ 
+ By default side view controllers can slide in from the left or the right and while
+ sliding in, a dimm view will be faded in between the center view controller and
+ the side view controller to give it a nice iOS like look and feel. However this
+ might not be suitable for all cases. You have multiple ways of customizing this
+ appearance. The current methods of customization are listed under 'Customizing
+ Transitions'. If you feel the current options are not suitable for you, please
+ file an issue at https://github.com/ViewDeck/ViewDeck
+ */
 @interface IIViewDeckController : UIViewController
 
 
@@ -274,7 +303,33 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 
 /// @name Customizing Transitions
 
+/**
+ Creates and returns an object that conforms to `IIViewDeckTransitionAnimator` and
+ is ready to handle the animation for the passed in transition.
+ 
+ This method is ment to be subclassed if you want to add your own custom animator.
+ If you want to customize the animation only in some cases, make sure to call super
+ in all the other cases, otherwise calling super is not required.
+
+ @param context The `IIViewDeckTransitionContext` that this animator should use.
+
+ @return A fully configured animator object.
+ */
 - (id<IIViewDeckTransitionAnimator>)animatorForTransitionWithContext:(id<IIViewDeckTransitionContext>)context;
+
+/**
+ Creates and returns a view that can be used as decoration view between the center
+ view controller's view and a side view.
+
+ This method is ment to be subclassed if you want to add your own custom decoration
+ view or if you want to disable decoration views alltogether. If you want to customize
+ the decoration view only in some cases, make sure to call super in all the other
+ cases, otherwise calling super is not required.
+
+ @param context The `IIViewDeckTransitionContext` that this decoration view is used in.
+
+ @return A fully configured decoration view.
+ */
 - (nullable UIView *)decorationViewForTransitionWithContext:(id<IIViewDeckTransitionContext>)context;
 
 
@@ -354,11 +409,25 @@ typedef void (^IIViewDeckControllerBounceBlock) (IIViewDeckController *controlle
 //*/
 @end
 
-
+// You should NOT change the gesture recognizers. These are only available for reference
+// in case you want to link them with other gesture recognizers.
 @interface IIViewDeckController (GestureRecognizer)
 
-@property (nonatomic, readonly) UIScreenEdgePanGestureRecognizer *leftEdgeGestureRecognizer;
-@property (nonatomic, readonly) UIScreenEdgePanGestureRecognizer *rightEdgeGestureRecognizer;
+/**
+ The gesture recognizer that is used to slide in the left view controller.
+ 
+ @note Do not alter this gesture recognizer. This property should only be used to
+       link this gesture recognizer with other gesture recognizers.
+ */
+@property (nonatomic, readonly) UIGestureRecognizer *leftEdgeGestureRecognizer;
+
+/**
+ The gesture recognizer that is used to slide in the right view controller.
+
+ @note Do not alter this gesture recognizer. This property should only be used to
+ link this gesture recognizer with other gesture recognizers.
+ */
+@property (nonatomic, readonly) UIGestureRecognizer *rightEdgeGestureRecognizer;
 
 @end
 

@@ -25,6 +25,19 @@
 
 #import "IIEnvironment.h"
 
+
+/**
+ Checks if the passed in side is describing a side view controller of an `IIViewDeckController`.
+
+ @param side The side you want to check.
+
+ @return `YES` if side is either of type `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
+ */
+static inline BOOL IIViewDeckSideIsValid(IIViewDeckSide side) {
+    return (side == IIViewDeckSideLeft || side == IIViewDeckSideRight);
+}
+
+
 #define IILimitFraction(__value__) IILimit(0.0, __value__, 1.0)
 
 

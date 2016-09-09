@@ -35,14 +35,3 @@ typedef NS_ENUM(NSInteger, IIViewDeckSide) {
     IIViewDeckLeftSide __deprecated_enum_msg("Use IIViewDeckSideLeft instead.") = IIViewDeckSideLeft,
     IIViewDeckRightSide __deprecated_enum_msg("Use IIViewDeckSideRight instead.") = IIViewDeckSideRight,
 };
-
-/**
- Checks if the passed in side is describing a side view controller of an `IIViewDeckController`.
-
- @param side The side you want to check.
-
- @return `YES` if side is either of type `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
- */
-static inline BOOL IIViewDeckSideIsValid(IIViewDeckSide side) {
-    return (side == IIViewDeckSideLeft || side == IIViewDeckSideRight);
-}

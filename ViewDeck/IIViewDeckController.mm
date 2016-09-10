@@ -135,6 +135,16 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
 
 #pragma mark - Child Controller Lifecycle
 
+- (nullable UITraitCollection *)overrideTraitCollectionForChildViewController:(UIViewController *)childViewController {
+    if (childViewController == _leftViewController || childViewController == _rightViewController) {
+        UITraitCollection *traitCollection = [super overrideTraitCollectionForChildViewController:childViewController];
+        UITraitCollection *forcedTraits = [UITraitCollection traitCollectionWithHorizontalSizeClass:UIUserInterfaceSizeClassCompact];
+        return [UITraitCollection traitCollectionWithTraitsFromCollections:(traitCollection ? @[traitCollection, forcedTraits] : @[forcedTraits])];
+    } else {
+        return [super overrideTraitCollectionForChildViewController:childViewController];
+    }
+}
+
 - (void)setCenterViewController:(UIViewController *)centerViewController {
     if (_centerViewController && _centerViewController == centerViewController) {
         return;

@@ -55,7 +55,7 @@
 
     const CGFloat animationDistance = CGRectGetMinX(finalSideFrame) - CGRectGetMinX(context.sideView.frame);
 
-    [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:(velocity.x/animationDistance) options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:1.0 initialSpringVelocity:(velocity.x/animationDistance) options:UIViewAnimationOptionCurveLinear animations:^{
         context.decorationView.alpha = (context.isAppearing ^ context.isCancelled ? 1.0 : 0.0);
         context.centerView.frame = finalCenterFame;
         context.sideView.frame = finalSideFrame;

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4CE8B1B71D8D9E2500603FEF /* ItemFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1B61D8D9E2500603FEF /* ItemFinder.m */; };
+		4CE8B1BA1D8D9E5400603FEF /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1B91D8D9E5400603FEF /* Item.m */; };
+		4CE8B1BD1D8DA34700603FEF /* ItemCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1BC1D8DA34700603FEF /* ItemCollectionViewController.m */; };
+		4CE8B1C11D8DA7B200603FEF /* ItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1BF1D8DA7B200603FEF /* ItemCollectionViewCell.m */; };
+		4CE8B1C21D8DA7B200603FEF /* ItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CE8B1C01D8DA7B200603FEF /* ItemCollectionViewCell.xib */; };
+		4CE8B1C51D8DB3F200603FEF /* TermTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1C41D8DB3F200603FEF /* TermTableViewController.m */; };
 		63C34BFFA241178C1DF30051 /* libPods-ViewDeckExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AF69DB5DD672675A91F6E2 /* libPods-ViewDeckExampleTests.a */; };
 		6737C9841BF8FD4A006BC321 /* UIViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6737C9831BF8FD4A006BC321 /* UIViewControllerTests.m */; };
 		677A0FE21BCC2CC5000FFEDD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */; };
@@ -18,17 +24,6 @@
 		E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E240A9B4148AB3770077282A /* InfoPlist.strings */; };
 		E240A9B8148AB3770077282A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9B7148AB3770077282A /* main.m */; };
 		E240A9BC148AB3770077282A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BB148AB3770077282A /* AppDelegate.m */; };
-		E240A9BF148AB3770077282A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9BE148AB3770077282A /* ViewController.m */; };
-		E240A9D2148ADC020077282A /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D0148ADC020077282A /* LeftViewController.m */; };
-		E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D1148ADC020077282A /* LeftViewController.xib */; };
-		E240A9D7148ADC230077282A /* RightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E240A9D5148ADC230077282A /* RightViewController.m */; };
-		E240A9D8148ADC230077282A /* RightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9D6148ADC230077282A /* RightViewController.xib */; };
-		E240A9E8148C51AC0077282A /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E240A9E7148C51AC0077282A /* ViewController.xib */; };
-		E240A9EC148C51E00077282A /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E240A9EB148C51E00077282A /* bg.jpg */; };
-		E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2955F9614B7D678003DDB4E /* NestViewController.m */; };
-		E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2955F9714B7D678003DDB4E /* NestViewController.xib */; };
-		E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B01A26155B385600E05FB9 /* PushedViewController.m */; };
-		E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2B01A27155B385600E05FB9 /* PushedViewController.xib */; };
 		EA82B9FE167CFB670028F389 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA82B9FD167CFB670028F389 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +39,17 @@
 
 /* Begin PBXFileReference section */
 		3307AA45C75C3BC553AD0494 /* Pods-ViewDeckExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExampleTests/Pods-ViewDeckExampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		4CE8B1B51D8D9E2500603FEF /* ItemFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemFinder.h; sourceTree = "<group>"; };
+		4CE8B1B61D8D9E2500603FEF /* ItemFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemFinder.m; sourceTree = "<group>"; };
+		4CE8B1B81D8D9E5400603FEF /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		4CE8B1B91D8D9E5400603FEF /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		4CE8B1BB1D8DA34700603FEF /* ItemCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCollectionViewController.h; sourceTree = "<group>"; };
+		4CE8B1BC1D8DA34700603FEF /* ItemCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCollectionViewController.m; sourceTree = "<group>"; };
+		4CE8B1BE1D8DA7B200603FEF /* ItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCollectionViewCell.h; sourceTree = "<group>"; };
+		4CE8B1BF1D8DA7B200603FEF /* ItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCollectionViewCell.m; sourceTree = "<group>"; };
+		4CE8B1C01D8DA7B200603FEF /* ItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemCollectionViewCell.xib; sourceTree = "<group>"; };
+		4CE8B1C31D8DB3F200603FEF /* TermTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermTableViewController.h; sourceTree = "<group>"; };
+		4CE8B1C41D8DB3F200603FEF /* TermTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermTableViewController.m; sourceTree = "<group>"; };
 		6737C9811BF8FD4A006BC321 /* ViewDeckExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewDeckExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6737C9831BF8FD4A006BC321 /* UIViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = UIViewControllerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6737C9851BF8FD4A006BC321 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,22 +69,6 @@
 		E240A9B9148AB3770077282A /* ViewDeckExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "ViewDeckExample-Prefix.pch"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E240A9BA148AB3770077282A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		E240A9BB148AB3770077282A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E240A9BD148AB3770077282A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		E240A9BE148AB3770077282A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E240A9CF148ADC020077282A /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LeftViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		E240A9D0148ADC020077282A /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LeftViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E240A9D1148ADC020077282A /* LeftViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftViewController.xib; sourceTree = "<group>"; };
-		E240A9D4148ADC230077282A /* RightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RightViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		E240A9D5148ADC230077282A /* RightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RightViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E240A9D6148ADC230077282A /* RightViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightViewController.xib; sourceTree = "<group>"; };
-		E240A9E7148C51AC0077282A /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
-		E240A9EB148C51E00077282A /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
-		E2955F9514B7D678003DDB4E /* NestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NestViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		E2955F9614B7D678003DDB4E /* NestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NestViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E2955F9714B7D678003DDB4E /* NestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NestViewController.xib; sourceTree = "<group>"; };
-		E2B01A25155B385600E05FB9 /* PushedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PushedViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		E2B01A26155B385600E05FB9 /* PushedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PushedViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E2B01A27155B385600E05FB9 /* PushedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushedViewController.xib; sourceTree = "<group>"; };
 		EA82B9FD167CFB670028F389 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EFBAD93D64DBAA57BA5A1454 /* Pods-ViewDeckExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,25 +153,20 @@
 		E240A9B1148AB3770077282A /* ViewDeckExample */ = {
 			isa = PBXGroup;
 			children = (
-				E240A9EA148C51E00077282A /* assets */,
 				E240A9B2148AB3770077282A /* Supporting Files */,
 				E240A9BA148AB3770077282A /* AppDelegate.h */,
 				E240A9BB148AB3770077282A /* AppDelegate.m */,
-				E240A9BD148AB3770077282A /* ViewController.h */,
-				E240A9BE148AB3770077282A /* ViewController.m */,
-				E240A9E7148C51AC0077282A /* ViewController.xib */,
-				E240A9CF148ADC020077282A /* LeftViewController.h */,
-				E240A9D0148ADC020077282A /* LeftViewController.m */,
-				E240A9D1148ADC020077282A /* LeftViewController.xib */,
-				E240A9D4148ADC230077282A /* RightViewController.h */,
-				E240A9D5148ADC230077282A /* RightViewController.m */,
-				E240A9D6148ADC230077282A /* RightViewController.xib */,
-				E2955F9514B7D678003DDB4E /* NestViewController.h */,
-				E2955F9614B7D678003DDB4E /* NestViewController.m */,
-				E2955F9714B7D678003DDB4E /* NestViewController.xib */,
-				E2B01A25155B385600E05FB9 /* PushedViewController.h */,
-				E2B01A26155B385600E05FB9 /* PushedViewController.m */,
-				E2B01A27155B385600E05FB9 /* PushedViewController.xib */,
+				4CE8B1B51D8D9E2500603FEF /* ItemFinder.h */,
+				4CE8B1B61D8D9E2500603FEF /* ItemFinder.m */,
+				4CE8B1B81D8D9E5400603FEF /* Item.h */,
+				4CE8B1B91D8D9E5400603FEF /* Item.m */,
+				4CE8B1BB1D8DA34700603FEF /* ItemCollectionViewController.h */,
+				4CE8B1BC1D8DA34700603FEF /* ItemCollectionViewController.m */,
+				4CE8B1BE1D8DA7B200603FEF /* ItemCollectionViewCell.h */,
+				4CE8B1BF1D8DA7B200603FEF /* ItemCollectionViewCell.m */,
+				4CE8B1C01D8DA7B200603FEF /* ItemCollectionViewCell.xib */,
+				4CE8B1C31D8DB3F200603FEF /* TermTableViewController.h */,
+				4CE8B1C41D8DB3F200603FEF /* TermTableViewController.m */,
 				677A0FE41BCC3367000FFEDD /* Images.xcassets */,
 			);
 			path = ViewDeckExample;
@@ -197,14 +182,6 @@
 				677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E240A9EA148C51E00077282A /* assets */ = {
-			isa = PBXGroup;
-			children = (
-				E240A9EB148C51E00077282A /* bg.jpg */,
-			);
-			path = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,14 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				677A0FE51BCC3367000FFEDD /* Images.xcassets in Resources */,
+				4CE8B1C21D8DA7B200603FEF /* ItemCollectionViewCell.xib in Resources */,
 				E240A9B6148AB3770077282A /* InfoPlist.strings in Resources */,
 				677A0FE21BCC2CC5000FFEDD /* LaunchScreen.storyboard in Resources */,
-				E240A9D3148ADC020077282A /* LeftViewController.xib in Resources */,
-				E240A9D8148ADC230077282A /* RightViewController.xib in Resources */,
-				E240A9E8148C51AC0077282A /* ViewController.xib in Resources */,
-				E240A9EC148C51E00077282A /* bg.jpg in Resources */,
-				E2955F9914B7D678003DDB4E /* NestViewController.xib in Resources */,
-				E2B01A29155B385600E05FB9 /* PushedViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,13 +388,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE8B1BA1D8D9E5400603FEF /* Item.m in Sources */,
+				4CE8B1C11D8DA7B200603FEF /* ItemCollectionViewCell.m in Sources */,
+				4CE8B1C51D8DB3F200603FEF /* TermTableViewController.m in Sources */,
 				E240A9B8148AB3770077282A /* main.m in Sources */,
+				4CE8B1B71D8D9E2500603FEF /* ItemFinder.m in Sources */,
 				E240A9BC148AB3770077282A /* AppDelegate.m in Sources */,
-				E240A9BF148AB3770077282A /* ViewController.m in Sources */,
-				E240A9D2148ADC020077282A /* LeftViewController.m in Sources */,
-				E240A9D7148ADC230077282A /* RightViewController.m in Sources */,
-				E2955F9814B7D678003DDB4E /* NestViewController.m in Sources */,
-				E2B01A28155B385600E05FB9 /* PushedViewController.m in Sources */,
+				4CE8B1BD1D8DA34700603FEF /* ItemCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

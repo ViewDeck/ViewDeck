@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" id="gTV-IL-0wX" customClass="ItemCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="207" height="160"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="207" height="160"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fjU-Rz-Czr">
+                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Hwl-ba-CPq">
+                            <frame key="frameInset"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </view>
+                        <blurEffect style="light"/>
+                    </visualEffectView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8FC-N6-zYE">
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                        <color key="shadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="8FC-N6-zYE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="DGq-Ul-IRH"/>
+                <constraint firstItem="8FC-N6-zYE" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Ezv-Tf-hgR"/>
+                <constraint firstItem="fjU-Rz-Czr" firstAttribute="centerY" secondItem="8FC-N6-zYE" secondAttribute="centerY" id="Mu1-YK-MNQ"/>
+                <constraint firstItem="fjU-Rz-Czr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="NTt-hp-rNA"/>
+                <constraint firstAttribute="bottom" secondItem="fjU-Rz-Czr" secondAttribute="bottom" id="gn1-oX-0VJ"/>
+                <constraint firstAttribute="trailing" secondItem="fjU-Rz-Czr" secondAttribute="trailing" id="pqS-ia-3qq"/>
+                <constraint firstAttribute="bottomMargin" secondItem="8FC-N6-zYE" secondAttribute="bottom" id="uyu-f0-sHL"/>
+            </constraints>
+            <size key="customSize" width="207" height="160"/>
+            <connections>
+                <outlet property="titleLabel" destination="8FC-N6-zYE" id="Dkd-Ap-QC8"/>
+            </connections>
+            <point key="canvasLocation" x="-199.5" y="25"/>
+        </collectionViewCell>
+    </objects>
+</document>

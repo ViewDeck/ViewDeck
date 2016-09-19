@@ -1,37 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" launchScreen="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="z2O-mS-Ba7"/>
+                        <viewControllerLayoutGuide type="bottom" id="zub-hl-3cJ"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright © 2015 ViewDeck. MIT License." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="obG-Y5-kRd">
-                                <rect key="frame" x="20" y="527" width="280" height="21"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="  Copyright © 2015 ViewDeck. MIT License." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ViewDeck" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" id="GJd-Yh-RWb">
-                                <rect key="frame" x="20" y="169" width="280" height="43"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2MF-h1-uOX">
+                                <subviews>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="Launch" translatesAutoresizingMaskIntoConstraints="NO" id="2pc-Ri-NEH">
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2pc-Ri-NEH" secondAttribute="height" multiplier="1:1" id="Ihx-6x-Jmd"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="ViewDeck" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="GJd-Yh-RWb">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="2pc-Ri-NEH" firstAttribute="top" secondItem="2MF-h1-uOX" secondAttribute="topMargin" id="A66-eK-BBg"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="GJd-Yh-RWb" secondAttribute="bottom" id="TUG-vK-7x8"/>
+                                    <constraint firstItem="2pc-Ri-NEH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2MF-h1-uOX" secondAttribute="leadingMargin" id="VCU-xY-iOQ"/>
+                                    <constraint firstItem="GJd-Yh-RWb" firstAttribute="centerX" secondItem="2MF-h1-uOX" secondAttribute="centerX" id="dS2-Oy-HYN"/>
+                                    <constraint firstItem="2pc-Ri-NEH" firstAttribute="leading" secondItem="2MF-h1-uOX" secondAttribute="leadingMargin" priority="200" id="iW6-6E-MY5"/>
+                                    <constraint firstItem="2pc-Ri-NEH" firstAttribute="centerX" secondItem="2MF-h1-uOX" secondAttribute="centerX" id="icX-ri-G7r"/>
+                                    <constraint firstItem="GJd-Yh-RWb" firstAttribute="top" secondItem="2pc-Ri-NEH" secondAttribute="bottom" id="nvO-hu-edm"/>
+                                    <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" secondItem="2MF-h1-uOX" secondAttribute="leadingMargin" priority="200" id="vzx-1J-iVI"/>
+                                    <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2MF-h1-uOX" secondAttribute="leadingMargin" id="zT1-hg-SX1"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="4Jl-SC-mOu"/>
+                            <constraint firstItem="2MF-h1-uOX" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="4dK-Ty-CHl"/>
+                            <constraint firstItem="2MF-h1-uOX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="z2O-mS-Ba7" secondAttribute="bottom" id="XZU-tt-jmc"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="2MF-h1-uOX" secondAttribute="bottom" constant="8" id="ZYw-SR-Lht"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ekn-sG-yEu"/>
+                            <constraint firstItem="2MF-h1-uOX" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" priority="700" id="pqc-uF-Xi9"/>
+                            <constraint firstItem="zub-hl-3cJ" firstAttribute="top" secondItem="obG-Y5-kRd" secondAttribute="bottom" constant="20" id="twl-6x-f4N"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -39,4 +68,12 @@
             <point key="canvasLocation" x="28.266666666666666" y="355"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Launch" width="256" height="256"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
 </document>

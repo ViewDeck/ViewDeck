@@ -1,4 +1,4 @@
-# ViewDeck
+![Logo](logo-header.png)
 
 [![CocoaPods Version](https://img.shields.io/cocoapods/v/ViewDeck.svg?style=flat-square)](https://cocoapods.org/pods/ViewDeck)
 ![GitHub Tag](https://img.shields.io/github/tag/ViewDeck/ViewDeck.svg?style=flat-square)
@@ -209,6 +209,10 @@ This is a more extensive example. You can specify the different choices for the 
 ## SizingExample
 
 This is a test program to test out sizing behavior. It presents a view with a viewdeck controller in, and a zoom button. The zoom button enlarges/shrinks the view. The view deck controller should resize along.
+
+## Special Thanks
+
+Very special thanks to the awesome [Samo Korosec](https://twitter.com/smoofles) for designing the beautiful logo for ViewDeck! He is a very great designer and a very funny colleague. If you need cool app design work done, check him out!
 
 ## Credits
 

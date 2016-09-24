@@ -1,10 +1,9 @@
 Pod::Spec.new do |s|
   s.name      = 'ViewDeck'
-  s.version   = '2.4.0'
-  s.ios.deployment_target  = '8.0'
+  s.version   = '3.0.0-beta'
+  s.ios.deployment_target  = '9.0'
 
-  s.summary   = 'An implementation of the sliding functionality found in the ' \
-                'Path 2.0 or Facebook iOS apps.'
+  s.summary   = 'An implementation of a sliding menu functionality found in various iOS apps.'
   s.homepage  = 'https://github.com/ViewDeck/ViewDeck'
   s.license   = {
     :type => 'MIT',

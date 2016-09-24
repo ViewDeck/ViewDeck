@@ -158,8 +158,6 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     }];
     
     [self setNeedsStatusBarAppearanceUpdate];
-
-    // TODO: Start monitoring tab bar items here...
 }
 
 - (void)setLeftViewController:(nullable UIViewController *)leftViewController {

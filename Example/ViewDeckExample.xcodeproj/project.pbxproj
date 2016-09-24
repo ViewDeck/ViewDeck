@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3473796BF88D6670CDE362A0 /* Pods_ViewDeckExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D5FB7BFB5DF9222539F4F4 /* Pods_ViewDeckExample.framework */; };
 		4CE8B1B71D8D9E2500603FEF /* ItemFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1B61D8D9E2500603FEF /* ItemFinder.m */; };
 		4CE8B1BA1D8D9E5400603FEF /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1B91D8D9E5400603FEF /* Item.m */; };
 		4CE8B1BD1D8DA34700603FEF /* ItemCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1BC1D8DA34700603FEF /* ItemCollectionViewController.m */; };
 		4CE8B1C11D8DA7B200603FEF /* ItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1BF1D8DA7B200603FEF /* ItemCollectionViewCell.m */; };
 		4CE8B1C21D8DA7B200603FEF /* ItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CE8B1C01D8DA7B200603FEF /* ItemCollectionViewCell.xib */; };
 		4CE8B1C51D8DB3F200603FEF /* TermTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE8B1C41D8DB3F200603FEF /* TermTableViewController.m */; };
-		63C34BFFA241178C1DF30051 /* libPods-ViewDeckExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A9AF69DB5DD672675A91F6E2 /* libPods-ViewDeckExampleTests.a */; };
 		6737C9841BF8FD4A006BC321 /* UIViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6737C9831BF8FD4A006BC321 /* UIViewControllerTests.m */; };
 		677A0FE21BCC2CC5000FFEDD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */; };
 		677A0FE51BCC3367000FFEDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 677A0FE41BCC3367000FFEDD /* Images.xcassets */; };
-		7A0AEBB99B5E40EC8E3457EF /* libPods-ViewDeckExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7DCED0B361D17A20029A2DF /* libPods-ViewDeckExample.a */; };
+		9D0400479A35CBF4BB9B3D70 /* Pods_ViewDeckExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE6B056675FC22F5C6EC2D4 /* Pods_ViewDeckExampleTests.framework */; };
 		E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AB148AB3770077282A /* UIKit.framework */; };
 		E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AD148AB3770077282A /* Foundation.framework */; };
 		E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E240A9AF148AB3770077282A /* CoreGraphics.framework */; };
@@ -50,14 +50,13 @@
 		4CE8B1C01D8DA7B200603FEF /* ItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemCollectionViewCell.xib; sourceTree = "<group>"; };
 		4CE8B1C31D8DB3F200603FEF /* TermTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TermTableViewController.h; sourceTree = "<group>"; };
 		4CE8B1C41D8DB3F200603FEF /* TermTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TermTableViewController.m; sourceTree = "<group>"; };
+		50D5FB7BFB5DF9222539F4F4 /* Pods_ViewDeckExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViewDeckExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6737C9811BF8FD4A006BC321 /* ViewDeckExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewDeckExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6737C9831BF8FD4A006BC321 /* UIViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = UIViewControllerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6737C9851BF8FD4A006BC321 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		677A0FE11BCC2CC5000FFEDD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		677A0FE41BCC3367000FFEDD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9E1C1E7F17A8D7ADFE2E02BB /* Pods-ViewDeckExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExampleTests/Pods-ViewDeckExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A9AF69DB5DD672675A91F6E2 /* libPods-ViewDeckExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ViewDeckExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7DCED0B361D17A20029A2DF /* libPods-ViewDeckExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ViewDeckExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBC739DA27E66FFB9ED46596 /* Pods-ViewDeckExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.release.xcconfig"; sourceTree = "<group>"; };
 		E240A9A7148AB3770077282A /* ViewDeckExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewDeckExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E240A9AB148AB3770077282A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -70,6 +69,7 @@
 		E240A9BA148AB3770077282A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		E240A9BB148AB3770077282A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		EA82B9FD167CFB670028F389 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		EAE6B056675FC22F5C6EC2D4 /* Pods_ViewDeckExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViewDeckExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFBAD93D64DBAA57BA5A1454 /* Pods-ViewDeckExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ViewDeckExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C34BFFA241178C1DF30051 /* libPods-ViewDeckExampleTests.a in Frameworks */,
+				9D0400479A35CBF4BB9B3D70 /* Pods_ViewDeckExampleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 				E240A9AC148AB3770077282A /* UIKit.framework in Frameworks */,
 				E240A9AE148AB3770077282A /* Foundation.framework in Frameworks */,
 				E240A9B0148AB3770077282A /* CoreGraphics.framework in Frameworks */,
-				7A0AEBB99B5E40EC8E3457EF /* libPods-ViewDeckExample.a in Frameworks */,
+				3473796BF88D6670CDE362A0 /* Pods_ViewDeckExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,8 +144,8 @@
 				E240A9AB148AB3770077282A /* UIKit.framework */,
 				E240A9AD148AB3770077282A /* Foundation.framework */,
 				E240A9AF148AB3770077282A /* CoreGraphics.framework */,
-				B7DCED0B361D17A20029A2DF /* libPods-ViewDeckExample.a */,
-				A9AF69DB5DD672675A91F6E2 /* libPods-ViewDeckExampleTests.a */,
+				50D5FB7BFB5DF9222539F4F4 /* Pods_ViewDeckExample.framework */,
+				EAE6B056675FC22F5C6EC2D4 /* Pods_ViewDeckExampleTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

@@ -1,10 +1,10 @@
 {
   "name": "ViewDeck",
-  "version": "2.4.0",
+  "version": "3.0.0-beta",
   "platforms": {
-    "ios": "8.0"
+    "ios": "9.0"
   },
-  "summary": "An implementation of the sliding functionality found in the Path 2.0 or Facebook iOS apps.",
+  "summary": "An implementation of a sliding menu functionality found in various iOS apps.",
   "homepage": "https://github.com/ViewDeck/ViewDeck",
   "license": {
     "type": "MIT",
@@ -16,7 +16,7 @@
   },
   "source": {
     "git": "https://github.com/ViewDeck/ViewDeck.git",
-    "tag": "2.4.0"
+    "tag": "3.0.0-beta"
   },
   "source_files": "ViewDeck/**/*.{h,m,mm}",
   "private_header_files": [

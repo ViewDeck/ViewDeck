@@ -1,35 +1,40 @@
-![Logo](logo-header.png)
+![Logo][image-1]
 
-[![CocoaPods Version](https://img.shields.io/cocoapods/v/ViewDeck.svg?style=flat-square)](https://cocoapods.org/pods/ViewDeck)
-![GitHub Tag](https://img.shields.io/github/tag/ViewDeck/ViewDeck.svg?style=flat-square)
-![GitHub Release](https://img.shields.io/github/release/ViewDeck/ViewDeck.svg?style=flat-square)
+[![CocoaPods Version][image-2]][1]
+![GitHub Tag][image-3]
+![GitHub Release][image-4]
 
-[![Semantic Versioning](https://img.shields.io/badge/semantic-versioning-orange.svg?style=flat-square)](http://semver.org)
-![License](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=flat-square)
-![Platform](https://img.shields.io/cocoapods/p/ViewDeck.svg?style=flat-square)
+[![Semantic Versioning][image-5]][2]
+![License][image-6]
+![Platform][image-7]
 
 ## IIViewDeckController
 
-When I saw the new UI in the Path 2.0 app, extending the sliding views UI found in the Facebook app, I wanted to recreate this effect and controller for myself. Mostly as an exercise, but it might come in handy later.
-A quick prototype was built in one evening, but the finetuning took a few more evenings.
+ViewDeck is a framework to manage side menus of all kinds. It supports left and right menus and manages the presentation of the side menus both programmatically and through user gestures.
 
-The ViewDeckController supports both a left and a right sideview (in any combination: you can leave one of them `nil` for example). You can pan the center view to the left or to the right. There's also a bunch of messages defined to open or close each side appropriately.
+The hart of ViewDeck is `IIViewDeckController`, which is a container view controller. You can then assign your center view controller to it as well as side view controllers. `IIViewDeckController` makes sure your content view controllers are added to the view controller hierarchy their views are added to the view hierarchy when needed.
 
-The class is built so that it augments current navigation technologies found in IOS.
+ViewDeck does not provide any kind of configurable menus. It is up to you to assign your center and side view controllers to ViewDeck so that ViewDeck can then take over and present them as necessary.
 
-## Getting ready for 3.x
+`IIViewDeckController` supports both a left and a right side view controller and of course you can also only use one side. You can open and close the side views programmatically, e.g. through a tap of a button. By default `IIViewDeckController` also listens to swipe gestures by the user and interactively opens the side views accordingly.
 
-In preparation of the next major release, a lot of methods are currently deprecated. Each deprecation has a method telling you if this is something that will be removed completely or if it will be replaced by a new API. If for any reason you disagree with removing the feature or replacing the API I would appreciate if you would file a new issue and explain why you think that a particular method or feature shouldn't go away. If you don't have the time to do this in detail, at least file a new issue simply saying that you still need a particular method.
+Of course ViewDeck plays nice with existing container view controllers such as `UINavigationController` or `UITabBarController`.
 
 ## Requirements
 
-The library supports both ARC and non-ARC projects (the ARC mode is detected automagically, and the code is modified where necessary according to the ARC mode in use).
+- Base SDK: iOS 10
+- Deployment Target: iOS 9.0 or greater
+- Xcode 8.x
+
+## Try it out
+
+The easiest way to try out ViewDeck is using cocoapods. By running `pod try ViewDeck` an Xcode project will be created that runs the demo app. Of course you can also simply check out the repository and run the example app there. Just open the `ViewDeckExample.xcworkspace` file in the `Example` folder and run it.
 
 ## Demo video & Screenshots
 
 You're probably curious how it looks. Here's some shots from the example app:
 
-![Left opened](http://cl.ly/063X412a1i2U2e3f3D02/Image%202012.01.26%2023:26:55.png) ![Right opened](http://cl.ly/381S0i1c2c1Z2l2U3303/Image%202012.01.26%2023:29:31.png)
+![Left opened][image-8] ![Right opened][image-9]
 
 See the controller in action: http://vimeo.com/34538429 (general demo) and http://vimeo.com/35716738 (elasticity).
 These are demos of the included `ViewDeckExample` app.
@@ -40,183 +45,81 @@ These are demos of the included `ViewDeckExample` app.
 
 Integrating ViewDeck via CocoaPods is the easiest and fastest way to get started. Simply add the following line into your `Podfile`:
 
-    pod 'ViewDeck'
-    
-This will get you the latest ViewDeck version everytime you type `pod update` in your terminal.
+`pod 'ViewDeck'`
+
+This will get you the latest ViewDeck version every time you type `pod update` in your terminal.
 
 If you prefer a more conservative integration, you can also go with the following line:
 
-    pod 'ViewDeck', '~> 2.4'
-    
-This will update all 2.x version if you execute `pod update` but it will not update to version 3.x. ViewDeck follows semantic versioning, meaning that within a given major version (currently 2.x) there will be no breaking changes. You may see deprecations appear on methods that are likely to go away in the next major release but until then they will continue to work.
+`pod 'ViewDeck', '~> 3.0'`
+
+This will update all 3.x version if you execute `pod update` but it will not update to version 4.x once this is released. ViewDeck follows semantic versioning, meaning that within a given major version (currently 3.x) there will be no breaking changes. You may see deprecations appear on methods that are likely to go away in the next major release but until then they will continue to work.
 
 After integrating ViewDeck via CocoaPods, all you need to do is `#import <ViewDeck/ViewDeck.h>` in a class where you want to use ViewDeck.
 
 ### Manually
 
-- Add `IIViewDeckController.h`, `IIViewDeckController.m`, `IISideController.h`, `IISideController.m`, `IIWrapController.h`, and `IIWrapController.m` to your project.
-- `#import "IIViewDeckController.h"` to use it in a class
+- Download the latest ViewDeck release from the [release section][3]
+- Move the `ViewDeck.framework` into your Xcode project
 
-## How to use it?
+## Getting started
+ViewDeck supports a left and a right side view controller. Each of these can be nil (if it is, no panning or opening to that side will work and gesture recognizers for this side are deactivated). The base class for everything is `IIViewDeckController`. A typical view deck configuration looks like this:
 
-### Factories
-The class currently supports a left and a right side controller. Each of these can be nil (if it is, no panning or opening to that side will work).
-
-    #import "IIViewDeckController.h"
-
-    // prepare view controllers
-    UIViewController* leftController = [[UIViewController alloc] init];
-    UIViewController* rightController = [[UIViewController alloc] init];
-
-    IIViewDeckController* deckController =  [[IIViewDeckController alloc] initWithCenterViewController:self.centerController leftViewController:leftController
-                                                      rightViewController:rightController];
-
-There's also two convenience factory methods for just a left or right view controller.
+```objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	MyCenterViewController *centerViewController = [MyCenterViewController new];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+	
+	MySideViewController *sideViewController = [MySideViewController new];
+	UINavigationController *sideNavigationController = [[UINavigationController alloc] initWithRootViewController:sideViewController];
+	
+	IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:navigationController rightViewController:sideNavigationController];
+	
+	self.window.rootViewController = viewDeckController;
+	[self.window makeKeyAndVisible];
+	return YES;
+}
+```
 
 ### Switching controllers
 
-You can also switch view controllers in mid flight. Just assign a viewcontroller to the appropriate property and the view deck controller will do the rest:
+You can also switch view controllers in mid flight. Just assign a view controller to the appropriate property and the view deck controller will do the rest:
 
-    // prepare view controllers
-    UIViewController* newController = [[UIViewController alloc] init];
-    self.viewDeckController.leftController = newController;
+	// prepare view controllers
+	UIViewController* newController = [[UIViewController alloc] init];
+	self.viewDeckController.rightController = newController;
 
-You can also use this to remove a side controller: just set it to `nil`.
+You can also use this to remove a side controller by just setting it to `nil`.
 
-### viewDeckController property
+### Accessing the view deck controller
 
 Like `UINavigationViewController` the `IIViewDeckController` assigns itself to its childviews. You can use the `viewDeckController` property to get access to the enclosing view deck controller:
 
-    [self.viewDeckController toggleLeftViewAnimated:YES]
+```objc
+#import <ViewDeck/ViewDeck.h>
+...
+[self.viewDeckController openSide:IIViewDeckSideRight animated:YES];
+```
 
-If the controller is not enclosed by a IIViewDeckController, this property returns `nil`.
+If the controller is not enclosed by `IIViewDeckController`, this property returns `nil`.
 
-### ledge sizes
+### Controlling the side’s size
 
-You cannot close the centerview completely, since it would block the user from panning it back. You can set the ledge sizes yourself by assigning a value to the `leftSize` property for the left side and the `rightSize` property for the right side. It is possible to set a ledge size of 0.
+ViewDeck tries to embed into UIKit as nice as possible and therefore leverages a lot of already existing hooks. In order to control a side view controller’s size on the screen, you simply set its `preferredContentSize`. ViewDeck will respect the width of this size while making sure the height is always the height of the view deck controller itself.
 
-#### maximum ledge size, or gap-mode
+### Customizing the side’s appearance and animations
 
-It is possible to have the viewController always show a side controller. You do this by setting the `maxSize` value to any (positive) nonzero value. This will force the centerview to be always opened, exposing a side controller permanently. **This only works when you have ONE sidecontroller specified** (this means either a left side controller or a right side controller), because this scenario does not make sense if you would be able to slide the center view in both directions. When you have 2 side controllers, this property is ignored.
-
-### bouncing close
-
-The controller also allows you to close the side views with a bouncing animation like Path does. To achieve this, use the `closeLeftViewBouncing:` and `closeRightViewBouncing:` methods. These take a block as their only parameter: this block is executed while the animation is running, on the exact moment where the center view is completely hidden from the view (the animation first fully opens the side view, and then closes it). This block allows you to change the centerview controller, for example (since it's obscured). You can pass `nil` if you don't need to execute something in the middle of the animation.
-
-	[self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-		controller.centerController = [UIViewController alloc] init];
-		// ...
-    }];
-
-### open/close animation duration
-
-The view deck controller allows you to set the speed at which the opening and closing animations play. To do so, use the following properties.
-
-    self.viewDeckController.openSlideAnimationDuration = 0.15f; // In seconds
-    self.viewDeckController.closeSlideAnimationDuration = 0.25f;
-
-The default speed of both, if not set, is 0.3f.
-
-### bounce animation duration
-
-You can set the duration of the bounce animation as a factor (multiple) of the close/openSlideAnimationDurations. To control both the open and close of the bounce, you can simply use:
-    self.viewDeckController.bounceDurationFactor = 0.5; // Animate at twice the speed (half the duration)
-
-The default factor is 1.0 if bounceDurationFactor is not set.
-
-For even more control, you can also set the animation duration for the bounce open (the first part of the bounce):
-    self.viewDeckController.bounceOpenSideDurationFactor = 0.3f;
-
-If bounceOpenSideDurationFactor is not set, it will fallback to the bounceDurationFactor behavior. If bounceOpenSideDurationFactor is set, bounceDurationFactor affects only the "close" (2nd half) of the bounce animation.
-
-### shadow
-
-The center controller view receives a shadow to give it an *on-top* appearance. The shadow is defined by the view deck controller.
-You can override the shadow (or leave it out alltogether) by assigning a delegate that implements the `viewDeckController:applyShadow:withBounds:` selector. You'll be passed the layer of the view on which the shadow should be set.  If you override said selector, setting the shadow is up to you, and the view deck controller will not apply any shadow itself.
-
-For example:
-
-    // applies a small, red shadow
-    - (void)viewDeckController:(IIViewDeckController *)viewDeckController applyShadow:(CALayer *)shadowLayer withBounds:(CGRect)rect {
-        shadowLayer.masksToBounds = NO;
-        shadowLayer.shadowRadius = 5;
-        shadowLayer.shadowOpacity = 0.9;
-        shadowLayer.shadowColor = [[UIColor redColor] CGColor];
-        shadowLayer.shadowOffset = CGSizeZero;
-        shadowLayer.shadowPath = [[UIBezierPath bezierPathWithRect:rect] CGPath];
-    }
-
-The bounds passed in through `rect` can be used for setting the shadow path to the layer, for performance reasons. It will be set to the bounds of the center view.
-
-### elasticity
-
-The controller supports "elasticity": when you pan the center view "over" one of the ledges, you'll see that it gets pulled a bit further, but you can't pull it all the way to the edge. When you let go, it jumps back to the set ledge size. This gives the controller behavior are a more lifelike feel.
-
-Of course, you can turn this behavior off. Just set `elasticity = NO` when loading the controller and you're set.
-
-When rotating, the controller will move the open center views to the correct location: the ledge will be the same before and after rotation (this means a different part of the underlying side view will be exposed). You can control this behavior through the `sizeMode` property. You can use one of the following values:
-    typdef enum {
-        IIViewDeckLedgeSizeMode, // when rotating, the ledge sizes are kept (side views are more/less visible)
-        IIViewDeckViewSizeMode  // when rotating, the size view sizes are kept (ledges change)
-    } IIViewDeckSizeMode;
-The default is `IIViewDeckLedgeSizeMode`, which keeps the sizes of the defined ledges the same when rotating.
-
-### panning
-
-It is possible to control the panning behavior a bit. Set the `panningMode` on the controller to achieve 3 different modes:
-
-    typedef enum {
-        IIViewDeckNoPanning,              // no panning allowed
-        IIViewDeckFullViewPanning,        // the default: touch anywhere in the center view to drag the center view around
-        IIViewDeckNavigationBarPanning,   // panning only occurs when you start touching in the navigation bar (when the center controller is a UINavigationController with a visible navigation bar). Otherwise it will behave as IIViewDeckNoPanning.
-        IIViewDeckPanningViewPanning      // panning only occurs when you start touching in a UIView set in panningView property
-    } IIViewDeckPanningMode;
-
-When you specify `IIViewDeckPanningViewPanning`, you have to set the `panningView` property on the controller. This view will react to pan motions that will pan the view deck.
-
-### disabling the center view
-
-The center view can be disabled if it is slided out of the way. You do this by setting the `centerhiddenInteractivity` property on the controller.
-
-    typedef enum {
-        IIViewDeckCenterHiddenUserInteractive,         // the center view stays interactive
-        IIViewDeckCenterHiddenNotUserInteractive,      // the center view will become nonresponsive to useractions
-        IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, // the center view will become nonresponsive to useractions, but will allow the user to tap it so that it closes
-        IIViewDeckCenterHiddenNotUserInteractiveWithTapToCloseBouncing, // same as IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose, but closes the center view bouncing
-    } IIViewDeckCenterHiddenInteractivity;
-
-When you need to change the centercontroller (or something else) when the center view is bounced away, use the following message to react:
-
-     - (void)viewDeckController:(IIViewDeckController *)viewDeckController didBounceWithClosingController:(UIViewController*)openController;
-
-## UINavigationController
-
-The view deck controller has two integration modes to deal with `UINavigationController`. The first mode `IIViewDeckNavigationControllerContained` will have the navigation controller act as a normal "contained" view controller. All pushes and pops will remain in the centerview.
-
-The other mode `IIViewDeckNavigationControllerIntegrated` has different behavoir: it allows you to "inject" the viewdeck controller into an existing navigation controller hierarchy. The feature example (see below) has the simple scenario: the center view is a navigation controller. Any action in that navigation controller stays in the centerview.
-
-But if you push a `IIViewDeckController` onto a navigation controller, the sideviews will nestly themselves _below_ the navigation view. This means that the animations regarding the navigation controller will be applied only to the center view controller and not to the side view controllers.
-There's currently no way to disable this behavior, but it will be added later.
-
-## ViewDeckExample
-
-This is a simple example mimicing the Path 2.0 UI to a certain extent.
-
-## FeatureExample
-
-This is a more extensive example. You can specify the different choices for the settable behavioral property and test them out live.
-
-## SizingExample
-
-This is a test program to test out sizing behavior. It presents a view with a viewdeck controller in, and a zoom button. The zoom button enlarges/shrinks the view. The view deck controller should resize along.
+You can customize a lot about how ViewDeck presents side view controllers. Check out the documentation on `-[IIViewDeckController animatorForTransitionWithContext:]` and `IIViewDeckTransitionAnimator`.
 
 ## Special Thanks
 
-Very special thanks to the awesome [Samo Korosec](https://twitter.com/smoofles) for designing the beautiful logo for ViewDeck! He is a very great designer and a very funny colleague. If you need cool app design work done, check him out!
+Special thanks to [Tom Adriaenssen][4] who started this project and created a very great framework that helps so many developers. Sadly he can no longer maintain this framework. Check out his blog if you want to find out why, it’s actually pretty good news, so congratulations, Tom! :)
+
+Very special thanks to the awesome [Samo Korosec][5] for designing the beautiful logo for ViewDeck! He is a very great designer and a very funny colleague. If you need cool app design work done, check him out!
 
 ## Credits
 
-I'd appreciate it to mention the use of this code somewhere if you use it in an app. On a website, in an about page, in the app itself, whatever. Or let me know by email or through github. It's nice to know where one's code is used.
+I would appreciate it to mention the use of this code somewhere if you use it in an app. On a website, in an about page, in the app itself, whatever. Or let me know by email or through github. It's nice to know where one's code is used. Also, if you have a cool app that uses view deck, and you want it to be listed here, let me know!
 
 ## License
 
@@ -242,3 +145,18 @@ I'd appreciate it to mention the use of this code somewhere if you use it in an 
 *OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE*
 *SOFTWARE.*
 
+[1]:	https://cocoapods.org/pods/ViewDeck
+[2]:	http://semver.org
+[3]:	https://github.com/ViewDeck/ViewDeck/releases
+[4]:	http://inferis.org/
+[5]:	https://twitter.com/smoofles
+
+[image-1]:	logo-header.png
+[image-2]:	https://img.shields.io/cocoapods/v/ViewDeck.svg?style=flat-square
+[image-3]:	https://img.shields.io/github/tag/ViewDeck/ViewDeck.svg?style=flat-square
+[image-4]:	https://img.shields.io/github/release/ViewDeck/ViewDeck.svg?style=flat-square
+[image-5]:	https://img.shields.io/badge/semantic-versioning-orange.svg?style=flat-square
+[image-6]:	https://img.shields.io/cocoapods/l/AFNetworking.svg?style=flat-square
+[image-7]:	https://img.shields.io/cocoapods/p/ViewDeck.svg?style=flat-square
+[image-8]:	http://cl.ly/063X412a1i2U2e3f3D02/Image%202012.01.26%2023:26:55.png
+[image-9]:	http://cl.ly/381S0i1c2c1Z2l2U3303/Image%202012.01.26%2023:29:31.png

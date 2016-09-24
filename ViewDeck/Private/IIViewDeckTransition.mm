@@ -29,6 +29,7 @@
 #import "IIViewDeckController+Private.h"
 #import "IIViewDeckLayoutSupport.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface IIViewDeckTransition () {
     struct {
@@ -87,7 +88,7 @@
     return _animator;
 }
 
-- (UIView *)decorationView {
+- (nullable UIView *)decorationView {
     if (_decorationView) {
         return _decorationView;
     }
@@ -210,3 +211,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

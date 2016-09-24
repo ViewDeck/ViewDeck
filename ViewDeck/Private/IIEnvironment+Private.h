@@ -38,7 +38,7 @@ static inline BOOL IIViewDeckSideIsValid(IIViewDeckSide side) {
 }
 
 
-#define IILimitFraction(__value__) IILimit(0.0, __value__, 1.0)
+#define IILimitFraction(__value__) IILimit((double)0.0, (double)__value__, (double)1.0)
 
 
 #ifdef __cplusplus

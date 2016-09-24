@@ -25,7 +25,10 @@
 
 #import "IIViewDeckTransitioning.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @interface IIViewDeckDefaultTransitionAnimator : NSObject <IIViewDeckTransitionAnimator>
 
 @end
+
+NS_ASSUME_NONNULL_END

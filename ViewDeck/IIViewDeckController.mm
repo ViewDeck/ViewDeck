@@ -64,8 +64,8 @@ NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 @property (nonatomic) id<IIViewDeckControllerDelegate> delegateProxy;
 
 @property (nonatomic) IIViewDeckLayoutSupport *layoutSupport;
-@property (nonatomic) IIViewDeckTransition *currentTransition;
-@property (nonatomic) UIGestureRecognizer *currentInteractiveGesture;
+@property (nonatomic, nullable) IIViewDeckTransition *currentTransition;
+@property (nonatomic, nullable) UIGestureRecognizer *currentInteractiveGesture;
 
 @property (nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgeGestureRecognizer;
 @property (nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgeGestureRecognizer;
@@ -110,6 +110,25 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
         self.delegate = nil;
     }
     return self;
+}
+
+
+
+#pragma mark - Init Overrides
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _layoutSupport = [[IIViewDeckLayoutSupport alloc] initWithViewDeckController:self];
+
+        // Trigget setter as this creates the correct proxy!
+        self.delegate = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil {
+    return [self initWithCenterViewController:[UIViewController new] leftViewController:nil rightViewController:nil];
 }
 
 
@@ -285,7 +304,7 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
     [self closeSide:animated notify:NO completion:NULL];
 }
 
-- (void)closeSide:(BOOL)animated notify:(BOOL)notify completion:(nullable void(^)(void))completion {
+- (void)closeSide:(BOOL)animated notify:(BOOL)notify completion:(nullable void(^)(BOOL cancelled))completion {
     [self openSide:IIViewDeckSideNone animated:animated notify:notify completion:completion];
 }
 
@@ -346,7 +365,7 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
                 return;
             }
 
-            [self openSide:side animated:YES notify:YES completion:^{
+            [self openSide:side animated:YES notify:YES completion:^(BOOL cancelled){
                 // cancel gesture recognizer:
                 recognizer.enabled = NO;
                 recognizer.enabled = YES;

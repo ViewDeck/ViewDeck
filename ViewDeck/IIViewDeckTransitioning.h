@@ -25,6 +25,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  A transition context is used to communicate all the necessary information for transitioning
@@ -166,3 +167,5 @@
 - (void)animateTransition:(id<IIViewDeckTransitionContext>)context velocity:(CGPoint)velocity;
 
 @end
+
+NS_ASSUME_NONNULL_END

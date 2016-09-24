@@ -27,6 +27,7 @@
 
 #import "IIEnvironment.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @class IIViewDeckController;
 @interface IIViewDeckTransition : NSObject <IIViewDeckTransitionContext>
@@ -44,3 +45,5 @@
 - (void)performTransition:(BOOL)animated;
 
 @end
+
+NS_ASSUME_NONNULL_END

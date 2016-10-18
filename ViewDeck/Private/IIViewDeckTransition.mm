@@ -46,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) id<IIViewDeckTransitionAnimator> animator;
 
+@property (nonatomic) IIViewDeckSide openSide;
+
 @end
 
 
@@ -70,6 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
         _finalCenterFrame = [layoutSupport frameForSide:IIViewDeckSideNone openSide:toSide];
 
         IIViewDeckSide side = (IIViewDeckSide)(fromSide | toSide);
+        _openSide = side;
+
         _sideViewController = (side == IIViewDeckSideLeft ? viewDeckController.leftViewController : viewDeckController.rightViewController);
         _sideView = _sideViewController.view;
         _initialSideFrame = [layoutSupport frameForSide:side openSide:fromSide];
@@ -129,6 +133,15 @@ NS_ASSUME_NONNULL_BEGIN
         [containerView addSubview:decorationView];
 
         [self.sideViewController beginAppearanceTransition:YES animated:animated];
+
+        UIViewAutoresizing autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        if (self.openSide == IIViewDeckSideLeft) {
+            autoresizingMask |= UIViewAutoresizingFlexibleRightMargin;
+        } else {
+            autoresizingMask |= UIViewAutoresizingFlexibleLeftMargin;
+        }
+        self.sideView.autoresizingMask = autoresizingMask;
+
          // add the view AFTER `beginAppearanceTransition:animated:`, otherwise adding the view generates appearance calls itself which results in 'Unbalanced calls to begin/end appearance transitions' warnings
         [containerView addSubview:self.sideView];
     } else {

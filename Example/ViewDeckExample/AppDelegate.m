@@ -56,7 +56,7 @@
     self.itemController = itemController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:itemController];
 
-    SourceSelectionTableViewController *sourceSelectionTableViewController = [[SourceSelectionTableViewController alloc] init];
+    SourceSelectionTableViewController *sourceSelectionTableViewController = [[SourceSelectionTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     sourceSelectionTableViewController.delegate = self;
     UINavigationController *sideNavigationController = [[UINavigationController alloc] initWithRootViewController:sourceSelectionTableViewController];
 

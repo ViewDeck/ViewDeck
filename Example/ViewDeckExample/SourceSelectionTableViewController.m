@@ -35,6 +35,7 @@
     self = [super initWithStyle:style];
     if (self) {
         self.title = @"Sources";
+        self.preferredContentSize = CGSizeMake(260.0, 480.0);
 
         _sources = @[
                      [[Source alloc] initWithTitle:@"Local" dataSourceCreator:^id<ItemDataSource>{ return [[LocalDataSource alloc] initWithFolder:[NSBundle.mainBundle.resourceURL URLByAppendingPathComponent:@"Photos"]]; }],
@@ -48,6 +49,11 @@
     [super viewDidLoad];
 
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"Cell"];
+
+    UIVisualEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *backgroundView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    self.tableView.backgroundView = backgroundView;
+    self.tableView.backgroundColor = UIColor.clearColor;
 }
 
 
@@ -63,7 +69,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
+
+    UIVisualEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *backgroundView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    cell.backgroundView = backgroundView;
+    cell.backgroundColor = UIColor.clearColor;
+
     cell.textLabel.text = self.sources[indexPath.row].title;
 
     return cell;

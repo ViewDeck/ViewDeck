@@ -28,9 +28,11 @@
 
 #import <ViewDeck/ViewDeck.h>
 #import "ItemCollectionViewController.h"
-#import "TermTableViewController.h"
+#import "SourceSelectionTableViewController.h"
 
-@interface AppDelegate () <TermsTableViewControllerDelegate>
+#import "LocalDataSource.h"
+
+@interface AppDelegate () <SourceSelectionTableViewControllerDelegate>
 
 @property (nonatomic) IIViewDeckController *viewDeckController;
 @property (nonatomic) ItemCollectionViewController *itemController;
@@ -44,15 +46,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.tintColor = [UIColor colorWithRed:0.071 green:0.42 blue:0.694 alpha:1.0];
+
+    LocalDataSource *dataSource = [[LocalDataSource alloc] initWithFolder:[NSBundle.mainBundle.resourceURL URLByAppendingPathComponent:@"Photos"]];
 
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     ItemCollectionViewController *itemController = [[ItemCollectionViewController alloc] initWithCollectionViewLayout:layout];
+    itemController.dataSource = dataSource;
     self.itemController = itemController;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:itemController];
 
-    TermTableViewController *termTableViewController = [[TermTableViewController alloc] init];
-    termTableViewController.delegate = self;
-    UINavigationController *sideNavigationController = [[UINavigationController alloc] initWithRootViewController:termTableViewController];
+    SourceSelectionTableViewController *sourceSelectionTableViewController = [[SourceSelectionTableViewController alloc] init];
+    sourceSelectionTableViewController.delegate = self;
+    UINavigationController *sideNavigationController = [[UINavigationController alloc] initWithRootViewController:sourceSelectionTableViewController];
 
     IIViewDeckController *viewDeckController = [[IIViewDeckController alloc] initWithCenterViewController:navigationController leftViewController:sideNavigationController];
 
@@ -66,8 +72,8 @@
 
 #pragma mark <TermTableViewControllerDelegate>
 
-- (void)termTableViewController:(TermTableViewController *)termTableViewController didPickTerm:(NSString *)term {
-    self.itemController.term = term;
+- (void)sourceSelectionTableViewController:(SourceSelectionTableViewController *)termTableViewController didSelectDataSpource:(id<ItemDataSource>)dataSource {
+    self.itemController.dataSource = dataSource;
     [self.viewDeckController closeSide:YES];
 }
 

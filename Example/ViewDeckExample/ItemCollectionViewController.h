@@ -8,11 +8,38 @@
 
 #import <UIKit/UIKit.h>
 
-#import "TermTableViewController.h"
+#import "SourceSelectionTableViewController.h"
+
+
+NS_ASSUME_NONNULL_BEGIN
+
+
+@protocol Item <NSObject>
+
+@property (nonatomic, readonly, nullable) NSString *title;
+@property (nonatomic, readonly, nullable) UIImage *image;
+
+- (void)resolveFuture:(void(^)())completionHandler;
+
+@end
+
+
+@protocol ItemDataSource <NSObject>
+
+- (void)prepareData:(void(^)())completionHandler;
+
+@property (nonatomic, readonly) NSUInteger numberOfItems;
+
+- (id<Item>)itemAtIndex:(NSUInteger)index;
+
+@end
 
 
 @interface ItemCollectionViewController : UICollectionViewController
 
-@property (nonatomic, copy) NSString *term;
+@property (nonatomic, nullable) id<ItemDataSource> dataSource;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

@@ -34,10 +34,13 @@ The easiest way to try out ViewDeck is using cocoapods. By running `pod try View
 
 You're probably curious how it looks. Here's some shots from the example app:
 
-![Left opened][image-8] ![Right opened][image-9]
+![ViewDeck on iPhone][image-9]
 
-See the controller in action: http://vimeo.com/34538429 (general demo) and http://vimeo.com/35716738 (elasticity).
-These are demos of the included `ViewDeckExample` app.
+![ViewDeck on iPad][image-8]
+
+See the controller in action:
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/zgh3ZDAWyK4/0.jpg)](https://www.youtube.com/watch?v=zgh3ZDAWyK4)
 
 ## Installation
 
@@ -158,5 +161,5 @@ I would appreciate it to mention the use of this code somewhere if you use it in
 [image-5]:	https://img.shields.io/badge/semantic-versioning-orange.svg?style=flat-square
 [image-6]:	https://img.shields.io/cocoapods/l/AFNetworking.svg?style=flat-square
 [image-7]:	https://img.shields.io/cocoapods/p/ViewDeck.svg?style=flat-square
-[image-8]:	http://cl.ly/063X412a1i2U2e3f3D02/Image%202012.01.26%2023:26:55.png
-[image-9]:	http://cl.ly/381S0i1c2c1Z2l2U3303/Image%202012.01.26%2023:29:31.png
+[image-8]:	https://cldup.com/PR00jqJzsS.png
+[image-9]:	https://cldup.com/8bIJ_PgdIP.png

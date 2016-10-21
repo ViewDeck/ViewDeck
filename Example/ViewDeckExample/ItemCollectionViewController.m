@@ -53,7 +53,7 @@ static NSString * const reuseIdentifier = @"Cell";
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
         NSUInteger columns = 1;
         CGFloat width = size.width - layout.sectionInset.left - layout.sectionInset.right;
-        while (width > size.width * 0.3) {
+        while (width > fmax(size.width * 0.3, 320.0)) {
             width = size.width - layout.minimumInteritemSpacing * columns;
             width /= ++columns;
         }

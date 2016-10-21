@@ -121,6 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
     let decorationView = self.decorationView;
 
     decorationView.frame = containerView.bounds;
+    decorationView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     self.centerView.frame = self.initialCenterFrame;
 

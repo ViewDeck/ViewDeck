@@ -12,9 +12,8 @@
 		0EE110E46CD52D170A12C27EC448E074 /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		118AF51914AEFC7F0C59BEB22255C0E6 /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		12C93BDF4386F7F267C6388E6F0F0C8D /* Pods-ViewDeckExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1C6FCC82437157DA855ACA72805 /* Pods-ViewDeckExample-dummy.m */; };
-		1791188BE13034138DD97FD9ABB24CB6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23016F69B2480F44D0BB5526B39192FA /* QuartzCore.framework */; };
-		1DA998A363D66AEC5DBD796135934E24 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */; };
 		264D4326493252C1970E5FC184A08CF2 /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F633EED2E436B546E915EDA2F06BFC /* UIViewController+Private.m */; };
+		284091DA55446105E7892127D925230B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF675A168132FD52AED630F977FE906 /* UIKit.framework */; };
 		3183B3EC9CDA6A8DF9A30EA19DFA55EB /* IIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F008E97393992868CC0AB6E55F7297E /* IIEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34B453398B9BC7AB6CB4A276A40E7D71 /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		369D545FF7C92F3EC572FEA8048CCB8A /* Pods-ViewDeckExampleTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FD9C1A17F7FDA1A11CE42C5F8F497CA /* Pods-ViewDeckExampleTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,23 +26,26 @@
 		51675B5CAE8041336F3F251D5CD15AF1 /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		53C096CBECC4E149E94423A9932100B1 /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		59AC123FF0CF7F60D6DF84318ECEE162 /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		60214E101143D6BC9CFDA9D7222CC74B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */; };
 		6560BD1603127826355DEBD5BDF812C7 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */; };
 		68DF8BB261721D672A0B23A4056D0201 /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AF6E84A6D8B8DB59F3AB30D6B26E87 /* IIViewDeckController.mm */; };
 		6C3A57B863B30AF893C07F33A1739DE5 /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AF6E84A6D8B8DB59F3AB30D6B26E87 /* IIViewDeckController.mm */; };
+		7A35471DB3733BEE280506B64D7E4807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
+		7CC615A073F56AE8517EBA8F74A74A2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF675A168132FD52AED630F977FE906 /* UIKit.framework */; };
 		813ADA9E28FB79040E5F3F2CAA37A53C /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82C3DFDCEECF9E4F450AC3B0F515A51D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D54A73E1E8BB182C9D7D245AF1C2F /* UIKit.framework */; };
 		86987B5FB9D5BCF60108A988223BD31F /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C5CDC976352A1BC99A29A8868050AF3 /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = BA44D675147B509CCEA323D1C4368977 /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8D2F40E7DB268F8CFAF8D7A3C1DCADC5 /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = BA44D675147B509CCEA323D1C4368977 /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		8DCDE3BA51FC9456D2A880E895F7D22A /* ViewDeck-iOS9.1-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B45F6A51085884E38D0A922481457DC /* ViewDeck-iOS9.1-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		90DCCF4C2930D87A572E84FCCD1F5357 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */; };
+		93976711D5A0CBDDAE4957DF172CD1CB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */; };
 		952FDA397E9EAAC092E8BCE73B963453 /* ViewDeck-iOS9.1-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35493BAEAC54011F0A552413464BEB41 /* ViewDeck-iOS9.1-dummy.m */; };
+		A1D5D09B4B6665FF0C70AAC4F89E8404 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
 		A29D54D7AECC152BA42F64ABD473F7FE /* ViewDeck-iOS9.0-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E4909C11A20E23CA3A61375809B4F45C /* ViewDeck-iOS9.0-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6E069F72934416EF2F0BCDA99220091 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091D54A73E1E8BB182C9D7D245AF1C2F /* UIKit.framework */; };
 		AA11CC88A3055F20B16E4EB5E1E9FEE5 /* IIViewDeckLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5310E22F2D6492E6865532FF9056E256 /* IIViewDeckLayoutSupport.m */; };
+		AAD95ACD699B03897F8827356EF9D43E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
 		ABFF557ED7CC5539507F38B9B0B079CC /* UIViewController+IIViewDeckAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 075F1C42FA27F89BB74D7D3E66851E44 /* UIViewController+IIViewDeckAdditions.m */; };
 		ACBA7ED24E16292F4F54B3D69D23BD81 /* IIViewDeckController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = B433D09A129EDA1684E20A50C9C279B5 /* IIViewDeckController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B558EEBB6C4673690CE95524D87E13C6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23016F69B2480F44D0BB5526B39192FA /* QuartzCore.framework */; };
+		B05633D3172A4F13E9941B25017BE8A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
 		C14E3190E14639C5D84BC3CB90D930A2 /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C356C521F22451C0BC482114A376F53A /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F633EED2E436B546E915EDA2F06BFC /* UIViewController+Private.m */; };
 		C69523EFD4E1CA28833C21EF27E97BBB /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -54,9 +56,7 @@
 		CC40C4B5C9B0901AF55A99A36071EA8A /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CC50F31086835ED805D1B8CEB92462AA /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		CE0DA4E64E4209F9774DBE5C7DF1B305 /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 152E843862C1CE38FBBA43B4171C9BD3 /* IIDelegateProxy.m */; };
-		D7DE61C28C5454C26AC3F2E47600532A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */; };
 		DCBED8A8D3D74EB8345B47570064C621 /* IIViewDeckTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = D86CD5DF2C79EDDB7D6DD17211EA4648 /* IIViewDeckTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		ECEC0CC22A66BAD33A0C1CE19977C201 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */; };
 		EDD6B59559CAEF9D6FD73346AA98CB8C /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */; };
 		EDFF58205716D93B1C82F3E6DA03FA2C /* IIViewDeckTransition.mm in Sources */ = {isa = PBXBuildFile; fileRef = A64C5337AFF58A8BD41616A0FE1D9E70 /* IIViewDeckTransition.mm */; };
 		F4CA015A56571F89B5E65D91159C30E1 /* Pods-ViewDeckExampleTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCC04A8ADC1FA0F13ED9E3C69EAB24 /* Pods-ViewDeckExampleTests-dummy.m */; };
@@ -84,7 +84,6 @@
 		00CA29D70EF9666F85C369A6D84820D1 /* Pods-ViewDeckExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExample.debug.xcconfig"; sourceTree = "<group>"; };
 		02909B6D0FC084EC4258D9ECF35E51DB /* Pods-ViewDeckExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		075F1C42FA27F89BB74D7D3E66851E44 /* UIViewController+IIViewDeckAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IIViewDeckAdditions.m"; sourceTree = "<group>"; };
-		091D54A73E1E8BB182C9D7D245AF1C2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		0AE4A4A239AA1D05E3FD41CBA3B7282F /* Pods_ViewDeckExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViewDeckExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckDefaultTransitionAnimator.mm; sourceTree = "<group>"; };
 		0CFCC04A8ADC1FA0F13ED9E3C69EAB24 /* Pods-ViewDeckExampleTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ViewDeckExampleTests-dummy.m"; sourceTree = "<group>"; };
@@ -96,7 +95,6 @@
 		1D0761594D3E98329B258366305BE51C /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ViewDeck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckLayoutSupport.h; sourceTree = "<group>"; };
 		1EC0AEB102F6FFB54F060D1E23D05C6E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		23016F69B2480F44D0BB5526B39192FA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		2AABA243365FD0BF065D556E9D2F9C24 /* Pods-ViewDeckExampleTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ViewDeckExampleTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		2ED3471180E157C75C18AECC2C18589E /* Pods-ViewDeckExampleTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ViewDeckExampleTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		35493BAEAC54011F0A552413464BEB41 /* ViewDeck-iOS9.1-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ViewDeck-iOS9.1-dummy.m"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-dummy.m"; sourceTree = "<group>"; };
@@ -110,6 +108,7 @@
 		56E0EE1B316F95CD26A8A7F93AAE8A4A /* Pods-ViewDeckExampleTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExampleTests-resources.sh"; sourceTree = "<group>"; };
 		599D7AB689F454628A7616466A1D54D2 /* Pods-ViewDeckExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		5B164FF400B4353FCBFB6A36434D744C /* Pods-ViewDeckExampleTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExampleTests-frameworks.sh"; sourceTree = "<group>"; };
+		5BF675A168132FD52AED630F977FE906 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		5E194AA8BEF18D664138EBFF9BC1088B /* ViewDeck-iOS9.0.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "ViewDeck-iOS9.0.modulemap"; sourceTree = "<group>"; };
 		5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ViewDeck.h; sourceTree = "<group>"; };
 		6D9092AF9E9AA77F88CA743AD4550A42 /* ViewDeck-iOS9.0-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ViewDeck-iOS9.0-dummy.m"; sourceTree = "<group>"; };
@@ -125,7 +124,6 @@
 		A1EA4A6BB2BD070BC5BE6FCA97904AE3 /* Pods-ViewDeckExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExample-frameworks.sh"; sourceTree = "<group>"; };
 		A519FFBDA8CFF51C817938C9FF36D65F /* Pods-ViewDeckExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExample.release.xcconfig"; sourceTree = "<group>"; };
 		A64C5337AFF58A8BD41616A0FE1D9E70 /* IIViewDeckTransition.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckTransition.mm; sourceTree = "<group>"; };
-		A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		A901EA56A81A825B3501E34CBE1E1F11 /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ViewDeck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE25E399D58B4E5320FC6C25D72BDFDD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B433D09A129EDA1684E20A50C9C279B5 /* IIViewDeckController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IIViewDeckController+Private.h"; sourceTree = "<group>"; };
@@ -135,9 +133,11 @@
 		D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IIViewDeckAdditions.h"; sourceTree = "<group>"; };
 		D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		D86CD5DF2C79EDDB7D6DD17211EA4648 /* IIViewDeckTransition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransition.h; sourceTree = "<group>"; };
+		E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		E41B045CDD287FAFB9D6AA43632D72EE /* ViewDeck-iOS9.0-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-iOS9.0-prefix.pch"; sourceTree = "<group>"; };
 		E4909C11A20E23CA3A61375809B4F45C /* ViewDeck-iOS9.0-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-iOS9.0-umbrella.h"; sourceTree = "<group>"; };
 		EB49957DB0201D61F24A6DF578C4B70A /* ViewDeck-iOS9.0.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "ViewDeck-iOS9.0.xcconfig"; sourceTree = "<group>"; };
+		EC32878090C4B2B93381956161EC0930 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IIEnvironment+Private.h"; sourceTree = "<group>"; };
 		FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIDelegateProxy.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,9 +147,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECEC0CC22A66BAD33A0C1CE19977C201 /* Foundation.framework in Frameworks */,
-				1791188BE13034138DD97FD9ABB24CB6 /* QuartzCore.framework in Frameworks */,
-				A6E069F72934416EF2F0BCDA99220091 /* UIKit.framework in Frameworks */,
+				AAD95ACD699B03897F8827356EF9D43E /* Foundation.framework in Frameworks */,
+				60214E101143D6BC9CFDA9D7222CC74B /* QuartzCore.framework in Frameworks */,
+				7CC615A073F56AE8517EBA8F74A74A2B /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,7 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA998A363D66AEC5DBD796135934E24 /* Foundation.framework in Frameworks */,
+				A1D5D09B4B6665FF0C70AAC4F89E8404 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,7 +165,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90DCCF4C2930D87A572E84FCCD1F5357 /* Foundation.framework in Frameworks */,
+				B05633D3172A4F13E9941B25017BE8A9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,9 +173,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7DE61C28C5454C26AC3F2E47600532A /* Foundation.framework in Frameworks */,
-				B558EEBB6C4673690CE95524D87E13C6 /* QuartzCore.framework in Frameworks */,
-				82C3DFDCEECF9E4F450AC3B0F515A51D /* UIKit.framework in Frameworks */,
+				7A35471DB3733BEE280506B64D7E4807 /* Foundation.framework in Frameworks */,
+				93976711D5A0CBDDAE4957DF172CD1CB /* QuartzCore.framework in Frameworks */,
+				284091DA55446105E7892127D925230B /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +201,7 @@
 		122DA2E5084A4393C29BE363C764795C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DFDE779C6E5D3445E0CB8CCB8D424449 /* iOS */,
+				E5E9260013FA223D81B907D9285F6EA1 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -309,12 +309,12 @@
 			path = "Target Support Files/Pods-ViewDeckExample";
 			sourceTree = "<group>";
 		};
-		DFDE779C6E5D3445E0CB8CCB8D424449 /* iOS */ = {
+		E5E9260013FA223D81B907D9285F6EA1 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				A817CAE99C81EE68006DC1E60E295C0A /* Foundation.framework */,
-				23016F69B2480F44D0BB5526B39192FA /* QuartzCore.framework */,
-				091D54A73E1E8BB182C9D7D245AF1C2F /* UIKit.framework */,
+				EC32878090C4B2B93381956161EC0930 /* Foundation.framework */,
+				E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */,
+				5BF675A168132FD52AED630F977FE906 /* UIKit.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";

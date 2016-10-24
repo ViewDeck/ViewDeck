@@ -88,9 +88,11 @@ ViewDeck supports a left and a right side view controller. Each of these can be 
 
 You can also switch view controllers in mid flight. Just assign a view controller to the appropriate property and the view deck controller will do the rest:
 
-	// prepare view controllers
-	UIViewController* newController = [[UIViewController alloc] init];
-	self.viewDeckController.rightController = newController;
+```objc
+// prepare view controllers
+UIViewController* newController = [[UIViewController alloc] init];
+self.viewDeckController.rightController = newController;
+```
 
 You can also use this to remove a side controller by just setting it to `nil`.
 

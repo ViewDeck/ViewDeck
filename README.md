@@ -1,6 +1,7 @@
 ![Logo][image-1]
 
 [![CocoaPods Version][image-2]][1]
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 ![GitHub Tag][image-3]
 ![GitHub Release][image-4]
 

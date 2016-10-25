@@ -1,0 +1,410 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4494AE591DBFA198004DE918 /* IIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE431DBFA198004DE918 /* IIEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4494AE5A1DBFA198004DE918 /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE441DBFA198004DE918 /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4494AE5B1DBFA198004DE918 /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE451DBFA198004DE918 /* IIViewDeckController.mm */; };
+		4494AE5D1DBFA198004DE918 /* IIViewDeckController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE471DBFA198004DE918 /* IIViewDeckController+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4494AE5E1DBFA198004DE918 /* IIViewDeckTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE481DBFA198004DE918 /* IIViewDeckTransitioning.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4494AE601DBFA198004DE918 /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE4B1DBFA198004DE918 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4494AE611DBFA198004DE918 /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE4C1DBFA198004DE918 /* IIDelegateProxy.m */; };
+		4494AE621DBFA198004DE918 /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE4D1DBFA198004DE918 /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4494AE631DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE4E1DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4494AE641DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE4F1DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.mm */; };
+		4494AE651DBFA198004DE918 /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE501DBFA198004DE918 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4494AE661DBFA198004DE918 /* IIViewDeckLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE511DBFA198004DE918 /* IIViewDeckLayoutSupport.m */; };
+		4494AE671DBFA198004DE918 /* IIViewDeckTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE521DBFA198004DE918 /* IIViewDeckTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4494AE681DBFA198004DE918 /* IIViewDeckTransition.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE531DBFA198004DE918 /* IIViewDeckTransition.mm */; };
+		4494AE691DBFA198004DE918 /* UIViewController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE541DBFA198004DE918 /* UIViewController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		4494AE6A1DBFA198004DE918 /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE551DBFA198004DE918 /* UIViewController+Private.m */; };
+		4494AE6B1DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE561DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4494AE6C1DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4494AE571DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.m */; };
+		4494AE711DBFA1E7004DE918 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4494AE701DBFA1E7004DE918 /* QuartzCore.framework */; };
+		4494AE731DBFA203004DE918 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4494AE721DBFA203004DE918 /* UIKit.framework */; };
+		4494AE751DBFA20D004DE918 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4494AE741DBFA20D004DE918 /* Foundation.framework */; };
+		4494AE771DBFA331004DE918 /* ViewDeck-PrefixHeader.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE761DBFA2B9004DE918 /* ViewDeck-PrefixHeader.pch */; };
+		4494AE791DBFA6A3004DE918 /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = 4494AE781DBFA6A3004DE918 /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4494AE381DBFA143004DE918 /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ViewDeck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4494AE431DBFA198004DE918 /* IIEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIEnvironment.h; sourceTree = "<group>"; };
+		4494AE441DBFA198004DE918 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
+		4494AE451DBFA198004DE918 /* IIViewDeckController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckController.mm; sourceTree = "<group>"; };
+		4494AE471DBFA198004DE918 /* IIViewDeckController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IIViewDeckController+Private.h"; sourceTree = "<group>"; };
+		4494AE481DBFA198004DE918 /* IIViewDeckTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransitioning.h; sourceTree = "<group>"; };
+		4494AE491DBFA198004DE918 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4494AE4B1DBFA198004DE918 /* IIDelegateProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIDelegateProxy.h; sourceTree = "<group>"; };
+		4494AE4C1DBFA198004DE918 /* IIDelegateProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIDelegateProxy.m; sourceTree = "<group>"; };
+		4494AE4D1DBFA198004DE918 /* IIEnvironment+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IIEnvironment+Private.h"; sourceTree = "<group>"; };
+		4494AE4E1DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckDefaultTransitionAnimator.h; sourceTree = "<group>"; };
+		4494AE4F1DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckDefaultTransitionAnimator.mm; sourceTree = "<group>"; };
+		4494AE501DBFA198004DE918 /* IIViewDeckLayoutSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckLayoutSupport.h; sourceTree = "<group>"; };
+		4494AE511DBFA198004DE918 /* IIViewDeckLayoutSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckLayoutSupport.m; sourceTree = "<group>"; };
+		4494AE521DBFA198004DE918 /* IIViewDeckTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransition.h; sourceTree = "<group>"; };
+		4494AE531DBFA198004DE918 /* IIViewDeckTransition.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckTransition.mm; sourceTree = "<group>"; };
+		4494AE541DBFA198004DE918 /* UIViewController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Private.h"; sourceTree = "<group>"; };
+		4494AE551DBFA198004DE918 /* UIViewController+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Private.m"; sourceTree = "<group>"; };
+		4494AE561DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IIViewDeckAdditions.h"; sourceTree = "<group>"; };
+		4494AE571DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IIViewDeckAdditions.m"; sourceTree = "<group>"; };
+		4494AE701DBFA1E7004DE918 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4494AE721DBFA203004DE918 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4494AE741DBFA20D004DE918 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4494AE761DBFA2B9004DE918 /* ViewDeck-PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-PrefixHeader.pch"; sourceTree = "<group>"; };
+		4494AE781DBFA6A3004DE918 /* ViewDeck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewDeck.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4494AE341DBFA143004DE918 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4494AE751DBFA20D004DE918 /* Foundation.framework in Frameworks */,
+				4494AE731DBFA203004DE918 /* UIKit.framework in Frameworks */,
+				4494AE711DBFA1E7004DE918 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4494AE2E1DBFA143004DE918 = {
+			isa = PBXGroup;
+			children = (
+				4494AE3A1DBFA143004DE918 /* ViewDeck */,
+				4494AE391DBFA143004DE918 /* Products */,
+				4494AE6F1DBFA1E6004DE918 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4494AE391DBFA143004DE918 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4494AE381DBFA143004DE918 /* ViewDeck.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4494AE3A1DBFA143004DE918 /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				4494AE781DBFA6A3004DE918 /* ViewDeck.h */,
+				4494AE6E1DBFA1A5004DE918 /* Support Files */,
+				4494AE4A1DBFA198004DE918 /* Private */,
+				4494AE431DBFA198004DE918 /* IIEnvironment.h */,
+				4494AE441DBFA198004DE918 /* IIViewDeckController.h */,
+				4494AE451DBFA198004DE918 /* IIViewDeckController.mm */,
+				4494AE471DBFA198004DE918 /* IIViewDeckController+Private.h */,
+				4494AE481DBFA198004DE918 /* IIViewDeckTransitioning.h */,
+				4494AE561DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.h */,
+				4494AE571DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.m */,
+			);
+			path = ViewDeck;
+			sourceTree = "<group>";
+		};
+		4494AE4A1DBFA198004DE918 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				4494AE4B1DBFA198004DE918 /* IIDelegateProxy.h */,
+				4494AE4C1DBFA198004DE918 /* IIDelegateProxy.m */,
+				4494AE4D1DBFA198004DE918 /* IIEnvironment+Private.h */,
+				4494AE4E1DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.h */,
+				4494AE4F1DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.mm */,
+				4494AE501DBFA198004DE918 /* IIViewDeckLayoutSupport.h */,
+				4494AE511DBFA198004DE918 /* IIViewDeckLayoutSupport.m */,
+				4494AE521DBFA198004DE918 /* IIViewDeckTransition.h */,
+				4494AE531DBFA198004DE918 /* IIViewDeckTransition.mm */,
+				4494AE541DBFA198004DE918 /* UIViewController+Private.h */,
+				4494AE551DBFA198004DE918 /* UIViewController+Private.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		4494AE6E1DBFA1A5004DE918 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				4494AE491DBFA198004DE918 /* Info.plist */,
+				4494AE761DBFA2B9004DE918 /* ViewDeck-PrefixHeader.pch */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		4494AE6F1DBFA1E6004DE918 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4494AE741DBFA20D004DE918 /* Foundation.framework */,
+				4494AE721DBFA203004DE918 /* UIKit.framework */,
+				4494AE701DBFA1E7004DE918 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4494AE351DBFA143004DE918 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4494AE791DBFA6A3004DE918 /* ViewDeck.h in Headers */,
+				4494AE591DBFA198004DE918 /* IIEnvironment.h in Headers */,
+				4494AE5A1DBFA198004DE918 /* IIViewDeckController.h in Headers */,
+				4494AE5D1DBFA198004DE918 /* IIViewDeckController+Private.h in Headers */,
+				4494AE5E1DBFA198004DE918 /* IIViewDeckTransitioning.h in Headers */,
+				4494AE6B1DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.h in Headers */,
+				4494AE601DBFA198004DE918 /* IIDelegateProxy.h in Headers */,
+				4494AE621DBFA198004DE918 /* IIEnvironment+Private.h in Headers */,
+				4494AE631DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.h in Headers */,
+				4494AE651DBFA198004DE918 /* IIViewDeckLayoutSupport.h in Headers */,
+				4494AE671DBFA198004DE918 /* IIViewDeckTransition.h in Headers */,
+				4494AE691DBFA198004DE918 /* UIViewController+Private.h in Headers */,
+				4494AE771DBFA331004DE918 /* ViewDeck-PrefixHeader.pch in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4494AE371DBFA143004DE918 /* ViewDeck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4494AE401DBFA143004DE918 /* Build configuration list for PBXNativeTarget "ViewDeck" */;
+			buildPhases = (
+				4494AE331DBFA143004DE918 /* Sources */,
+				4494AE341DBFA143004DE918 /* Frameworks */,
+				4494AE351DBFA143004DE918 /* Headers */,
+				4494AE361DBFA143004DE918 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViewDeck;
+			productName = ViewDeck;
+			productReference = 4494AE381DBFA143004DE918 /* ViewDeck.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4494AE2F1DBFA143004DE918 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = ViewDeck;
+				TargetAttributes = {
+					4494AE371DBFA143004DE918 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 4494AE321DBFA143004DE918 /* Build configuration list for PBXProject "ViewDeck" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4494AE2E1DBFA143004DE918;
+			productRefGroup = 4494AE391DBFA143004DE918 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4494AE371DBFA143004DE918 /* ViewDeck */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4494AE361DBFA143004DE918 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4494AE331DBFA143004DE918 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4494AE5B1DBFA198004DE918 /* IIViewDeckController.mm in Sources */,
+				4494AE6C1DBFA198004DE918 /* UIViewController+IIViewDeckAdditions.m in Sources */,
+				4494AE611DBFA198004DE918 /* IIDelegateProxy.m in Sources */,
+				4494AE641DBFA198004DE918 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */,
+				4494AE681DBFA198004DE918 /* IIViewDeckTransition.mm in Sources */,
+				4494AE6A1DBFA198004DE918 /* UIViewController+Private.m in Sources */,
+				4494AE661DBFA198004DE918 /* IIViewDeckLayoutSupport.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4494AE3E1DBFA143004DE918 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		4494AE3F1DBFA143004DE918 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4494AE411DBFA143004DE918 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/ViewDeck-PrefixHeader.pch";
+				INFOPLIST_FILE = ViewDeck/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.inferis.ViewDeck;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4494AE421DBFA143004DE918 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/ViewDeck-PrefixHeader.pch";
+				INFOPLIST_FILE = ViewDeck/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.inferis.ViewDeck;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4494AE321DBFA143004DE918 /* Build configuration list for PBXProject "ViewDeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4494AE3E1DBFA143004DE918 /* Debug */,
+				4494AE3F1DBFA143004DE918 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4494AE401DBFA143004DE918 /* Build configuration list for PBXNativeTarget "ViewDeck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4494AE411DBFA143004DE918 /* Debug */,
+				4494AE421DBFA143004DE918 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4494AE2F1DBFA143004DE918 /* Project object */;
+}

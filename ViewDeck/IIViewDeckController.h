@@ -50,6 +50,8 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 /**
  Tells the delegate that the specified side will open.
 
+ If this delegate method is not implemented, view deck will always open the side.
+
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that will open. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
 
@@ -67,6 +69,8 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 
 /**
  Tells the delegate that the specified side will close.
+ 
+ If this delegate method is not implemented, view deck will always close the side.
 
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that will close. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
@@ -77,11 +81,30 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 
 /**
  Tells the delegate that the specified side did close.
+ 
+ If this delegate method is not implemented, view deck will always start panning.
 
  @param viewDeckController The view deck controller informing the delegate.
  @param side               The side that did close. Either `IIViewDeckSideLeft` or `IIViewDeckSideRight`.
  */
 - (void)viewDeckController:(IIViewDeckController *)viewDeckController didCloseSide:(IIViewDeckSide)side;
+
+
+/// @name Interactive Transitions
+
+/**
+ Asks the delegate whether panning (and therefore an interactive side change) should
+ start or not.
+
+ This method is only triggered if `-[IIViewDeckController isPanningEnabled]` returns
+ `YES`.
+
+ @param viewDeckController The view deck controller informing the delegate.
+ @param side               The side that will open interactively.
+ @return `YES` if view deck should start the interactive transition, `NO` if the
+         transition should be cancelled.
+ */
+- (BOOL)viewDeckController:(IIViewDeckController *)viewDeckController shouldStartPanningToSide:(IIViewDeckSide)side NS_SWIFT_NAME(viewDeckController(_:shouldStartPanningTo:));
 
 @end
 
@@ -269,6 +292,18 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 /// @name Customizing Transitions
 
 /**
+ Controls whether panning (and therefore interactive transitions) are enabled or
+ disabled all together. Defaults to `YES`.
+ 
+ If you want more control on a case by case basis, leave this property enabled and
+ implement the methods provided by the delegate.
+ 
+ @note If this property is disabled, the gesture recognizers itself will be completely
+       deactivated, therefore the above mentioned delegate methods will not be called.
+ */
+@property (nonatomic, getter=isPanningEnabled) BOOL panningEnabled;
+
+/**
  Creates and returns an object that conforms to `IIViewDeckTransitionAnimator` and
  is ready to handle the animation for the passed in transition.
  
@@ -315,7 +350,7 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  The gesture recognizer that is used to slide in the right view controller.
 
  @note Do not alter this gesture recognizer. This property should only be used to
- link this gesture recognizer with other gesture recognizers.
+       link this gesture recognizer with other gesture recognizers.
  */
 @property (nonatomic, readonly) UIGestureRecognizer *rightEdgeGestureRecognizer;
 

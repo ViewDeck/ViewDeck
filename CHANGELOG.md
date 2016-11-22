@@ -8,6 +8,7 @@
 ## 3.0.1
 
 * Fixes a crash that occured when triggering the swipe gesture on an already opened side multiple times.
+* Fixes the view hierarchy when exchanging the center view controller while a side view controller is visible.
 
 ## 3.0
 

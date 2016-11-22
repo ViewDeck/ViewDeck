@@ -50,7 +50,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSParameterAssert(oldController.view == nil || oldController.view.superview == containerView);
 
-    newController.view.frame = containerView.bounds;
+    UIView *oldView = oldController.view;
+
+    newController.view.frame = (oldView ? oldView.frame : containerView.bounds);
     newController.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 
     // Check if the view is inside a window and if the container view is within the bounds of the controller's view.
@@ -62,8 +64,12 @@ NS_ASSUME_NONNULL_BEGIN
         [newController beginAppearanceTransition:YES animated:NO];
     }
 
-    [containerView addSubview:newController.view];
-    [oldController.view removeFromSuperview];
+    if (oldView) {
+        [containerView insertSubview:newController.view aboveSubview:oldView];
+    } else {
+        [containerView addSubview:newController.view];
+    }
+    [oldView removeFromSuperview];
 
     if (viewVisible) {
         [newController endAppearanceTransition];

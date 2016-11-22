@@ -367,8 +367,11 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
 
             [self openSide:side animated:YES notify:YES completion:^(BOOL cancelled){
                 // cancel gesture recognizer:
-                recognizer.enabled = NO;
-                recognizer.enabled = YES;
+                if (cancelled) {
+                    BOOL recognizerState = recognizer.enabled;
+                    recognizer.enabled = NO;
+                    recognizer.enabled = recognizerState;
+                }
                 self.currentInteractiveGesture = nil;
             }];
         } break;

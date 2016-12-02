@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name      = 'ViewDeck'
-  s.version   = '3.0.0'
+  s.version   = '3.0.1'
   s.ios.deployment_target  = '9.0'
 
   s.summary   = 'An implementation of a sliding menu functionality found in various iOS apps.'

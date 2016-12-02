@@ -1,6 +1,6 @@
 {
   "name": "ViewDeck",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "platforms": {
     "ios": "9.0"
   },
@@ -16,7 +16,7 @@
   },
   "source": {
     "git": "https://github.com/ViewDeck/ViewDeck.git",
-    "tag": "3.0.0"
+    "tag": "3.0.1"
   },
   "source_files": "ViewDeck/**/*.{h,m,mm}",
   "private_header_files": [

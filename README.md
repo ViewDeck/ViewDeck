@@ -23,7 +23,7 @@ Of course ViewDeck plays nice with existing container view controllers such as `
 ## Requirements
 
 - Base SDK: iOS 10
-- Deployment Target: iOS 9.0 or greater
+- Deployment Target: iOS 8.0 or greater
 - Xcode 8.x
 
 ## Try it out

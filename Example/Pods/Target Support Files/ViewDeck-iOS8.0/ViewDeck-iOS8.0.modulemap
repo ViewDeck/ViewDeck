@@ -1,5 +1,5 @@
 framework module ViewDeck {
-  umbrella header "ViewDeck-iOS9.0-umbrella.h"
+  umbrella header "ViewDeck-iOS8.0-umbrella.h"
 
   export *
   module * { export * }

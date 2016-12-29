@@ -1,5 +1,5 @@
 PODS:
-  - ViewDeck (3.0.1)
+  - ViewDeck (3.1.0)
 
 DEPENDENCIES:
   - ViewDeck (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ViewDeck: cb7db1c28826f70b89e5eb3b71a3f69fa17a3f16
+  ViewDeck: 942d90dd23c9f97cc8038be352255378167edcca
 
 PODFILE CHECKSUM: edb0dd05b06a5e6c81a2270003d43488b1be3d2f
 

@@ -55,9 +55,10 @@ NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 @implementation IIViewDeckView @end
 
 
-@interface IIViewDeckController () {
+@interface IIViewDeckController () <UIGestureRecognizerDelegate> {
     struct {
         unsigned int isInSideChange: 1;
+        unsigned int isPanningEnabled: 1;
     } _flags;
 }
 
@@ -99,12 +100,16 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     if (self) {
         NSParameterAssert(centerViewController);
 
+        // Default flags
+        _flags.isInSideChange = NO;
+        _flags.isPanningEnabled = YES;
+
+        _layoutSupport = [[IIViewDeckLayoutSupport alloc] initWithViewDeckController:self];
+
         // Trigger the setter as they keep track of the view controller hierarchy!
         self.centerViewController = centerViewController;
         self.leftViewController = leftViewController;
         self.rightViewController = rightViewController;
-
-        _layoutSupport = [[IIViewDeckLayoutSupport alloc] initWithViewDeckController:self];
 
         // Trigget setter as this creates the correct proxy!
         self.delegate = nil;
@@ -148,6 +153,19 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     [view addGestureRecognizer:self.rightEdgeGestureRecognizer];
 
     [self ii_exchangeViewFromController:nil toController:self.centerViewController inContainerView:self.view];
+}
+
+
+
+#pragma mark - Custom Accessors
+
+- (void)setPanningEnabled:(BOOL)panningEnabled {
+    _flags.isPanningEnabled = panningEnabled;
+    [self updateSideGestureRecognizer];
+}
+
+- (BOOL)isPanningEnabled {
+    return _flags.isPanningEnabled;
 }
 
 
@@ -315,6 +333,7 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
 - (UIScreenEdgePanGestureRecognizer *)_screenEdgeGestureRecognizerWithEdges:(UIRectEdge)edges {
     let recognizer = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(interactiveTransitionRecognized:)];
     recognizer.edges = edges;
+    recognizer.delegate = self;
     if (self.isViewLoaded) {
         [self.view addGestureRecognizer:recognizer];
     }
@@ -398,9 +417,25 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
 }
 
 - (void)updateSideGestureRecognizer {
-    self.leftEdgeGestureRecognizer.enabled = (self.leftViewController && self.openSide == IIViewDeckSideNone);
-    self.rightEdgeGestureRecognizer.enabled = (self.rightViewController && self.openSide == IIViewDeckSideNone);
+    BOOL panningEnabled = self.isPanningEnabled;
+    self.leftEdgeGestureRecognizer.enabled = (panningEnabled && self.leftViewController && self.openSide == IIViewDeckSideNone);
+    self.rightEdgeGestureRecognizer.enabled = (panningEnabled && self.rightViewController && self.openSide == IIViewDeckSideNone);
     self.decorationTapGestureRecognizer.enabled = (self.openSide != IIViewDeckSideNone);
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (![self.delegate respondsToSelector:@selector(viewDeckController:shouldStartPanningToSide:)]) {
+        // default value if delegate is not implemented
+        return YES;
+    }
+
+    IIViewDeckSide side = IIViewDeckSideNone;
+    if (gestureRecognizer == self.leftEdgeGestureRecognizer) {
+        side = IIViewDeckSideLeft;
+    } else if (gestureRecognizer == self.rightEdgeGestureRecognizer) {
+        side = IIViewDeckSideRight;
+    }
+    return [self.delegate viewDeckController:self shouldStartPanningToSide:side];
 }
 
 

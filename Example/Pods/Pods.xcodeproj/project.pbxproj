@@ -7,194 +7,195 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B8F2636016697576E3CD92B1CBA075A /* IIViewDeckLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5310E22F2D6492E6865532FF9056E256 /* IIViewDeckLayoutSupport.m */; };
-		0E4DA18A0D34C06603CD1F9868A36F88 /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 152E843862C1CE38FBBA43B4171C9BD3 /* IIDelegateProxy.m */; };
-		0EE110E46CD52D170A12C27EC448E074 /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		118AF51914AEFC7F0C59BEB22255C0E6 /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		12C93BDF4386F7F267C6388E6F0F0C8D /* Pods-ViewDeckExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1C6FCC82437157DA855ACA72805 /* Pods-ViewDeckExample-dummy.m */; };
-		264D4326493252C1970E5FC184A08CF2 /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F633EED2E436B546E915EDA2F06BFC /* UIViewController+Private.m */; };
-		284091DA55446105E7892127D925230B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF675A168132FD52AED630F977FE906 /* UIKit.framework */; };
-		3183B3EC9CDA6A8DF9A30EA19DFA55EB /* IIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F008E97393992868CC0AB6E55F7297E /* IIEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34B453398B9BC7AB6CB4A276A40E7D71 /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		369D545FF7C92F3EC572FEA8048CCB8A /* Pods-ViewDeckExampleTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FD9C1A17F7FDA1A11CE42C5F8F497CA /* Pods-ViewDeckExampleTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		38C9B1024058B2B593981A51051F4B58 /* IIViewDeckTransition.mm in Sources */ = {isa = PBXBuildFile; fileRef = A64C5337AFF58A8BD41616A0FE1D9E70 /* IIViewDeckTransition.mm */; };
-		3ACA29D863D59CE99EE7A21769BD9ADD /* IIViewDeckTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = 907EF429EBAF131CE1ACA92128F21EC7 /* IIViewDeckTransitioning.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3E09CCDF62C961C19569CA9349F016FF /* IIViewDeckTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = D86CD5DF2C79EDDB7D6DD17211EA4648 /* IIViewDeckTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		40CFB0C4B5785F8B391E8FA18B03E586 /* ViewDeck-iOS9.0-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9092AF9E9AA77F88CA743AD4550A42 /* ViewDeck-iOS9.0-dummy.m */; };
-		4A7C6414C9F5207EA7D869FABF6A5B6B /* UIViewController+IIViewDeckAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 075F1C42FA27F89BB74D7D3E66851E44 /* UIViewController+IIViewDeckAdditions.m */; };
-		4B36137A6A155217F3179FD25F8607D3 /* IIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F008E97393992868CC0AB6E55F7297E /* IIEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		51675B5CAE8041336F3F251D5CD15AF1 /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		53C096CBECC4E149E94423A9932100B1 /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		59AC123FF0CF7F60D6DF84318ECEE162 /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		60214E101143D6BC9CFDA9D7222CC74B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */; };
-		6560BD1603127826355DEBD5BDF812C7 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */; };
-		68DF8BB261721D672A0B23A4056D0201 /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AF6E84A6D8B8DB59F3AB30D6B26E87 /* IIViewDeckController.mm */; };
-		6C3A57B863B30AF893C07F33A1739DE5 /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19AF6E84A6D8B8DB59F3AB30D6B26E87 /* IIViewDeckController.mm */; };
-		7A35471DB3733BEE280506B64D7E4807 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
-		7CC615A073F56AE8517EBA8F74A74A2B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF675A168132FD52AED630F977FE906 /* UIKit.framework */; };
-		813ADA9E28FB79040E5F3F2CAA37A53C /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = 5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		86987B5FB9D5BCF60108A988223BD31F /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8C5CDC976352A1BC99A29A8868050AF3 /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = BA44D675147B509CCEA323D1C4368977 /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		8D2F40E7DB268F8CFAF8D7A3C1DCADC5 /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = BA44D675147B509CCEA323D1C4368977 /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		8DCDE3BA51FC9456D2A880E895F7D22A /* ViewDeck-iOS9.1-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B45F6A51085884E38D0A922481457DC /* ViewDeck-iOS9.1-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93976711D5A0CBDDAE4957DF172CD1CB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */; };
-		952FDA397E9EAAC092E8BCE73B963453 /* ViewDeck-iOS9.1-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 35493BAEAC54011F0A552413464BEB41 /* ViewDeck-iOS9.1-dummy.m */; };
-		A1D5D09B4B6665FF0C70AAC4F89E8404 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
-		A29D54D7AECC152BA42F64ABD473F7FE /* ViewDeck-iOS9.0-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E4909C11A20E23CA3A61375809B4F45C /* ViewDeck-iOS9.0-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA11CC88A3055F20B16E4EB5E1E9FEE5 /* IIViewDeckLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 5310E22F2D6492E6865532FF9056E256 /* IIViewDeckLayoutSupport.m */; };
-		AAD95ACD699B03897F8827356EF9D43E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
-		ABFF557ED7CC5539507F38B9B0B079CC /* UIViewController+IIViewDeckAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 075F1C42FA27F89BB74D7D3E66851E44 /* UIViewController+IIViewDeckAdditions.m */; };
-		ACBA7ED24E16292F4F54B3D69D23BD81 /* IIViewDeckController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = B433D09A129EDA1684E20A50C9C279B5 /* IIViewDeckController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		B05633D3172A4F13E9941B25017BE8A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
-		C14E3190E14639C5D84BC3CB90D930A2 /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C356C521F22451C0BC482114A376F53A /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F633EED2E436B546E915EDA2F06BFC /* UIViewController+Private.m */; };
-		C69523EFD4E1CA28833C21EF27E97BBB /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C833EFA653576DFC2C595E32237B8983 /* IIViewDeckController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = B433D09A129EDA1684E20A50C9C279B5 /* IIViewDeckController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C87375F59F0DB3E30514C1D66E965C78 /* UIViewController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AED293700A1A82686A0AA6F83DF59C3 /* UIViewController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C9F0E099024F64740BC432E754F16437 /* IIViewDeckTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = 907EF429EBAF131CE1ACA92128F21EC7 /* IIViewDeckTransitioning.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CC117548CCF48C40C3E489427D820F92 /* UIViewController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AED293700A1A82686A0AA6F83DF59C3 /* UIViewController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CC40C4B5C9B0901AF55A99A36071EA8A /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CC50F31086835ED805D1B8CEB92462AA /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		CE0DA4E64E4209F9774DBE5C7DF1B305 /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 152E843862C1CE38FBBA43B4171C9BD3 /* IIDelegateProxy.m */; };
-		DCBED8A8D3D74EB8345B47570064C621 /* IIViewDeckTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = D86CD5DF2C79EDDB7D6DD17211EA4648 /* IIViewDeckTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		EDD6B59559CAEF9D6FD73346AA98CB8C /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */; };
-		EDFF58205716D93B1C82F3E6DA03FA2C /* IIViewDeckTransition.mm in Sources */ = {isa = PBXBuildFile; fileRef = A64C5337AFF58A8BD41616A0FE1D9E70 /* IIViewDeckTransition.mm */; };
-		F4CA015A56571F89B5E65D91159C30E1 /* Pods-ViewDeckExampleTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCC04A8ADC1FA0F13ED9E3C69EAB24 /* Pods-ViewDeckExampleTests-dummy.m */; };
-		F518A960091C9DA0FEE2914A98257573 /* Pods-ViewDeckExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 71A56DFFB9E39675D1CDCFC1DA0A0CAE /* Pods-ViewDeckExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		070D9C1895242F78915220F7CA8310C2 /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 565511F27ECA649D6795CD16F61A475E /* IIDelegateProxy.m */; };
+		0AECD66F8BD6EABE8BAEFF55F178C8E2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
+		0DBC6B890BB7BB1E9FD19FB03E7DA36B /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C41FDE63225A4493DFF1F7A711E29C49 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		0E68B2B956B70ED6CE02FF94ED998794 /* ViewDeck-iOS8.0-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 97B30DF3F0BA428D4293BAF48EB12031 /* ViewDeck-iOS8.0-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0E89ED2E8ABB6FFFF9EED0FFCD600988 /* IIViewDeckTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = AEE89F280B16FFD25D5F73574B381367 /* IIViewDeckTransitioning.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		104E8B37FBBD03227C2A8567F7AF58CC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF675A168132FD52AED630F977FE906 /* UIKit.framework */; };
+		111863EBFCC31AF74CF4DD243BF984F0 /* IIViewDeckLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = D24C434A2752479A4CC5D9583FABEF44 /* IIViewDeckLayoutSupport.m */; };
+		12791D821903F972901ED510B197DA78 /* UIViewController+IIViewDeckAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E66A7967056A14E2F1201F947098F65 /* UIViewController+IIViewDeckAdditions.m */; };
+		141920036FF063AF446AACD844758F3E /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = D109382C2A2EF7BBDE6E7F60F08DF16A /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		14B0E6F32BA85A3B461E6F5E5E5FD422 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
+		16B8315445068A5F1555A1F2F4F08D24 /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = FD0AD1DF03BB9949A405062FB1D95831 /* UIViewController+Private.m */; };
+		1713DF604CE56E878FCAE744D4BB3E6E /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07CDF0F1883E9743F0EAE02D72239994 /* IIViewDeckController.mm */; };
+		198B7333C96FDCFC7BFC22D9FFE88D4E /* IIViewDeckDefaultTransitionAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = D109382C2A2EF7BBDE6E7F60F08DF16A /* IIViewDeckDefaultTransitionAnimator.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		21D158A0EECAB3576063B2A3FB1E8906 /* ViewDeck-iOS9.1-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DB5E9615E9D6715EFB573D98B0C44D62 /* ViewDeck-iOS9.1-dummy.m */; };
+		25C7187E7BA27562B4B691B5A0C2F7EA /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5C76BB6D5500B72E61C27E873B6D265C /* IIViewDeckDefaultTransitionAnimator.mm */; };
+		2FC502DCE3D5D57394D1267840B01E31 /* UIViewController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8A2A97AE746363C68FFBB9DDA5ED3F /* UIViewController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3791E87E9F92567BD2FA7ADB4607C1A0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
+		3B8FA7D130947503522702C01114A652 /* ViewDeck-iOS8.0-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AB6D5E073C4DB0009A00D57644B884 /* ViewDeck-iOS8.0-dummy.m */; };
+		3E4AF1346252DEC66F06C96BF0DC4A35 /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = CC89E3019C81EDB610E0BC820DCBAD0A /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3EC40E6A16A6A32D4DDE1D3B04B2F75E /* Pods-ViewDeckExampleTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FD9C1A17F7FDA1A11CE42C5F8F497CA /* Pods-ViewDeckExampleTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		451A1A2662C221BCE2BFA1C5FF02DC33 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */; };
+		5D60AE203C7F43EA4B71E8950FB7AC49 /* IIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = EE502E750131526706724C33B39AC5FF /* IIEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6447CB4468EE0E1864072708CB652CD7 /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A3D9A1295DB65BB7D801DDB97C9D4B /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		65257E1FC982291A5B50D986834D3E83 /* UIViewController+IIViewDeckAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E66A7967056A14E2F1201F947098F65 /* UIViewController+IIViewDeckAdditions.m */; };
+		676437F0E6B5EDD57283AFD6AF3E5289 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5C76BB6D5500B72E61C27E873B6D265C /* IIViewDeckDefaultTransitionAnimator.mm */; };
+		6B01C6B02EE5229A73F60F20BB35D3D9 /* IIViewDeckController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F7CF98B511FE4D6AEC6B53D0C7F8AA03 /* IIViewDeckController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6BFD50B80D1A79B9461802ACE02D93FD /* IIDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 565511F27ECA649D6795CD16F61A475E /* IIDelegateProxy.m */; };
+		6FDE6E9A1417F332EF78ECE1DC63BA82 /* Pods-ViewDeckExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFEA1C6FCC82437157DA855ACA72805 /* Pods-ViewDeckExample-dummy.m */; };
+		72B527BA9439689302195F7D116D2E03 /* IIDelegateProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = C41FDE63225A4493DFF1F7A711E29C49 /* IIDelegateProxy.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		7C7837ED4C826216E69115BBC93809C1 /* IIViewDeckTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B4010835804DD3EF3F038DF9DC35E7 /* IIViewDeckTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		7D0462D02369444E5B91B11E3A21F0EE /* IIViewDeckLayoutSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = D24C434A2752479A4CC5D9583FABEF44 /* IIViewDeckLayoutSupport.m */; };
+		81B792699C3215AC03A1246E2692256A /* UIViewController+IIViewDeckAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 88A3D9A1295DB65BB7D801DDB97C9D4B /* UIViewController+IIViewDeckAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83EFE1A3953CCF59A861D798683C7745 /* ViewDeck.h in Headers */ = {isa = PBXBuildFile; fileRef = CC89E3019C81EDB610E0BC820DCBAD0A /* ViewDeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		858DCE2A276B6CA334A2B9CC9304B655 /* IIViewDeckTransitioning.h in Headers */ = {isa = PBXBuildFile; fileRef = AEE89F280B16FFD25D5F73574B381367 /* IIViewDeckTransitioning.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		863F07B104F924CC5D6B7FEC1B47D4CC /* Pods-ViewDeckExampleTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFCC04A8ADC1FA0F13ED9E3C69EAB24 /* Pods-ViewDeckExampleTests-dummy.m */; };
+		91D716FFA89615A3CCCF4082998C97F8 /* IIViewDeckController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07CDF0F1883E9743F0EAE02D72239994 /* IIViewDeckController.mm */; };
+		94D34488F3771F400AA46AAFA5E9F6F2 /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FF09CD88CF97C8003452EE1BD3A607 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		9565B97F7291D5F89AFDF77D110D5E89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC32878090C4B2B93381956161EC0930 /* Foundation.framework */; };
+		95A65A1B7418827C20EA927F1715620B /* IIViewDeckController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F7CF98B511FE4D6AEC6B53D0C7F8AA03 /* IIViewDeckController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		991273B62B1E77891CB0DEBDACF10E70 /* IIViewDeckLayoutSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 54FF09CD88CF97C8003452EE1BD3A607 /* IIViewDeckLayoutSupport.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		A40B23249A14B0DCA21170FDE3074B9E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */; };
+		AADBD85131E4B9DB9FFD1AD0197F5158 /* IIViewDeckTransition.mm in Sources */ = {isa = PBXBuildFile; fileRef = C8043526E762DE40F55030FF022D2CD3 /* IIViewDeckTransition.mm */; };
+		B50E6C40A0EFBB9D8263F0B00DD0D29B /* IIEnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = EE502E750131526706724C33B39AC5FF /* IIEnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B80CC09CF10BF344B040B52AE8FAD675 /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = DD50861514F3FD1D09B172A4D49E6B2F /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BAFC8C7F7E3409589B04D166243DE355 /* UIViewController+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D8A2A97AE746363C68FFBB9DDA5ED3F /* UIViewController+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD0BB93394D2F82A952E6123BB5183E2 /* Pods-ViewDeckExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 71A56DFFB9E39675D1CDCFC1DA0A0CAE /* Pods-ViewDeckExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE4FBDA7B1B5256634CEB90E43457A1E /* IIViewDeckTransition.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B4010835804DD3EF3F038DF9DC35E7 /* IIViewDeckTransition.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C8C1061D40BFDD37B3D898016B9C4561 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BF675A168132FD52AED630F977FE906 /* UIKit.framework */; };
+		C9964D33641AC83220EBE56CCECF5109 /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E397ECBAFC21A7E697164A9F78B987 /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		CE0248510F0E0E1D5C249EFF40EA3604 /* IIViewDeckController.h in Headers */ = {isa = PBXBuildFile; fileRef = DD50861514F3FD1D09B172A4D49E6B2F /* IIViewDeckController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DCA2B5A595040449D891F859B1A3B8F5 /* IIEnvironment+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 00E397ECBAFC21A7E697164A9F78B987 /* IIEnvironment+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E18766632A5DD1A6CC74CA42F22D89D8 /* ViewDeck-iOS9.1-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EAEAE467E1959E2281E80FC049611515 /* ViewDeck-iOS9.1-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F475A3EA5DC37D808855B2C04CB3EBAE /* IIViewDeckTransition.mm in Sources */ = {isa = PBXBuildFile; fileRef = C8043526E762DE40F55030FF022D2CD3 /* IIViewDeckTransition.mm */; };
+		F9D02839F33C9EF7772D7C25AAE540F4 /* UIViewController+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = FD0AD1DF03BB9949A405062FB1D95831 /* UIViewController+Private.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9D640909DDBC0559D2AB5D62BF4FB40C /* PBXContainerItemProxy */ = {
+		1496DB785029DEB9AED215C95EEB712C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EB96111F3E7BE260C50EDC4ECE7E7D7F;
-			remoteInfo = "ViewDeck-iOS9.0";
-		};
-		D9CCC2FF4AA8C9D22CA83FE533D27E40 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 96F6CF3B9A674B50461765346F169BE4;
+			remoteGlobalIDString = 3530DD6E161E1735B4602971AFE7B84E;
 			remoteInfo = "ViewDeck-iOS9.1";
+		};
+		37BE107A1B330488E5FDF167A5113A2E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E5BA6BBF89E6C02EE6EBB49D9CE21D8;
+			remoteInfo = "ViewDeck-iOS8.0";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		00CA29D70EF9666F85C369A6D84820D1 /* Pods-ViewDeckExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExample.debug.xcconfig"; sourceTree = "<group>"; };
+		00E397ECBAFC21A7E697164A9F78B987 /* IIEnvironment+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IIEnvironment+Private.h"; sourceTree = "<group>"; };
 		02909B6D0FC084EC4258D9ECF35E51DB /* Pods-ViewDeckExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		075F1C42FA27F89BB74D7D3E66851E44 /* UIViewController+IIViewDeckAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IIViewDeckAdditions.m"; sourceTree = "<group>"; };
-		0AE4A4A239AA1D05E3FD41CBA3B7282F /* Pods_ViewDeckExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViewDeckExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckDefaultTransitionAnimator.mm; sourceTree = "<group>"; };
+		07CDF0F1883E9743F0EAE02D72239994 /* IIViewDeckController.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = IIViewDeckController.mm; sourceTree = "<group>"; };
 		0CFCC04A8ADC1FA0F13ED9E3C69EAB24 /* Pods-ViewDeckExampleTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ViewDeckExampleTests-dummy.m"; sourceTree = "<group>"; };
+		0DA7F121EE8CA1381EA5BA98DC99C794 /* ViewDeck-iOS9.1.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "ViewDeck-iOS9.1.xcconfig"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1.xcconfig"; sourceTree = "<group>"; };
 		0EDB2EC16C71C679B5CD789F2D67CFFE /* Pods-ViewDeckExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ViewDeckExample-acknowledgements.plist"; sourceTree = "<group>"; };
-		12B262160BADD32C81F9363DFFB6A22B /* Pods-ViewDeckExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-ViewDeckExample.modulemap"; sourceTree = "<group>"; };
-		152E843862C1CE38FBBA43B4171C9BD3 /* IIDelegateProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = IIDelegateProxy.m; sourceTree = "<group>"; };
-		18F633EED2E436B546E915EDA2F06BFC /* UIViewController+Private.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Private.m"; sourceTree = "<group>"; };
-		19AF6E84A6D8B8DB59F3AB30D6B26E87 /* IIViewDeckController.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckController.mm; sourceTree = "<group>"; };
-		1D0761594D3E98329B258366305BE51C /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ViewDeck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckLayoutSupport.h; sourceTree = "<group>"; };
+		110A0A646932781F3DCA007D0D983AE2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		12B262160BADD32C81F9363DFFB6A22B /* Pods-ViewDeckExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-ViewDeckExample.modulemap"; sourceTree = "<group>"; };
+		1E66A7967056A14E2F1201F947098F65 /* UIViewController+IIViewDeckAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+IIViewDeckAdditions.m"; sourceTree = "<group>"; };
 		1EC0AEB102F6FFB54F060D1E23D05C6E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AABA243365FD0BF065D556E9D2F9C24 /* Pods-ViewDeckExampleTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ViewDeckExampleTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		2C4B3817758B9ECCEADC2E42E959B252 /* ViewDeck-iOS8.0-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-iOS8.0-prefix.pch"; sourceTree = "<group>"; };
 		2ED3471180E157C75C18AECC2C18589E /* Pods-ViewDeckExampleTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ViewDeckExampleTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		35493BAEAC54011F0A552413464BEB41 /* ViewDeck-iOS9.1-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ViewDeck-iOS9.1-dummy.m"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-dummy.m"; sourceTree = "<group>"; };
-		3B45F6A51085884E38D0A922481457DC /* ViewDeck-iOS9.1-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewDeck-iOS9.1-umbrella.h"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-umbrella.h"; sourceTree = "<group>"; };
-		3F008E97393992868CC0AB6E55F7297E /* IIEnvironment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIEnvironment.h; sourceTree = "<group>"; };
+		386AA9AFCF2225E6C23BAF65D5A651D3 /* ViewDeck-iOS8.0.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "ViewDeck-iOS8.0.modulemap"; sourceTree = "<group>"; };
 		3FD9C1A17F7FDA1A11CE42C5F8F497CA /* Pods-ViewDeckExampleTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ViewDeckExampleTests-umbrella.h"; sourceTree = "<group>"; };
 		49E05E073ADA943EB7000FF082869146 /* Pods-ViewDeckExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ViewDeckExample-acknowledgements.markdown"; sourceTree = "<group>"; };
-		4B8948B924ACC66270E9169EF1DC8BC4 /* ViewDeck-iOS9.1.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; name = "ViewDeck-iOS9.1.modulemap"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1.modulemap"; sourceTree = "<group>"; };
-		5310E22F2D6492E6865532FF9056E256 /* IIViewDeckLayoutSupport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckLayoutSupport.m; sourceTree = "<group>"; };
+		54FF09CD88CF97C8003452EE1BD3A607 /* IIViewDeckLayoutSupport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckLayoutSupport.h; sourceTree = "<group>"; };
 		563664022EE3A81D373A2DA166246783 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		565511F27ECA649D6795CD16F61A475E /* IIDelegateProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = IIDelegateProxy.m; sourceTree = "<group>"; };
 		56E0EE1B316F95CD26A8A7F93AAE8A4A /* Pods-ViewDeckExampleTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExampleTests-resources.sh"; sourceTree = "<group>"; };
+		591D6D283FD8FC9C8ED5EC1B4E981D6E /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ViewDeck.framework; path = "ViewDeck-iOS9.1.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		599D7AB689F454628A7616466A1D54D2 /* Pods-ViewDeckExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		5B164FF400B4353FCBFB6A36434D744C /* Pods-ViewDeckExampleTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExampleTests-frameworks.sh"; sourceTree = "<group>"; };
 		5BF675A168132FD52AED630F977FE906 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		5E194AA8BEF18D664138EBFF9BC1088B /* ViewDeck-iOS9.0.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "ViewDeck-iOS9.0.modulemap"; sourceTree = "<group>"; };
-		5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ViewDeck.h; sourceTree = "<group>"; };
-		6D9092AF9E9AA77F88CA743AD4550A42 /* ViewDeck-iOS9.0-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ViewDeck-iOS9.0-dummy.m"; sourceTree = "<group>"; };
+		5C76BB6D5500B72E61C27E873B6D265C /* IIViewDeckDefaultTransitionAnimator.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = IIViewDeckDefaultTransitionAnimator.mm; sourceTree = "<group>"; };
 		71A56DFFB9E39675D1CDCFC1DA0A0CAE /* Pods-ViewDeckExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ViewDeckExample-umbrella.h"; sourceTree = "<group>"; };
-		7668A6177914DD1C0F0782D2371BE335 /* ViewDeck-iOS9.1.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "ViewDeck-iOS9.1.xcconfig"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1.xcconfig"; sourceTree = "<group>"; };
-		7928C52BCE1AC32076286F0BEB65EF62 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../ViewDeck-iOS9.1/Info.plist"; sourceTree = "<group>"; };
-		7AED293700A1A82686A0AA6F83DF59C3 /* UIViewController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Private.h"; sourceTree = "<group>"; };
-		7CE41F3F8C18DFF2938465479E82979D /* ViewDeck-iOS9.1-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewDeck-iOS9.1-prefix.pch"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-prefix.pch"; sourceTree = "<group>"; };
-		8271E8628ACE52906428CF544B26E883 /* Pods-ViewDeckExampleTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-ViewDeckExampleTests.modulemap"; sourceTree = "<group>"; };
+		7D8A2A97AE746363C68FFBB9DDA5ED3F /* UIViewController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Private.h"; sourceTree = "<group>"; };
+		8271E8628ACE52906428CF544B26E883 /* Pods-ViewDeckExampleTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-ViewDeckExampleTests.modulemap"; sourceTree = "<group>"; };
+		88A3D9A1295DB65BB7D801DDB97C9D4B /* UIViewController+IIViewDeckAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IIViewDeckAdditions.h"; sourceTree = "<group>"; };
 		8EFEA1C6FCC82437157DA855ACA72805 /* Pods-ViewDeckExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ViewDeckExample-dummy.m"; sourceTree = "<group>"; };
-		907EF429EBAF131CE1ACA92128F21EC7 /* IIViewDeckTransitioning.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransitioning.h; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		97B30DF3F0BA428D4293BAF48EB12031 /* ViewDeck-iOS8.0-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-iOS8.0-umbrella.h"; sourceTree = "<group>"; };
+		99995D1FFFE959B499641263CFE0B98D /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ViewDeck.framework; path = "ViewDeck-iOS8.0.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EA4A6BB2BD070BC5BE6FCA97904AE3 /* Pods-ViewDeckExample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExample-frameworks.sh"; sourceTree = "<group>"; };
 		A519FFBDA8CFF51C817938C9FF36D65F /* Pods-ViewDeckExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ViewDeckExample.release.xcconfig"; sourceTree = "<group>"; };
-		A64C5337AFF58A8BD41616A0FE1D9E70 /* IIViewDeckTransition.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = IIViewDeckTransition.mm; sourceTree = "<group>"; };
-		A901EA56A81A825B3501E34CBE1E1F11 /* ViewDeck.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ViewDeck.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE25E399D58B4E5320FC6C25D72BDFDD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B433D09A129EDA1684E20A50C9C279B5 /* IIViewDeckController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IIViewDeckController+Private.h"; sourceTree = "<group>"; };
-		BA44D675147B509CCEA323D1C4368977 /* IIViewDeckDefaultTransitionAnimator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckDefaultTransitionAnimator.h; sourceTree = "<group>"; };
-		C3DD5B5D8955D2262A346E2F61FDBE9D /* Pods_ViewDeckExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ViewDeckExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7B4010835804DD3EF3F038DF9DC35E7 /* IIViewDeckTransition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransition.h; sourceTree = "<group>"; };
+		AEE89F280B16FFD25D5F73574B381367 /* IIViewDeckTransitioning.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransitioning.h; sourceTree = "<group>"; };
+		B4A1EABE02C3E3E49CEB7345D2123F07 /* Pods_ViewDeckExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ViewDeckExampleTests.framework; path = "Pods-ViewDeckExampleTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C41FDE63225A4493DFF1F7A711E29C49 /* IIDelegateProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIDelegateProxy.h; sourceTree = "<group>"; };
+		C8043526E762DE40F55030FF022D2CD3 /* IIViewDeckTransition.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = IIViewDeckTransition.mm; sourceTree = "<group>"; };
+		CC89E3019C81EDB610E0BC820DCBAD0A /* ViewDeck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ViewDeck.h; sourceTree = "<group>"; };
 		CCD2924DDCAD8A8CEB0AA1B9A8DE0256 /* Pods-ViewDeckExample-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ViewDeckExample-resources.sh"; sourceTree = "<group>"; };
-		D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIViewController+IIViewDeckAdditions.h"; sourceTree = "<group>"; };
-		D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
-		D86CD5DF2C79EDDB7D6DD17211EA4648 /* IIViewDeckTransition.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckTransition.h; sourceTree = "<group>"; };
+		D109382C2A2EF7BBDE6E7F60F08DF16A /* IIViewDeckDefaultTransitionAnimator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckDefaultTransitionAnimator.h; sourceTree = "<group>"; };
+		D24C434A2752479A4CC5D9583FABEF44 /* IIViewDeckLayoutSupport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckLayoutSupport.m; sourceTree = "<group>"; };
+		DA285D418975591F7944C5282BD20E39 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../ViewDeck-iOS9.1/Info.plist"; sourceTree = "<group>"; };
+		DB5E9615E9D6715EFB573D98B0C44D62 /* ViewDeck-iOS9.1-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "ViewDeck-iOS9.1-dummy.m"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-dummy.m"; sourceTree = "<group>"; };
+		DD50861514F3FD1D09B172A4D49E6B2F /* IIViewDeckController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
 		E0203FCF2E38F9E0B8C4E69853543A3E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		E41B045CDD287FAFB9D6AA43632D72EE /* ViewDeck-iOS9.0-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-iOS9.0-prefix.pch"; sourceTree = "<group>"; };
-		E4909C11A20E23CA3A61375809B4F45C /* ViewDeck-iOS9.0-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ViewDeck-iOS9.0-umbrella.h"; sourceTree = "<group>"; };
-		EB49957DB0201D61F24A6DF578C4B70A /* ViewDeck-iOS9.0.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "ViewDeck-iOS9.0.xcconfig"; sourceTree = "<group>"; };
+		E1CCB064497012F8A0AD83A625080187 /* ViewDeck-iOS9.1-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewDeck-iOS9.1-prefix.pch"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-prefix.pch"; sourceTree = "<group>"; };
+		E2AB6D5E073C4DB0009A00D57644B884 /* ViewDeck-iOS8.0-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ViewDeck-iOS8.0-dummy.m"; sourceTree = "<group>"; };
+		E4DD19612B4637F2E70EAC4E5497DBE4 /* Pods_ViewDeckExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ViewDeckExample.framework; path = "Pods-ViewDeckExample.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAEAE467E1959E2281E80FC049611515 /* ViewDeck-iOS9.1-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewDeck-iOS9.1-umbrella.h"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1-umbrella.h"; sourceTree = "<group>"; };
 		EC32878090C4B2B93381956161EC0930 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IIEnvironment+Private.h"; sourceTree = "<group>"; };
-		FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIDelegateProxy.h; sourceTree = "<group>"; };
+		EE502E750131526706724C33B39AC5FF /* IIEnvironment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = IIEnvironment.h; sourceTree = "<group>"; };
+		F1157BE7A4427F26A09AFE8F80A12B53 /* ViewDeck-iOS8.0.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "ViewDeck-iOS8.0.xcconfig"; sourceTree = "<group>"; };
+		F5CA2BF90E12D9F07BC8E3680EBAEF43 /* ViewDeck-iOS9.1.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; name = "ViewDeck-iOS9.1.modulemap"; path = "../ViewDeck-iOS9.1/ViewDeck-iOS9.1.modulemap"; sourceTree = "<group>"; };
+		F7CF98B511FE4D6AEC6B53D0C7F8AA03 /* IIViewDeckController+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IIViewDeckController+Private.h"; sourceTree = "<group>"; };
+		FD0AD1DF03BB9949A405062FB1D95831 /* UIViewController+Private.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Private.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1D15509D9FCF3C58689266C9B30E9299 /* Frameworks */ = {
+		7645168CD17B40917152CE075E8527AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAD95ACD699B03897F8827356EF9D43E /* Foundation.framework in Frameworks */,
-				60214E101143D6BC9CFDA9D7222CC74B /* QuartzCore.framework in Frameworks */,
-				7CC615A073F56AE8517EBA8F74A74A2B /* UIKit.framework in Frameworks */,
+				14B0E6F32BA85A3B461E6F5E5E5FD422 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4527B5E218AE471EC448DF7F0CA9783E /* Frameworks */ = {
+		8EB2A6BBB5AB80C308336D9801A451A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1D5D09B4B6665FF0C70AAC4F89E8404 /* Foundation.framework in Frameworks */,
+				0AECD66F8BD6EABE8BAEFF55F178C8E2 /* Foundation.framework in Frameworks */,
+				A40B23249A14B0DCA21170FDE3074B9E /* QuartzCore.framework in Frameworks */,
+				C8C1061D40BFDD37B3D898016B9C4561 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		45F63E98BFE667639FDD8F750FAA0546 /* Frameworks */ = {
+		AD4F096CCAD6ADE0804E82D60009C619 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B05633D3172A4F13E9941B25017BE8A9 /* Foundation.framework in Frameworks */,
+				3791E87E9F92567BD2FA7ADB4607C1A0 /* Foundation.framework in Frameworks */,
+				451A1A2662C221BCE2BFA1C5FF02DC33 /* QuartzCore.framework in Frameworks */,
+				104E8B37FBBD03227C2A8567F7AF58CC /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B669060D2D11C30DC8C19063BA2AC694 /* Frameworks */ = {
+		C2EABCF0A970B8B1AB2AEB5F6C0EA7FB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A35471DB3733BEE280506B64D7E4807 /* Foundation.framework in Frameworks */,
-				93976711D5A0CBDDAE4957DF172CD1CB /* QuartzCore.framework in Frameworks */,
-				284091DA55446105E7892127D925230B /* UIKit.framework in Frameworks */,
+				9565B97F7291D5F89AFDF77D110D5E89 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0188EDD1190EA58AC6DD344231BA5F38 /* ViewDeck */ = {
+		09D9B056AFCFDF4EAB022CDA8D99940A /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
-				3F008E97393992868CC0AB6E55F7297E /* IIEnvironment.h */,
-				D19708B67E77562D5F26ACDEC342C8A1 /* IIViewDeckController.h */,
-				19AF6E84A6D8B8DB59F3AB30D6B26E87 /* IIViewDeckController.mm */,
-				B433D09A129EDA1684E20A50C9C279B5 /* IIViewDeckController+Private.h */,
-				907EF429EBAF131CE1ACA92128F21EC7 /* IIViewDeckTransitioning.h */,
-				D044D6B2D6E43CAF4F9E2E77107B94FF /* UIViewController+IIViewDeckAdditions.h */,
-				075F1C42FA27F89BB74D7D3E66851E44 /* UIViewController+IIViewDeckAdditions.m */,
-				5F8040AE05C3AF80E6BF27E24D9FF1D1 /* ViewDeck.h */,
-				4537256A713E098771CD33320A9A77BF /* Private */,
+				EE502E750131526706724C33B39AC5FF /* IIEnvironment.h */,
+				DD50861514F3FD1D09B172A4D49E6B2F /* IIViewDeckController.h */,
+				07CDF0F1883E9743F0EAE02D72239994 /* IIViewDeckController.mm */,
+				F7CF98B511FE4D6AEC6B53D0C7F8AA03 /* IIViewDeckController+Private.h */,
+				AEE89F280B16FFD25D5F73574B381367 /* IIViewDeckTransitioning.h */,
+				88A3D9A1295DB65BB7D801DDB97C9D4B /* UIViewController+IIViewDeckAdditions.h */,
+				1E66A7967056A14E2F1201F947098F65 /* UIViewController+IIViewDeckAdditions.m */,
+				CC89E3019C81EDB610E0BC820DCBAD0A /* ViewDeck.h */,
+				985A05D04A61332F8635CF620741017C /* Private */,
 			);
+			name = ViewDeck;
 			path = ViewDeck;
 			sourceTree = "<group>";
 		};
@@ -224,58 +225,40 @@
 			path = "Target Support Files/Pods-ViewDeckExampleTests";
 			sourceTree = "<group>";
 		};
-		42B6E86DF22439D636B4D8A6AFD28E4A /* ViewDeck */ = {
+		27186836F8880A59C8A77FDCE248E6F1 /* ViewDeck */ = {
 			isa = PBXGroup;
 			children = (
-				5652A88F5CB745C51EFA88FB5F677340 /* Support Files */,
-				0188EDD1190EA58AC6DD344231BA5F38 /* ViewDeck */,
+				6D0D04DAEB0A3E236DB57B430D251DD8 /* Support Files */,
+				09D9B056AFCFDF4EAB022CDA8D99940A /* ViewDeck */,
 			);
 			name = ViewDeck;
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		4537256A713E098771CD33320A9A77BF /* Private */ = {
+		6D0D04DAEB0A3E236DB57B430D251DD8 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				FC9B1802CCCD88A397E34266404FC318 /* IIDelegateProxy.h */,
-				152E843862C1CE38FBBA43B4171C9BD3 /* IIDelegateProxy.m */,
-				F8341A2DF09AFB6A80EDD02A4A53743B /* IIEnvironment+Private.h */,
-				BA44D675147B509CCEA323D1C4368977 /* IIViewDeckDefaultTransitionAnimator.h */,
-				0CDEFC0C22F1456CCF5AEF533EBA1D06 /* IIViewDeckDefaultTransitionAnimator.mm */,
-				1DFD431A9723C7CA46BB39EE9EE328B1 /* IIViewDeckLayoutSupport.h */,
-				5310E22F2D6492E6865532FF9056E256 /* IIViewDeckLayoutSupport.m */,
-				D86CD5DF2C79EDDB7D6DD17211EA4648 /* IIViewDeckTransition.h */,
-				A64C5337AFF58A8BD41616A0FE1D9E70 /* IIViewDeckTransition.mm */,
-				7AED293700A1A82686A0AA6F83DF59C3 /* UIViewController+Private.h */,
-				18F633EED2E436B546E915EDA2F06BFC /* UIViewController+Private.m */,
-			);
-			path = Private;
-			sourceTree = "<group>";
-		};
-		5652A88F5CB745C51EFA88FB5F677340 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				7928C52BCE1AC32076286F0BEB65EF62 /* Info.plist */,
-				AE25E399D58B4E5320FC6C25D72BDFDD /* Info.plist */,
-				5E194AA8BEF18D664138EBFF9BC1088B /* ViewDeck-iOS9.0.modulemap */,
-				EB49957DB0201D61F24A6DF578C4B70A /* ViewDeck-iOS9.0.xcconfig */,
-				6D9092AF9E9AA77F88CA743AD4550A42 /* ViewDeck-iOS9.0-dummy.m */,
-				E41B045CDD287FAFB9D6AA43632D72EE /* ViewDeck-iOS9.0-prefix.pch */,
-				E4909C11A20E23CA3A61375809B4F45C /* ViewDeck-iOS9.0-umbrella.h */,
-				4B8948B924ACC66270E9169EF1DC8BC4 /* ViewDeck-iOS9.1.modulemap */,
-				7668A6177914DD1C0F0782D2371BE335 /* ViewDeck-iOS9.1.xcconfig */,
-				35493BAEAC54011F0A552413464BEB41 /* ViewDeck-iOS9.1-dummy.m */,
-				7CE41F3F8C18DFF2938465479E82979D /* ViewDeck-iOS9.1-prefix.pch */,
-				3B45F6A51085884E38D0A922481457DC /* ViewDeck-iOS9.1-umbrella.h */,
+				DA285D418975591F7944C5282BD20E39 /* Info.plist */,
+				110A0A646932781F3DCA007D0D983AE2 /* Info.plist */,
+				386AA9AFCF2225E6C23BAF65D5A651D3 /* ViewDeck-iOS8.0.modulemap */,
+				F1157BE7A4427F26A09AFE8F80A12B53 /* ViewDeck-iOS8.0.xcconfig */,
+				E2AB6D5E073C4DB0009A00D57644B884 /* ViewDeck-iOS8.0-dummy.m */,
+				2C4B3817758B9ECCEADC2E42E959B252 /* ViewDeck-iOS8.0-prefix.pch */,
+				97B30DF3F0BA428D4293BAF48EB12031 /* ViewDeck-iOS8.0-umbrella.h */,
+				F5CA2BF90E12D9F07BC8E3680EBAEF43 /* ViewDeck-iOS9.1.modulemap */,
+				0DA7F121EE8CA1381EA5BA98DC99C794 /* ViewDeck-iOS9.1.xcconfig */,
+				DB5E9615E9D6715EFB573D98B0C44D62 /* ViewDeck-iOS9.1-dummy.m */,
+				E1CCB064497012F8A0AD83A625080187 /* ViewDeck-iOS9.1-prefix.pch */,
+				EAEAE467E1959E2281E80FC049611515 /* ViewDeck-iOS9.1-umbrella.h */,
 			);
 			name = "Support Files";
-			path = "Example/Pods/Target Support Files/ViewDeck-iOS9.0";
+			path = "Example/Pods/Target Support Files/ViewDeck-iOS8.0";
 			sourceTree = "<group>";
 		};
 		7D2E3D760B020AFFD1E982DC37FA625C /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				42B6E86DF22439D636B4D8A6AFD28E4A /* ViewDeck */,
+				27186836F8880A59C8A77FDCE248E6F1 /* ViewDeck */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
@@ -286,9 +269,39 @@
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				7D2E3D760B020AFFD1E982DC37FA625C /* Development Pods */,
 				122DA2E5084A4393C29BE363C764795C /* Frameworks */,
-				FACAEBD69024DD2A1DF284134263F342 /* Products */,
+				9983FCFC2C61572BCC697590D40A8205 /* Products */,
 				F2481465EE65596B3F449760DFDCDEB1 /* Targets Support Files */,
 			);
+			sourceTree = "<group>";
+		};
+		985A05D04A61332F8635CF620741017C /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				C41FDE63225A4493DFF1F7A711E29C49 /* IIDelegateProxy.h */,
+				565511F27ECA649D6795CD16F61A475E /* IIDelegateProxy.m */,
+				00E397ECBAFC21A7E697164A9F78B987 /* IIEnvironment+Private.h */,
+				D109382C2A2EF7BBDE6E7F60F08DF16A /* IIViewDeckDefaultTransitionAnimator.h */,
+				5C76BB6D5500B72E61C27E873B6D265C /* IIViewDeckDefaultTransitionAnimator.mm */,
+				54FF09CD88CF97C8003452EE1BD3A607 /* IIViewDeckLayoutSupport.h */,
+				D24C434A2752479A4CC5D9583FABEF44 /* IIViewDeckLayoutSupport.m */,
+				A7B4010835804DD3EF3F038DF9DC35E7 /* IIViewDeckTransition.h */,
+				C8043526E762DE40F55030FF022D2CD3 /* IIViewDeckTransition.mm */,
+				7D8A2A97AE746363C68FFBB9DDA5ED3F /* UIViewController+Private.h */,
+				FD0AD1DF03BB9949A405062FB1D95831 /* UIViewController+Private.m */,
+			);
+			name = Private;
+			path = Private;
+			sourceTree = "<group>";
+		};
+		9983FCFC2C61572BCC697590D40A8205 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E4DD19612B4637F2E70EAC4E5497DBE4 /* Pods_ViewDeckExample.framework */,
+				B4A1EABE02C3E3E49CEB7345D2123F07 /* Pods_ViewDeckExampleTests.framework */,
+				591D6D283FD8FC9C8ED5EC1B4E981D6E /* ViewDeck.framework */,
+				99995D1FFFE959B499641263CFE0B98D /* ViewDeck.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D24FC96B21BC8F6C14D4B3584418158A /* Pods-ViewDeckExample */ = {
@@ -328,122 +341,75 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		FACAEBD69024DD2A1DF284134263F342 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C3DD5B5D8955D2262A346E2F61FDBE9D /* Pods_ViewDeckExample.framework */,
-				0AE4A4A239AA1D05E3FD41CBA3B7282F /* Pods_ViewDeckExampleTests.framework */,
-				A901EA56A81A825B3501E34CBE1E1F11 /* ViewDeck.framework */,
-				1D0761594D3E98329B258366305BE51C /* ViewDeck.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		3DD032A1D76FED4238FB3FE263C74A84 /* Headers */ = {
+		3E65559D2628F705001EFF4A3901DF04 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C14E3190E14639C5D84BC3CB90D930A2 /* IIDelegateProxy.h in Headers */,
-				CC50F31086835ED805D1B8CEB92462AA /* IIEnvironment+Private.h in Headers */,
-				3183B3EC9CDA6A8DF9A30EA19DFA55EB /* IIEnvironment.h in Headers */,
-				ACBA7ED24E16292F4F54B3D69D23BD81 /* IIViewDeckController+Private.h in Headers */,
-				86987B5FB9D5BCF60108A988223BD31F /* IIViewDeckController.h in Headers */,
-				8C5CDC976352A1BC99A29A8868050AF3 /* IIViewDeckDefaultTransitionAnimator.h in Headers */,
-				CC40C4B5C9B0901AF55A99A36071EA8A /* IIViewDeckLayoutSupport.h in Headers */,
-				3E09CCDF62C961C19569CA9349F016FF /* IIViewDeckTransition.h in Headers */,
-				3ACA29D863D59CE99EE7A21769BD9ADD /* IIViewDeckTransitioning.h in Headers */,
-				53C096CBECC4E149E94423A9932100B1 /* UIViewController+IIViewDeckAdditions.h in Headers */,
-				C87375F59F0DB3E30514C1D66E965C78 /* UIViewController+Private.h in Headers */,
-				8DCDE3BA51FC9456D2A880E895F7D22A /* ViewDeck-iOS9.1-umbrella.h in Headers */,
-				813ADA9E28FB79040E5F3F2CAA37A53C /* ViewDeck.h in Headers */,
+				0DBC6B890BB7BB1E9FD19FB03E7DA36B /* IIDelegateProxy.h in Headers */,
+				C9964D33641AC83220EBE56CCECF5109 /* IIEnvironment+Private.h in Headers */,
+				B50E6C40A0EFBB9D8263F0B00DD0D29B /* IIEnvironment.h in Headers */,
+				95A65A1B7418827C20EA927F1715620B /* IIViewDeckController+Private.h in Headers */,
+				CE0248510F0E0E1D5C249EFF40EA3604 /* IIViewDeckController.h in Headers */,
+				198B7333C96FDCFC7BFC22D9FFE88D4E /* IIViewDeckDefaultTransitionAnimator.h in Headers */,
+				991273B62B1E77891CB0DEBDACF10E70 /* IIViewDeckLayoutSupport.h in Headers */,
+				BE4FBDA7B1B5256634CEB90E43457A1E /* IIViewDeckTransition.h in Headers */,
+				858DCE2A276B6CA334A2B9CC9304B655 /* IIViewDeckTransitioning.h in Headers */,
+				6447CB4468EE0E1864072708CB652CD7 /* UIViewController+IIViewDeckAdditions.h in Headers */,
+				2FC502DCE3D5D57394D1267840B01E31 /* UIViewController+Private.h in Headers */,
+				0E68B2B956B70ED6CE02FF94ED998794 /* ViewDeck-iOS8.0-umbrella.h in Headers */,
+				83EFE1A3953CCF59A861D798683C7745 /* ViewDeck.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9A595D505AA5AFA742F03844804320B5 /* Headers */ = {
+		43A00E18136C0344CE54BDD222C626A4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F518A960091C9DA0FEE2914A98257573 /* Pods-ViewDeckExample-umbrella.h in Headers */,
+				72B527BA9439689302195F7D116D2E03 /* IIDelegateProxy.h in Headers */,
+				DCA2B5A595040449D891F859B1A3B8F5 /* IIEnvironment+Private.h in Headers */,
+				5D60AE203C7F43EA4B71E8950FB7AC49 /* IIEnvironment.h in Headers */,
+				6B01C6B02EE5229A73F60F20BB35D3D9 /* IIViewDeckController+Private.h in Headers */,
+				B80CC09CF10BF344B040B52AE8FAD675 /* IIViewDeckController.h in Headers */,
+				141920036FF063AF446AACD844758F3E /* IIViewDeckDefaultTransitionAnimator.h in Headers */,
+				94D34488F3771F400AA46AAFA5E9F6F2 /* IIViewDeckLayoutSupport.h in Headers */,
+				7C7837ED4C826216E69115BBC93809C1 /* IIViewDeckTransition.h in Headers */,
+				0E89ED2E8ABB6FFFF9EED0FFCD600988 /* IIViewDeckTransitioning.h in Headers */,
+				81B792699C3215AC03A1246E2692256A /* UIViewController+IIViewDeckAdditions.h in Headers */,
+				BAFC8C7F7E3409589B04D166243DE355 /* UIViewController+Private.h in Headers */,
+				E18766632A5DD1A6CC74CA42F22D89D8 /* ViewDeck-iOS9.1-umbrella.h in Headers */,
+				3E4AF1346252DEC66F06C96BF0DC4A35 /* ViewDeck.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A02FE941C59DB2BD45CE1DFEF02D02D3 /* Headers */ = {
+		8A6A53F6B4D7E6547DEFD5F76C86E7A9 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C69523EFD4E1CA28833C21EF27E97BBB /* IIDelegateProxy.h in Headers */,
-				51675B5CAE8041336F3F251D5CD15AF1 /* IIEnvironment+Private.h in Headers */,
-				4B36137A6A155217F3179FD25F8607D3 /* IIEnvironment.h in Headers */,
-				C833EFA653576DFC2C595E32237B8983 /* IIViewDeckController+Private.h in Headers */,
-				0EE110E46CD52D170A12C27EC448E074 /* IIViewDeckController.h in Headers */,
-				8D2F40E7DB268F8CFAF8D7A3C1DCADC5 /* IIViewDeckDefaultTransitionAnimator.h in Headers */,
-				118AF51914AEFC7F0C59BEB22255C0E6 /* IIViewDeckLayoutSupport.h in Headers */,
-				DCBED8A8D3D74EB8345B47570064C621 /* IIViewDeckTransition.h in Headers */,
-				C9F0E099024F64740BC432E754F16437 /* IIViewDeckTransitioning.h in Headers */,
-				34B453398B9BC7AB6CB4A276A40E7D71 /* UIViewController+IIViewDeckAdditions.h in Headers */,
-				CC117548CCF48C40C3E489427D820F92 /* UIViewController+Private.h in Headers */,
-				A29D54D7AECC152BA42F64ABD473F7FE /* ViewDeck-iOS9.0-umbrella.h in Headers */,
-				59AC123FF0CF7F60D6DF84318ECEE162 /* ViewDeck.h in Headers */,
+				3EC40E6A16A6A32D4DDE1D3B04B2F75E /* Pods-ViewDeckExampleTests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F50601746009491883AEE57F90723B1B /* Headers */ = {
+		AC4675821AE5A1C59982091AE000D563 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				369D545FF7C92F3EC572FEA8048CCB8A /* Pods-ViewDeckExampleTests-umbrella.h in Headers */,
+				BD0BB93394D2F82A952E6123BB5183E2 /* Pods-ViewDeckExample-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6B608287160F508DF88661C9F88854BC /* Pods-ViewDeckExampleTests */ = {
+		3530DD6E161E1735B4602971AFE7B84E /* ViewDeck-iOS9.1 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B46246A8DB742DA8266EF6F8015593C2 /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExampleTests" */;
+			buildConfigurationList = 0C5295987E7E6712858B8AE15A55D8B6 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS9.1" */;
 			buildPhases = (
-				EAC03BF190A0E56E17CE39E2301C4354 /* Sources */,
-				4527B5E218AE471EC448DF7F0CA9783E /* Frameworks */,
-				F50601746009491883AEE57F90723B1B /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C48523E8DDB8FC9A96660C4711C524C9 /* PBXTargetDependency */,
-			);
-			name = "Pods-ViewDeckExampleTests";
-			productName = "Pods-ViewDeckExampleTests";
-			productReference = 0AE4A4A239AA1D05E3FD41CBA3B7282F /* Pods_ViewDeckExampleTests.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		6E66B4BC2C230250186E6078955DACB1 /* Pods-ViewDeckExample */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1D49A0A759929F2AC746051C6653BA35 /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExample" */;
-			buildPhases = (
-				14303B8A212E88504270171BAECA101C /* Sources */,
-				45F63E98BFE667639FDD8F750FAA0546 /* Frameworks */,
-				9A595D505AA5AFA742F03844804320B5 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2467D7807F9EAEBB3C56ED20686A680D /* PBXTargetDependency */,
-			);
-			name = "Pods-ViewDeckExample";
-			productName = "Pods-ViewDeckExample";
-			productReference = C3DD5B5D8955D2262A346E2F61FDBE9D /* Pods_ViewDeckExample.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		96F6CF3B9A674B50461765346F169BE4 /* ViewDeck-iOS9.1 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 333C851027B6F489796D0455221D5280 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS9.1" */;
-			buildPhases = (
-				91A322A945AEC1DBB0B13DAD903B3897 /* Sources */,
-				1D15509D9FCF3C58689266C9B30E9299 /* Frameworks */,
-				3DD032A1D76FED4238FB3FE263C74A84 /* Headers */,
+				DA2926E04B970EFE5F61FADFEC84F867 /* Sources */,
+				AD4F096CCAD6ADE0804E82D60009C619 /* Frameworks */,
+				43A00E18136C0344CE54BDD222C626A4 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -451,24 +417,60 @@
 			);
 			name = "ViewDeck-iOS9.1";
 			productName = "ViewDeck-iOS9.1";
-			productReference = A901EA56A81A825B3501E34CBE1E1F11 /* ViewDeck.framework */;
+			productReference = 591D6D283FD8FC9C8ED5EC1B4E981D6E /* ViewDeck.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		EB96111F3E7BE260C50EDC4ECE7E7D7F /* ViewDeck-iOS9.0 */ = {
+		4E30C7C687FD0D50D4D71D0DE4D38297 /* Pods-ViewDeckExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0B83F50B23810E36F8CE6E4EFA21DCA6 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS9.0" */;
+			buildConfigurationList = C6E96C21632183AA40D57DBE5FF4426D /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExample" */;
 			buildPhases = (
-				2D2D4EE893359BEF904BE21A3A17A5B2 /* Sources */,
-				B669060D2D11C30DC8C19063BA2AC694 /* Frameworks */,
-				A02FE941C59DB2BD45CE1DFEF02D02D3 /* Headers */,
+				1929161ECD7168CA944BE176FD1D2F7E /* Sources */,
+				7645168CD17B40917152CE075E8527AD /* Frameworks */,
+				AC4675821AE5A1C59982091AE000D563 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				096ED3A7EB3350C096001AC72B5B36CF /* PBXTargetDependency */,
+			);
+			name = "Pods-ViewDeckExample";
+			productName = "Pods-ViewDeckExample";
+			productReference = E4DD19612B4637F2E70EAC4E5497DBE4 /* Pods_ViewDeckExample.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6E5BA6BBF89E6C02EE6EBB49D9CE21D8 /* ViewDeck-iOS8.0 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4313041D3E634C207AB0A2ACCCEA1207 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS8.0" */;
+			buildPhases = (
+				E2D079A317D3EB89EF72E6A7C5147F4E /* Sources */,
+				8EB2A6BBB5AB80C308336D9801A451A7 /* Frameworks */,
+				3E65559D2628F705001EFF4A3901DF04 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "ViewDeck-iOS9.0";
-			productName = "ViewDeck-iOS9.0";
-			productReference = 1D0761594D3E98329B258366305BE51C /* ViewDeck.framework */;
+			name = "ViewDeck-iOS8.0";
+			productName = "ViewDeck-iOS8.0";
+			productReference = 99995D1FFFE959B499641263CFE0B98D /* ViewDeck.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FB717368FFBB598E84EB62F3508D6472 /* Pods-ViewDeckExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0DF1DB9B5B153F5A8BCEE585335F172D /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExampleTests" */;
+			buildPhases = (
+				E0A3F03886C1D27D9912FE09EC96FE83 /* Sources */,
+				C2EABCF0A970B8B1AB2AEB5F6C0EA7FB /* Frameworks */,
+				8A6A53F6B4D7E6547DEFD5F76C86E7A9 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D9CBE8B3308EE2EFCBB14E7CAFA07E8D /* PBXTargetDependency */,
+			);
+			name = "Pods-ViewDeckExampleTests";
+			productName = "Pods-ViewDeckExampleTests";
+			productReference = B4A1EABE02C3E3E49CEB7345D2123F07 /* Pods_ViewDeckExampleTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -488,115 +490,84 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = FACAEBD69024DD2A1DF284134263F342 /* Products */;
+			productRefGroup = 9983FCFC2C61572BCC697590D40A8205 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6E66B4BC2C230250186E6078955DACB1 /* Pods-ViewDeckExample */,
-				6B608287160F508DF88661C9F88854BC /* Pods-ViewDeckExampleTests */,
-				EB96111F3E7BE260C50EDC4ECE7E7D7F /* ViewDeck-iOS9.0 */,
-				96F6CF3B9A674B50461765346F169BE4 /* ViewDeck-iOS9.1 */,
+				4E30C7C687FD0D50D4D71D0DE4D38297 /* Pods-ViewDeckExample */,
+				FB717368FFBB598E84EB62F3508D6472 /* Pods-ViewDeckExampleTests */,
+				6E5BA6BBF89E6C02EE6EBB49D9CE21D8 /* ViewDeck-iOS8.0 */,
+				3530DD6E161E1735B4602971AFE7B84E /* ViewDeck-iOS9.1 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		14303B8A212E88504270171BAECA101C /* Sources */ = {
+		1929161ECD7168CA944BE176FD1D2F7E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12C93BDF4386F7F267C6388E6F0F0C8D /* Pods-ViewDeckExample-dummy.m in Sources */,
+				6FDE6E9A1417F332EF78ECE1DC63BA82 /* Pods-ViewDeckExample-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D2D4EE893359BEF904BE21A3A17A5B2 /* Sources */ = {
+		DA2926E04B970EFE5F61FADFEC84F867 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E4DA18A0D34C06603CD1F9868A36F88 /* IIDelegateProxy.m in Sources */,
-				6C3A57B863B30AF893C07F33A1739DE5 /* IIViewDeckController.mm in Sources */,
-				EDD6B59559CAEF9D6FD73346AA98CB8C /* IIViewDeckDefaultTransitionAnimator.mm in Sources */,
-				0B8F2636016697576E3CD92B1CBA075A /* IIViewDeckLayoutSupport.m in Sources */,
-				38C9B1024058B2B593981A51051F4B58 /* IIViewDeckTransition.mm in Sources */,
-				4A7C6414C9F5207EA7D869FABF6A5B6B /* UIViewController+IIViewDeckAdditions.m in Sources */,
-				C356C521F22451C0BC482114A376F53A /* UIViewController+Private.m in Sources */,
-				40CFB0C4B5785F8B391E8FA18B03E586 /* ViewDeck-iOS9.0-dummy.m in Sources */,
+				070D9C1895242F78915220F7CA8310C2 /* IIDelegateProxy.m in Sources */,
+				1713DF604CE56E878FCAE744D4BB3E6E /* IIViewDeckController.mm in Sources */,
+				25C7187E7BA27562B4B691B5A0C2F7EA /* IIViewDeckDefaultTransitionAnimator.mm in Sources */,
+				111863EBFCC31AF74CF4DD243BF984F0 /* IIViewDeckLayoutSupport.m in Sources */,
+				F475A3EA5DC37D808855B2C04CB3EBAE /* IIViewDeckTransition.mm in Sources */,
+				12791D821903F972901ED510B197DA78 /* UIViewController+IIViewDeckAdditions.m in Sources */,
+				16B8315445068A5F1555A1F2F4F08D24 /* UIViewController+Private.m in Sources */,
+				21D158A0EECAB3576063B2A3FB1E8906 /* ViewDeck-iOS9.1-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		91A322A945AEC1DBB0B13DAD903B3897 /* Sources */ = {
+		E0A3F03886C1D27D9912FE09EC96FE83 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0DA4E64E4209F9774DBE5C7DF1B305 /* IIDelegateProxy.m in Sources */,
-				68DF8BB261721D672A0B23A4056D0201 /* IIViewDeckController.mm in Sources */,
-				6560BD1603127826355DEBD5BDF812C7 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */,
-				AA11CC88A3055F20B16E4EB5E1E9FEE5 /* IIViewDeckLayoutSupport.m in Sources */,
-				EDFF58205716D93B1C82F3E6DA03FA2C /* IIViewDeckTransition.mm in Sources */,
-				ABFF557ED7CC5539507F38B9B0B079CC /* UIViewController+IIViewDeckAdditions.m in Sources */,
-				264D4326493252C1970E5FC184A08CF2 /* UIViewController+Private.m in Sources */,
-				952FDA397E9EAAC092E8BCE73B963453 /* ViewDeck-iOS9.1-dummy.m in Sources */,
+				863F07B104F924CC5D6B7FEC1B47D4CC /* Pods-ViewDeckExampleTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EAC03BF190A0E56E17CE39E2301C4354 /* Sources */ = {
+		E2D079A317D3EB89EF72E6A7C5147F4E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4CA015A56571F89B5E65D91159C30E1 /* Pods-ViewDeckExampleTests-dummy.m in Sources */,
+				6BFD50B80D1A79B9461802ACE02D93FD /* IIDelegateProxy.m in Sources */,
+				91D716FFA89615A3CCCF4082998C97F8 /* IIViewDeckController.mm in Sources */,
+				676437F0E6B5EDD57283AFD6AF3E5289 /* IIViewDeckDefaultTransitionAnimator.mm in Sources */,
+				7D0462D02369444E5B91B11E3A21F0EE /* IIViewDeckLayoutSupport.m in Sources */,
+				AADBD85131E4B9DB9FFD1AD0197F5158 /* IIViewDeckTransition.mm in Sources */,
+				65257E1FC982291A5B50D986834D3E83 /* UIViewController+IIViewDeckAdditions.m in Sources */,
+				F9D02839F33C9EF7772D7C25AAE540F4 /* UIViewController+Private.m in Sources */,
+				3B8FA7D130947503522702C01114A652 /* ViewDeck-iOS8.0-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2467D7807F9EAEBB3C56ED20686A680D /* PBXTargetDependency */ = {
+		096ED3A7EB3350C096001AC72B5B36CF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "ViewDeck-iOS9.0";
-			target = EB96111F3E7BE260C50EDC4ECE7E7D7F /* ViewDeck-iOS9.0 */;
-			targetProxy = 9D640909DDBC0559D2AB5D62BF4FB40C /* PBXContainerItemProxy */;
+			name = "ViewDeck-iOS8.0";
+			target = 6E5BA6BBF89E6C02EE6EBB49D9CE21D8 /* ViewDeck-iOS8.0 */;
+			targetProxy = 37BE107A1B330488E5FDF167A5113A2E /* PBXContainerItemProxy */;
 		};
-		C48523E8DDB8FC9A96660C4711C524C9 /* PBXTargetDependency */ = {
+		D9CBE8B3308EE2EFCBB14E7CAFA07E8D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "ViewDeck-iOS9.1";
-			target = 96F6CF3B9A674B50461765346F169BE4 /* ViewDeck-iOS9.1 */;
-			targetProxy = D9CCC2FF4AA8C9D22CA83FE533D27E40 /* PBXContainerItemProxy */;
+			target = 3530DD6E161E1735B4602971AFE7B84E /* ViewDeck-iOS9.1 */;
+			targetProxy = 1496DB785029DEB9AED215C95EEB712C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		3351F72F59C074F3C7C7F9321AF7186E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7668A6177914DD1C0F0782D2371BE335 /* ViewDeck-iOS9.1.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS9.1/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = ViewDeck;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		59B042A655B7C20CBAB90E385BF4E4C7 /* Debug */ = {
+		015A368F878AC3E2CEAE21DDE8026304 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -632,7 +603,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -640,9 +611,9 @@
 			};
 			name = Debug;
 		};
-		6616A9E6B146B68B4E198894E45830D4 /* Release */ = {
+		2BBCB396040D2E3EE4ECCCE5EEB4A27E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A519FFBDA8CFF51C817938C9FF36D65F /* Pods-ViewDeckExample.release.xcconfig */;
+			baseConfigurationReference = F1157BE7A4427F26A09AFE8F80A12B53 /* ViewDeck-iOS8.0.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -655,82 +626,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-ViewDeckExample/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS8.0/ViewDeck-iOS8.0-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS8.0/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_ViewDeckExample;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		7D3E2E26E14F6C2EF6E27340AD5A6896 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 02909B6D0FC084EC4258D9ECF35E51DB /* Pods-ViewDeckExampleTests.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-ViewDeckExampleTests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-ViewDeckExampleTests/Pods-ViewDeckExampleTests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_ViewDeckExampleTests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		B1DC58B01F7E20A7F4C394110545B2CC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7668A6177914DD1C0F0782D2371BE335 /* ViewDeck-iOS9.1.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS9.1/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1.modulemap";
+				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS8.0/ViewDeck-iOS8.0.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = ViewDeck;
 				SDKROOT = iphoneos;
@@ -741,7 +642,7 @@
 			};
 			name = Release;
 		};
-		B7324857C38B065FEB1EEE3105C2367A /* Release */ = {
+		44CDBB6D11DE06DB64D6268622BDC47E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -773,7 +674,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
@@ -781,9 +682,9 @@
 			};
 			name = Release;
 		};
-		BC8F0A6BD21E81D1AC6607920C28E4EF /* Debug */ = {
+		62C8A0D79D842A8BE28C26B4B41421FF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB49957DB0201D61F24A6DF578C4B70A /* ViewDeck-iOS9.0.xcconfig */;
+			baseConfigurationReference = F1157BE7A4427F26A09AFE8F80A12B53 /* ViewDeck-iOS8.0.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -796,12 +697,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS9.0/ViewDeck-iOS9.0-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS9.0/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS8.0/ViewDeck-iOS8.0-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS8.0/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS9.0/ViewDeck-iOS9.0.modulemap";
+				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS8.0/ViewDeck-iOS8.0.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = ViewDeck;
 				SDKROOT = iphoneos;
@@ -812,73 +713,7 @@
 			};
 			name = Debug;
 		};
-		C6CF442E6E002B4AF6E089D174C11AC7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 00CA29D70EF9666F85C369A6D84820D1 /* Pods-ViewDeckExample.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-ViewDeckExample/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_ViewDeckExample;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C90E87B8CB14B6AE2DC2356B7A762A6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB49957DB0201D61F24A6DF578C4B70A /* ViewDeck-iOS9.0.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS9.0/ViewDeck-iOS9.0-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS9.0/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS9.0/ViewDeck-iOS9.0.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = ViewDeck;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		FA98B6EB23533DF10A974C78C8B61BAA /* Release */ = {
+		70830EA4B6F96C91D736CDDF6D3BDC5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 599D7AB689F454628A7616466A1D54D2 /* Pods-ViewDeckExampleTests.release.xcconfig */;
 			buildSettings = {
@@ -913,23 +748,190 @@
 			};
 			name = Release;
 		};
+		73CF5EC9B4D1A694C03498282DD0F5F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DA7F121EE8CA1381EA5BA98DC99C794 /* ViewDeck-iOS9.1.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS9.1/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = ViewDeck;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		75FB9ADCEC5807293842F5EAB119A7ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00CA29D70EF9666F85C369A6D84820D1 /* Pods-ViewDeckExample.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-ViewDeckExample/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_ViewDeckExample;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8813EB76673DB4182CBFF87AE0E794AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02909B6D0FC084EC4258D9ECF35E51DB /* Pods-ViewDeckExampleTests.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-ViewDeckExampleTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ViewDeckExampleTests/Pods-ViewDeckExampleTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_ViewDeckExampleTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D56CEA626D275B1E5F9B39159894F98A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0DA7F121EE8CA1381EA5BA98DC99C794 /* ViewDeck-iOS9.1.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ViewDeck-iOS9.1/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/ViewDeck-iOS9.1/ViewDeck-iOS9.1.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = ViewDeck;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F38ABB6324A21E1F87969B8F1D0587BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A519FFBDA8CFF51C817938C9FF36D65F /* Pods-ViewDeckExample.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-ViewDeckExample/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ViewDeckExample/Pods-ViewDeckExample.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_ViewDeckExample;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0B83F50B23810E36F8CE6E4EFA21DCA6 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS9.0" */ = {
+		0C5295987E7E6712858B8AE15A55D8B6 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS9.1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BC8F0A6BD21E81D1AC6607920C28E4EF /* Debug */,
-				C90E87B8CB14B6AE2DC2356B7A762A6A /* Release */,
+				73CF5EC9B4D1A694C03498282DD0F5F5 /* Debug */,
+				D56CEA626D275B1E5F9B39159894F98A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D49A0A759929F2AC746051C6653BA35 /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExample" */ = {
+		0DF1DB9B5B153F5A8BCEE585335F172D /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExampleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C6CF442E6E002B4AF6E089D174C11AC7 /* Debug */,
-				6616A9E6B146B68B4E198894E45830D4 /* Release */,
+				8813EB76673DB4182CBFF87AE0E794AA /* Debug */,
+				70830EA4B6F96C91D736CDDF6D3BDC5F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -937,26 +939,26 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				59B042A655B7C20CBAB90E385BF4E4C7 /* Debug */,
-				B7324857C38B065FEB1EEE3105C2367A /* Release */,
+				015A368F878AC3E2CEAE21DDE8026304 /* Debug */,
+				44CDBB6D11DE06DB64D6268622BDC47E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		333C851027B6F489796D0455221D5280 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS9.1" */ = {
+		4313041D3E634C207AB0A2ACCCEA1207 /* Build configuration list for PBXNativeTarget "ViewDeck-iOS8.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3351F72F59C074F3C7C7F9321AF7186E /* Debug */,
-				B1DC58B01F7E20A7F4C394110545B2CC /* Release */,
+				62C8A0D79D842A8BE28C26B4B41421FF /* Debug */,
+				2BBCB396040D2E3EE4ECCCE5EEB4A27E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B46246A8DB742DA8266EF6F8015593C2 /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExampleTests" */ = {
+		C6E96C21632183AA40D57DBE5FF4426D /* Build configuration list for PBXNativeTarget "Pods-ViewDeckExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7D3E2E26E14F6C2EF6E27340AD5A6896 /* Debug */,
-				FA98B6EB23533DF10A974C78C8B61BAA /* Release */,
+				75FB9ADCEC5807293842F5EAB119A7ED /* Debug */,
+				F38ABB6324A21E1F87969B8F1D0587BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

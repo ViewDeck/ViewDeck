@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## 3.1.0 - 2016-12-29
 
 * Adds support for iOS 8.0. (#536)
 * Adds the option to disable panning all together or on a case by case basis. (#544)

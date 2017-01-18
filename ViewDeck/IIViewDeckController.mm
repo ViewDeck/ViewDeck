@@ -32,6 +32,10 @@
 #import "IIViewDeckDefaultTransitionAnimator.h"
 #import "IIViewDeckTransition.h"
 
+#if ALLOW_PRIVATE_API
+#import <objc/message.h>
+#endif
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -266,6 +270,13 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
         return;
     }
 
+#if ALLOW_PRIVATE_API
+    UIWindow *window = self.view.window;
+    if ([window respondsToSelector:@selector(beginDisablingInterfaceAutorotation)]) {
+        ((void (*)(id, SEL))objc_msgSend)(window, @selector(beginDisablingInterfaceAutorotation));
+    }
+#endif
+
     void(^innerComplete)(BOOL) = ^(BOOL cancelled){
         self.currentTransition = nil;
         if (cancelled) {
@@ -296,6 +307,12 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
         }
         
         self->_flags.isInSideChange = NO;
+
+#if ALLOW_PRIVATE_API
+        if ([window respondsToSelector:@selector(endDisablingInterfaceAutorotation)]) {
+            ((void (*)(id, SEL))objc_msgSend)(window, @selector(endDisablingInterfaceAutorotation));
+        }
+#endif
     };
     if (side != IIViewDeckSideNone) {
         // If we are closing, the current side is still visible until it is fully closed,
@@ -325,6 +342,12 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
 - (void)closeSide:(BOOL)animated notify:(BOOL)notify completion:(nullable void(^)(BOOL cancelled))completion {
     [self openSide:IIViewDeckSideNone animated:animated notify:notify completion:completion];
 }
+
+#if !ALLOW_PRIVATE_API
+- (BOOL)shouldAutorotate {
+    return !_flags.isInSideChange;
+}
+#endif
 
 
 
@@ -437,6 +460,10 @@ static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIViewDeckSide
     }
     return [self.delegate viewDeckController:self shouldStartPanningToSide:side];
 }
+
+//- (BOOL)shouldAutorotate {
+//    return !self.currentInteractiveGesture;
+//}
 
 
 

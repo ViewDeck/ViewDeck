@@ -77,13 +77,6 @@ static inline CGSize IIViewDeckSanitizeContentSize(const CGSize size) {
         }
     }
 
-    // parallax center
-    if (side == IIViewDeckSideNone && openSide != IIViewDeckSideNone) {
-        CGSize maxSize = [self sizeForSide:openSide inContainer:containerView];
-        CGFloat xOffset = (openSide == IIViewDeckSideLeft ? maxSize.width * 0.1 : -maxSize.width * 0.1);
-        frame.origin.x += xOffset;
-    }
-
     return frame;
 }
 

@@ -236,7 +236,11 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
 }
 
 - (void)openSide:(IIViewDeckSide)side animated:(BOOL)animated {
-    [self openSide:side animated:animated notify:NO completion:NULL];
+    [self openSide:side animated:animated completion:NULL];
+}
+
+- (void)openSide:(IIViewDeckSide)side animated:(BOOL)animated completion:(nullable void(^)(BOOL cancelled))completion {
+    [self openSide:side animated:animated notify:NO completion:completion];
 }
 
 - (void)openSide:(IIViewDeckSide)side animated:(BOOL)animated notify:(BOOL)notify completion:(nullable void(^)(BOOL cancelled))completion {
@@ -319,7 +323,11 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
 }
 
 - (void)closeSide:(BOOL)animated {
-    [self closeSide:animated notify:NO completion:NULL];
+    [self closeSide:animated completion:NULL];
+}
+
+- (void)closeSide:(BOOL)animated completion:(nullable void(^)(BOOL cancelled))completion {
+    [self openSide:IIViewDeckSideNone animated:animated notify:NO completion:completion];
 }
 
 - (void)closeSide:(BOOL)animated notify:(BOOL)notify completion:(nullable void(^)(BOOL cancelled))completion {

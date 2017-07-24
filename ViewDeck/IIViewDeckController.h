@@ -257,6 +257,7 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
  controller that the view deck controller is currently showing.
  
  @see openSide:animated:
+ @see openSide:animated:completion:
  */
 @property (nonatomic) IIViewDeckSide openSide;
 
@@ -271,22 +272,58 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
        dismissing the open side first.
  
  @see closeSide:
+ @see closeSide:animated:completion:
 
  @param side     The side you want to open.
  @param animated `YES` if you want to animate the transition, `NO` otherwise.
  */
 - (void)openSide:(IIViewDeckSide)side animated:(BOOL)animated;
 
+
+/**
+ Opens the passed in side.
+ 
+ Opening a side that is already open does nothing.
+ 
+ @note You can only switch between no view controller (`IIViewDeckSideNone`) or
+ either the left (`IIViewDeckSideLeft`) or right (`IIViewDeckSideRight`)
+ view controller. You can not switch directly from left to right without
+ dismissing the open side first.
+ 
+ @see closeSide:
+ @see closeSide:animated:
+ 
+ @param side     The side you want to open.
+ @param animated `YES` if you want to animate the transition, `NO` otherwise.
+ @param completion Completion block that will be called when the animation completed
+ */
+- (void)openSide:(IIViewDeckSide)side animated:(BOOL)animated completion:(nullable void(^)(BOOL cancelled))completion;
+
+
 /**
  Closes the currently open side.
  
  Closing a side when no side is open does nothing.
 
+ @see closeSide:animated:completion:
  @see openSide:animated:
 
  @param animated `YES` if you want to animate the transition, `NO` otherwise.
  */
 - (void)closeSide:(BOOL)animated;
+
+/**
+ Closes the currently open side.
+ 
+ Closing a side when no side is open does nothing.
+ 
+ @see closeSide:animated:
+ @see openSide:animated:
+ 
+ @param animated `YES` if you want to animate the transition, `NO` otherwise.
+ @param completion Completion block that will be called when the animation completed
+ */
+- (void)closeSide:(BOOL)animated completion:(nullable void(^)(BOOL cancelled))completion;
 
 
 /// @name Customizing Transitions

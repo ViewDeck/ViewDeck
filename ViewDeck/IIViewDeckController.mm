@@ -366,6 +366,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     }
     
     _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(interactiveTransitionRecognized:)];
+    _panGestureRecognizer.delegate = self;
     return _panGestureRecognizer;
 }
 
@@ -450,6 +451,13 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
         side = IIViewDeckSideRight;
     }
     return [self.delegate viewDeckController:self shouldStartPanningToSide:side];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"_UISwipeActionPanGestureRecognizer")]) {
+        return YES;
+    }
+    return NO;
 }
 
 

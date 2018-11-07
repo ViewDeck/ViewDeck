@@ -71,6 +71,7 @@ NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side) {
 @property (nonatomic) UIScreenEdgePanGestureRecognizer *leftEdgeGestureRecognizer;
 @property (nonatomic) UIScreenEdgePanGestureRecognizer *rightEdgeGestureRecognizer;
 @property (nonatomic) UITapGestureRecognizer *decorationTapGestureRecognizer;
+@property (nonatomic) UIPanGestureRecognizer *dismissGestureRecognizer;
 
 @property (nonatomic) UIView *currentDecorationView;
 
@@ -151,6 +152,7 @@ II_DELEGATE_PROXY(IIViewDeckControllerDelegate);
     let view = self.view;
     [view addGestureRecognizer:self.leftEdgeGestureRecognizer];
     [view addGestureRecognizer:self.rightEdgeGestureRecognizer];
+    [view addGestureRecognizer:self.dismissGestureRecognizer];
 
     [self ii_exchangeViewFromController:nil toController:self.centerViewController inContainerView:self.view];
 }
@@ -366,6 +368,16 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     return _rightEdgeGestureRecognizer;
 }
 
+- (UIPanGestureRecognizer *)dismissGestureRecognizer {
+    if (_dismissGestureRecognizer) {
+        return _dismissGestureRecognizer;
+    }
+    
+    _dismissGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(interactiveTransitionRecognized:)];
+    _dismissGestureRecognizer.delegate = self;
+    return _dismissGestureRecognizer;
+}
+
 - (UITapGestureRecognizer *)decorationTapGestureRecognizer {
     if (_decorationTapGestureRecognizer) {
         return _decorationTapGestureRecognizer;
@@ -387,6 +399,8 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
                 side = IIViewDeckSideLeft;
             } else if (recognizer == self.rightEdgeGestureRecognizer) {
                 side = IIViewDeckSideRight;
+            } else if (recognizer == self.dismissGestureRecognizer) {
+                side = IIViewDeckSideNone;
             } else {
                 NSAssert(NO, @"A gesture recognizer (%@) triggered an interactive view transition that is not controlled by this istance of %@, (%@).", recognizer, NSStringFromClass(self.class), self);
                 return;
@@ -428,6 +442,7 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
     BOOL panningEnabled = self.isPanningEnabled;
     self.leftEdgeGestureRecognizer.enabled = (panningEnabled && self.leftViewController && self.openSide == IIViewDeckSideNone);
     self.rightEdgeGestureRecognizer.enabled = (panningEnabled && self.rightViewController && self.openSide == IIViewDeckSideNone);
+    self.dismissGestureRecognizer.enabled = (panningEnabled && self.openSide != IIViewDeckSideNone);
     self.decorationTapGestureRecognizer.enabled = (self.openSide != IIViewDeckSideNone);
 }
 
@@ -444,6 +459,13 @@ __unused static inline BOOL IIIsAllowedTransition(IIViewDeckSide fromSide, IIVie
         side = IIViewDeckSideRight;
     }
     return [self.delegate viewDeckController:self shouldStartPanningToSide:side];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"_UISwipeActionPanGestureRecognizer")]) {
+        return YES;
+    }
+    return NO;
 }
 
 

@@ -262,6 +262,11 @@ FOUNDATION_EXPORT NSString* NSStringFromIIViewDeckSide(IIViewDeckSide side);
 @property (nonatomic) IIViewDeckSide openSide;
 
 /**
+ Controls centerViewController.view`s origin x after custom transition completed.
+ */
+@property (nonatomic) CGFloat parallaxCenterViewOriginX;
+
+/**
  Opens the passed in side.
  
  Opening a side that is already open does nothing.
